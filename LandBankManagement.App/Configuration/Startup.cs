@@ -53,6 +53,9 @@ namespace LandBankManagement
             NavigationService.Register<AppLogsViewModel, AppLogsView>();
 
             NavigationService.Register<SettingsViewModel, SettingsView>();
+
+            NavigationService.Register<VendorsViewModel, VendorsView>();
+            NavigationService.Register<VendorDetailsViewModel, VendorView>();
         }
         static private async Task EnsureLogDbAsync()
         {

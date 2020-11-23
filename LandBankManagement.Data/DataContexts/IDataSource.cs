@@ -10,6 +10,7 @@ namespace LandBankManagement.Data.Services
     public interface IDataSource : IDisposable
     {
         DbSet<Company> Companies { get; }
+        DbSet<Vendor> Vendors { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
