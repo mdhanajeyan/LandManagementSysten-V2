@@ -13,6 +13,7 @@ namespace LandBankManagement.ViewModels
         private readonly NavigationItem AppLogsItem = new NavigationItem(0xE7BA, "Activity Log", typeof(AppLogsViewModel));
         private readonly NavigationItem CompanyItem = new NavigationItem(0xEC0B, "Company", typeof(CompaniesViewModel));
         private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorsViewModel));
+        private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartiesViewModel));
 
         public MainShellViewModel(ILoginService loginService, ICommonServices commonServices) : base(loginService, commonServices)
         {
@@ -68,6 +69,9 @@ namespace LandBankManagement.ViewModels
                 case "VendorsViewModel":
                     NavigationService.Navigate(viewModel,new VendorListArgs());
                     break;
+                case "PartiesViewModel":
+                    NavigationService.Navigate(viewModel, new PartyListArgs());
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -78,6 +82,7 @@ namespace LandBankManagement.ViewModels
             yield return AppLogsItem;
             yield return CompanyItem;
             yield return VendorItem;
+            yield return PartyItem;
             yield return DashboardItem;
            
         }

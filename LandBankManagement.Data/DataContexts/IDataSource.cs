@@ -11,6 +11,7 @@ namespace LandBankManagement.Data.Services
     {
         DbSet<Company> Companies { get; }
         DbSet<Vendor> Vendors { get; }
+        DbSet<Party> Parties { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

@@ -21,5 +21,13 @@ namespace LandBankManagement.Data.Services
         Task<int> GetVendorsCountAsync(DataRequest<Vendor> request);
         Task<int> UpdateVendorAsync(Vendor model);
         Task<int> DeleteVendorAsync(Vendor model);
+
+        Task<int> AddPartyAsync(Party model);
+        Task<Party> GetPartyAsync(long id);
+        Task<IList<Party>> GetPartiesAsync(DataRequest<Party> request);
+        Task<IList<Party>> GetPartiesAsync(int skip, int take, DataRequest<Party> request);
+        Task<int> GetPartiesCountAsync(DataRequest<Party> request);
+        Task<int> UpdatePartyAsync(Party model);
+        Task<int> DeletePartyAsync(Party model);
     }
 }

@@ -15,6 +15,7 @@ namespace LandBankManagement.Data.Services
 
         public DbSet<Company> Companies { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
+        public DbSet<Party> Parties { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

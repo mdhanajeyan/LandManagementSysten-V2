@@ -193,8 +193,10 @@
     <Compile Include="Services\Infrastructure\MessageService.cs" />
     <Compile Include="Services\Infrastructure\NavigationService.cs" />
     <Compile Include="Services\Infrastructure\SettingsService.cs" />
+    <Compile Include="Services\PartyService.cs" />
     <Compile Include="Services\VendorService.cs" />
     <Compile Include="Services\VirtualCollections\CompanyCollection.cs" />
+    <Compile Include="Services\VirtualCollections\PartyCollection.cs" />
     <Compile Include="Services\VirtualCollections\VendorCollection.cs" />
     <Compile Include="Tools\BitmapTools.cs" />
     <Compile Include="Tools\DependencyExpressions\DependencyExpression.cs" />
@@ -237,6 +239,27 @@
     </Compile>
     <Compile Include="Views\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parties\Details\PartiesCard.xaml.cs">
+      <DependentUpon>PartiesCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parties\Details\PartiesDetails.xaml.cs">
+      <DependentUpon>PartiesDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parties\List\PartiesList.xaml.cs">
+      <DependentUpon>PartiesList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parties\PartiesView.xaml.cs">
+      <DependentUpon>PartiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Party\Details\PartyCard.xaml.cs">
+      <DependentUpon>PartyCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Party\Details\PartyDetails.xaml.cs">
+      <DependentUpon>PartyDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Party\PartyView.xaml.cs">
+      <DependentUpon>PartyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\CreateDatabaseView.xaml.cs">
       <DependentUpon>CreateDatabaseView.xaml</DependentUpon>
@@ -429,6 +452,34 @@
     <Page Include="Views\Dashboard\DashboardView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Parties\Details\PartiesCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parties\Details\PartiesDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parties\List\PartiesList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parties\PartiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Party\Details\PartyCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Party\Details\PartyDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Party\PartyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Settings\CreateDatabaseView.xaml">
       <Generator>MSBuild:Compile</Generator>
