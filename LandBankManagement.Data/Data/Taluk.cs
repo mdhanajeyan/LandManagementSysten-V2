@@ -1,0 +1,19 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LandBankManagement.Data
+{
+	public class Taluk
+    {
+        public int TalukId { get; set; }
+        public Guid TalukGuid { get; set; }
+        public string TalukName { get; set; }
+        public string TalukGMapLink { get; set; }
+        public bool TalukIsActive { get; set; }
+
+        [NotMapped]
+        public string SearchTerms { get; set; }
+        public string BuildSearchTerms() => $"{TalukName}".ToLower();
+
+    }
+}

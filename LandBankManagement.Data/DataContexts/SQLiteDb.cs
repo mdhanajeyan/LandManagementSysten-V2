@@ -17,6 +17,10 @@ namespace LandBankManagement.Data.Services
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Party> Parties { get; set; }
 
+        public DbSet<Taluk> Taluks { get; set; }
+        public DbSet<Hobli> Hoblis { get; set; }
+        public DbSet<Village> Villages { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(_connectionString);

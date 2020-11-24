@@ -11,7 +11,10 @@ namespace LandBankManagement.Data.Services
     {
         DbSet<Company> Companies { get; }
         DbSet<Vendor> Vendors { get; }
-        DbSet<Party> Parties { get; }
+        DbSet<Party> Parties { get; } 
+        DbSet<Taluk> Taluks { get; }
+        DbSet<Hobli> Hoblis { get; }
+        DbSet<Village> Villages { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

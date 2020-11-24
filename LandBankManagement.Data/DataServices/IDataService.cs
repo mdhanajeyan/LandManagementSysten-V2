@@ -29,5 +29,31 @@ namespace LandBankManagement.Data.Services
         Task<int> GetPartiesCountAsync(DataRequest<Party> request);
         Task<int> UpdatePartyAsync(Party model);
         Task<int> DeletePartyAsync(Party model);
+
+        Task<int> AddTalukAsync(Taluk model);
+        Task<Taluk> GetTalukAsync(long id);
+        Task<IList<Taluk>> GetTaluksAsync(DataRequest<Taluk> request);
+        Task<IList<Taluk>> GetTaluksAsync(int skip, int take, DataRequest<Taluk> request);
+        Task<int> GetTaluksCountAsync(DataRequest<Taluk> request);
+        Task<int> UpdateTalukAsync(Taluk model);
+        Task<int> DeleteTalukAsync(Taluk model);
+
+
+        Task<int> AddHobliAsync(Hobli model);
+        Task<Hobli> GetHobliAsync(long id);
+        Task<IList<Hobli>> GetHoblisAsync(DataRequest<Hobli> request);
+        Task<IList<Hobli>> GetHoblisAsync(int skip, int take, DataRequest<Hobli> request);
+        Task<int> GetHoblisCountAsync(DataRequest<Hobli> request);
+        Task<int> UpdateHobliAsync(Hobli model);
+        Task<int> DeleteHobliAsync(Hobli model);
+
+
+        Task<int> AddVillageAsync(Village model);
+        Task<Village> GetVillageAsync(long id);
+        Task<IList<Village>> GetVillagesAsync(DataRequest<Village> request);
+        Task<IList<Village>> GetVillagesAsync(int skip, int take, DataRequest<Village> request);
+        Task<int> GetVillagesCountAsync(DataRequest<Village> request);
+        Task<int> UpdateVillageAsync(Village model);
+        Task<int> DeleteVillageAsync(Village model);
     }
 }
