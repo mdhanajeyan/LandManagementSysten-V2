@@ -30,6 +30,14 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdatePartyAsync(Party model);
         Task<int> DeletePartyAsync(Party model);
 
+        Task<int> AddExpenseHeadAsync(ExpenseHead model);
+        Task<ExpenseHead> GetExpenseHeadAsync(long id);
+       // Task<IList<ExpenseHead>> GetExpenseHeadsAsync(DataRequest<ExpenseHead> request);
+        Task<IList<ExpenseHead>> GetExpenseHeadsAsync(int skip, int take, DataRequest<ExpenseHead> request);
+        Task<int> GetExpenseHeadsCountAsync(DataRequest<ExpenseHead> request);
+        Task<int> UpdateExpenseHeadAsync(ExpenseHead model);
+        Task<int> DeleteExpenseHeadAsync(ExpenseHead model);
+
         Task<int> AddTalukAsync(Taluk model);
         Task<Taluk> GetTalukAsync(long id);
         Task<IList<Taluk>> GetTaluksAsync(DataRequest<Taluk> request);

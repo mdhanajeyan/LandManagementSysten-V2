@@ -15,7 +15,7 @@ namespace LandBankManagement.Data.Services
         DbSet<Taluk> Taluks { get; }
         DbSet<Hobli> Hoblis { get; }
         DbSet<Village> Villages { get; }
-
+        DbSet<ExpenseHead> ExpenseHeads { get; }
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
         int SaveChanges();

@@ -139,6 +139,9 @@
     <Compile Include="Controls\DataList\DataList.xaml.cs">
       <DependentUpon>DataList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataList\DataListWithSearch.xaml.cs">
+      <DependentUpon>DataListWithSearch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Details\Details.xaml.cs">
       <DependentUpon>Details.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,9 @@
     <Compile Include="Controls\Section\Section.cs" />
     <Compile Include="Controls\Toolbars\DetailToolbar.xaml.cs">
       <DependentUpon>DetailToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolbars\ListSearchToolBar.xaml.cs">
+      <DependentUpon>ListSearchToolBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Toolbars\ListToolbar.xaml.cs">
       <DependentUpon>ListToolbar.xaml</DependentUpon>
@@ -182,6 +188,7 @@
     <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Services\DataServiceFactory\DataServiceFactory.cs" />
     <Compile Include="Services\DataServiceFactory\IDataServiceFactory.cs" />
+    <Compile Include="Services\ExpenseHeadService.cs" />
     <Compile Include="Services\Infrastructure\ActivationService.cs" />
     <Compile Include="Services\Infrastructure\CommonServices.cs" />
     <Compile Include="Services\Infrastructure\ContextService.cs" />
@@ -198,6 +205,7 @@
     <Compile Include="Services\VendorService.cs" />
     <Compile Include="Services\VillageService.cs" />
     <Compile Include="Services\VirtualCollections\CompanyCollection.cs" />
+    <Compile Include="Services\VirtualCollections\ExpenseHeadCollection.cs" />
     <Compile Include="Services\VirtualCollections\TalukCollection.cs" />
     <Compile Include="Services\VirtualCollections\VillageCollection.cs" />
     <Compile Include="Services\VirtualCollections\PartyCollection.cs" />
@@ -243,6 +251,15 @@
     </Compile>
     <Compile Include="Views\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExpenseHead\ExpenseHeadDetails.xaml.cs">
+      <DependentUpon>ExpenseHeadDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExpenseHead\ExpenseHeadListView.xaml.cs">
+      <DependentUpon>ExpenseHeadListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExpenseHead\ExpenseHeadView.xaml.cs">
+      <DependentUpon>ExpenseHeadView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Parties\Details\PartiesCard.xaml.cs">
       <DependentUpon>PartiesCard.xaml</DependentUpon>
@@ -333,6 +350,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\DataList\DataListWithSearch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Details\Details.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -342,6 +363,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Toolbars\DetailToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Toolbars\ListSearchToolBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -454,6 +479,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dashboard\DashboardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ExpenseHead\ExpenseHeadDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ExpenseHead\ExpenseHeadListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ExpenseHead\ExpenseHeadView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

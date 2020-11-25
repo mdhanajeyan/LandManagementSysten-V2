@@ -59,6 +59,8 @@ namespace LandBankManagement
 
             NavigationService.Register<PartiesViewModel, PartiesView>();
             NavigationService.Register<PartyDetailsViewModel, PartyView>();
+            NavigationService.Register<ExpenseHeadViewModel, ExpenseHeadView>();
+           // NavigationService.Register<ExpenseHeadDetailsViewModel, ExpenseHeadView>();
         }
         static private async Task EnsureLogDbAsync()
         {
