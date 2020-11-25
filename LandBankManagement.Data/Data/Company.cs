@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LandBankManagement.Data
 {
     public class Company
     {
+        [Key]
         public int CompanyID { get; set; }
         public Guid CompanyGuid { get; set; }
         public string Name { get; set; }
@@ -22,9 +24,8 @@ namespace LandBankManagement.Data
 
         [NotMapped]
         public string SearchTerms { get; set; }
+        public string BuildSearchTerms() => $"{CompanyID} {Name} {Email} {AddressLine1}".ToLower();
 
         public virtual ICollection<CompanyDocument> CompanyDocuments { get; set; }
-
-        public string BuildSearchTerms() => $"{CompanyID} {Name} {Email} {AddressLine1}".ToLower();
     }
 }

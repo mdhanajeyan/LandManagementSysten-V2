@@ -126,7 +126,7 @@ namespace LandBankManagement.Data.Services
             }
             catch (Exception ex)
             {
-                return 0;
+               throw;
             }
         }
 

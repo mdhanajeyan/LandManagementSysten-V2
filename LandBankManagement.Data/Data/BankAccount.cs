@@ -1,0 +1,26 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.InteropServices;
+
+namespace LandBankManagement.Data
+{
+	public class BankAccount
+    {
+        [Key]
+        public int BankAccountId { get; set; }
+        public Guid BankGuid { get; set; }
+        public string BankName { get; set; }
+        public string BranchName { get; set; }
+        public string AccountNumber { get; set; }
+        public int AccountType { get; set; }
+        public string IFSCCode { get; set; }
+        public decimal OpeningBalance { get; set; }
+        public bool IsBankAccountActive { get; set; }
+
+        [NotMapped]
+        public string SearchTerms { get; set; }
+        public string BuildSearchTerms() => $"{BankName} {BranchName} {IFSCCode}".ToLower();
+
+    }
+}

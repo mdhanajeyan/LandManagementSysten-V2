@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LandBankManagement.Data
 {
     public class Hobli
     {
+        [Key]
         public int HobliId { get; set; }
         public Guid HobliGuid { get; set; }
         public int TalukId { get; set; }

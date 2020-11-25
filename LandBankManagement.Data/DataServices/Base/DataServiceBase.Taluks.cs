@@ -11,7 +11,20 @@ namespace LandBankManagement.Data.Services
     {
         public async Task<int> AddTalukAsync(Taluk model)
         {
-            throw new NotImplementedException();
+            if (model == null)
+                return 0;
+
+            var entity = new Taluk()
+            {
+                TalukId = model.TalukId,
+                TalukGuid = model.TalukGuid,
+                TalukName = model.TalukName,
+                TalukGMapLink = model.TalukGMapLink,
+                TalukIsActive = model.TalukIsActive
+            };
+            _dataSource.Entry(entity).State = EntityState.Added;
+            int res = await _dataSource.SaveChangesAsync();
+            return res;
         }
 
         public async Task<Taluk> GetTalukAsync(long id)

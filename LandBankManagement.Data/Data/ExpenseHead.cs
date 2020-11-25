@@ -11,7 +11,6 @@ namespace LandBankManagement.Data
         [Key]
         public int ExpenseHeadId { get; set; }
         public Guid ExpenseHeadGuid { get; set; }
-        [Column("ExpenseHead")]
         public string ExpenseHeadName { get; set; }
         public bool IsExpenseHeadActive { get; set; }
         [NotMapped]

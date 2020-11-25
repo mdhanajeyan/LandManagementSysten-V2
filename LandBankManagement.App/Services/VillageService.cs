@@ -49,7 +49,7 @@ namespace LandBankManagement.Services
             var item = await dataService.GetVillageAsync(id);
             if (item != null)
             {
-                return await CreateVillageModelAsync(item, includeAllFields: true);
+                return  CreateVillageModelAsync(item, includeAllFields: true);
             }
             return null;
         }
@@ -101,7 +101,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        static public async Task<VillageModel> CreateVillageModelAsync(Village source, bool includeAllFields)
+        public static  VillageModel CreateVillageModelAsync(Village source, bool includeAllFields)
         {
             var model = new VillageModel()
             {

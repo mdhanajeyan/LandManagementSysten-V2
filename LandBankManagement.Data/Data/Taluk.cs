@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LandBankManagement.Data
 {
 	public class Taluk
     {
+        [Key]
         public int TalukId { get; set; }
         public Guid TalukGuid { get; set; }
         public string TalukName { get; set; }

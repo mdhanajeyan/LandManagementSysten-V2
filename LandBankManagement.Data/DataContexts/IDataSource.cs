@@ -16,6 +16,11 @@ namespace LandBankManagement.Data.Services
         DbSet<Hobli> Hoblis { get; }
         DbSet<Village> Villages { get; }
         DbSet<ExpenseHead> ExpenseHeads { get; }
+        DbSet<AccountType> AccountTypes { get; }
+        DbSet<BankAccount> BankAccounts { get; }
+        DbSet<CashAccount> CashAccounts { get; }
+        DbSet<DocumentType> DocumentTypes { get; }
+
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
         int SaveChanges();

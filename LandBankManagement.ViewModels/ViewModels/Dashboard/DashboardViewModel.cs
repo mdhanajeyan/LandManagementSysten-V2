@@ -1,4 +1,5 @@
-﻿using LandBankManagement.Services;
+﻿using System;
+using LandBankManagement.Services;
 using System.Threading.Tasks;
 
 namespace LandBankManagement.ViewModels
@@ -10,8 +11,9 @@ namespace LandBankManagement.ViewModels
 
         }
 
-        public async Task LoadAsync()
+        public Task LoadAsync()
         {
+            throw new MissingMethodException();
         }
 
         public void Unload()

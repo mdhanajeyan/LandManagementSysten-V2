@@ -15,6 +15,5 @@ namespace LandBankManagement.Services
         Task<int> GetVendorsCountAsync(DataRequest<Vendor> request);
         Task<int> UpdateVendorAsync(VendorModel model);
         Task<int> DeleteVendorAsync(VendorModel model);
-      //  Task<int> DeleteCompanyRangeAsync(int index, int length, DataRequest<Vendor> request);
     }
 }

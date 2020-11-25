@@ -61,12 +61,12 @@ namespace LandBankManagement.Services
                 return await GetExpenseHeadAsync(dataService, id);
             }
         }
-        static private async Task<ExpenseHeadModel> GetExpenseHeadAsync(IDataService dataService, long id)
+        private static async Task<ExpenseHeadModel> GetExpenseHeadAsync(IDataService dataService, long id)
         {
             var item = await dataService.GetExpenseHeadAsync(id);
             if (item != null)
             {
-                return await CreateExpenseHeadModelAsync(item, includeAllFields: true);
+                return CreateExpenseHeadModelAsync(item, includeAllFields: true);
             }
             return null;
         }
@@ -86,7 +86,7 @@ namespace LandBankManagement.Services
                 var items = await dataService.GetExpenseHeadsAsync(skip, take, request);
                 foreach (var item in items)
                 {
-                    models.Add(await CreateExpenseHeadModelAsync(item, includeAllFields: false));
+                    models.Add(CreateExpenseHeadModelAsync(item, includeAllFields: false));
                 }
                 return models;
             }
@@ -134,7 +134,7 @@ namespace LandBankManagement.Services
         //    }
         //}
 
-        static public async Task<ExpenseHeadModel> CreateExpenseHeadModelAsync(ExpenseHead source, bool includeAllFields)
+        public static ExpenseHeadModel CreateExpenseHeadModelAsync(ExpenseHead source, bool includeAllFields)
         {
             var model = new ExpenseHeadModel()
             {

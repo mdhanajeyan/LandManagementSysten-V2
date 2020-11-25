@@ -63,5 +63,30 @@ namespace LandBankManagement.Data.Services
         Task<int> GetVillagesCountAsync(DataRequest<Village> request);
         Task<int> UpdateVillageAsync(Village model);
         Task<int> DeleteVillageAsync(Village model);
+
+
+        Task<int> AddAccountTypeAsync(AccountType model);
+        Task<AccountType> GetAccountTypeAsync(long id);
+        Task<IList<AccountType>> GetAccountTypesAsync(DataRequest<AccountType> request);
+        Task<IList<AccountType>> GetAccountTypesAsync(int skip, int take, DataRequest<AccountType> request);
+        Task<int> GetAccountTypesCountAsync(DataRequest<AccountType> request);
+        Task<int> UpdateAccountTypeAsync(AccountType model);
+        Task<int> DeleteAccountTypeAsync(AccountType model);
+
+        Task<int> AddBankAccountAsync(BankAccount model);
+        Task<BankAccount> GetBankAccountAsync(long id);
+        Task<IList<BankAccount>> GetBankAccountsAsync(DataRequest<BankAccount> request);
+        Task<IList<BankAccount>> GetBankAccountsAsync(int skip, int take, DataRequest<BankAccount> request);
+        Task<int> GetBankAccountsCountAsync(DataRequest<BankAccount> request);
+        Task<int> UpdateBankAccountAsync(BankAccount model);
+        Task<int> DeleteBankAccountAsync(BankAccount model);
+
+        Task<int> AddCashAccountAsync(CashAccount model);
+        Task<CashAccount> GetCashAccountAsync(long id);
+        Task<IList<CashAccount>> GetCashAccountsAsync(DataRequest<CashAccount> request);
+        Task<IList<CashAccount>> GetCashAccountsAsync(int skip, int take, DataRequest<CashAccount> request);
+        Task<int> GetCashAccountsCountAsync(DataRequest<CashAccount> request);
+        Task<int> UpdateCashAccountAsync(CashAccount model);
+        Task<int> DeleteCashAccountAsync(CashAccount model);
     }
 }
