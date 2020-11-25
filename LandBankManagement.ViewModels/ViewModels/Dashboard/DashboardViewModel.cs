@@ -11,9 +11,9 @@ namespace LandBankManagement.ViewModels
 
         }
 
-        public Task LoadAsync()
+        public async Task LoadAsync()
         {
-            throw new MissingMethodException();
+           
         }
 
         public void Unload()
