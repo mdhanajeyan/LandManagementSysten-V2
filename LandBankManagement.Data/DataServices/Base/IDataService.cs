@@ -45,7 +45,7 @@ namespace LandBankManagement.Data.Services
         Task<int> GetTaluksCountAsync(DataRequest<Taluk> request);
         Task<int> UpdateTalukAsync(Taluk model);
         Task<int> DeleteTalukAsync(Taluk model);
-
+        Dictionary<int, string> GetTalukOptions();
 
         Task<int> AddHobliAsync(Hobli model);
         Task<Hobli> GetHobliAsync(long id);

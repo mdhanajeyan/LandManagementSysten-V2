@@ -65,9 +65,17 @@ namespace LandBankManagement.Services
 
         public async Task<IList<TalukModel>> GetTaluksAsync(int skip, int take, DataRequest<Taluk> request)
         {
-            var collection = new TalukCollection(this, LogService);
-            await collection.LoadAsync(request);
-            return collection;
+            var models = new List<TalukModel>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var items = await dataService.GetTaluksAsync(skip, take, request);
+                foreach (var item in items)
+                {
+                    models.Add(await CreateTalukModelAsync(item, includeAllFields: false));
+                }
+                return models;
+            }
+           
         }
 
         public async Task<int> GetTaluksCountAsync(DataRequest<Taluk> request)
@@ -126,6 +134,21 @@ namespace LandBankManagement.Services
             target.TalukIsActive = source.TalukIsActive;
         }
 
+        public List<ComboBoxOptions> GetTaluksOptions() {
+            List<ComboBoxOptions> list = new List<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = dataService.GetTalukOptions();
+                foreach (var obj in models) {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });                
+                }
+                return list;
+            }
+        }
 
     }
 }

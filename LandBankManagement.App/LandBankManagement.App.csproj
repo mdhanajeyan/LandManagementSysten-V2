@@ -189,6 +189,7 @@
     <Compile Include="Services\DataServiceFactory\DataServiceFactory.cs" />
     <Compile Include="Services\DataServiceFactory\IDataServiceFactory.cs" />
     <Compile Include="Services\ExpenseHeadService.cs" />
+    <Compile Include="Services\HobliService.cs" />
     <Compile Include="Services\Infrastructure\ActivationService.cs" />
     <Compile Include="Services\Infrastructure\CommonServices.cs" />
     <Compile Include="Services\Infrastructure\ContextService.cs" />
@@ -265,6 +266,15 @@
     <Compile Include="Views\ExpenseHead\ExpenseHeadView.xaml.cs">
       <DependentUpon>ExpenseHeadView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Hobli\HobliDetails.xaml.cs">
+      <DependentUpon>HobliDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Hobli\HobliList.xaml.cs">
+      <DependentUpon>HobliList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Hobli\HobliView.xaml.cs">
+      <DependentUpon>HobliView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Parties\Details\PartiesCard.xaml.cs">
       <DependentUpon>PartiesCard.xaml</DependentUpon>
     </Compile>
@@ -303,6 +313,15 @@
     </Compile>
     <Compile Include="Views\SplashScreen\ExtendedSplash.xaml.cs">
       <DependentUpon>ExtendedSplash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Taluk\TalukDetails.xaml.cs">
+      <DependentUpon>TalukDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Taluk\TalukList.xaml.cs">
+      <DependentUpon>TalukList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Taluk\TalukView.xaml.cs">
+      <DependentUpon>TalukView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Vendors\Details\VendorsCard.xaml.cs">
       <DependentUpon>VendorsCard.xaml</DependentUpon>
@@ -498,6 +517,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Hobli\HobliDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Hobli\HobliList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Hobli\HobliView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Parties\Details\PartiesCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -547,6 +578,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SplashScreen\ExtendedSplash.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Taluk\TalukDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Taluk\TalukList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Taluk\TalukView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

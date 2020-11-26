@@ -1,32 +1,34 @@
-﻿
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 using LandBankManagement.ViewModels;
 using LandBankManagement.Services;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace LandBankManagement.Views
 {
-    public sealed partial class ExpenseHeadView : Page
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class TalukView : Page
     {
-        public ExpenseHeadViewModel ViewModel { get; }
+        public TalukViewModel ViewModel { get; }
         public INavigationService NavigationService { get; }
-        public ExpenseHeadView()
+        public TalukView()
         {
-            ViewModel = ServiceLocator.Current.GetService<ExpenseHeadViewModel>();
+            ViewModel = ServiceLocator.Current.GetService<TalukViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
-            ViewModel.ExpenseHeadDetials.IsEditMode = true;
+            ViewModel.TalukDetials.IsEditMode = true;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.LoadAsync(e.Parameter as ExpenseHeadListArgs);
-           await ViewModel.ExpenseHeadDetials.LoadAsync(e.Parameter as ExpenseHeadDetailsArgs);
+            await ViewModel.LoadAsync(e.Parameter as TalukListArgs);
+            await ViewModel.TalukDetials.LoadAsync();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

@@ -15,5 +15,6 @@ namespace LandBankManagement.Services
         Task<int> GetTaluksCountAsync(DataRequest<Taluk> request);
         Task<int> UpdateTalukAsync(TalukModel model);
         Task<int> DeleteTalukAsync(TalukModel model);
+        List<ComboBoxOptions> GetTaluksOptions();
     }
 }

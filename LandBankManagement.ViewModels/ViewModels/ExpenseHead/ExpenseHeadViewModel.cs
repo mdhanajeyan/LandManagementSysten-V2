@@ -72,6 +72,7 @@ namespace LandBankManagement.ViewModels
             {
                 var model = await ExpenseHeadService.GetExpenseHeadAsync(selected.ExpenseHeadId);
                 selected.Merge(model);
+                ExpenseHeadDetials.Item = model;
             }
             catch (Exception ex)
             {

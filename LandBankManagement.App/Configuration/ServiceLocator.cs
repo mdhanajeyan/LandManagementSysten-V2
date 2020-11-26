@@ -27,6 +27,8 @@ namespace LandBankManagement
             serviceCollection.AddSingleton<IVendorService, VendorService>();
             serviceCollection.AddSingleton<IPartyService, PartyService>();
             serviceCollection.AddSingleton<IExpenseHeadService, ExpenseHeadService>();
+            serviceCollection.AddSingleton<ITalukService, TalukService>();
+            serviceCollection.AddSingleton<IHobliService, HobliService>();
 
             serviceCollection.AddSingleton<IMessageService, MessageService>();
             serviceCollection.AddSingleton<ILogService, LogService>();
@@ -51,6 +53,10 @@ namespace LandBankManagement
             serviceCollection.AddTransient<PartyDetailsViewModel>();
             serviceCollection.AddTransient<ExpenseHeadViewModel>();
             serviceCollection.AddTransient<ExpenseHeadDetailsViewModel>();
+            serviceCollection.AddTransient<TalukViewModel>();
+            serviceCollection.AddTransient<TalukDetailsViewModel>();
+            serviceCollection.AddTransient<HobliViewModel>();
+            serviceCollection.AddTransient<HobliDetailsViewModel>();
 
             serviceCollection.AddTransient<AppLogsViewModel>();
 

@@ -15,7 +15,8 @@ namespace LandBankManagement.ViewModels
         private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorsViewModel));
         private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartiesViewModel));
         private readonly NavigationItem ExpenseHeadItem = new NavigationItem(0xE912, "ExpenseHead", typeof(ExpenseHeadViewModel));
-
+        private readonly NavigationItem TalukItem = new NavigationItem(0xE759, "Taluk", typeof(TalukViewModel));
+        private readonly NavigationItem HobliItem = new NavigationItem(0xE7FD, "Hobli", typeof(HobliViewModel));
         public MainShellViewModel(ILoginService loginService, ICommonServices commonServices) : base(loginService, commonServices)
         {
         }
@@ -74,7 +75,13 @@ namespace LandBankManagement.ViewModels
                     NavigationService.Navigate(viewModel, new PartyListArgs());
                     break;
                 case "ExpenseHeadViewModel":
-                    NavigationService.Navigate(viewModel);
+                    NavigationService.Navigate(viewModel,new ExpenseHeadListArgs());
+                    break;
+                case "TalukViewModel":
+                    NavigationService.Navigate(viewModel,new TalukListArgs());
+                    break;
+                case "HobliViewModel":
+                    NavigationService.Navigate(viewModel, new HobliListArgs());
                     break;
                 default:
                     throw new NotImplementedException();
@@ -88,6 +95,8 @@ namespace LandBankManagement.ViewModels
             yield return VendorItem;
             yield return PartyItem;
             yield return ExpenseHeadItem;
+            yield return TalukItem;
+            yield return HobliItem;
             yield return DashboardItem;
            
         }

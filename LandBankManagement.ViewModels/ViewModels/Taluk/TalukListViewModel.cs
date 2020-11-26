@@ -10,39 +10,40 @@ using System.Windows.Input;
 
 namespace LandBankManagement.ViewModels
 {
-    public class ExpenseHeadListArgs
+    public class TalukListArgs
     {
-        static public ExpenseHeadListArgs CreateEmpty() => new ExpenseHeadListArgs { IsEmpty = true };
+        static public TalukListArgs CreateEmpty() => new TalukListArgs { IsEmpty = true };
 
-        public ExpenseHeadListArgs()
+        public TalukListArgs()
         {
-            OrderBy = r => r.ExpenseHeadName;
+            OrderBy = r => r.TalukName;
         }
 
         public bool IsEmpty { get; set; }
 
         public string Query { get; set; }
 
-        public Expression<Func<Data.ExpenseHead, object>> OrderBy { get; set; }
-        public Expression<Func<Data.ExpenseHead, object>> OrderByDesc { get; set; }
+        public Expression<Func<Data.Taluk, object>> OrderBy { get; set; }
+        public Expression<Func<Data.Taluk, object>> OrderByDesc { get; set; }
     }
-    public class ExpenseHeadListViewModel : GenericListViewModel<ExpenseHeadModel>
+    public class TalukListViewModel : GenericListViewModel<TalukModel>
     {
-        public IExpenseHeadService ExpenseHeadService { get; }
-        public ExpenseHeadListArgs ViewModelArgs { get; private set; }
+        public ITalukService TalukService { get; }
+        public TalukListArgs ViewModelArgs { get; private set; }
 
-        public ExpenseHeadListViewModel(IExpenseHeadService expenseHeadService, ICommonServices commonServices) : base(commonServices) {
-            ExpenseHeadService = expenseHeadService;
-        }
-        public async Task LoadAsync(ExpenseHeadListArgs args)
+        public TalukListViewModel(ITalukService talukService, ICommonServices commonServices) : base(commonServices)
         {
-            ViewModelArgs = args ?? ExpenseHeadListArgs.CreateEmpty();
+            TalukService = talukService;
+        }
+        public async Task LoadAsync(TalukListArgs args)
+        {
+            ViewModelArgs = args ?? TalukListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading Expense Head...");
+            StartStatusMessage("Loading Taluk...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Expense Head loaded");
+                EndStatusMessage("Taluk loaded");
             }
         }
         public void Unload()
@@ -52,7 +53,7 @@ namespace LandBankManagement.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<ExpenseHeadListViewModel>(this, OnMessage);
+            MessageService.Subscribe<TalukListViewModel>(this, OnMessage);
 
         }
         public void Unsubscribe()
@@ -60,9 +61,9 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        public ExpenseHeadListArgs CreateArgs()
+        public TalukListArgs CreateArgs()
         {
-            return new ExpenseHeadListArgs
+            return new TalukListArgs
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,
@@ -84,9 +85,9 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
-                Items = new List<ExpenseHeadModel>();
-                StatusError($"Error loading Hobli: {ex.Message}");
-                LogException("Hobli", "Refresh", ex);
+                Items = new List<TalukModel>();
+                StatusError($"Error loading Taluk: {ex.Message}");
+                LogException("Taluk", "Refresh", ex);
                 isOk = false;
             }
 
@@ -100,46 +101,38 @@ namespace LandBankManagement.ViewModels
             return isOk;
         }
 
-        private async Task<IList<ExpenseHeadModel>> GetItemsAsync()
+        private async Task<IList<TalukModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)
             {
-                DataRequest<Data.ExpenseHead> request = BuildDataRequest();
-                return await ExpenseHeadService.GetExpenseHeadsAsync(request);
+                DataRequest<Data.Taluk> request = BuildDataRequest();
+                return await TalukService.GetTaluksAsync(request);
             }
-            return new List<ExpenseHeadModel>();
+            return new List<TalukModel>();
         }
-
-        //public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
-        //private async void OnOpenInNewView()
-        //{
-        //    if (SelectedItem != null)
-        //    {
-        //        await NavigationService.CreateNewViewAsync<ExpenseHeadViewModel>(new PartyDetailsArgs { PartyId = SelectedItem.ExpenseHeadId });
-        //    }
-        //}
+              
 
         protected override async void OnNew()
         {
 
-           // await NavigationService.CreateNewViewAsync<ExpenseHeadViewModel>(new ExpenseHeadArgs());
+            // await NavigationService.CreateNewViewAsync<ExpenseHeadViewModel>(new ExpenseHeadArgs());
 
             StatusReady();
         }
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading ExpenseHead...");
+            StartStatusMessage("Loading Taluk...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("ExpenseHead loaded");
+                EndStatusMessage("Taluk loaded");
             }
         }
 
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected ExpenseHead?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Taluk?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try
@@ -147,22 +140,22 @@ namespace LandBankManagement.ViewModels
                     if (SelectedIndexRanges != null)
                     {
                         count = SelectedIndexRanges.Sum(r => r.Length);
-                        StartStatusMessage($"Deleting {count} ExpenseHead...");
+                        StartStatusMessage($"Deleting {count} Taluk...");
                         // await DeleteRangesAsync(SelectedIndexRanges);
                         MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
                     }
                     else if (SelectedItems != null)
                     {
                         count = SelectedItems.Count();
-                        StartStatusMessage($"Deleting {count} ExpenseHead...");
+                        StartStatusMessage($"Deleting {count} Taluk...");
                         await DeleteItemsAsync(SelectedItems);
                         MessageService.Send(this, "ItemsDeleted", SelectedItems);
                     }
                 }
                 catch (Exception ex)
                 {
-                    StatusError($"Error deleting {count} ExpenseHead: {ex.Message}");
-                    LogException("ExpenseHeads", "Delete", ex);
+                    StatusError($"Error deleting {count} Taluk: {ex.Message}");
+                    LogException("Taluks", "Delete", ex);
                     count = 0;
                 }
                 await RefreshAsync();
@@ -170,31 +163,22 @@ namespace LandBankManagement.ViewModels
                 SelectedItems = null;
                 if (count > 0)
                 {
-                    EndStatusMessage($"{count} ExpenseHead deleted");
+                    EndStatusMessage($"{count} Taluk deleted");
                 }
             }
         }
 
-        private async Task DeleteItemsAsync(IEnumerable<ExpenseHeadModel> models)
+        private async Task DeleteItemsAsync(IEnumerable<TalukModel> models)
         {
             foreach (var model in models)
             {
-                await ExpenseHeadService.DeleteExpenseHeadAsync(model);
+                await TalukService.DeleteTalukAsync(model);
             }
-        }
+        }       
 
-        //private async Task DeleteRangesAsync(IEnumerable<IndexRange> ranges)
-        //{
-        //    DataRequest<Vendor> request = BuildDataRequest();
-        //    foreach (var range in ranges)
-        //    {
-        //        await VendorService.DeleteVendorRangeAsync(range.Index, range.Length, request);
-        //    }
-        //}
-
-        private DataRequest<Data.ExpenseHead> BuildDataRequest()
+        private DataRequest<Data.Taluk> BuildDataRequest()
         {
-            return new DataRequest<Data.ExpenseHead>()
+            return new DataRequest<Data.Taluk>()
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,

@@ -10,39 +10,40 @@ using System.Windows.Input;
 
 namespace LandBankManagement.ViewModels
 {
-    public class ExpenseHeadListArgs
+    public class HobliListArgs
     {
-        static public ExpenseHeadListArgs CreateEmpty() => new ExpenseHeadListArgs { IsEmpty = true };
+        static public HobliListArgs CreateEmpty() => new HobliListArgs { IsEmpty = true };
 
-        public ExpenseHeadListArgs()
+        public HobliListArgs()
         {
-            OrderBy = r => r.ExpenseHeadName;
+            OrderBy = r => r.HobliName;
         }
 
         public bool IsEmpty { get; set; }
 
         public string Query { get; set; }
 
-        public Expression<Func<Data.ExpenseHead, object>> OrderBy { get; set; }
-        public Expression<Func<Data.ExpenseHead, object>> OrderByDesc { get; set; }
+        public Expression<Func<Data.Hobli, object>> OrderBy { get; set; }
+        public Expression<Func<Data.Hobli, object>> OrderByDesc { get; set; }
     }
-    public class ExpenseHeadListViewModel : GenericListViewModel<ExpenseHeadModel>
+    public class HobliListViewModel : GenericListViewModel<HobliModel>
     {
-        public IExpenseHeadService ExpenseHeadService { get; }
-        public ExpenseHeadListArgs ViewModelArgs { get; private set; }
+        public IHobliService HobliService { get; }
+        public HobliListArgs ViewModelArgs { get; private set; }
 
-        public ExpenseHeadListViewModel(IExpenseHeadService expenseHeadService, ICommonServices commonServices) : base(commonServices) {
-            ExpenseHeadService = expenseHeadService;
-        }
-        public async Task LoadAsync(ExpenseHeadListArgs args)
+        public HobliListViewModel(IHobliService hobliService, ICommonServices commonServices) : base(commonServices)
         {
-            ViewModelArgs = args ?? ExpenseHeadListArgs.CreateEmpty();
+            HobliService = hobliService;
+        }
+        public async Task LoadAsync(HobliListArgs args)
+        {
+            ViewModelArgs = args ?? HobliListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading Expense Head...");
+            StartStatusMessage("Loading Hobli...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Expense Head loaded");
+                EndStatusMessage("Hobli loaded");
             }
         }
         public void Unload()
@@ -52,7 +53,7 @@ namespace LandBankManagement.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<ExpenseHeadListViewModel>(this, OnMessage);
+            MessageService.Subscribe<HobliListViewModel>(this, OnMessage);
 
         }
         public void Unsubscribe()
@@ -60,9 +61,9 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        public ExpenseHeadListArgs CreateArgs()
+        public HobliListArgs CreateArgs()
         {
-            return new ExpenseHeadListArgs
+            return new HobliListArgs
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,
@@ -84,7 +85,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
-                Items = new List<ExpenseHeadModel>();
+                Items = new List<HobliModel>();
                 StatusError($"Error loading Hobli: {ex.Message}");
                 LogException("Hobli", "Refresh", ex);
                 isOk = false;
@@ -100,46 +101,38 @@ namespace LandBankManagement.ViewModels
             return isOk;
         }
 
-        private async Task<IList<ExpenseHeadModel>> GetItemsAsync()
+        private async Task<IList<HobliModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)
             {
-                DataRequest<Data.ExpenseHead> request = BuildDataRequest();
-                return await ExpenseHeadService.GetExpenseHeadsAsync(request);
+                DataRequest<Data.Hobli> request = BuildDataRequest();
+                return await HobliService.GetHoblisAsync(request);
             }
-            return new List<ExpenseHeadModel>();
+            return new List<HobliModel>();
         }
-
-        //public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
-        //private async void OnOpenInNewView()
-        //{
-        //    if (SelectedItem != null)
-        //    {
-        //        await NavigationService.CreateNewViewAsync<ExpenseHeadViewModel>(new PartyDetailsArgs { PartyId = SelectedItem.ExpenseHeadId });
-        //    }
-        //}
+              
 
         protected override async void OnNew()
         {
 
-           // await NavigationService.CreateNewViewAsync<ExpenseHeadViewModel>(new ExpenseHeadArgs());
+            // await NavigationService.CreateNewViewAsync<ExpenseHeadViewModel>(new ExpenseHeadArgs());
 
             StatusReady();
         }
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading ExpenseHead...");
+            StartStatusMessage("Loading Hobli...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("ExpenseHead loaded");
+                EndStatusMessage("Hobli loaded");
             }
         }
 
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected ExpenseHead?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Hobli?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try
@@ -147,22 +140,22 @@ namespace LandBankManagement.ViewModels
                     if (SelectedIndexRanges != null)
                     {
                         count = SelectedIndexRanges.Sum(r => r.Length);
-                        StartStatusMessage($"Deleting {count} ExpenseHead...");
+                        StartStatusMessage($"Deleting {count} Hobli...");
                         // await DeleteRangesAsync(SelectedIndexRanges);
                         MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
                     }
                     else if (SelectedItems != null)
                     {
                         count = SelectedItems.Count();
-                        StartStatusMessage($"Deleting {count} ExpenseHead...");
+                        StartStatusMessage($"Deleting {count} Hobli...");
                         await DeleteItemsAsync(SelectedItems);
                         MessageService.Send(this, "ItemsDeleted", SelectedItems);
                     }
                 }
                 catch (Exception ex)
                 {
-                    StatusError($"Error deleting {count} ExpenseHead: {ex.Message}");
-                    LogException("ExpenseHeads", "Delete", ex);
+                    StatusError($"Error deleting {count} Hobli: {ex.Message}");
+                    LogException("Hoblis", "Delete", ex);
                     count = 0;
                 }
                 await RefreshAsync();
@@ -170,31 +163,22 @@ namespace LandBankManagement.ViewModels
                 SelectedItems = null;
                 if (count > 0)
                 {
-                    EndStatusMessage($"{count} ExpenseHead deleted");
+                    EndStatusMessage($"{count} Hobli deleted");
                 }
             }
         }
 
-        private async Task DeleteItemsAsync(IEnumerable<ExpenseHeadModel> models)
+        private async Task DeleteItemsAsync(IEnumerable<HobliModel> models)
         {
             foreach (var model in models)
             {
-                await ExpenseHeadService.DeleteExpenseHeadAsync(model);
+                await HobliService.DeleteHobliAsync(model);
             }
-        }
+        }       
 
-        //private async Task DeleteRangesAsync(IEnumerable<IndexRange> ranges)
-        //{
-        //    DataRequest<Vendor> request = BuildDataRequest();
-        //    foreach (var range in ranges)
-        //    {
-        //        await VendorService.DeleteVendorRangeAsync(range.Index, range.Length, request);
-        //    }
-        //}
-
-        private DataRequest<Data.ExpenseHead> BuildDataRequest()
+        private DataRequest<Data.Hobli> BuildDataRequest()
         {
-            return new DataRequest<Data.ExpenseHead>()
+            return new DataRequest<Data.Hobli>()
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,

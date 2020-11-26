@@ -11,22 +11,28 @@ namespace LandBankManagement.Data.Services
     {
         public async Task<int> AddHobliAsync(Hobli model)
         {
-            if (model == null)
-                return 0;
-
-            var entity = new Hobli()
+            try
             {
-                HobliId = model.HobliId,
-                HobliGuid = model.HobliGuid,
-                TalukId = model.TalukId,
-                HobliName = model.HobliName,
-                HobliGMapLink = model.HobliGMapLink,
-                HobliIsActive = model.HobliIsActive,
+                if (model == null)
+                    return 0;
 
-            };
-            _dataSource.Entry(entity).State = EntityState.Added;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+                var entity = new Hobli()
+                {
+                    HobliId = model.HobliId,
+                    HobliGuid = model.HobliGuid,
+                    TalukId = model.TalukId,
+                    HobliName = model.HobliName,
+                    HobliGMapLink = model.HobliGMapLink,
+                    HobliIsActive = model.HobliIsActive,
+
+                };
+                _dataSource.Entry(entity).State = EntityState.Added;
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<Hobli> GetHobliAsync(long id)
