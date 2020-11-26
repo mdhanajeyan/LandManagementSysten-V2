@@ -88,5 +88,22 @@ namespace LandBankManagement.Data.Services
         Task<int> GetCashAccountsCountAsync(DataRequest<CashAccount> request);
         Task<int> UpdateCashAccountAsync(CashAccount model);
         Task<int> DeleteCashAccountAsync(CashAccount model);
+
+
+        Task<int> AddCheckListAsync(CheckList model);
+        Task<CheckList> GetCheckListAsync(long id);
+        Task<IList<CheckList>> GetCheckListsAsync(DataRequest<CheckList> request);
+        Task<IList<CheckList>> GetCheckListsAsync(int skip, int take, DataRequest<CheckList> request);
+        Task<int> GetCheckListsCountAsync(DataRequest<CheckList> request);
+        Task<int> UpdateCheckListAsync(CheckList model);
+        Task<int> DeleteCheckListAsync(CheckList model);
+
+        Task<int> AddDocumentTypeAsync(DocumentType model);
+        Task<DocumentType> GetDocumentTypeAsync(long id);
+        Task<IList<DocumentType>> GetDocumentTypesAsync(DataRequest<DocumentType> request);
+        Task<IList<DocumentType>> GetDocumentTypesAsync(int skip, int take, DataRequest<DocumentType> request);
+        Task<int> GetDocumentTypesCountAsync(DataRequest<DocumentType> request);
+        Task<int> UpdateDocumentTypeAsync(DocumentType model);
+        Task<int> DeleteDocumentTypeAsync(DocumentType model);
     }
 }

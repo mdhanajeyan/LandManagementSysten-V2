@@ -20,6 +20,7 @@ namespace LandBankManagement.Data.Services
         DbSet<BankAccount> BankAccounts { get; }
         DbSet<CashAccount> CashAccounts { get; }
         DbSet<DocumentType> DocumentTypes { get; }
+        DbSet<CheckList> CheckLists { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

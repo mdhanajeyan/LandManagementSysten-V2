@@ -63,9 +63,16 @@ namespace LandBankManagement.Services
 
         public async Task<IList<VillageModel>> GetVillagesAsync(int skip, int take, DataRequest<Village> request)
         {
-            var collection = new VillageCollection(this, LogService);
-            await collection.LoadAsync(request);
-            return collection;
+            var models = new List<VillageModel>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var items = await dataService.GetVillagesAsync(skip, take, request);
+                foreach (var item in items)
+                {
+                    models.Add(CreateVillageModelAsync(item, includeAllFields: false));
+                }
+                return models;
+            }
         }
 
         public async Task<int> GetVillagesCountAsync(DataRequest<Village> request)

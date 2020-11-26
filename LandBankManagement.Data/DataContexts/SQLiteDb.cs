@@ -24,6 +24,7 @@ namespace LandBankManagement.Data.Services
         public DbSet<BankAccount> BankAccounts { get; }
         public DbSet<CashAccount> CashAccounts { get; }
         public DbSet<DocumentType> DocumentTypes { get; }
+        public DbSet<CheckList> CheckLists { get; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

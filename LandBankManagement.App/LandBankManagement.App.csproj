@@ -188,6 +188,7 @@
     <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Services\DataServiceFactory\DataServiceFactory.cs" />
     <Compile Include="Services\DataServiceFactory\IDataServiceFactory.cs" />
+    <Compile Include="Services\DocumentTypeService.cs" />
     <Compile Include="Services\ExpenseHeadService.cs" />
     <Compile Include="Services\HobliService.cs" />
     <Compile Include="Services\Infrastructure\ActivationService.cs" />
@@ -212,6 +213,8 @@
     <Compile Include="Services\VirtualCollections\ExpenseHeadCollection.cs" />
     <Compile Include="Services\VirtualCollections\TalukCollection.cs" />
     <Compile Include="Services\VirtualCollections\BankAccountCollection.cs" />
+    <Compile Include="Services\VirtualCollections\DocumentTypeCollection.cs" />
+    <Compile Include="Services\VirtualCollections\CheckListCollection.cs" />
     <Compile Include="Services\VirtualCollections\VillageCollection.cs" />
     <Compile Include="Services\VirtualCollections\PartyCollection.cs" />
     <Compile Include="Services\VirtualCollections\VendorCollection.cs" />
