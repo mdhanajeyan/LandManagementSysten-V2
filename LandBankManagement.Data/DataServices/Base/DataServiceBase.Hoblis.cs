@@ -141,5 +141,10 @@ namespace LandBankManagement.Data.Services
             _dataSource.Hoblis.Remove(model);
             return await _dataSource.SaveChangesAsync();
         }
+
+        public Dictionary<int, string> GetHobliOptions()
+        {
+            return _dataSource.Hoblis.Select(x => new { x.HobliId, x.HobliName }).ToDictionary(t => t.HobliId, t => t.HobliName);
+        }
     }
 }

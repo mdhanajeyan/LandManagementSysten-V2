@@ -62,7 +62,11 @@ namespace LandBankManagement
             NavigationService.Register<ExpenseHeadViewModel, ExpenseHeadView>();
             NavigationService.Register<TalukViewModel, TalukView>();
             NavigationService.Register<HobliViewModel, HobliView>();
+            NavigationService.Register<VillageViewModel, VillageView>();
+            NavigationService.Register<CashAccountViewModel, CashAccountView>();
+            NavigationService.Register<DocumentTypeViewModel, DocumentTypeView>();
         }
+       
         static private async Task EnsureLogDbAsync()
         {
             var localFolder = ApplicationData.Current.LocalFolder;

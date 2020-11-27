@@ -16,7 +16,10 @@ namespace LandBankManagement.ViewModels
         private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartiesViewModel));
         private readonly NavigationItem ExpenseHeadItem = new NavigationItem(0xE912, "ExpenseHead", typeof(ExpenseHeadViewModel));
         private readonly NavigationItem TalukItem = new NavigationItem(0xE759, "Taluk", typeof(TalukViewModel));
-        private readonly NavigationItem HobliItem = new NavigationItem(0xE7FD, "Hobli", typeof(HobliViewModel));
+        private readonly NavigationItem HobliItem = new NavigationItem(0xE802, "Hobli", typeof(HobliViewModel));
+        private readonly NavigationItem VillageItem = new NavigationItem(0xF156, "Village", typeof(VillageViewModel));
+        private readonly NavigationItem CashAccountItem = new NavigationItem(0xF584, "Cash Account", typeof(CashAccountViewModel));
+        private readonly NavigationItem DocumentTypeItem = new NavigationItem(0xF8A5, "Document Type", typeof(DocumentTypeViewModel));
         public MainShellViewModel(ILoginService loginService, ICommonServices commonServices) : base(loginService, commonServices)
         {
         }
@@ -83,6 +86,15 @@ namespace LandBankManagement.ViewModels
                 case "HobliViewModel":
                     NavigationService.Navigate(viewModel, new HobliListArgs());
                     break;
+                case "VillageViewModel":
+                    NavigationService.Navigate(viewModel, new VillageListArgs());
+                    break;
+                case "CashAccountViewModel":
+                    NavigationService.Navigate(viewModel, new CashAccountListArgs());
+                    break;
+                case "DocumentTypeViewModel":
+                    NavigationService.Navigate(viewModel, new DocumentTypeListArgs());
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -97,6 +109,9 @@ namespace LandBankManagement.ViewModels
             yield return ExpenseHeadItem;
             yield return TalukItem;
             yield return HobliItem;
+            yield return VillageItem;
+            yield return CashAccountItem;
+            yield return DocumentTypeItem;
             yield return DashboardItem;
            
         }

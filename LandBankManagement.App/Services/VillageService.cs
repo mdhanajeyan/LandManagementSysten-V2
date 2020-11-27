@@ -133,5 +133,23 @@ namespace LandBankManagement.Services
             target.VillageGMapLink = source.VillageGMapLink;
             target.VillageIsActive = source.VillageIsActive;
         }
+
+        public List<ComboBoxOptions> GetVillageOptions()
+        {
+            List<ComboBoxOptions> list = new List<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = dataService.GetVillageOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                return list;
+            }
+        }
     }
 }

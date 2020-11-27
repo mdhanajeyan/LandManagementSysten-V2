@@ -1,0 +1,56 @@
+﻿<UserControl
+    x:Class="LandBankManagement.Views.DocumentTypeList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:LandBankManagement.Models"
+    xmlns:controls="using:LandBankManagement.Controls"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="HeaderTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="45*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Document Name" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="1" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />
+
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ItemTemplate" x:DataType="models:DocumentTypeModel">
+            <Grid Height="32">
+                <Grid Visibility="{x:Bind IsEmpty, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="45*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{x:Bind DocumentTypeName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="1" Text="{x:Bind IsDocumentTypeActive, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <controls:DataListWithSearch ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"                      
+                       NewLabel="New Documnet Type"
+                       SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
+                       HeaderTemplate="{StaticResource HeaderTemplate}"
+                       ItemTemplate="{StaticResource ItemTemplate}"
+                       IsMultipleSelection="{x:Bind ViewModel.IsMultipleSelection, Mode=TwoWay}"
+                       ItemsCount="{x:Bind ViewModel.ItemsCount, Mode=OneWay}"
+                       NewCommand="{x:Bind ViewModel.NewCommand}"
+                       RefreshCommand="{x:Bind ViewModel.RefreshCommand}"
+                       Query="{x:Bind ViewModel.Query, Mode=TwoWay}"
+                       QuerySubmittedCommand="{x:Bind ViewModel.RefreshCommand}"
+                       StartSelectionCommand="{x:Bind ViewModel.StartSelectionCommand}"
+                       CancelSelectionCommand="{x:Bind ViewModel.CancelSelectionCommand}"
+                       SelectItemsCommand="{x:Bind ViewModel.SelectItemsCommand}"
+                       DeselectItemsCommand="{x:Bind ViewModel.DeselectItemsCommand}"
+                       SelectRangesCommand="{x:Bind ViewModel.SelectRangesCommand}"
+                       DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}" />
+</UserControl>

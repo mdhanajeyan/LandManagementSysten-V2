@@ -10,6 +10,7 @@ namespace LandBankManagement.Data
         public int CashAccountId { get; set; }
         public Guid CashAccountGuid { get; set; }
         public int AccountTypeId { get; set; }
+        public int CompanyID { get; set; }
         public string CashAccountName { get; set; }
         public bool IsCashAccountActive { get; set; }
 

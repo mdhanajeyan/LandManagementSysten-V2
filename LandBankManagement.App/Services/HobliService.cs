@@ -131,6 +131,22 @@ namespace LandBankManagement.Services
             target.HobliGMapLink = source.HobliGMapLink;
             target.HobliIsActive = source.HobliIsActive;
         }
-
+        public List<ComboBoxOptions> GetHobliOptions()
+        {
+            List<ComboBoxOptions> list = new List<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = dataService.GetHobliOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                return list;
+            }
+        }
     }
 }

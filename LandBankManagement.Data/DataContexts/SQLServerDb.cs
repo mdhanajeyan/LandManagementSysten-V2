@@ -19,11 +19,11 @@ namespace LandBankManagement.Data.Services
         public DbSet<Taluk> Taluks { get; set; }
         public DbSet<Hobli> Hoblis { get; set; }
         public DbSet<Village> Villages { get; set; }
-        public DbSet<AccountType> AccountTypes { get; }
-        public DbSet<BankAccount> BankAccounts { get; }
-        public DbSet<CashAccount> CashAccounts { get; }
-        public DbSet<DocumentType> DocumentTypes { get; }
-        public DbSet<CheckList> CheckLists { get; }
+        public DbSet<AccountType> AccountTypes { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<CashAccount> CashAccounts { get; set; }
+        public DbSet<DocumentType> DocumentTypes { get; set; }
+        public DbSet<CheckList> CheckLists { get; set; }
 
 		public DbSet<ExpenseHead> ExpenseHeads { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

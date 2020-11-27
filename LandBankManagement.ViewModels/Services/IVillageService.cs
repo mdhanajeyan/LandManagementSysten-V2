@@ -15,5 +15,6 @@ namespace LandBankManagement.Services
         Task<int> GetVillagesCountAsync(DataRequest<Village> request);
         Task<int> UpdateVillageAsync(VillageModel model);
         Task<int> DeleteVillageAsync(VillageModel model);
+        List<ComboBoxOptions> GetVillageOptions();
     }
 }

@@ -185,6 +185,7 @@
     <Compile Include="Extensions\ItemIndexRangeExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CashAccountService.cs" />
     <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Services\DataServiceFactory\DataServiceFactory.cs" />
     <Compile Include="Services\DataServiceFactory\IDataServiceFactory.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Services\VendorService.cs" />
     <Compile Include="Services\VillageService.cs" />
     <Compile Include="Services\VirtualCollections\AccountTypeCollection.cs" />
+    <Compile Include="Services\VirtualCollections\CashAccountCollection.cs" />
     <Compile Include="Services\VirtualCollections\HobliCollection.cs" />
     <Compile Include="Services\VirtualCollections\CompanyCollection.cs" />
     <Compile Include="Services\VirtualCollections\ExpenseHeadCollection.cs" />
@@ -236,6 +238,15 @@
     <Compile Include="Views\AppLogs\List\AppLogsList.xaml.cs">
       <DependentUpon>AppLogsList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CashAccount\CashAccountDetails.xaml.cs">
+      <DependentUpon>CashAccountDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CashAccount\CashAccountList.xaml.cs">
+      <DependentUpon>CashAccountList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CashAccount\CashAccountView.xaml.cs">
+      <DependentUpon>CashAccountView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Companies\CompaniesView.xaml.cs">
       <DependentUpon>CompaniesView.xaml</DependentUpon>
     </Compile>
@@ -259,6 +270,15 @@
     </Compile>
     <Compile Include="Views\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocumentType\DocumentTypeDetails.xaml.cs">
+      <DependentUpon>DocumentTypeDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocumentType\DocumentTypeList.xaml.cs">
+      <DependentUpon>DocumentTypeList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocumentType\DocumentTypeView.xaml.cs">
+      <DependentUpon>DocumentTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExpenseHead\ExpenseHeadDetails.xaml.cs">
       <DependentUpon>ExpenseHeadDetails.xaml</DependentUpon>
@@ -346,6 +366,15 @@
     </Compile>
     <Compile Include="Views\Vendor\VendorView.xaml.cs">
       <DependentUpon>VendorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VIllage\VillageDetails.xaml.cs">
+      <DependentUpon>VillageDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VIllage\VillageList.xaml.cs">
+      <DependentUpon>VillageList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VIllage\VillageView.xaml.cs">
+      <DependentUpon>VillageView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -476,6 +505,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\CashAccount\CashAccountDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CashAccount\CashAccountList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CashAccount\CashAccountView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Companies\CompaniesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -505,6 +546,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dashboard\DashboardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DocumentType\DocumentTypeDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DocumentType\DocumentTypeList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DocumentType\DocumentTypeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -623,6 +676,18 @@
     <Page Include="Views\Vendor\VendorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VIllage\VillageDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\VIllage\VillageList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\VIllage\VillageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

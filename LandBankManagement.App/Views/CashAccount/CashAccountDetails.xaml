@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="LandBankManagement.Views.HobliDetails"
+    x:Class="LandBankManagement.Views.CashAccountDetails"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,14 +12,13 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:HobliDetailsViewModel">
+        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CashAccountDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5">
-                <controls:FormComboBox  Header="Taluk" ItemsSource="{x:Bind TalukOptions}"
-                                           SelectedValue="{x:Bind EditableItem.TalukId, Mode=TwoWay}"
+                <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
+                                           SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                <controls:FormTextBox Header="Hobli Name" Text="{x:Bind EditableItem.HobliName, Mode=TwoWay}" />
-                <controls:FormTextBox Header="GMap Link" Text="{x:Bind EditableItem.HobliGMapLink, Mode=TwoWay}" />
-                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.HobliIsActive}" Content="IsActive"/>
+                <controls:FormTextBox Header="Cash A/C Name" Text="{x:Bind EditableItem.CashAccountName, Mode=TwoWay}" />
+                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.IsCashAccountActive}" Content="IsActive"/>
 
             </controls:FluidGrid>
         </DataTemplate>

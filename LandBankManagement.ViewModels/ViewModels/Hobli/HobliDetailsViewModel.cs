@@ -34,13 +34,15 @@ namespace LandBankManagement.ViewModels
           
             Item = new HobliModel();
             IsEditMode=true;
-            GetTaluks();
+          
+                GetTaluks();
+           
+           
         }
 
         private void GetTaluks() {
             var models = TalukService.GetTaluksOptions();
-            TalukOptions = models;
-            
+            TalukOptions = models;            
         }
        
 

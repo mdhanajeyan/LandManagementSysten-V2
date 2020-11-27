@@ -11,20 +11,26 @@ namespace LandBankManagement.Data.Services
     {
         public async Task<int> AddCashAccountAsync(CashAccount model)
         {
-            if (model == null)
-                return 0;
-
-            var entity = new CashAccount()
+            try
             {
-                CashAccountId = model.CashAccountId,
-                CashAccountGuid = model.CashAccountGuid,
-                AccountTypeId = model.AccountTypeId,
-                CashAccountName = model.CashAccountName,
-                IsCashAccountActive = model.IsCashAccountActive,
-        };
-            _dataSource.Entry(entity).State = EntityState.Added;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+                if (model == null)
+                    return 0;
+
+                var entity = new CashAccount()
+                {
+                    CashAccountGuid = model.CashAccountGuid,
+                    AccountTypeId = 1,
+                    CashAccountName = model.CashAccountName,
+                    IsCashAccountActive = model.IsCashAccountActive,
+                    CompanyID=1
+                };
+                _dataSource.Entry(entity).State = EntityState.Added;
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<CashAccount> GetCashAccountAsync(long id)
@@ -81,6 +87,7 @@ namespace LandBankManagement.Data.Services
                     AccountTypeId = source.AccountTypeId,
                     CashAccountName = source.CashAccountName,
                     IsCashAccountActive = source.IsCashAccountActive,
+                    CompanyID = source.CompanyID
                 })
                 .AsNoTracking()
                 .ToListAsync();

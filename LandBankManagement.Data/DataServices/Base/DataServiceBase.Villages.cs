@@ -130,5 +130,9 @@ namespace LandBankManagement.Data.Services
             _dataSource.Villages.Remove(model);
             return await _dataSource.SaveChangesAsync();
         }
+        public Dictionary<int, string> GetVillageOptions()
+        {
+            return _dataSource.Villages.Select(x => new { x.VillageId, x.VillageName }).ToDictionary(t => t.VillageId, t => t.VillageName);
+        }
     }
 }
