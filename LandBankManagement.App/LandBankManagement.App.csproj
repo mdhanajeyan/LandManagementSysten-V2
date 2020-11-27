@@ -204,6 +204,8 @@
     <Compile Include="Services\Infrastructure\NavigationService.cs" />
     <Compile Include="Services\Infrastructure\SettingsService.cs" />
     <Compile Include="Services\PartyService.cs" />
+    <Compile Include="Services\PropertyTypeService.cs" />
+    <Compile Include="Services\PropertyService.cs" />
     <Compile Include="Services\TalukService.cs" />
     <Compile Include="Services\BankAccountService.cs" />
     <Compile Include="Services\VendorService.cs" />
@@ -213,6 +215,8 @@
     <Compile Include="Services\VirtualCollections\HobliCollection.cs" />
     <Compile Include="Services\VirtualCollections\CompanyCollection.cs" />
     <Compile Include="Services\VirtualCollections\ExpenseHeadCollection.cs" />
+    <Compile Include="Services\VirtualCollections\PropertyTypeCollection.cs" />
+    <Compile Include="Services\VirtualCollections\PropertyCollection.cs" />
     <Compile Include="Services\VirtualCollections\TalukCollection.cs" />
     <Compile Include="Services\VirtualCollections\BankAccountCollection.cs" />
     <Compile Include="Services\VirtualCollections\DocumentTypeCollection.cs" />

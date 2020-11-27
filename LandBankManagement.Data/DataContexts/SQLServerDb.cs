@@ -24,8 +24,10 @@ namespace LandBankManagement.Data.Services
         public DbSet<CashAccount> CashAccounts { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<CheckList> CheckLists { get; set; }
+        public DbSet<Property> Properties { get; }
+        public DbSet<PropertyType> PropertyTypes { get; }
 
-		public DbSet<ExpenseHead> ExpenseHeads { get; set; }
+        public DbSet<ExpenseHead> ExpenseHeads { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_connectionString);

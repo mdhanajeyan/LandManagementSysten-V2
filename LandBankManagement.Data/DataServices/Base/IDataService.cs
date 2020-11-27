@@ -105,5 +105,23 @@ namespace LandBankManagement.Data.Services
         Task<int> GetDocumentTypesCountAsync(DataRequest<DocumentType> request);
         Task<int> UpdateDocumentTypeAsync(DocumentType model);
         Task<int> DeleteDocumentTypeAsync(DocumentType model);
+
+
+        Task<int> AddPropertyAsync(Property model);
+        Task<Property> GetPropertyAsync(long id);
+        Task<IList<Property>> GetPropertiesAsync(DataRequest<Property> request);
+        Task<IList<Property>> GetPropertiesAsync(int skip, int take, DataRequest<Property> request);
+        Task<int> GetPropertiesCountAsync(DataRequest<Property> request);
+        Task<int> UpdatePropertyAsync(Property model);
+        Task<int> DeletePropertyAsync(Property model);
+
+
+        Task<int> AddPropertyTypeAsync(PropertyType model);
+        Task<PropertyType> GetPropertyTypeAsync(long id);
+        Task<IList<PropertyType>> GetPropertyTypesAsync(DataRequest<PropertyType> request);
+        Task<IList<PropertyType>> GetPropertyTypesAsync(int skip, int take, DataRequest<PropertyType> request);
+        Task<int> GetPropertyTypesCountAsync(DataRequest<PropertyType> request);
+        Task<int> UpdatePropertyTypeAsync(PropertyType model);
+        Task<int> DeletePropertyTypeAsync(PropertyType model);
     }
 }

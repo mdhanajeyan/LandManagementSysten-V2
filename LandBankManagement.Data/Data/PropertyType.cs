@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace LandBankManagement.Data 
@@ -10,5 +11,9 @@ namespace LandBankManagement.Data
         public Guid PropertyTypeGuid { get; set; }
         public string PropertyTypeText { get; set; }
         public bool PropertyTypeIsActive { get; set; }
-	}
+
+        [NotMapped]
+        public string SearchTerms { get; set; }
+
+    }
 }
