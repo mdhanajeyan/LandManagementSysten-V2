@@ -123,5 +123,22 @@ namespace LandBankManagement.Data.Services
         Task<int> GetPropertyTypesCountAsync(DataRequest<PropertyType> request);
         Task<int> UpdatePropertyTypeAsync(PropertyType model);
         Task<int> DeletePropertyTypeAsync(PropertyType model);
+
+        Task<int> AddPropCheckListMasterAsync(PropCheckListMaster model);
+        Task<PropCheckListMaster> GetPropCheckListMasterAsync(long id);
+        Task<IList<PropCheckListMaster>> GetPropCheckListMastersAsync(DataRequest<PropCheckListMaster> request);
+        Task<IList<PropCheckListMaster>> GetPropCheckListMastersAsync(int skip, int take, DataRequest<PropCheckListMaster> request);
+        Task<int> GetPropCheckListMastersCountAsync(DataRequest<PropCheckListMaster> request);
+        Task<int> UpdatePropCheckListMasterAsync(PropCheckListMaster model);
+        Task<int> DeletePropCheckListMasterAsync(PropCheckListMaster model);
+
+
+        Task<int> AddFundTransferAsync(FundTransfer model);
+        Task<FundTransfer> GetFundTransferAsync(long id);
+        Task<IList<FundTransfer>> GetFundTransfersAsync(DataRequest<FundTransfer> request);
+        Task<IList<FundTransfer>> GetFundTransfersAsync(int skip, int take, DataRequest<FundTransfer> request);
+        Task<int> GetFundTransfersCountAsync(DataRequest<FundTransfer> request);
+        Task<int> UpdateFundTransferAsync(FundTransfer model);
+        Task<int> DeleteFundTransferAsync(FundTransfer model);
     }
 }

@@ -23,6 +23,8 @@ namespace LandBankManagement.Data.Services
         DbSet<CheckList> CheckLists { get; }
         DbSet<Property> Properties { get; }
         DbSet<PropertyType> PropertyTypes { get; }
+        DbSet<PropCheckListMaster> PropCheckListMasters { get; }
+        DbSet<FundTransfer> FundTransfers { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

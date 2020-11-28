@@ -26,6 +26,8 @@ namespace LandBankManagement.Data.Services
         public DbSet<CheckList> CheckLists { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<PropertyType> PropertyTypes { get; set; }
+        public DbSet<PropCheckListMaster> PropCheckListMasters { get; }
+        public DbSet<FundTransfer> FundTransfers { get; }
 
         public DbSet<ExpenseHead> ExpenseHeads { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
