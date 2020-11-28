@@ -1,49 +1,49 @@
-﻿using LandBankManagement.Data;
-using LandBankManagement.Models;
-using LandBankManagement.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using LandBankManagement.Data;
+using LandBankManagement.Models;
+using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
-    public class HobliListArgs
+    public class CheckListListArgs
     {
-        static public HobliListArgs CreateEmpty() => new HobliListArgs { IsEmpty = true };
+        static public CheckListListArgs CreateEmpty() => new CheckListListArgs { IsEmpty = true };
 
-        public HobliListArgs()
+        public CheckListListArgs()
         {
-            OrderBy = r => r.HobliName;
+            OrderBy = r => r.CheckListName;
         }
 
         public bool IsEmpty { get; set; }
 
         public string Query { get; set; }
 
-        public Expression<Func<Data.Hobli, object>> OrderBy { get; set; }
-        public Expression<Func<Data.Hobli, object>> OrderByDesc { get; set; }
+        public Expression<Func<Data.CheckList, object>> OrderBy { get; set; }
+        public Expression<Func<Data.CheckList, object>> OrderByDesc { get; set; }
     }
-    public class HobliListViewModel : GenericListViewModel<HobliModel>
+    public class CheckListListViewModel : GenericListViewModel<CheckListModel>
     {
-        public IHobliService HobliService { get; }
-        public HobliListArgs ViewModelArgs { get; private set; }
+        public ICheckListService CheckListService { get; }
+        public CheckListListArgs ViewModelArgs { get; private set; }
 
-        public HobliListViewModel(IHobliService hobliService, ICommonServices commonServices) : base(commonServices)
+        public CheckListListViewModel(ICheckListService checkListService, ICommonServices commonServices) : base(commonServices)
         {
-            HobliService = hobliService;
+            CheckListService = checkListService;
         }
-        public async Task LoadAsync(HobliListArgs args)
+        public async Task LoadAsync(CheckListListArgs args)
         {
-            ViewModelArgs = args ?? HobliListArgs.CreateEmpty();
+            ViewModelArgs = args ?? CheckListListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading Hobli...");
+            StartStatusMessage("Loading CheckList...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Hobli loaded");
+                EndStatusMessage("CheckList loaded");
             }
         }
         public void Unload()
@@ -53,7 +53,7 @@ namespace LandBankManagement.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<HobliListViewModel>(this, OnMessage);
+            MessageService.Subscribe<CheckListListViewModel>(this, OnMessage);
 
         }
         public void Unsubscribe()
@@ -61,9 +61,9 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        public HobliListArgs CreateArgs()
+        public CheckListListArgs CreateArgs()
         {
-            return new HobliListArgs
+            return new CheckListListArgs
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,
@@ -85,54 +85,62 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
-                Items = new List<HobliModel>();
-                StatusError($"Error loading Hobli: {ex.Message}");
-                LogException("Hobli", "Refresh", ex);
+                Items = new List<CheckListModel>();
+                StatusError($"Error loading CheckList: {ex.Message}");
+                LogException("CheckList", "Refresh", ex);
                 isOk = false;
             }
 
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {
-                // SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
+                //  SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
             }
             NotifyPropertyChanged(nameof(Title));
 
             return isOk;
         }
 
-        private async Task<IList<HobliModel>> GetItemsAsync()
+        private async Task<IList<CheckListModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)
             {
-                DataRequest<Data.Hobli> request = BuildDataRequest();
-                return await HobliService.GetHoblisAsync(request);
+                DataRequest<Data.CheckList> request = BuildDataRequest();
+                return await CheckListService.GetCheckListsAsync(request);
             }
-            return new List<HobliModel>();
+            return new List<CheckListModel>();
         }
-              
+
+        //public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
+        //private async void OnOpenInNewView()
+        //{
+        //    if (SelectedItem != null)
+        //    {
+        //        await NavigationService.CreateNewViewAsync<CheckListViewModel>(new PartyDetailsArgs { PartyId = SelectedItem.CheckListId });
+        //    }
+        //}
 
         protected override async void OnNew()
         {
 
-            // await NavigationService.CreateNewViewAsync<ExpenseHeadViewModel>(new ExpenseHeadArgs());
+            // await NavigationService.CreateNewViewAsync<CheckListViewModel>(new CheckListArgs());
 
             StatusReady();
         }
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading Hobli...");
+            StartStatusMessage("Loading CheckList...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Hobli loaded");
+                EndStatusMessage("CheckList loaded");
             }
         }
 
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Hobli?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected CheckList?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try
@@ -140,22 +148,22 @@ namespace LandBankManagement.ViewModels
                     if (SelectedIndexRanges != null)
                     {
                         count = SelectedIndexRanges.Sum(r => r.Length);
-                        StartStatusMessage($"Deleting {count} Hobli...");
+                        StartStatusMessage($"Deleting {count} CheckList...");
                         // await DeleteRangesAsync(SelectedIndexRanges);
                         MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
                     }
                     else if (SelectedItems != null)
                     {
                         count = SelectedItems.Count();
-                        StartStatusMessage($"Deleting {count} Hobli...");
+                        StartStatusMessage($"Deleting {count} CheckList...");
                         await DeleteItemsAsync(SelectedItems);
                         MessageService.Send(this, "ItemsDeleted", SelectedItems);
                     }
                 }
                 catch (Exception ex)
                 {
-                    StatusError($"Error deleting {count} Hobli: {ex.Message}");
-                    LogException("Hoblis", "Delete", ex);
+                    StatusError($"Error deleting {count} CheckList: {ex.Message}");
+                    LogException("CheckLists", "Delete", ex);
                     count = 0;
                 }
                 await RefreshAsync();
@@ -163,22 +171,31 @@ namespace LandBankManagement.ViewModels
                 SelectedItems = null;
                 if (count > 0)
                 {
-                    EndStatusMessage($"{count} Hobli deleted");
+                    EndStatusMessage($"{count} CheckList deleted");
                 }
             }
         }
 
-        private async Task DeleteItemsAsync(IEnumerable<HobliModel> models)
+        private async Task DeleteItemsAsync(IEnumerable<CheckListModel> models)
         {
             foreach (var model in models)
             {
-                await HobliService.DeleteHobliAsync(model);
+                await CheckListService.DeleteCheckListAsync(model);
             }
-        }       
+        }
 
-        private DataRequest<Data.Hobli> BuildDataRequest()
+        //private async Task DeleteRangesAsync(IEnumerable<IndexRange> ranges)
+        //{
+        //    DataRequest<Vendor> request = BuildDataRequest();
+        //    foreach (var range in ranges)
+        //    {
+        //        await VendorService.DeleteVendorRangeAsync(range.Index, range.Length, request);
+        //    }
+        //}
+
+        private DataRequest<Data.CheckList> BuildDataRequest()
         {
-            return new DataRequest<Data.Hobli>()
+            return new DataRequest<Data.CheckList>()
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,

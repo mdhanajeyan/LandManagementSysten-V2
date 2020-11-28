@@ -100,7 +100,7 @@ namespace LandBankManagement.ViewModels
             if (result != null)
             {
 
-                NewPictureSource = result.ImageSource;
+             //   NewPictureSource = result.ImageSource;
             }
             else
             {
@@ -129,7 +129,10 @@ namespace LandBankManagement.ViewModels
                 return false;
             }
         }
-
+        protected override void ClearItem()
+        {
+            Item = new VendorModel();
+        }
         protected override async Task<bool> DeleteItemAsync(VendorModel model)
         {
             try

@@ -71,7 +71,10 @@ namespace LandBankManagement.ViewModels
                 return false;
             }
         }
-
+        protected override void ClearItem()
+        {
+            Item = new CashAccountModel();
+        }
         protected override async Task<bool> DeleteItemAsync(CashAccountModel model)
         {
             try

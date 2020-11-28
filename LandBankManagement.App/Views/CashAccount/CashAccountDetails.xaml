@@ -18,7 +18,7 @@
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormTextBox Header="Cash A/C Name" Text="{x:Bind EditableItem.CashAccountName, Mode=TwoWay}" />
-                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.IsCashAccountActive}" Content="IsActive"/>
+                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.IsCashAccountActive, Mode=TwoWay}" Content="IsActive"/>
 
             </controls:FluidGrid>
         </DataTemplate>

@@ -9,26 +9,25 @@ using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
-    public class CompanyDetailsViewModel : GenericDetailsViewModel<CompanyModel>
+    public class CheckListDetailsViewModel : GenericDetailsViewModel<CheckListModel>
     {
-        public List<ImagePickerResult> DocList { get; set; }
-        public ICompanyService CompanyService { get; }
+        public ICheckListService CheckListService { get; }
         public IFilePickerService FilePickerService { get; }
-        public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        public CheckListDetailsViewModel(ICheckListService checkListService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
         {
-            CompanyService = companyService;
+            CheckListService = checkListService;
             FilePickerService = filePickerService;
         }
 
-        override public string Title => (Item?.IsNew ?? true) ? "New Company" : TitleEdit;
-        public string TitleEdit => Item == null ? "Company" : $"{Item.Name}";
+        override public string Title => (Item?.IsNew ?? true) ? "New CheckList" : TitleEdit;
+        public string TitleEdit => Item == null ? "CheckList" : $"{Item.CheckListName}";
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
 
         public async Task LoadAsync()
         {
-            Item = new CompanyModel();
+            Item = new CheckListModel();
             IsEditMode = true;
         }
         public void Unload()
@@ -38,8 +37,8 @@ namespace LandBankManagement.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<CompanyDetailsViewModel, CompanyModel>(this, OnDetailsMessage);
-            MessageService.Subscribe<CompanyListViewModel>(this, OnListMessage);
+            MessageService.Subscribe<CheckListDetailsViewModel, CheckListModel>(this, OnDetailsMessage);
+            MessageService.Subscribe<CheckListListViewModel>(this, OnListMessage);
         }
         public void Unsubscribe()
         {
@@ -66,10 +65,8 @@ namespace LandBankManagement.ViewModels
             var result = await FilePickerService.OpenImagePickerAsync();
             if (result != null)
             {
-                if (DocList == null)
-                    DocList = new List<ImagePickerResult>();
 
-                DocList.Add(result);
+               // NewPictureSource = result.ImageSource;
             }
             else
             {
@@ -77,59 +74,59 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        protected override async Task<bool> SaveItemAsync(CompanyModel model)
+        protected override async Task<bool> SaveItemAsync(CheckListModel model)
         {
             try
             {
-                StartStatusMessage("Saving Company...");
+                StartStatusMessage("Saving CheckList...");
                 await Task.Delay(100);
-                if (model.CompanyID <= 0)
-                    await CompanyService.AddCompanyAsync(model);
+                if (model.CheckListId <= 0)
+                    await CheckListService.AddCheckListAsync(model);
                 else
-                    await CompanyService.UpdateCompanyAsync(model);
-                EndStatusMessage("Company saved");
-                LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
+                    await CheckListService.UpdateCheckListAsync(model);
+                EndStatusMessage("CheckList saved");
+                LogInformation("CheckList", "Save", "CheckList saved successfully", $"CheckList {model.CheckListId} '{model.CheckListName}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error saving Company: {ex.Message}");
-                LogException("Company", "Save", ex);
+                StatusError($"Error saving CheckList: {ex.Message}");
+                LogException("CheckList", "Save", ex);
                 return false;
             }
         }
 
         protected override void ClearItem()
         {
-            Item = new CompanyModel();
+            Item = new CheckListModel();
         }
-        protected override async Task<bool> DeleteItemAsync(CompanyModel model)
+        protected override async Task<bool> DeleteItemAsync(CheckListModel model)
         {
             try
             {
-                StartStatusMessage("Deleting Company...");
+                StartStatusMessage("Deleting CheckList...");
                 await Task.Delay(100);
-                await CompanyService.DeleteCompanyAsync(model);
-                EndStatusMessage("Company deleted");
-                LogWarning("Company", "Delete", "Company deleted", $"Company {model.CompanyID} '{model.Name}' was deleted.");
+                await CheckListService.DeleteCheckListAsync(model);
+                EndStatusMessage("CheckList deleted");
+                LogWarning("CheckList", "Delete", "CheckList deleted", $"CheckList {model.CheckListId} '{model.CheckListName}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error deleting Company: {ex.Message}");
-                LogException("Company", "Delete", ex);
+                StatusError($"Error deleting CheckList: {ex.Message}");
+                LogException("CheckList", "Delete", ex);
                 return false;
             }
         }
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current Company?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current CheckList?", "Ok", "Cancel");
         }
 
-        override protected IEnumerable<IValidationConstraint<CompanyModel>> GetValidationConstraints(CompanyModel model)
+        override protected IEnumerable<IValidationConstraint<CheckListModel>> GetValidationConstraints(CheckListModel model)
         {
-            yield return new RequiredConstraint<CompanyModel>("Name", m => m.Name);
+            yield return new RequiredConstraint<CheckListModel>("Name", m => m.CheckListName);
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 
@@ -138,12 +135,12 @@ namespace LandBankManagement.ViewModels
         /*
          *  Handle external messages
          ****************************************************************/
-        private async void OnDetailsMessage(CompanyDetailsViewModel sender, string message, CompanyModel changed)
+        private async void OnDetailsMessage(CheckListDetailsViewModel sender, string message, CheckListModel changed)
         {
             var current = Item;
             if (current != null)
             {
-                if (changed != null && changed.CompanyID == current?.CompanyID)
+                if (changed != null && changed.CheckListId == current?.CheckListId)
                 {
                     switch (message)
                     {
@@ -152,19 +149,19 @@ namespace LandBankManagement.ViewModels
                             {
                                 try
                                 {
-                                    var item = await CompanyService.GetCompanyAsync(current.CompanyID);
-                                    item = item ?? new CompanyModel { CompanyID = current.CompanyID, IsEmpty = true };
+                                    var item = await CheckListService.GetCheckListAsync(current.CheckListId);
+                                    item = item ?? new CheckListModel { CheckListId = current.CheckListId, IsEmpty = true };
                                     current.Merge(item);
                                     current.NotifyChanges();
                                     NotifyPropertyChanged(nameof(Title));
                                     if (IsEditMode)
                                     {
-                                        StatusMessage("WARNING: This Company has been modified externally");
+                                        StatusMessage("WARNING: This CheckList has been modified externally");
                                     }
                                 }
                                 catch (Exception ex)
                                 {
-                                    LogException("Company", "Handle Changes", ex);
+                                    LogException("CheckList", "Handle Changes", ex);
                                 }
                             });
                             break;
@@ -176,7 +173,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async void OnListMessage(CompanyListViewModel sender, string message, object args)
+        private async void OnListMessage(CheckListListViewModel sender, string message, object args)
         {
             var current = Item;
             if (current != null)
@@ -184,9 +181,9 @@ namespace LandBankManagement.ViewModels
                 switch (message)
                 {
                     case "ItemsDeleted":
-                        if (args is IList<CompanyModel> deletedModels)
+                        if (args is IList<CheckListModel> deletedModels)
                         {
-                            if (deletedModels.Any(r => r.CompanyID == current.CompanyID))
+                            if (deletedModels.Any(r => r.CheckListId == current.CheckListId))
                             {
                                 await OnItemDeletedExternally();
                             }
@@ -195,7 +192,7 @@ namespace LandBankManagement.ViewModels
                     case "ItemRangesDeleted":
                         try
                         {
-                            var model = await CompanyService.GetCompanyAsync(current.CompanyID);
+                            var model = await CheckListService.GetCheckListAsync(current.CheckListId);
                             if (model == null)
                             {
                                 await OnItemDeletedExternally();
@@ -203,7 +200,7 @@ namespace LandBankManagement.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            LogException("Company", "Handle Ranges Deleted", ex);
+                            LogException("CheckList", "Handle Ranges Deleted", ex);
                         }
                         break;
                 }
@@ -216,7 +213,7 @@ namespace LandBankManagement.ViewModels
             {
                 CancelEdit();
                 IsEnabled = false;
-                StatusMessage("WARNING: This Company has been deleted externally");
+                StatusMessage("WARNING: This CheckList has been deleted externally");
             });
         }
     }

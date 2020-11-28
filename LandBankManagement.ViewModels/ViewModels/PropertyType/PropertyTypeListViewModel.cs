@@ -1,49 +1,49 @@
-﻿using LandBankManagement.Data;
-using LandBankManagement.Models;
-using LandBankManagement.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using LandBankManagement.Data;
+using LandBankManagement.Models;
+using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
-    public class HobliListArgs
+    public class PropertyTypeListArgs
     {
-        static public HobliListArgs CreateEmpty() => new HobliListArgs { IsEmpty = true };
+        static public PropertyTypeListArgs CreateEmpty() => new PropertyTypeListArgs { IsEmpty = true };
 
-        public HobliListArgs()
+        public PropertyTypeListArgs()
         {
-            OrderBy = r => r.HobliName;
+            OrderBy = r => r.PropertyTypeText;
         }
 
         public bool IsEmpty { get; set; }
 
         public string Query { get; set; }
 
-        public Expression<Func<Data.Hobli, object>> OrderBy { get; set; }
-        public Expression<Func<Data.Hobli, object>> OrderByDesc { get; set; }
+        public Expression<Func<Data.PropertyType, object>> OrderBy { get; set; }
+        public Expression<Func<Data.PropertyType, object>> OrderByDesc { get; set; }
     }
-    public class HobliListViewModel : GenericListViewModel<HobliModel>
+    public class PropertyTypeListViewModel : GenericListViewModel<PropertyTypeModel>
     {
-        public IHobliService HobliService { get; }
-        public HobliListArgs ViewModelArgs { get; private set; }
+        public IPropertyTypeService PropertyTypeService { get; }
+        public PropertyTypeListArgs ViewModelArgs { get; private set; }
 
-        public HobliListViewModel(IHobliService hobliService, ICommonServices commonServices) : base(commonServices)
+        public PropertyTypeListViewModel(IPropertyTypeService propertyTypeService, ICommonServices commonServices) : base(commonServices)
         {
-            HobliService = hobliService;
+            PropertyTypeService = propertyTypeService;
         }
-        public async Task LoadAsync(HobliListArgs args)
+        public async Task LoadAsync(PropertyTypeListArgs args)
         {
-            ViewModelArgs = args ?? HobliListArgs.CreateEmpty();
+            ViewModelArgs = args ?? PropertyTypeListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading Hobli...");
+            StartStatusMessage("Loading PropertyType...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Hobli loaded");
+                EndStatusMessage("PropertyType loaded");
             }
         }
         public void Unload()
@@ -53,7 +53,7 @@ namespace LandBankManagement.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<HobliListViewModel>(this, OnMessage);
+            MessageService.Subscribe<PropertyTypeListViewModel>(this, OnMessage);
 
         }
         public void Unsubscribe()
@@ -61,9 +61,9 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        public HobliListArgs CreateArgs()
+        public PropertyTypeListArgs CreateArgs()
         {
-            return new HobliListArgs
+            return new PropertyTypeListArgs
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,
@@ -85,54 +85,62 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
-                Items = new List<HobliModel>();
-                StatusError($"Error loading Hobli: {ex.Message}");
-                LogException("Hobli", "Refresh", ex);
+                Items = new List<PropertyTypeModel>();
+                StatusError($"Error loading PropertyType: {ex.Message}");
+                LogException("PropertyType", "Refresh", ex);
                 isOk = false;
             }
 
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {
-                // SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
+                //  SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
             }
             NotifyPropertyChanged(nameof(Title));
 
             return isOk;
         }
 
-        private async Task<IList<HobliModel>> GetItemsAsync()
+        private async Task<IList<PropertyTypeModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)
             {
-                DataRequest<Data.Hobli> request = BuildDataRequest();
-                return await HobliService.GetHoblisAsync(request);
+                DataRequest<Data.PropertyType> request = BuildDataRequest();
+                return await PropertyTypeService.GetPropertyTypesAsync(request);
             }
-            return new List<HobliModel>();
+            return new List<PropertyTypeModel>();
         }
-              
+
+        //public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
+        //private async void OnOpenInNewView()
+        //{
+        //    if (SelectedItem != null)
+        //    {
+        //        await NavigationService.CreateNewViewAsync<PropertyTypeViewModel>(new PartyDetailsArgs { PartyId = SelectedItem.PropertyTypeId });
+        //    }
+        //}
 
         protected override async void OnNew()
         {
 
-            // await NavigationService.CreateNewViewAsync<ExpenseHeadViewModel>(new ExpenseHeadArgs());
+            // await NavigationService.CreateNewViewAsync<PropertyTypeViewModel>(new PropertyTypeArgs());
 
             StatusReady();
         }
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading Hobli...");
+            StartStatusMessage("Loading PropertyType...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Hobli loaded");
+                EndStatusMessage("PropertyType loaded");
             }
         }
 
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Hobli?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected PropertyType?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try
@@ -140,22 +148,22 @@ namespace LandBankManagement.ViewModels
                     if (SelectedIndexRanges != null)
                     {
                         count = SelectedIndexRanges.Sum(r => r.Length);
-                        StartStatusMessage($"Deleting {count} Hobli...");
+                        StartStatusMessage($"Deleting {count} PropertyType...");
                         // await DeleteRangesAsync(SelectedIndexRanges);
                         MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
                     }
                     else if (SelectedItems != null)
                     {
                         count = SelectedItems.Count();
-                        StartStatusMessage($"Deleting {count} Hobli...");
+                        StartStatusMessage($"Deleting {count} PropertyType...");
                         await DeleteItemsAsync(SelectedItems);
                         MessageService.Send(this, "ItemsDeleted", SelectedItems);
                     }
                 }
                 catch (Exception ex)
                 {
-                    StatusError($"Error deleting {count} Hobli: {ex.Message}");
-                    LogException("Hoblis", "Delete", ex);
+                    StatusError($"Error deleting {count} PropertyType: {ex.Message}");
+                    LogException("PropertyTypes", "Delete", ex);
                     count = 0;
                 }
                 await RefreshAsync();
@@ -163,22 +171,31 @@ namespace LandBankManagement.ViewModels
                 SelectedItems = null;
                 if (count > 0)
                 {
-                    EndStatusMessage($"{count} Hobli deleted");
+                    EndStatusMessage($"{count} PropertyType deleted");
                 }
             }
         }
 
-        private async Task DeleteItemsAsync(IEnumerable<HobliModel> models)
+        private async Task DeleteItemsAsync(IEnumerable<PropertyTypeModel> models)
         {
             foreach (var model in models)
             {
-                await HobliService.DeleteHobliAsync(model);
+                await PropertyTypeService.DeletePropertyTypeAsync(model);
             }
-        }       
+        }
 
-        private DataRequest<Data.Hobli> BuildDataRequest()
+        //private async Task DeleteRangesAsync(IEnumerable<IndexRange> ranges)
+        //{
+        //    DataRequest<Vendor> request = BuildDataRequest();
+        //    foreach (var range in ranges)
+        //    {
+        //        await VendorService.DeleteVendorRangeAsync(range.Index, range.Length, request);
+        //    }
+        //}
+
+        private DataRequest<Data.PropertyType> BuildDataRequest()
         {
-            return new DataRequest<Data.Hobli>()
+            return new DataRequest<Data.PropertyType>()
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,

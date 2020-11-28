@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +19,24 @@ namespace LandBankManagement.Services
 
         public IDataServiceFactory DataServiceFactory { get; }
         public ILogService LogService { get; }
+
+
+        public async Task<int> AddCompanyAsync(CompanyModel model)
+        {
+            long id = model.CompanyID;
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var company = new Company();
+                if (company != null)
+                {
+                    UpdateCompanyFromModel(company, model);
+                    company.CompanyGuid = Guid.NewGuid();
+                    await dataService.UpdateCompanyAsync(company);
+                    model.Merge(await GetCompanyAsync(dataService, company.CompanyID));
+                }
+                return 0;
+            }
+        }
 
         public async Task<CompanyModel> GetCompanyAsync(long id)
         {

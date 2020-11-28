@@ -1,25 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 using LandBankManagement.Models;
 using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
-    public class CompaniesViewModel : ViewModelBase
-    {
-        public CompaniesViewModel(ICommonServices commonServices, IFilePickerService filePickerService, ICompanyService companyService) : base(commonServices)
+    public class CompanyViewModel : ViewModelBase
+    {     
+        ICompanyService CompanyService { get; }
+        public CompanyListViewModel CompanyList { get; set; }
+
+        public CompanyDetailsViewModel CompanyDetials { get; set; }
+
+        public CompanyViewModel(ICommonServices commonServices, IFilePickerService filePickerService, ICompanyService companyService) : base(commonServices)
         {
             CompanyService = companyService;
-
             CompanyList = new CompanyListViewModel(companyService, commonServices);
-            CompanyDetails = new CompanyDetailsViewModel(companyService, filePickerService, commonServices);
+            CompanyDetials = new CompanyDetailsViewModel(companyService, filePickerService, commonServices);
         }
-
-        public ICompanyService CompanyService { get; }
-
-        public CompanyListViewModel CompanyList { get; set; }
-        public CompanyDetailsViewModel CompanyDetails { get; set; }
 
         public async Task LoadAsync(CompanyListArgs args)
         {
@@ -27,7 +29,6 @@ namespace LandBankManagement.ViewModels
         }
         public void Unload()
         {
-            CompanyDetails.CancelEdit();
             CompanyList.Unload();
         }
 
@@ -35,14 +36,12 @@ namespace LandBankManagement.ViewModels
         {
             MessageService.Subscribe<CompanyListViewModel>(this, OnMessage);
             CompanyList.Subscribe();
-            CompanyDetails.Subscribe();
         }
 
         public void Unsubscribe()
         {
             MessageService.Unsubscribe(this);
             CompanyList.Unsubscribe();
-            CompanyDetails.Unsubscribe();
 
         }
 
@@ -59,11 +58,6 @@ namespace LandBankManagement.ViewModels
 
         private async void OnItemSelected()
         {
-            if (CompanyDetails.IsEditMode)
-            {
-                StatusReady();
-                CompanyDetails.CancelEdit();
-            }
 
             var selected = CompanyList.SelectedItem;
             if (!CompanyList.IsMultipleSelection)
@@ -71,10 +65,8 @@ namespace LandBankManagement.ViewModels
                 if (selected != null && !selected.IsEmpty)
                 {
                     await PopulateDetails(selected);
-
                 }
             }
-            CompanyDetails.Item = selected;
         }
 
         private async Task PopulateDetails(CompanyModel selected)
@@ -83,13 +75,12 @@ namespace LandBankManagement.ViewModels
             {
                 var model = await CompanyService.GetCompanyAsync(selected.CompanyID);
                 selected.Merge(model);
+                CompanyDetials.Item = model;
             }
             catch (Exception ex)
             {
-                LogException("Companies", "Load Details", ex);
+                LogException("Company", "Load Details", ex);
             }
         }
-
-
     }
 }

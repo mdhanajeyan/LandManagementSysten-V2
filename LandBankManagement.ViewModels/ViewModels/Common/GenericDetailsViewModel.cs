@@ -91,7 +91,8 @@ namespace LandBankManagement.ViewModels
         virtual protected void OnCancel()
         {
             StatusReady();
-            CancelEdit();
+            //CancelEdit();
+            ClearItem();
             MessageService.Send(this, "CancelEdit", Item);
         }
         virtual public void CancelEdit()
@@ -203,5 +204,7 @@ namespace LandBankManagement.ViewModels
         abstract protected Task<bool> SaveItemAsync(TModel model);
         abstract protected Task<bool> DeleteItemAsync(TModel model);
         abstract protected Task<bool> ConfirmDeleteAsync();
+
+        abstract protected void ClearItem();
     }
 }

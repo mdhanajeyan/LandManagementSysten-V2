@@ -24,7 +24,7 @@ namespace LandBankManagement.Services
             try
             {
                 _dataRequest = dataRequest;
-                Count = await CheckListService.GeCheckListsCountAsync(_dataRequest);
+                Count = await CheckListService.GetCheckListsCountAsync(_dataRequest);
                 Ranges[0] = await CheckListService.GetCheckListsAsync(0, RangeSize, _dataRequest);
             }
             catch (Exception ex)

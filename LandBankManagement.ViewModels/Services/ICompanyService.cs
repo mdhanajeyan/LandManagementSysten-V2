@@ -7,6 +7,7 @@ namespace LandBankManagement.Services
 {
     public interface ICompanyService
     {
+        Task<int> AddCompanyAsync(CompanyModel model);
         Task<CompanyModel> GetCompanyAsync(long id);
         Task<IList<CompanyModel>> GetCompaniesAsync(DataRequest<Company> request);
         Task<IList<CompanyModel>> GetCompaniesAsync(int skip, int take, DataRequest<Company> request);

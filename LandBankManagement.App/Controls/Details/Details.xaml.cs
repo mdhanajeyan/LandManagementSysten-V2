@@ -91,7 +91,8 @@ namespace LandBankManagement.Controls
             set { SetValue(DefaultCommandsProperty, value); }
         }
 
-        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(Details), new PropertyMetadata("edit,delete"));
+        //public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(Details), new PropertyMetadata("edit,delete"));
+        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(Details), new PropertyMetadata("save,cancel,delete"));
         #endregion
 
 
@@ -149,11 +150,14 @@ namespace LandBankManagement.Controls
         {
             get
             {
-                if (IsEditMode)
-                {
-                    return DetailToolbarMode.CancelSave;
-                }
-                return CanGoBack ? DetailToolbarMode.BackEditdDelete : DetailToolbarMode.Default;
+                //if (IsEditMode)
+                //{
+                //    return DetailToolbarMode.CancelSave;
+                //}
+                //return CanGoBack ? DetailToolbarMode.BackEditdDelete : DetailToolbarMode.Default;
+
+                // Customizes
+                return DetailToolbarMode.Default;
             }
         }
         static DependencyExpression ToolbarModeExpression = DependencyExpressions.Register(nameof(ToolbarMode), nameof(IsEditMode), nameof(CanGoBack));

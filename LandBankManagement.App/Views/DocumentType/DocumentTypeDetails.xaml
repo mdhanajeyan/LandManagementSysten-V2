@@ -16,7 +16,7 @@
             <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5">
                
                 <controls:FormTextBox Header="Document Type" Text="{x:Bind EditableItem.DocumentTypeName, Mode=TwoWay}" />
-                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.IsDocumentTypeActive}" Content="IsActive"/>
+                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.IsDocumentTypeActive, Mode=TwoWay}" Content="IsActive"/>
 
             </controls:FluidGrid>
         </DataTemplate>

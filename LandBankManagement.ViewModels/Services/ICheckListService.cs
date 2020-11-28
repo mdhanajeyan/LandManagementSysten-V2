@@ -8,11 +8,11 @@ namespace LandBankManagement.Services
 {
    public interface ICheckListService
     {
-        Task<int> AddDocumentTypeAsync(CheckListModel model);
+        Task<int> AddCheckListAsync(CheckListModel model);
         Task<CheckListModel> GetCheckListAsync(long id);
         Task<IList<CheckListModel>> GetCheckListsAsync(DataRequest<CheckList> request);
         Task<IList<CheckListModel>> GetCheckListsAsync(int skip, int take, DataRequest<CheckList> request);
-        Task<int> GeCheckListsCountAsync(DataRequest<CheckList> request);
+        Task<int> GetCheckListsCountAsync(DataRequest<CheckList> request);
         Task<int> UpdateCheckListAsync(CheckListModel model);
         Task<int> DeleteCheckListAsync(CheckListModel model);
     }

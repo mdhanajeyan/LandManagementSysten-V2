@@ -11,7 +11,7 @@ namespace LandBankManagement.ViewModels
     {
         private readonly NavigationItem DashboardItem = new NavigationItem(0xE80F, "Dashboard", typeof(DashboardViewModel));
         private readonly NavigationItem AppLogsItem = new NavigationItem(0xE7BA, "Activity Log", typeof(AppLogsViewModel));
-        private readonly NavigationItem CompanyItem = new NavigationItem(0xEC0B, "Company", typeof(CompaniesViewModel));
+        private readonly NavigationItem CompanyItem = new NavigationItem(0xEC0B, "Company", typeof(CompanyViewModel));
         private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorsViewModel));
         private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartiesViewModel));
         private readonly NavigationItem ExpenseHeadItem = new NavigationItem(0xE912, "ExpenseHead", typeof(ExpenseHeadViewModel));
@@ -20,6 +20,8 @@ namespace LandBankManagement.ViewModels
         private readonly NavigationItem VillageItem = new NavigationItem(0xF156, "Village", typeof(VillageViewModel));
         private readonly NavigationItem CashAccountItem = new NavigationItem(0xF584, "Cash Account", typeof(CashAccountViewModel));
         private readonly NavigationItem DocumentTypeItem = new NavigationItem(0xF8A5, "Document Type", typeof(DocumentTypeViewModel));
+        private readonly NavigationItem CheckListItem = new NavigationItem(0xF0B5, "CheckList", typeof(CheckListViewModel));
+        private readonly NavigationItem PropertyTypeItem = new NavigationItem(0xF97C, "Property Type", typeof(PropertyTypeViewModel));
         public MainShellViewModel(ILoginService loginService, ICommonServices commonServices) : base(loginService, commonServices)
         {
         }
@@ -60,7 +62,7 @@ namespace LandBankManagement.ViewModels
                 case "DashboardViewModel":
                     NavigationService.Navigate(viewModel);
                     break;
-                case "CompaniesViewModel":
+                case "CompanyViewModel":
                     NavigationService.Navigate(viewModel, new CompanyListArgs());
                     break;
                 case "AppLogsViewModel":
@@ -95,6 +97,12 @@ namespace LandBankManagement.ViewModels
                 case "DocumentTypeViewModel":
                     NavigationService.Navigate(viewModel, new DocumentTypeListArgs());
                     break;
+                case "CheckListViewModel":
+                    NavigationService.Navigate(viewModel, new CheckListListArgs());
+                    break;
+                case "PropertyTypeViewModel":
+                    NavigationService.Navigate(viewModel, new PropertyTypeListArgs());
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -112,6 +120,8 @@ namespace LandBankManagement.ViewModels
             yield return VillageItem;
             yield return CashAccountItem;
             yield return DocumentTypeItem;
+            yield return CheckListItem;
+            yield return PropertyTypeItem;
             yield return DashboardItem;
            
         }

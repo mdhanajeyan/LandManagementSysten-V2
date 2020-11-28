@@ -33,8 +33,11 @@ namespace LandBankManagement.Services
             picker.FileTypeFilter.Add(".jpg");
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
-            picker.FileTypeFilter.Add(".bmp");
-            picker.FileTypeFilter.Add(".gif");
+            picker.FileTypeFilter.Add(".pdf");
+            picker.FileTypeFilter.Add(".docx");
+
+            // picker.FileTypeFilter.Add(".bmp");
+            //picker.FileTypeFilter.Add(".gif");
 
             var file = await picker.PickSingleFileAsync();
             if (file != null)
@@ -45,7 +48,8 @@ namespace LandBankManagement.Services
                     FileName = file.Name,
                     ContentType = file.ContentType,
                     ImageBytes = bytes,
-                    ImageSource = await BitmapTools.LoadBitmapAsync(bytes)
+                    Size =0// Convert.ToInt32(file.OpenReadAsync().GetResults().Size)
+                    // ImageSource = await BitmapTools.LoadBitmapAsync(bytes)
                 };
             }
             return null;
