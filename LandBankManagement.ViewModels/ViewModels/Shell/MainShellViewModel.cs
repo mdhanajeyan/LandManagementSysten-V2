@@ -78,7 +78,7 @@ namespace LandBankManagement.ViewModels
                     NavigationService.Navigate(viewModel, new PartyListArgs());
                     break;
                 case "ExpenseHeadViewModel":
-                    NavigationService.Navigate(viewModel,new ExpenseHeadListArgs());
+                    NavigationService.Navigate(viewModel,new ExpenseHeadArgs());
                     break;
                 case "TalukViewModel":
                     NavigationService.Navigate(viewModel,new TalukListArgs());
