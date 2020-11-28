@@ -93,7 +93,7 @@ namespace LandBankManagement.ViewModels
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {
-                SelectedItem = Items.FirstOrDefault();
+                // SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
             }
             NotifyPropertyChanged(nameof(Title));
 

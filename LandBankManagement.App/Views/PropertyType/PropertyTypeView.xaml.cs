@@ -12,23 +12,23 @@ namespace LandBankManagement.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class CompanyView : Page
+    public sealed partial class PropertyTypeView : Page
     {
-        public CompanyViewModel ViewModel { get; }
+        public PropertyTypeViewModel ViewModel { get; }
         public INavigationService NavigationService { get; }
-        public CompanyView()
+        public PropertyTypeView()
         {
-            ViewModel = ServiceLocator.Current.GetService<CompanyViewModel>();
+            ViewModel = ServiceLocator.Current.GetService<PropertyTypeViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
-            ViewModel.CompanyDetials.IsEditMode = true;
+            ViewModel.PropertyTypeDetials.IsEditMode = true;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.LoadAsync(e.Parameter as CompanyListArgs);
-            await ViewModel.CompanyDetials.LoadAsync();
+            await ViewModel.LoadAsync(e.Parameter as PropertyTypeListArgs);
+            await ViewModel.PropertyTypeDetials.LoadAsync();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -54,5 +54,6 @@ namespace LandBankManagement.Views
         {
             return isMultipleSelection ? 2 : 1;
         }
+
     }
 }

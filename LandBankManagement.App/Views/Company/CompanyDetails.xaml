@@ -8,13 +8,13 @@
     xmlns:controls="using:LandBankManagement.Controls"
     xmlns:views="using:LandBankManagement.Views"
     xmlns:viewmodels="using:LandBankManagement.ViewModels"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    mc:Ignorable="d" 
+    >
 
     <UserControl.Resources>
-        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CompanyDetailsViewModel">
-            <controls:FluidGrid Margin="0,12,0,0" Columns="2" ColumnSpacing="12" RowSpacing="12">
+        <x:Double x:Key="CardPictureRadius">132</x:Double>
+        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CompanyDetailsViewModel" >
+            <controls:FluidGrid Margin="0,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12">
                 <controls:FormTextBox Header="Company Name" Text="{x:Bind EditableItem.Name, Mode=TwoWay}" />
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
                     <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay}" />
@@ -28,26 +28,21 @@
                     <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.Pincode, Mode=TwoWay}" />
                     <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
                 </controls:FluidGrid>
-
-                <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
-                    <controls:FormTextBox Header="Region" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
-                </controls:FluidGrid>
+                
             </controls:FluidGrid>
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="6" 
+    <Grid ColumnSpacing="8" 
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="260"/>
-            <ColumnDefinition Width="*"/>
+        <Grid.ColumnDefinitions>           
+            <ColumnDefinition Width="250*"/>
+            <ColumnDefinition Width="300*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderThickness="0,0,1,0" BorderBrush="LightGray">
-            <views:CompaniesCard Margin="6" ViewModel="{x:Bind ViewModel}" Item="{x:Bind ViewModel.Item, Mode=OneWay}" />
-        </Border>
+        
 
-        <controls:Details x:Name="details" Grid.Column="1" Margin="6,0,0,0"
+        <controls:Details x:Name="details" Grid.Column="0" Margin="20,20,10,20"
                           DetailsContent="{x:Bind ViewModel}"
                           DetailsTemplate="{StaticResource DetailsTemplate}"
                           IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"
@@ -55,5 +50,30 @@
                           DeleteCommand="{x:Bind ViewModel.DeleteCommand}"
                           SaveCommand="{x:Bind ViewModel.SaveCommand}"
                           CancelCommand="{x:Bind ViewModel.CancelCommand}" />
+        <StackPanel  Grid.Column="1">
+            <Button x:Name="uploadBtn"  Command="{x:Bind ViewModel.EditPictureCommand}" Margin="20 40 0 0">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE898;" Foreground="#fff" Margin="0 0 7 0"/>
+                    <TextBlock  x:Name="uploadName" Text="Upload" Foreground="#fff"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <!--<controls:RoundButton Radius="{StaticResource CardPictureRadius}" Grid.Column="1"
+                                      BorderThickness="1"
+                                      BorderBrush="White"
+                                      Background="Transparent"
+                                      Command="{x:Bind ViewModel.EditPictureCommand}"
+                                      HorizontalAlignment="Center"
+                                      Visibility="{x:Bind ViewModel.IsEditMode, Mode=OneWay}">
+           
+            <Grid Width="{StaticResource CardPictureRadius}" Height="{StaticResource CardPictureRadius}">
+                <Rectangle Fill="White" Opacity="0.75" />
+                <TextBlock Text="Upload" 
+                               FontSize="13" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               Visibility="{x:Bind ViewModel.IsEnabled, Mode=OneWay}" />
+            </Grid>
+        </controls:RoundButton>-->
     </Grid>
 </UserControl>

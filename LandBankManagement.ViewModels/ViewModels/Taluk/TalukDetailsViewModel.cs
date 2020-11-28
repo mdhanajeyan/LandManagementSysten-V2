@@ -101,7 +101,10 @@ namespace LandBankManagement.ViewModels
                 return false;
             }
         }
-
+        protected override void ClearItem()
+        {
+            Item = new TalukModel();
+        }
         protected override async Task<bool> DeleteItemAsync(TalukModel model)
         {
             try

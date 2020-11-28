@@ -70,7 +70,10 @@ namespace LandBankManagement.ViewModels
         {
             throw new NotImplementedException();
         }
-
+        protected override void ClearItem()
+        {
+           
+        }
         protected override async Task<bool> DeleteItemAsync(AppLogModel model)
         {
             try

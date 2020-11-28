@@ -9,26 +9,25 @@ using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
-    public class CompanyDetailsViewModel : GenericDetailsViewModel<CompanyModel>
+   public class PropertyTypeDetailsViewModel : GenericDetailsViewModel<PropertyTypeModel>
     {
-        public List<ImagePickerResult> DocList { get; set; }
-        public ICompanyService CompanyService { get; }
+        public IPropertyTypeService PropertyTypeService { get; }
         public IFilePickerService FilePickerService { get; }
-        public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        public PropertyTypeDetailsViewModel(IPropertyTypeService propertyTypeService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
         {
-            CompanyService = companyService;
+            PropertyTypeService = propertyTypeService;
             FilePickerService = filePickerService;
         }
 
-        override public string Title => (Item?.IsNew ?? true) ? "New Company" : TitleEdit;
-        public string TitleEdit => Item == null ? "Company" : $"{Item.Name}";
+        override public string Title => (Item?.IsNew ?? true) ? "New PropertyType" : TitleEdit;
+        public string TitleEdit => Item == null ? "PropertyType" : $"{Item.PropertyTypeText}";
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
 
         public async Task LoadAsync()
         {
-            Item = new CompanyModel();
+            Item = new PropertyTypeModel();
             IsEditMode = true;
         }
         public void Unload()
@@ -38,8 +37,8 @@ namespace LandBankManagement.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<CompanyDetailsViewModel, CompanyModel>(this, OnDetailsMessage);
-            MessageService.Subscribe<CompanyListViewModel>(this, OnListMessage);
+            MessageService.Subscribe<PropertyTypeDetailsViewModel, PropertyTypeModel>(this, OnDetailsMessage);
+            MessageService.Subscribe<PropertyTypeListViewModel>(this, OnListMessage);
         }
         public void Unsubscribe()
         {
@@ -66,10 +65,8 @@ namespace LandBankManagement.ViewModels
             var result = await FilePickerService.OpenImagePickerAsync();
             if (result != null)
             {
-                if (DocList == null)
-                    DocList = new List<ImagePickerResult>();
 
-                DocList.Add(result);
+               // NewPictureSource = result.ImageSource;
             }
             else
             {
@@ -77,59 +74,59 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        protected override async Task<bool> SaveItemAsync(CompanyModel model)
+        protected override async Task<bool> SaveItemAsync(PropertyTypeModel model)
         {
             try
             {
-                StartStatusMessage("Saving Company...");
+                StartStatusMessage("Saving PropertyType...");
                 await Task.Delay(100);
-                if (model.CompanyID <= 0)
-                    await CompanyService.AddCompanyAsync(model);
+                if (model.PropertyTypeId <= 0)
+                    await PropertyTypeService.AddPropertyTypeAsync(model);
                 else
-                    await CompanyService.UpdateCompanyAsync(model);
-                EndStatusMessage("Company saved");
-                LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
+                    await PropertyTypeService.UpdatePropertyTypeAsync(model);
+                EndStatusMessage("PropertyType saved");
+                LogInformation("PropertyType", "Save", "PropertyType saved successfully", $"PropertyType {model.PropertyTypeId} '{model.PropertyTypeText}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error saving Company: {ex.Message}");
-                LogException("Company", "Save", ex);
+                StatusError($"Error saving PropertyType: {ex.Message}");
+                LogException("PropertyType", "Save", ex);
                 return false;
             }
         }
 
         protected override void ClearItem()
         {
-            Item = new CompanyModel();
+            Item = new PropertyTypeModel();
         }
-        protected override async Task<bool> DeleteItemAsync(CompanyModel model)
+        protected override async Task<bool> DeleteItemAsync(PropertyTypeModel model)
         {
             try
             {
-                StartStatusMessage("Deleting Company...");
+                StartStatusMessage("Deleting PropertyType...");
                 await Task.Delay(100);
-                await CompanyService.DeleteCompanyAsync(model);
-                EndStatusMessage("Company deleted");
-                LogWarning("Company", "Delete", "Company deleted", $"Company {model.CompanyID} '{model.Name}' was deleted.");
+                await PropertyTypeService.DeletePropertyTypeAsync(model);
+                EndStatusMessage("PropertyType deleted");
+                LogWarning("PropertyType", "Delete", "PropertyType deleted", $"PropertyType {model.PropertyTypeId} '{model.PropertyTypeText}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error deleting Company: {ex.Message}");
-                LogException("Company", "Delete", ex);
+                StatusError($"Error deleting PropertyType: {ex.Message}");
+                LogException("PropertyType", "Delete", ex);
                 return false;
             }
         }
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current Company?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current PropertyType?", "Ok", "Cancel");
         }
 
-        override protected IEnumerable<IValidationConstraint<CompanyModel>> GetValidationConstraints(CompanyModel model)
+        override protected IEnumerable<IValidationConstraint<PropertyTypeModel>> GetValidationConstraints(PropertyTypeModel model)
         {
-            yield return new RequiredConstraint<CompanyModel>("Name", m => m.Name);
+            yield return new RequiredConstraint<PropertyTypeModel>("Name", m => m.PropertyTypeText);
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 
@@ -138,12 +135,12 @@ namespace LandBankManagement.ViewModels
         /*
          *  Handle external messages
          ****************************************************************/
-        private async void OnDetailsMessage(CompanyDetailsViewModel sender, string message, CompanyModel changed)
+        private async void OnDetailsMessage(PropertyTypeDetailsViewModel sender, string message, PropertyTypeModel changed)
         {
             var current = Item;
             if (current != null)
             {
-                if (changed != null && changed.CompanyID == current?.CompanyID)
+                if (changed != null && changed.PropertyTypeId == current?.PropertyTypeId)
                 {
                     switch (message)
                     {
@@ -152,19 +149,19 @@ namespace LandBankManagement.ViewModels
                             {
                                 try
                                 {
-                                    var item = await CompanyService.GetCompanyAsync(current.CompanyID);
-                                    item = item ?? new CompanyModel { CompanyID = current.CompanyID, IsEmpty = true };
+                                    var item = await PropertyTypeService.GetPropertyTypeAsync(current.PropertyTypeId);
+                                    item = item ?? new PropertyTypeModel { PropertyTypeId = current.PropertyTypeId, IsEmpty = true };
                                     current.Merge(item);
                                     current.NotifyChanges();
                                     NotifyPropertyChanged(nameof(Title));
                                     if (IsEditMode)
                                     {
-                                        StatusMessage("WARNING: This Company has been modified externally");
+                                        StatusMessage("WARNING: This PropertyType has been modified externally");
                                     }
                                 }
                                 catch (Exception ex)
                                 {
-                                    LogException("Company", "Handle Changes", ex);
+                                    LogException("PropertyType", "Handle Changes", ex);
                                 }
                             });
                             break;
@@ -176,7 +173,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async void OnListMessage(CompanyListViewModel sender, string message, object args)
+        private async void OnListMessage(PropertyTypeListViewModel sender, string message, object args)
         {
             var current = Item;
             if (current != null)
@@ -184,9 +181,9 @@ namespace LandBankManagement.ViewModels
                 switch (message)
                 {
                     case "ItemsDeleted":
-                        if (args is IList<CompanyModel> deletedModels)
+                        if (args is IList<PropertyTypeModel> deletedModels)
                         {
-                            if (deletedModels.Any(r => r.CompanyID == current.CompanyID))
+                            if (deletedModels.Any(r => r.PropertyTypeId == current.PropertyTypeId))
                             {
                                 await OnItemDeletedExternally();
                             }
@@ -195,7 +192,7 @@ namespace LandBankManagement.ViewModels
                     case "ItemRangesDeleted":
                         try
                         {
-                            var model = await CompanyService.GetCompanyAsync(current.CompanyID);
+                            var model = await PropertyTypeService.GetPropertyTypeAsync(current.PropertyTypeId);
                             if (model == null)
                             {
                                 await OnItemDeletedExternally();
@@ -203,7 +200,7 @@ namespace LandBankManagement.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            LogException("Company", "Handle Ranges Deleted", ex);
+                            LogException("PropertyType", "Handle Ranges Deleted", ex);
                         }
                         break;
                 }
@@ -216,7 +213,7 @@ namespace LandBankManagement.ViewModels
             {
                 CancelEdit();
                 IsEnabled = false;
-                StatusMessage("WARNING: This Company has been deleted externally");
+                StatusMessage("WARNING: This PropertyType has been deleted externally");
             });
         }
     }

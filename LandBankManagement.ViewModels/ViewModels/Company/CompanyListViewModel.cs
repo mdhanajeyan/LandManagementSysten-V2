@@ -1,12 +1,12 @@
-﻿using LandBankManagement.Data;
-using LandBankManagement.Models;
-using LandBankManagement.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using LandBankManagement.Data;
+using LandBankManagement.Models;
+using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
@@ -23,31 +23,28 @@ namespace LandBankManagement.ViewModels
 
         public string Query { get; set; }
 
-        public Expression<Func<Company, object>> OrderBy { get; set; }
-        public Expression<Func<Company, object>> OrderByDesc { get; set; }
+        public Expression<Func<Data.Company, object>> OrderBy { get; set; }
+        public Expression<Func<Data.Company, object>> OrderByDesc { get; set; }
     }
-
     public class CompanyListViewModel : GenericListViewModel<CompanyModel>
     {
+
+        public ICompanyService CompanyService { get; }
+        public CompanyListArgs ViewModelArgs { get; private set; }
 
         public CompanyListViewModel(ICompanyService companyService, ICommonServices commonServices) : base(commonServices)
         {
             CompanyService = companyService;
         }
-
-        public ICompanyService CompanyService { get; }
-
-        public CompanyListArgs ViewModelArgs { get; private set; }
-
         public async Task LoadAsync(CompanyListArgs args)
         {
             ViewModelArgs = args ?? CompanyListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading Companies...");
+            StartStatusMessage("Loading Company...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Companies loaded");
+                EndStatusMessage("Company loaded");
             }
         }
         public void Unload()
@@ -58,7 +55,7 @@ namespace LandBankManagement.ViewModels
         public void Subscribe()
         {
             MessageService.Subscribe<CompanyListViewModel>(this, OnMessage);
-            MessageService.Subscribe<CompanyDetailsViewModel>(this, OnMessage);
+
         }
         public void Unsubscribe()
         {
@@ -90,15 +87,15 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 Items = new List<CompanyModel>();
-                StatusError($"Error loading Companys: {ex.Message}");
-                LogException("Companys", "Refresh", ex);
+                StatusError($"Error loading Company: {ex.Message}");
+                LogException("Company", "Refresh", ex);
                 isOk = false;
             }
 
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {
-                SelectedItem = Items.FirstOrDefault();
+                //  SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
             }
             NotifyPropertyChanged(nameof(Title));
 
@@ -109,42 +106,42 @@ namespace LandBankManagement.ViewModels
         {
             if (!ViewModelArgs.IsEmpty)
             {
-                DataRequest<Company> request = BuildDataRequest();
+                DataRequest<Data.Company> request = BuildDataRequest();
                 return await CompanyService.GetCompaniesAsync(request);
             }
             return new List<CompanyModel>();
         }
 
-        public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
-        private async void OnOpenInNewView()
-        {
-            if (SelectedItem != null)
-            {
-                await NavigationService.CreateNewViewAsync<CompanyDetailsViewModel>(new CompanyDetailsArgs { CompanyID = SelectedItem.CompanyID });
-            }
-        }
+        //public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
+        //private async void OnOpenInNewView()
+        //{
+        //    if (SelectedItem != null)
+        //    {
+        //        await NavigationService.CreateNewViewAsync<CompanyViewModel>(new PartyDetailsArgs { PartyId = SelectedItem.CompanyId });
+        //    }
+        //}
 
         protected override async void OnNew()
         {
 
-            await NavigationService.CreateNewViewAsync<CompanyDetailsViewModel>(new CompanyDetailsArgs());
+            // await NavigationService.CreateNewViewAsync<CompanyViewModel>(new CompanyArgs());
 
             StatusReady();
         }
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading Companies...");
+            StartStatusMessage("Loading Company...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Companies loaded");
+                EndStatusMessage("Company loaded");
             }
         }
 
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Companies?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Company?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try
@@ -152,22 +149,22 @@ namespace LandBankManagement.ViewModels
                     if (SelectedIndexRanges != null)
                     {
                         count = SelectedIndexRanges.Sum(r => r.Length);
-                        StartStatusMessage($"Deleting {count} Companies...");
-                        await DeleteRangesAsync(SelectedIndexRanges);
+                        StartStatusMessage($"Deleting {count} Company...");
+                        // await DeleteRangesAsync(SelectedIndexRanges);
                         MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
                     }
                     else if (SelectedItems != null)
                     {
                         count = SelectedItems.Count();
-                        StartStatusMessage($"Deleting {count} Companies...");
+                        StartStatusMessage($"Deleting {count} Company...");
                         await DeleteItemsAsync(SelectedItems);
                         MessageService.Send(this, "ItemsDeleted", SelectedItems);
                     }
                 }
                 catch (Exception ex)
                 {
-                    StatusError($"Error deleting {count} Companies: {ex.Message}");
-                    LogException("Companies", "Delete", ex);
+                    StatusError($"Error deleting {count} Company: {ex.Message}");
+                    LogException("Companys", "Delete", ex);
                     count = 0;
                 }
                 await RefreshAsync();
@@ -175,7 +172,7 @@ namespace LandBankManagement.ViewModels
                 SelectedItems = null;
                 if (count > 0)
                 {
-                    EndStatusMessage($"{count} Companies deleted");
+                    EndStatusMessage($"{count} Company deleted");
                 }
             }
         }
@@ -188,18 +185,18 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task DeleteRangesAsync(IEnumerable<IndexRange> ranges)
-        {
-            DataRequest<Company> request = BuildDataRequest();
-            foreach (var range in ranges)
-            {
-                await CompanyService.DeleteCompanyRangeAsync(range.Index, range.Length, request);
-            }
-        }
+        //private async Task DeleteRangesAsync(IEnumerable<IndexRange> ranges)
+        //{
+        //    DataRequest<Vendor> request = BuildDataRequest();
+        //    foreach (var range in ranges)
+        //    {
+        //        await VendorService.DeleteVendorRangeAsync(range.Index, range.Length, request);
+        //    }
+        //}
 
-        private DataRequest<Company> BuildDataRequest()
+        private DataRequest<Data.Company> BuildDataRequest()
         {
-            return new DataRequest<Company>()
+            return new DataRequest<Data.Company>()
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,

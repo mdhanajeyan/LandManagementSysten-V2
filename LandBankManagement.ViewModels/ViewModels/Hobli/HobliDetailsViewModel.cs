@@ -21,6 +21,7 @@ namespace LandBankManagement.ViewModels
             HobliService = hobliService;
             FilePickerService = filePickerService;
             TalukService = talukService;
+
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Hobli" : TitleEdit;
@@ -33,11 +34,12 @@ namespace LandBankManagement.ViewModels
         public void Load() {
           
             Item = new HobliModel();
-            IsEditMode=true;
-          
-                GetTaluks();
-           
-           
+            // IsEditMode=true;
+            TalukOptions = new List<ComboBoxOptions>();
+            TalukOptions.Add(new ComboBoxOptions { Id = 1, Description = "test1" });
+            // GetTaluks();
+
+
         }
 
         private void GetTaluks() {
@@ -80,7 +82,10 @@ namespace LandBankManagement.ViewModels
                 return false;
             }
         }
-
+        protected override void ClearItem()
+        {
+            Item = new HobliModel();
+        }
         protected override async Task<bool> DeleteItemAsync(HobliModel model)
         {
             try

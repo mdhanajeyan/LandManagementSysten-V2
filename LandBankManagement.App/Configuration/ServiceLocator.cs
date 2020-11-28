@@ -32,6 +32,8 @@ namespace LandBankManagement
             serviceCollection.AddSingleton<IVillageService, VillageService>();
             serviceCollection.AddSingleton<ICashAccountService, CashAccountService>();
             serviceCollection.AddSingleton<IDocumentTypeService, DocumentTypeService>();
+            serviceCollection.AddSingleton<ICheckListService, CheckListService>();
+            serviceCollection.AddSingleton<IPropertyTypeService, PropertyTypeService>();
 
             serviceCollection.AddSingleton<IMessageService, MessageService>();
             serviceCollection.AddSingleton<ILogService, LogService>();
@@ -47,7 +49,7 @@ namespace LandBankManagement
             serviceCollection.AddTransient<MainShellViewModel>();
             serviceCollection.AddTransient<DashboardViewModel>();
 
-            serviceCollection.AddTransient<CompaniesViewModel>();
+            serviceCollection.AddTransient<CompanyViewModel>();
             serviceCollection.AddTransient<CompanyDetailsViewModel>();
 
             serviceCollection.AddTransient<VendorsViewModel>();
@@ -66,6 +68,10 @@ namespace LandBankManagement
             serviceCollection.AddTransient<CashAccountDetailsViewModel>();
             serviceCollection.AddTransient<DocumentTypeViewModel>();
             serviceCollection.AddTransient<DocumentTypeDetailsViewModel>();
+            serviceCollection.AddTransient<CheckListViewModel>();
+            serviceCollection.AddTransient<CheckListDetailsViewModel>();
+            serviceCollection.AddTransient<PropertyTypeViewModel>();
+            serviceCollection.AddTransient<PropertyTypeDetailsViewModel>();
 
             serviceCollection.AddTransient<AppLogsViewModel>();
 

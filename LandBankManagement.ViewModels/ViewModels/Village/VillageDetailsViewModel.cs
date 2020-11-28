@@ -94,7 +94,10 @@ namespace LandBankManagement.ViewModels
                 return false;
             }
         }
-
+        protected override void ClearItem()
+        {
+            Item = new VillageModel();
+        }
         protected override async Task<bool> DeleteItemAsync(VillageModel model)
         {
             try
