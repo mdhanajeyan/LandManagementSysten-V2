@@ -6,8 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:controls="using:LandBankManagement.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:views="using:LandBankManagement.Views" 
-    xmlns:viewmodels="using:LandBankManagement.ViewModels">
+    xmlns:viewmodels="using:LandBankManagement.ViewModels" 
+    xmlns:models="using:LandBankManagement.Models">
 
     <UserControl.Resources>
         <DataTemplate x:Key="ListHeaderTemplate">
@@ -15,53 +17,41 @@
                 <TextBlock Text="Expense Head" FontSize="18" />
                 <TextBlock Text="{Binding}" FontSize="18" Foreground="Gray" />
             </StackPanel>
-        </DataTemplate>    
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid Background="WhiteSmoke"
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
-        <controls:WindowTitle Prefix="Party" Title="{x:Bind ViewModel.ExpenseHeadList.Title, Mode=OneWay}" />
+        <controls:WindowTitle Prefix="Expense Head" Title="{x:Bind ViewModel.Title, Mode=OneWay}" />
 
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
-            <!--Details-->
-            <Grid Grid.Row="0" 
-                  BorderBrush="LightGray"
-                  BorderThickness="0,1,0,0">
-                <views:ExpenseHeadDetails ViewModel="{x:Bind ViewModel.ExpenseHeadDetials}"/>
-                <!--<Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="ExpenseHead"/>
-                <StackPanel Grid.Row="1" Orientation="Vertical">
-                    
-                    <controls:FluidGrid Margin="0,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12">
-                        <controls:FormTextBox Header="Party Name" Text="{x:Bind ViewModel.ExpenseHeadDetials.EditableItem.ExpenseHeadName , Mode=TwoWay}" />
-                        <controls:IconLabelButton x:Name="Save" Label="Save"  Click="Save_Click">
-                            
-                        </controls:IconLabelButton>
-
-                    </controls:FluidGrid>
-                </StackPanel>-->
-            </Grid>
-            
             <!--List-->
-            <Grid Grid.Row="1"  Grid.RowSpan="{x:Bind GetRowSpan(ViewModel.ExpenseHeadList.IsMultipleSelection), Mode=OneWay}">
-                <controls:Section Header="{x:Bind ViewModel.ExpenseHeadList.Title, Mode=OneWay}" 
+            <Grid>
+                <controls:Section Header="{x:Bind ViewModel.Title, Mode=OneWay}" 
                                   HeaderTemplate="{StaticResource ListHeaderTemplate}"
-                                  HeaderButtonGlyph="&#xE2B4;" 
-                                  HeaderButtonClick="OpenInNewView"
                                   IsButtonVisible="{x:Bind ViewModel.IsMainView}">
-                    <views:ExpenseHeadListView ViewModel="{x:Bind ViewModel.ExpenseHeadList}" />
+                    <toolkit:DataGrid
+                    CanUserReorderColumns="False"
+                    CanUserResizeColumns="False"
+                    AutoGenerateColumns="False"
+                    BorderThickness="0"
+                    GridLinesVisibility="None"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=TwoWay}"
+                    SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}">
+                        <toolkit:DataGrid.Columns>
+                            <toolkit:DataGridTextColumn
+                            Header="Expense Head"
+                            Tag="LastName"
+                            Binding="{Binding ExpenseHeadName}"/>
+                        </toolkit:DataGrid.Columns>
+                    </toolkit:DataGrid>
                 </controls:Section>
             </Grid>
-
         </Grid>
     </Grid>
 </Page>

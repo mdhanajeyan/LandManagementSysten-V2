@@ -57,7 +57,7 @@ namespace LandBankManagement
             serviceCollection.AddTransient<PartiesViewModel>();
             serviceCollection.AddTransient<PartyDetailsViewModel>();
             serviceCollection.AddTransient<ExpenseHeadViewModel>();
-            serviceCollection.AddTransient<ExpenseHeadDetailsViewModel>();
+            
             serviceCollection.AddTransient<TalukViewModel>();
             serviceCollection.AddTransient<TalukDetailsViewModel>();
             serviceCollection.AddTransient<HobliViewModel>();

@@ -291,12 +291,6 @@
     <Compile Include="Views\DocumentType\DocumentTypeView.xaml.cs">
       <DependentUpon>DocumentTypeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ExpenseHead\ExpenseHeadDetails.xaml.cs">
-      <DependentUpon>ExpenseHeadDetails.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExpenseHead\ExpenseHeadListView.xaml.cs">
-      <DependentUpon>ExpenseHeadListView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ExpenseHead\ExpenseHeadView.xaml.cs">
       <DependentUpon>ExpenseHeadView.xaml</DependentUpon>
     </Compile>
@@ -577,14 +571,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ExpenseHead\ExpenseHeadDetails.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ExpenseHead\ExpenseHeadListView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\ExpenseHead\ExpenseHeadView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -739,6 +725,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
+      <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>

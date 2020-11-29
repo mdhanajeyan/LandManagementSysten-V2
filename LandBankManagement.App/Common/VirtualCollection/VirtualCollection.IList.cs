@@ -107,7 +107,7 @@ namespace LandBankManagement.Services
 
         public IEnumerator GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetItems().GetEnumerator();
         }
 
         public void Insert(int index, object value)
