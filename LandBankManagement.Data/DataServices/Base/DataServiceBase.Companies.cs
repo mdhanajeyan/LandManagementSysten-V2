@@ -11,7 +11,24 @@ namespace LandBankManagement.Data.Services
     {
         public async Task<Company> GetCompanyAsync(long id)
         {
-            return await _dataSource.Companies.Where(r => r.CompanyID == id).FirstOrDefaultAsync();
+            var company = await _dataSource.Companies.Where(r => r.CompanyID == id).FirstOrDefaultAsync();
+            if (company.CompanyGuid != null)
+            {
+                var companyDocs = GetCompanyDocumentsAsync(company.CompanyGuid);
+                if (companyDocs.Any())
+                {
+                    company.CompanyDocuments = companyDocs;
+                }
+
+            }
+
+            return company;
+        }
+
+        private  List<CompanyDocuments> GetCompanyDocumentsAsync(Guid id)
+        {
+            return  _dataSource.CompanyDocuments
+                .Where(r => r.CompanyGuid == id).ToList();
         }
 
         public async Task<IList<Company>> GetCompaniesAsync(int skip, int take, DataRequest<Company> request)
@@ -118,7 +135,6 @@ namespace LandBankManagement.Data.Services
                 else
                 {
                     company.CompanyGuid = Guid.NewGuid();
-                    //Company.CreatedOn = DateTime.UtcNow;
                     _dataSource.Entry(company).State = EntityState.Added;
                 }
 

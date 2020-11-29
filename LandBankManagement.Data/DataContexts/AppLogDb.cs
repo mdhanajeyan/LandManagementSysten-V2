@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using LandBankManagement.Data;
+using Microsoft.Extensions.Logging;
 
 namespace LandBankManagement.Services
 {
@@ -19,9 +20,21 @@ namespace LandBankManagement.Services
             EnsureCreated();
         }
 
+        public static readonly ILoggerFactory LoggerFactory
+            = Microsoft.Extensions.Logging.LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddFilter((category, level) =>
+                        category == DbLoggerCategory.Database.Command.Name
+                        && level == LogLevel.Information)
+                    .AddConsole();
+            });
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(_connectionString);
+            optionsBuilder.UseLoggerFactory(LoggerFactory);
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         public void EnsureCreated()

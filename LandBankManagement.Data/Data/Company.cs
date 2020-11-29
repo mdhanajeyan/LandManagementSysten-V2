@@ -27,6 +27,6 @@ namespace LandBankManagement.Data
 
         public string BuildSearchTerms() => $"{CompanyID} {Name} {Email} {AddressLine1}".ToLower();
         [NotMapped]
-        public ICollection<CompanyDocuments> CompanyDocuments { get; set; }
+        public IList<CompanyDocuments> CompanyDocuments = new List<CompanyDocuments>();
     }
 }
