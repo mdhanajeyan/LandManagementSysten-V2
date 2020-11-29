@@ -27,8 +27,9 @@ namespace LandBankManagement.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.LoadAsync(e.Parameter as CompanyListArgs);
             await ViewModel.CompanyDetials.LoadAsync();
+            await ViewModel.LoadAsync(e.Parameter as CompanyListArgs);
+           
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

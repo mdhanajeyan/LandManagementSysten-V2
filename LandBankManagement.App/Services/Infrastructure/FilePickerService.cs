@@ -13,7 +13,9 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Windows.Storage;
@@ -23,7 +25,7 @@ namespace LandBankManagement.Services
 {
     public class FilePickerService : IFilePickerService
     {
-        public async Task<ImagePickerResult> OpenImagePickerAsync()
+        public async Task<List<ImagePickerResult>> OpenImagePickerAsync()
         {
             var picker = new FileOpenPicker
             {
@@ -38,32 +40,34 @@ namespace LandBankManagement.Services
 
             // picker.FileTypeFilter.Add(".bmp");
             //picker.FileTypeFilter.Add(".gif");
-
-            var file = await picker.PickSingleFileAsync();
-            if (file != null)
+            List<ImagePickerResult> docList = new List<ImagePickerResult>();
+            var files = await picker.PickMultipleFilesAsync();
+            foreach(var file in files)
             {
-                var bytes = await GetImageBytesAsync(file);
-                return new ImagePickerResult
+                Dictionary<byte[], int> bytes = await GetImageBytesAsync(file);
+                docList.Add( new ImagePickerResult
                 {
                     FileName = file.Name,
                     ContentType = file.ContentType,
-                    ImageBytes = bytes,
-                    Size =0// Convert.ToInt32(file.OpenReadAsync().GetResults().Size)
+                    ImageBytes = bytes.ElementAt(0).Key,
+                    Size = bytes.ElementAt(0).Value// Convert.ToInt32(file.OpenReadAsync().GetResults().Size)
                     // ImageSource = await BitmapTools.LoadBitmapAsync(bytes)
-                };
+                });
             }
-            return null;
+            return docList;
         }
 
-        static private async Task<byte[]> GetImageBytesAsync(StorageFile file)
+        static private async Task<Dictionary<byte[],int>> GetImageBytesAsync(StorageFile file)
         {
             using (var randomStream = await file.OpenReadAsync())
-            {
+            { var size = randomStream.Size;
+
                 using (var stream = randomStream.AsStream())
                 {
                     byte[] buffer = new byte[randomStream.Size];
                     await stream.ReadAsync(buffer, 0, buffer.Length);
-                    return buffer;
+                  
+                    return new Dictionary<byte[], int>() { { buffer, Convert.ToInt32(size) } };
                 }
             }
         }

@@ -180,6 +180,7 @@
     <Compile Include="Converters\LogTypeConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\ObjectToImageConverter.cs" />
+    <Compile Include="Converters\WidthPercentageConverter.cs" />
     <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="Extensions\ICommandExtensions.cs" />
     <Compile Include="Extensions\ItemIndexRangeExtensions.cs" />
@@ -192,6 +193,8 @@
     <Compile Include="Services\DataServiceFactory\IDataServiceFactory.cs" />
     <Compile Include="Services\DocumentTypeService.cs" />
     <Compile Include="Services\ExpenseHeadService.cs" />
+    <Compile Include="Services\FundTransferService.cs" />
+    <Compile Include="Services\PropCheckListMasterService.cs" />
     <Compile Include="Services\HobliService.cs" />
     <Compile Include="Services\Infrastructure\ActivationService.cs" />
     <Compile Include="Services\Infrastructure\CommonServices.cs" />
@@ -213,6 +216,8 @@
     <Compile Include="Services\VillageService.cs" />
     <Compile Include="Services\VirtualCollections\AccountTypeCollection.cs" />
     <Compile Include="Services\VirtualCollections\CashAccountCollection.cs" />
+    <Compile Include="Services\VirtualCollections\FundTransferCollection.cs" />
+    <Compile Include="Services\VirtualCollections\PropCheckListMasterCollection.cs" />
     <Compile Include="Services\VirtualCollections\HobliCollection.cs" />
     <Compile Include="Services\VirtualCollections\CompanyCollection.cs" />
     <Compile Include="Services\VirtualCollections\ExpenseHeadCollection.cs" />

@@ -107,25 +107,68 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> UpdateCompanyAsync(Company company)
         {
-            if (company.CompanyID > 0)
+            try
             {
-                _dataSource.Entry(company).State = EntityState.Modified;
+                ICollection<CompanyDocuments> docs = company.CompanyDocuments;
+                company.CompanyDocuments = null;
+                if (company.CompanyID > 0)
+                {
+                    _dataSource.Entry(company).State = EntityState.Modified;
+                }
+                else
+                {
+                    company.CompanyGuid = Guid.NewGuid();
+                    //Company.CreatedOn = DateTime.UtcNow;
+                    _dataSource.Entry(company).State = EntityState.Added;
+                }
+
+                company.SearchTerms = company.BuildSearchTerms();
+                int res = await _dataSource.SaveChangesAsync();
+
+                if (docs != null)
+                {
+                    foreach (var doc in docs)
+                    {
+                        if (doc.CompanyBlobId == 0)
+                        {
+                            doc.CompanyGuid = company.CompanyGuid;
+                            _dataSource.CompanyDocuments.Add(doc);
+                           
+                        }
+                    }
+                }
+                await _dataSource.SaveChangesAsync();
+                return res;
             }
-            else
-            {
-                company.CompanyGuid = Guid.NewGuid();
-                //Company.CreatedOn = DateTime.UtcNow;
-                _dataSource.Entry(company).State = EntityState.Added;
+            catch (Exception ex) {
+                throw ex;
             }
-            // Company.LastModifiedOn = DateTime.UtcNow;
-            company.SearchTerms = company.BuildSearchTerms();
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
         }
 
         public async Task<int> DeleteCompanyAsync(params Company[] company)
         {
             _dataSource.Companies.RemoveRange(company);
+            return await _dataSource.SaveChangesAsync();
+        }
+
+        public async Task<int> UploadCompanyDocumentsAsync(List<CompanyDocuments> documents) {
+            try
+            {
+                foreach (var doc in documents)
+                {
+                    _dataSource.Entry(doc).State = EntityState.Added;
+                }
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public async Task<int> DeleteCompanyDocumentAsync(CompanyDocuments documents)
+        {
+            _dataSource.CompanyDocuments.Remove(documents);
             return await _dataSource.SaveChangesAsync();
         }
     }

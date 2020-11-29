@@ -1,6 +1,7 @@
 ﻿using LandBankManagement.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -26,6 +27,12 @@ namespace LandBankManagement.Views
         public void SetFocus()
         {
             details.SetFocus();
+        }
+
+        private void Doc_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var identity = Convert.ToInt32( ((Button)sender).Tag.ToString());
+            ViewModel.DeleteDocument(identity);
         }
     }
 }

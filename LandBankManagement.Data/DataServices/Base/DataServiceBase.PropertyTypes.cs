@@ -75,7 +75,6 @@ namespace LandBankManagement.Data.Services
             return items;
         }
 
-
         public async Task<IList<PropertyType>> GetPropertyTypesAsync(int skip, int take, DataRequest<PropertyType> request)
         {
             IQueryable<PropertyType> items = GetPropertyTypes(request);

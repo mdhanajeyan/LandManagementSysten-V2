@@ -11,8 +11,7 @@ namespace LandBankManagement.Data.Services
     {
         public async Task<int> AddCashAccountAsync(CashAccount model)
         {
-            try
-            {
+           
                 if (model == null)
                     return 0;
 
@@ -27,10 +26,7 @@ namespace LandBankManagement.Data.Services
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
                 return res;
-            }
-            catch (Exception ex) {
-                throw ex;
-            }
+           
         }
 
         public async Task<CashAccount> GetCashAccountAsync(long id)

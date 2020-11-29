@@ -11,8 +11,12 @@ namespace LandBankManagement.ViewModels
 {
     public class HobliDetailsViewModel : GenericDetailsViewModel<HobliModel>
     {
-    
-        public List<ComboBoxOptions> TalukOptions { get; set; }
+        private List<ComboBoxOptions> _talukOptions = null;
+        public List<ComboBoxOptions> TalukOptions
+        {
+            get => _talukOptions;
+            set => Set(ref _talukOptions, value);
+        }
         public IHobliService HobliService { get; }
         public IFilePickerService FilePickerService { get; }
        public ITalukService TalukService { get; }
@@ -34,7 +38,7 @@ namespace LandBankManagement.ViewModels
         public void Load() {
           
             Item = new HobliModel();
-            // IsEditMode=true;
+             IsEditMode=true;
             TalukOptions = new List<ComboBoxOptions>();
             TalukOptions.Add(new ComboBoxOptions { Id = 1, Description = "test1" });
             // GetTaluks();

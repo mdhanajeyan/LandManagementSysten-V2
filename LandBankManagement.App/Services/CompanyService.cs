@@ -21,7 +21,7 @@ namespace LandBankManagement.Services
         public ILogService LogService { get; }
 
 
-        public async Task<int> AddCompanyAsync(CompanyModel model)
+        public async Task<int> AddCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.CompanyID;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -29,6 +29,18 @@ namespace LandBankManagement.Services
                 var company = new Company();
                 if (company != null)
                 {
+                    if (docs.Count > 0)
+                    {
+                        List<CompanyDocuments> docList = new List<CompanyDocuments>();
+                        foreach (var obj in docs)
+                        {
+                            var doc = new CompanyDocuments();
+                            UpdateDocumentFromModel(doc, obj);
+                            docList.Add(doc);
+                        }
+                        company.CompanyDocuments = docList;
+                    }
+
                     UpdateCompanyFromModel(company, model);
                     company.CompanyGuid = Guid.NewGuid();
                     await dataService.UpdateCompanyAsync(company);
@@ -84,17 +96,28 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> UpdateCompanyAsync(CompanyModel model)
+        public async Task<int> UpdateCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.CompanyID;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var Company = id > 0 ? await dataService.GetCompanyAsync(model.CompanyID) : new Company();
-                if (Company != null)
+                var company = id > 0 ? await dataService.GetCompanyAsync(model.CompanyID) : new Company();
+                if (company != null)
                 {
-                    UpdateCompanyFromModel(Company, model);
-                    await dataService.UpdateCompanyAsync(Company);
-                    model.Merge(await GetCompanyAsync(dataService, Company.CompanyID));
+                    if ( docs !=null && docs.Count > 0)
+                    {
+                        List<CompanyDocuments> docList = new List<CompanyDocuments>();
+                        foreach (var obj in docs)
+                        {
+                            var doc = new CompanyDocuments();
+                            UpdateDocumentFromModel(doc, obj);
+                            docList.Add(doc);
+                        }
+                        company.CompanyDocuments = docList;
+                    }
+                    UpdateCompanyFromModel(company, model);
+                    await dataService.UpdateCompanyAsync(company);
+                    model.Merge(await GetCompanyAsync(dataService, company.CompanyID));
                 }
                 return 0;
             }
@@ -115,6 +138,27 @@ namespace LandBankManagement.Services
             {
                 var items = await dataService.GetCompanyKeysAsync(index, length, request);
                 return await dataService.DeleteCompanyAsync(items.ToArray());
+            }
+        }
+        public async Task<int> UploadCompanyDocumentsAsync(List<ImagePickerResult> models) {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                List<CompanyDocuments> docList = new List<CompanyDocuments>();
+                foreach (var model in models)
+                { var doc = new CompanyDocuments();
+                    UpdateDocumentFromModel(doc, model);
+                    docList.Add(doc);
+                }
+                return await dataService.UploadCompanyDocumentsAsync(docList);
+            }
+        }
+
+        public async Task<int> DeleteCompanyDocumentAsync(ImagePickerResult documents) {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var doc = new CompanyDocuments();
+                UpdateDocumentFromModel(doc, documents);               
+                return await dataService.DeleteCompanyDocumentAsync(doc);
             }
         }
 
@@ -156,5 +200,14 @@ namespace LandBankManagement.Services
             target.Pincode = source.Pincode;
         }
 
+        private void UpdateDocumentFromModel(CompanyDocuments target, ImagePickerResult source) {
+            target.CompanyBlobId = source.blobId;
+            target.CompanyGuid = source.guid;
+            target.FileBlob = source.ImageBytes;
+            target.FileName = source.FileName;
+            target.FileType = source.ContentType;
+            target.FileCategoryId = source.FileCategoryId;
+            target.UploadTime = DateTime.Now;
+        }
     }
 }
