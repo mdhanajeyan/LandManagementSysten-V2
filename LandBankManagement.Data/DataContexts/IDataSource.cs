@@ -10,6 +10,7 @@ namespace LandBankManagement.Data.Services
     public interface IDataSource : IDisposable
     {
         DbSet<Company> Companies { get; }
+        DbSet<CompanyDocuments> CompanyDocuments { get; }
         DbSet<Vendor> Vendors { get; }
         DbSet<Party> Parties { get; } 
         DbSet<Taluk> Taluks { get; }

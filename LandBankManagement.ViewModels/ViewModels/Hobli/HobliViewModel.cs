@@ -74,7 +74,6 @@ namespace LandBankManagement.ViewModels
                 selected.Merge(model);
                 model.HobliIsActive = true;
                 HobliDetials.Item = model;
-                HobliDetials.TalukOptions.Add(new ComboBoxOptions { Id = 1, Description = "test1" });
             }
             catch (Exception ex)
             {

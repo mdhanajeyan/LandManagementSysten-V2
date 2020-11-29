@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,7 +12,13 @@ namespace LandBankManagement.ViewModels
 {
     public class CompanyDetailsViewModel : GenericDetailsViewModel<CompanyModel>
     {
-        public List<ImagePickerResult> DocList { get; set; }
+        private ObservableCollection<ImagePickerResult> _docList = null;
+        public ObservableCollection<ImagePickerResult> DocList
+        {
+            get => _docList;
+            set => Set(ref _docList, value);
+        }         
+
         public ICompanyService CompanyService { get; }
         public IFilePickerService FilePickerService { get; }
         public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
@@ -29,6 +36,7 @@ namespace LandBankManagement.ViewModels
         public async Task LoadAsync()
         {
             Item = new CompanyModel();
+            Item.IsActive = true;
             IsEditMode = true;
         }
         public void Unload()
@@ -46,47 +54,65 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        private object _newPictureSource = null;
-        public object NewPictureSource
-        {
-            get => _newPictureSource;
-            set => Set(ref _newPictureSource, value);
-        }
+       
 
         public override void BeginEdit()
         {
-            NewPictureSource = null;
             base.BeginEdit();
         }
 
         public ICommand EditPictureCommand => new RelayCommand(OnEditFile);
         private async void OnEditFile()
         {
-            NewPictureSource = null;
             var result = await FilePickerService.OpenImagePickerAsync();
             if (result != null)
             {
                 if (DocList == null)
-                    DocList = new List<ImagePickerResult>();
+                    DocList =new ObservableCollection<ImagePickerResult>();
 
-                DocList.Add(result);
+                foreach (var file in result)
+                {
+                    DocList.Add(file);
+                }
+                for (int i = 0; i < DocList.Count; i++) {
+                    DocList[i].Identity = i+1;
+                }
             }
-            else
-            {
-                NewPictureSource = null;
+           
+        }
+
+        public void DeleteDocument(int id) {
+            if (id > 0) {
+                if (DocList[id - 1].blobId > 0) {
+                    CompanyService.DeleteCompanyDocumentAsync(DocList[id - 1]);
+                }
+                DocList.RemoveAt(id-1);
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    DocList[i].Identity = i + 1;
+                }
             }
         }
 
         protected override async Task<bool> SaveItemAsync(CompanyModel model)
         {
             try
-            {
+            {               
                 StartStatusMessage("Saving Company...");
                 await Task.Delay(100);
                 if (model.CompanyID <= 0)
-                    await CompanyService.AddCompanyAsync(model);
+                    await CompanyService.AddCompanyAsync(model, DocList);
                 else
-                    await CompanyService.UpdateCompanyAsync(model);
+                    await CompanyService.UpdateCompanyAsync(model, DocList);
+                //if (DocList.Count > 0)
+                //{
+                //    foreach (var doc in DocList)
+                //    {
+                //        if (doc.guid == null || doc.guid == Guid.Empty)
+                //            doc.guid = model.CompanyGuid;
+                //    }
+                //    await CompanyService.UploadCompanyDocumentsAsync(DocList.ToList());
+                //}
                 EndStatusMessage("Company saved");
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
                 return true;

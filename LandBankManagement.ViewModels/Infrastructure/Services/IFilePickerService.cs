@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LandBankManagement.Services
@@ -13,10 +14,11 @@ namespace LandBankManagement.Services
         //public object ImageSource { get; set; }
         public int Size { get; set; }
         public int FileCategoryId { get; set; }
+        public int Identity { get; set; }
     }
 
     public interface IFilePickerService
     {
-        Task<ImagePickerResult> OpenImagePickerAsync();
+        Task<List<ImagePickerResult>> OpenImagePickerAsync();
     }
 }

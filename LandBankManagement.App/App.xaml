@@ -39,7 +39,7 @@
             <converters:LogTypeConverter x:Key="LogTypeConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:ObjectToImageConverter x:Key="ObjectToImageConverter" />
-
+            <converters:WidthPercentageConverter x:Key="WidthPercentageConverter" />
         </ResourceDictionary>
     </Application.Resources>
 

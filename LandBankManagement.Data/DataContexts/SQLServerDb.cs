@@ -14,6 +14,7 @@ namespace LandBankManagement.Data.Services
         }
 
         public DbSet<Company> Companies { get; set; }
+       public  DbSet<CompanyDocuments> CompanyDocuments { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Party> Parties { get; set; }
         public DbSet<Taluk> Taluks { get; set; }
@@ -27,7 +28,7 @@ namespace LandBankManagement.Data.Services
         public DbSet<Property> Properties { get; set; }
         public DbSet<PropertyType> PropertyTypes { get; set; }
         public DbSet<PropCheckListMaster> PropCheckListMasters { get; }
-        public DbSet<FundTransfer> FundTransfers { get; }
+        public DbSet<FundTransfer> FundTransfers { get; set; }
 
         public DbSet<ExpenseHead> ExpenseHeads { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
