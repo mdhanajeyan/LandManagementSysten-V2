@@ -24,8 +24,9 @@ namespace LandBankManagement.Data
 
         [NotMapped]
         public string SearchTerms { get; set; }
-        public string BuildSearchTerms() => $"{CompanyID} {Name} {Email} {AddressLine1}".ToLower();
 
-        public virtual ICollection<CompanyDocuments> CompanyDocuments { get; set; }
+        public string BuildSearchTerms() => $"{CompanyID} {Name} {Email} {AddressLine1}".ToLower();
+        [NotMapped]
+        public ICollection<CompanyDocuments> CompanyDocuments { get; set; }
     }
 }
