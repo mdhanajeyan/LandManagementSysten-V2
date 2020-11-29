@@ -142,5 +142,23 @@ namespace LandBankManagement.Data.Services
         Task<int> GetFundTransfersCountAsync(DataRequest<FundTransfer> request);
         Task<int> UpdateFundTransferAsync(FundTransfer model);
         Task<int> DeleteFundTransferAsync(FundTransfer model);
+
+        Task<int> AddReceiptAsync(Receipt model);
+        Task<Receipt> GetReceiptAsync(long id);
+        Task<IList<Receipt>> GetReceiptsAsync(DataRequest<Receipt> request);
+        Task<IList<Receipt>> GetReceiptsAsync(int skip, int take, DataRequest<Receipt> request);
+        Task<int> GetReceiptsCountAsync(DataRequest<Receipt> request);
+        Task<int> UpdateReceiptAsync(Receipt model);
+        Task<int> DeleteReceiptAsync(Receipt model);
+
+        Task<int> AddPaymentAsync(Payment model);
+        Task<Payment> GetPaymentAsync(long id);
+        Task<IList<Payment>> GetPaymentsAsync(DataRequest<Payment> request);
+        Task<IList<Payment>> GetPaymentsAsync(int skip, int take, DataRequest<Payment> request);
+        Task<int> GetPaymentsCountAsync(DataRequest<Payment> request);
+        Task<int> UpdatePaymentAsync(Payment model);
+        Task<int> DeletePaymentAsync(Payment model);
+
+
     }
 }
