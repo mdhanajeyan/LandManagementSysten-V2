@@ -17,6 +17,7 @@ namespace LandBankManagement
     {
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NjY1NUAzMTM4MmUzMzJlMzBQcDlLM3d2N0Ywd1liN29jdWdJWDFaMnduc0ZaVTMrK3JCSXc3RUVRdnBBPQ==");
             InitializeComponent();
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
