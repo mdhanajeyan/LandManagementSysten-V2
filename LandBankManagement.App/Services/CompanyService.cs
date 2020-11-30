@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-
+using IronSnappy;
 using LandBankManagement.Data;
 using LandBankManagement.Data.Services;
 using LandBankManagement.Models;
@@ -146,6 +146,7 @@ namespace LandBankManagement.Services
                 List<CompanyDocuments> docList = new List<CompanyDocuments>();
                 foreach (var model in models)
                 { var doc = new CompanyDocuments();
+                    
                     UpdateDocumentFromModel(doc, model);
                     docList.Add(doc);
                 }
@@ -188,7 +189,7 @@ namespace LandBankManagement.Services
                     {blobId=doc.CompanyBlobId,
                     guid=doc.CompanyGuid,
                     FileName=doc.FileName,
-                    ImageBytes=doc.FileBlob,
+                    ImageBytes= Snappy.Decode(doc.FileBlob),
                     ContentType=doc.FileType,
                     Size=doc.FileLength,
                     FileCategoryId=doc.FileCategoryId
@@ -220,7 +221,7 @@ namespace LandBankManagement.Services
         private void UpdateDocumentFromModel(CompanyDocuments target, ImagePickerResult source) {
             target.CompanyBlobId = source.blobId;
             target.CompanyGuid = source.guid;
-            target.FileBlob = source.ImageBytes;
+            target.FileBlob = Snappy.Encode(source.ImageBytes);
             target.FileName = source.FileName;
             target.FileType = source.ContentType;
             target.FileCategoryId = source.FileCategoryId;
