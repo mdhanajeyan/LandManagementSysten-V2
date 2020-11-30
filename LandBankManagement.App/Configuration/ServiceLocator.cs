@@ -72,6 +72,7 @@ namespace LandBankManagement
             serviceCollection.AddTransient<CheckListDetailsViewModel>();
             serviceCollection.AddTransient<PropertyTypeViewModel>();
             serviceCollection.AddTransient<PropertyTypeDetailsViewModel>();
+            serviceCollection.AddTransient<CompanyReportViewModel>();
 
             serviceCollection.AddTransient<AppLogsViewModel>();
 
