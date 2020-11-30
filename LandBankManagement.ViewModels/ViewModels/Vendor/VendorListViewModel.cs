@@ -58,7 +58,7 @@ namespace LandBankManagement.ViewModels
         public void Subscribe()
         {
             MessageService.Subscribe<VendorListViewModel>(this, OnMessage);
-            MessageService.Subscribe<VendorDetailsViewModel>(this, OnMessage);
+           // MessageService.Subscribe<VendorDetailsViewModel>(this, OnMessage);
         }
         public void Unsubscribe()
         {
@@ -114,20 +114,10 @@ namespace LandBankManagement.ViewModels
             }
             return new List<VendorModel>();
         }
-
-        public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
-        private async void OnOpenInNewView()
-        {
-            if (SelectedItem != null)
-            {
-                await NavigationService.CreateNewViewAsync<VendorDetailsViewModel>(new VendorDetailsArgs { VendorId = SelectedItem.VendorId });
-            }
-        }
-
         protected override async void OnNew()
         {
 
-            await NavigationService.CreateNewViewAsync<VendorDetailsViewModel>(new VendorDetailsArgs());
+            // await NavigationService.CreateNewViewAsync<CompanyViewModel>(new CompanyArgs());
 
             StatusReady();
         }
@@ -137,7 +127,7 @@ namespace LandBankManagement.ViewModels
             StartStatusMessage("Loading Vendors...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Companies loaded");
+                EndStatusMessage("vendor loaded");
             }
         }
 

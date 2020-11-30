@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace LandBankManagement.Data { 
-    public class PartyDocument
+    public class PartyDocuments
     {
         [Key]
         public int PartyBlobId { get; set; }

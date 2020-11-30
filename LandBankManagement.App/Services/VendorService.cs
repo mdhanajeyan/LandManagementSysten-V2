@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -65,7 +66,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> AddVendorAsync(VendorModel model)
+        public async Task<int> AddVendorAsync(VendorModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.VendorId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -73,16 +74,27 @@ namespace LandBankManagement.Services
                 var vendor =  new Vendor();
                 if (vendor != null)
                 {
+                    if (docs.Count > 0)
+                    {
+                        List<VendorDocuments> docList = new List<VendorDocuments>();
+                        foreach (var obj in docs)
+                        {
+                            var doc = new VendorDocuments();
+                            UpdateDocumentFromModel(doc, obj);
+                            docList.Add(doc);
+                        }
+                        vendor.VendorDocuments = docList;
+                    }
                     UpdateVendorFromModel(vendor, model);
                     vendor.VendorGuid = Guid.NewGuid();
-                    await dataService.AddVendorAsync(vendor);
+                    await dataService.UpdateVendorAsync(vendor);
                     model.Merge(await GetVendorAsync(dataService, vendor.VendorId));
                 }
                 return 0;
             }
         }
 
-        public async Task<int> UpdateVendorAsync(VendorModel model)
+        public async Task<int> UpdateVendorAsync(VendorModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.VendorId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -90,6 +102,17 @@ namespace LandBankManagement.Services
                 var vendor = id > 0 ? await dataService.GetVendorAsync(model.VendorId) : new Vendor();
                 if (vendor != null)
                 {
+                    if (docs != null && docs.Count > 0)
+                    {
+                        List<VendorDocuments> docList = new List<VendorDocuments>();
+                        foreach (var obj in docs)
+                        {
+                            var doc = new VendorDocuments();
+                            UpdateDocumentFromModel(doc, obj);
+                            docList.Add(doc);
+                        }
+                        vendor.VendorDocuments = docList;
+                    }
                     UpdateVendorFromModel(vendor, model);
                     await dataService.UpdateVendorAsync(vendor);
                     model.Merge(await GetVendorAsync(dataService, vendor.VendorId));
@@ -107,14 +130,23 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> DeleteCompanyRangeAsync(int index, int length, DataRequest<Company> request)
+        public async Task<int> DeleteVendorDocumentAsync(ImagePickerResult documents)
         {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var items = await dataService.GetCompanyKeysAsync(index, length, request);
-                return await dataService.DeleteCompanyAsync(items.ToArray());
+                var doc = new VendorDocuments();
+                UpdateDocumentFromModel(doc, documents);
+                return await dataService.DeleteVendorDocumentAsync(doc);
             }
         }
+        //public async Task<int> DeleteVendorRangeAsync(int index, int length, DataRequest<Vendor> request)
+        //{
+        //    using (var dataService = DataServiceFactory.CreateDataService())
+        //    {
+        //        var items = await dataService.GetVendorKeysAsync(index, length, request);
+        //        return await dataService.DeleteCompanyAsync(items.ToArray());
+        //    }
+        //}
 
         static public async Task<VendorModel> CreateVendorModelAsync(Vendor source, bool includeAllFields)
         {
@@ -142,7 +174,24 @@ namespace LandBankManagement.Services
                 GSTIN = source.GSTIN,
                 IsVendorActive = source.IsVendorActive
             };
-
+            if (source.VendorDocuments != null && source.VendorDocuments.Count > 0)
+            {
+                ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
+                foreach (var doc in source.VendorDocuments)
+                {
+                    docs.Add(new ImagePickerResult
+                    {
+                        blobId = doc.VendorBlobId,
+                        guid = doc.VendorGuid,
+                        FileName = doc.FileName,
+                        ImageBytes = doc.FileBlob,
+                        ContentType = doc.FileType,
+                        Size = doc.FileLength,
+                        FileCategoryId = doc.FileCategoryId
+                    });
+                }
+                model.VendorDocuments = docs;
+            }
             return model;
         }
 
@@ -161,7 +210,7 @@ namespace LandBankManagement.Services
             target.AddressLine1 = source.AddressLine1;
             target.AddressLine2 = source.AddressLine2;
             target.City = source.City;
-            target.PinCode = source.PinCode;
+            target.PinCode = source.PinCode.Trim();
             target.PhoneNoIsdCode = source.PhoneNoIsdCode;
             target.PhoneNo = source.PhoneNo;
             target.email = source.email;
@@ -170,6 +219,16 @@ namespace LandBankManagement.Services
             target.GSTIN = source.GSTIN;
             target.IsVendorActive = source.IsVendorActive;
 
+        }
+        private void UpdateDocumentFromModel(VendorDocuments target, ImagePickerResult source)
+        {
+            target.VendorBlobId = source.blobId;
+            target.VendorGuid = source.guid;
+            target.FileBlob = source.ImageBytes;
+            target.FileName = source.FileName;
+            target.FileType = source.ContentType;
+            target.FileCategoryId = source.FileCategoryId;
+            target.UploadTime = DateTime.Now;
         }
     }
 }

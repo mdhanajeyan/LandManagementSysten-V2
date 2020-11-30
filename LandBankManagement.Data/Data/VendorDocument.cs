@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LandBankManagement.Data
 {
-   public class VendorDocument
+   public class VendorDocuments
     {
         [Key]
         public int VendorBlobId { get; set; }

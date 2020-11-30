@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LandBankManagement.Services;
+using System;
+using System.Collections.ObjectModel;
 
 namespace LandBankManagement.Models
 {
@@ -19,9 +21,10 @@ namespace LandBankManagement.Models
         public string AddressLine2 { get; set; }
         public string City { get; set; }
         public string Pincode { get; set; }
-
+        public ObservableCollection<ImagePickerResult> CompanyDocuments { get;set;}
         public bool IsNew => CompanyID <= 0;
 
+       
 
         public override void Merge(ObservableObject source)
         {

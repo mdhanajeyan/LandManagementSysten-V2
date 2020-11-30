@@ -9,48 +9,75 @@ namespace LandBankManagement.Data.Services
 {
     partial class DataServiceBase
     {
-        public async Task<int> AddPartyAsync(Party party)
-        {
-            try
-            {
-                if (party == null)
-                    return 0;
+        //public async Task<int> AddPartyAsync(Party party)
+        //{
+        //    try
+        //    {
+        //        if (party == null)
+        //            return 0;
 
-                var entity = new Party()
-                {
-                    PartyFirstName = party.PartyFirstName,
-                    PartyGuid = party.PartyGuid,
-                    PartyAlias = party.PartyAlias,
-                    PartySalutation = party.PartySalutation,
-                    AadharNo = party.AadharNo,
-                    ContactPerson = party.ContactPerson,
-                    PAN = party.PAN,
-                    GSTIN = party.GSTIN,
-                    email = party.email,
-                    IsPartyActive = party.IsPartyActive,
-                    PhoneNo = party.PhoneNo,
-                    AddressLine1 = party.AddressLine1,
-                    AddressLine2 = party.AddressLine2,
-                    City = party.City,
-                    PinCode = party.PinCode
-                };
-                _dataSource.Entry(entity).State = EntityState.Added;
-                int res = await _dataSource.SaveChangesAsync();
-                return res;
-            }
-            catch (Exception ex)
-            {
-                return 0;
-            }
-        }
+        //        var entity = new Party()
+        //        {
+        //            PartyFirstName = party.PartyFirstName,
+        //            PartyGuid = party.PartyGuid,
+        //            PartyAlias = party.PartyAlias,
+        //            PartySalutation = party.PartySalutation,
+        //            AadharNo = party.AadharNo,
+        //            ContactPerson = party.ContactPerson,
+        //            PAN = party.PAN,
+        //            GSTIN = party.GSTIN,
+        //            email = party.email,
+        //            IsPartyActive = party.IsPartyActive,
+        //            PhoneNo = party.PhoneNo,
+        //            AddressLine1 = party.AddressLine1,
+        //            AddressLine2 = party.AddressLine2,
+        //            City = party.City,
+        //            PinCode = party.PinCode
+        //        };
+        //        _dataSource.Entry(entity).State = EntityState.Added;
+        //        int res = await _dataSource.SaveChangesAsync();
+        //        return res;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return 0;
+        //    }
+        //}
 
         public async Task<int> UpdatePartyAsync(Party party)
         {
             try
             {
-                _dataSource.Entry(party).State = EntityState.Modified;
+                ICollection<PartyDocuments> docs = party.PartyDocuments;
+                party.PartyDocuments = null;
+                if (party.PartyId > 0)
+                {
+                    _dataSource.Entry(party).State = EntityState.Modified;
+                }
+                else
+                {
+                    party.PartyGuid = Guid.NewGuid();
+                    //Company.CreatedOn = DateTime.UtcNow;
+                    _dataSource.Entry(party).State = EntityState.Added;
+                }
+
+                party.SearchTerms = party.BuildSearchTerms();
                 int res = await _dataSource.SaveChangesAsync();
+
+                if (docs != null)
+                {
+                    foreach (var doc in docs)
+                    {
+                        if (doc.PartyBlobId == 0)
+                        {
+                            doc.PartyGuid = party.PartyGuid;
+                            _dataSource.PartyDocuments.Add(doc);
+                        }
+                    }
+                }
+                await _dataSource.SaveChangesAsync();
                 return res;
+               
             }
             catch (Exception ex)
             {
@@ -60,9 +87,23 @@ namespace LandBankManagement.Data.Services
 
         public async Task<Party> GetPartyAsync(long id)
         {
-            return await _dataSource.Parties.Where(r => r.PartyId == id).FirstOrDefaultAsync();
-        }
+            var party =await _dataSource.Parties.Where(r => r.PartyId == id).FirstOrDefaultAsync();
+            if (party.PartyGuid != null)
+            {
+                var docs = GetPartyDocumentsAsync(party.PartyGuid);
+                if (docs.Any())
+                {
+                    party.PartyDocuments = docs;
+                }
 
+            }
+            return party;
+        }
+        private List<PartyDocuments> GetPartyDocumentsAsync(Guid id)
+        {
+            return _dataSource.PartyDocuments
+                .Where(r => r.PartyGuid == id).ToList();
+        }
         public async Task<IList<Party>> GetPartiesAsync(int skip, int take, DataRequest<Party> request)
         {
             IQueryable<Party> items = GetParties(request);
@@ -101,6 +142,28 @@ namespace LandBankManagement.Data.Services
         public async Task<int> DeletePartyAsync(Party model)
         {
             _dataSource.Parties.Remove(model);
+            return await _dataSource.SaveChangesAsync();
+        }
+
+        public async Task<int> UploadPartyDocumentsAsync(List<PartyDocuments> documents)
+        {
+            try
+            {
+                foreach (var doc in documents)
+                {
+                    _dataSource.Entry(doc).State = EntityState.Added;
+                }
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<int> DeletePartyDocumentAsync(PartyDocuments documents)
+        {
+            _dataSource.PartyDocuments.Remove(documents);
             return await _dataSource.SaveChangesAsync();
         }
 

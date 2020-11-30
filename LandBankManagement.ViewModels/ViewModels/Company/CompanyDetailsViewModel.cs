@@ -128,6 +128,7 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new CompanyModel();
+            DocList.Clear();
         }
         protected override async Task<bool> DeleteItemAsync(CompanyModel model)
         {

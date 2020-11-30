@@ -10,6 +10,7 @@ using System.Windows.Input;
 
 namespace LandBankManagement.ViewModels
 {
+
     public class PartyListArgs
     {
         static public PartyListArgs CreateEmpty() => new PartyListArgs { IsEmpty = true };
@@ -23,28 +24,31 @@ namespace LandBankManagement.ViewModels
 
         public string Query { get; set; }
 
-        public Expression<Func<Party, object>> OrderBy { get; set; }
-        public Expression<Func<Party, object>> OrderByDesc { get; set; }
+        public Expression<Func<Data.Party, object>> OrderBy { get; set; }
+        public Expression<Func<Data.Party, object>> OrderByDesc { get; set; }
     }
 
-    public class PartyListViewModel : GenericListViewModel<PartyModel> {
-        public IPartyService PartyService { get; }
+    public class PartyListViewModel : GenericListViewModel<PartyModel>
+    {
 
-        public PartyListArgs ViewModelArgs { get; private set; }
         public PartyListViewModel(IPartyService partyService, ICommonServices commonServices) : base(commonServices)
         {
             PartyService = partyService;
         }
+
+        public IPartyService PartyService { get; }
+
+        public PartyListArgs ViewModelArgs { get; private set; }
 
         public async Task LoadAsync(PartyListArgs args)
         {
             ViewModelArgs = args ?? PartyListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading Parties...");
+            StartStatusMessage("Loading Partys...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Parties loaded");
+                EndStatusMessage("Partys loaded");
             }
         }
         public void Unload()
@@ -54,8 +58,8 @@ namespace LandBankManagement.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<VendorListViewModel>(this, OnMessage);
-            MessageService.Subscribe<VendorDetailsViewModel>(this, OnMessage);
+            MessageService.Subscribe<PartyListViewModel>(this, OnMessage);
+            // MessageService.Subscribe<PartyDetailsViewModel>(this, OnMessage);
         }
         public void Unsubscribe()
         {
@@ -87,15 +91,15 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 Items = new List<PartyModel>();
-                StatusError($"Error loading Parties: {ex.Message}");
-                LogException("Parties", "Refresh", ex);
+                StatusError($"Error loading Partys: {ex.Message}");
+                LogException("Partys", "Refresh", ex);
                 isOk = false;
             }
 
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {
-                // SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
+                //  SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
             }
             NotifyPropertyChanged(nameof(Title));
 
@@ -106,42 +110,32 @@ namespace LandBankManagement.ViewModels
         {
             if (!ViewModelArgs.IsEmpty)
             {
-                DataRequest<Party> request = BuildDataRequest();
+                DataRequest<Data.Party> request = BuildDataRequest();
                 return await PartyService.GetPartiesAsync(request);
             }
             return new List<PartyModel>();
         }
-
-        public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
-        private async void OnOpenInNewView()
-        {
-            if (SelectedItem != null)
-            {
-                await NavigationService.CreateNewViewAsync<PartyDetailsViewModel>(new PartyDetailsArgs { PartyId = SelectedItem.PartyId });
-            }
-        }
-
         protected override async void OnNew()
         {
 
-            await NavigationService.CreateNewViewAsync<PartyDetailsViewModel>(new PartyDetailsArgs());
+            // await NavigationService.CreateNewViewAsync<CompanyViewModel>(new CompanyArgs());
 
             StatusReady();
         }
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading Vendors...");
+            StartStatusMessage("Loading Partys...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Companies loaded");
+                EndStatusMessage("vendor loaded");
             }
         }
 
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Parties?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Partys?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try
@@ -149,22 +143,22 @@ namespace LandBankManagement.ViewModels
                     if (SelectedIndexRanges != null)
                     {
                         count = SelectedIndexRanges.Sum(r => r.Length);
-                        StartStatusMessage($"Deleting {count} Parties...");
+                        StartStatusMessage($"Deleting {count} Partys...");
                         // await DeleteRangesAsync(SelectedIndexRanges);
                         MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
                     }
                     else if (SelectedItems != null)
                     {
                         count = SelectedItems.Count();
-                        StartStatusMessage($"Deleting {count} Parties...");
+                        StartStatusMessage($"Deleting {count} Partys...");
                         await DeleteItemsAsync(SelectedItems);
                         MessageService.Send(this, "ItemsDeleted", SelectedItems);
                     }
                 }
                 catch (Exception ex)
                 {
-                    StatusError($"Error deleting {count} Parties: {ex.Message}");
-                    LogException("Parties", "Delete", ex);
+                    StatusError($"Error deleting {count} Partys: {ex.Message}");
+                    LogException("Partys", "Delete", ex);
                     count = 0;
                 }
                 await RefreshAsync();
@@ -172,7 +166,7 @@ namespace LandBankManagement.ViewModels
                 SelectedItems = null;
                 if (count > 0)
                 {
-                    EndStatusMessage($"{count} Parties deleted");
+                    EndStatusMessage($"{count} Partys deleted");
                 }
             }
         }
@@ -187,16 +181,16 @@ namespace LandBankManagement.ViewModels
 
         //private async Task DeleteRangesAsync(IEnumerable<IndexRange> ranges)
         //{
-        //    DataRequest<Vendor> request = BuildDataRequest();
+        //    DataRequest<Party> request = BuildDataRequest();
         //    foreach (var range in ranges)
         //    {
-        //        await VendorService.DeleteVendorRangeAsync(range.Index, range.Length, request);
+        //        await PartyService.DeletePartyRangeAsync(range.Index, range.Length, request);
         //    }
         //}
 
-        private DataRequest<Party> BuildDataRequest()
+        private DataRequest<Data.Party> BuildDataRequest()
         {
-            return new DataRequest<Party>()
+            return new DataRequest<Data.Party>()
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,

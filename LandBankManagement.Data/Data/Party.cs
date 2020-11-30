@@ -32,6 +32,8 @@ namespace LandBankManagement.Data
         public string GSTIN { get; set; }
         [NotMapped]
         public string SearchTerms { get; set; }
-        public virtual ICollection<PartyDocument> PartyDocuments { get; set; }
+        public string BuildSearchTerms() => $"{PartyId} {PartyFirstName} {email} {AddressLine1}".ToLower();
+        [NotMapped]
+        public  ICollection<PartyDocuments> PartyDocuments { get; set; }
     }
 }

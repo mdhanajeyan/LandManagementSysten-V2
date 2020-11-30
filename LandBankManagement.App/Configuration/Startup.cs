@@ -54,10 +54,10 @@ namespace LandBankManagement
 
             NavigationService.Register<SettingsViewModel, SettingsView>();
 
-            NavigationService.Register<VendorsViewModel, VendorsView>();
+            NavigationService.Register<VendorViewModel, VendorView>();
             NavigationService.Register<VendorDetailsViewModel, VendorView>();
 
-            NavigationService.Register<PartiesViewModel, PartiesView>();
+            NavigationService.Register<PartyViewModel, PartyView>();
             NavigationService.Register<PartyDetailsViewModel, PartyView>();
             NavigationService.Register<ExpenseHeadViewModel, ExpenseHeadView>();
             NavigationService.Register<TalukViewModel, TalukView>();

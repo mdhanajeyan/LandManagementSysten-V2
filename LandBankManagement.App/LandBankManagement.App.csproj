@@ -303,23 +303,11 @@
     <Compile Include="Views\Hobli\HobliView.xaml.cs">
       <DependentUpon>HobliView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Parties\Details\PartiesCard.xaml.cs">
-      <DependentUpon>PartiesCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Parties\Details\PartiesDetails.xaml.cs">
-      <DependentUpon>PartiesDetails.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Parties\List\PartiesList.xaml.cs">
-      <DependentUpon>PartiesList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Parties\PartiesView.xaml.cs">
-      <DependentUpon>PartiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Party\Details\PartyCard.xaml.cs">
-      <DependentUpon>PartyCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Party\Details\PartyDetails.xaml.cs">
+    <Compile Include="Views\Party\PartyDetails.xaml.cs">
       <DependentUpon>PartyDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Party\PartyList.xaml.cs">
+      <DependentUpon>PartyList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Party\PartyView.xaml.cs">
       <DependentUpon>PartyView.xaml</DependentUpon>
@@ -360,23 +348,11 @@
     <Compile Include="Views\Taluk\TalukView.xaml.cs">
       <DependentUpon>TalukView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Vendors\Details\VendorsCard.xaml.cs">
-      <DependentUpon>VendorsCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Vendors\Details\VendorsDetails.xaml.cs">
-      <DependentUpon>VendorsDetails.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Vendors\List\VendorsList.xaml.cs">
-      <DependentUpon>VendorsList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Vendors\VendorsView.xaml.cs">
-      <DependentUpon>VendorsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Vendor\Details\VendorCard.xaml.cs">
-      <DependentUpon>VendorCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Vendor\Details\VendorDetails.xaml.cs">
+    <Compile Include="Views\Vendor\VendorDetails.xaml.cs">
       <DependentUpon>VendorDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vendor\VendorList.xaml.cs">
+      <DependentUpon>VendorList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Vendor\VendorView.xaml.cs">
       <DependentUpon>VendorView.xaml</DependentUpon>
@@ -587,29 +563,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Parties\Details\PartiesCard.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\Party\PartyDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Parties\Details\PartiesDetails.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\Party\PartyList.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Parties\List\PartiesList.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Parties\PartiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Party\Details\PartyCard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Party\Details\PartyDetails.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Party\PartyView.xaml">
       <SubType>Designer</SubType>
@@ -663,29 +623,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Vendors\Details\VendorsCard.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\Vendor\VendorDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Vendors\Details\VendorsDetails.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\Vendor\VendorList.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Vendors\List\VendorsList.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Vendors\VendorsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Vendor\Details\VendorCard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Vendor\Details\VendorDetails.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Vendor\VendorView.xaml">
       <SubType>Designer</SubType>

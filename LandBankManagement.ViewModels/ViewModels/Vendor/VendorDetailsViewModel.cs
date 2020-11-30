@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,16 +10,15 @@ using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
-    public class VendorDetailsArgs
-    {
-        static public VendorDetailsArgs CreateDefault() => new VendorDetailsArgs();
 
-        public int VendorId { get; set; }
-
-        public bool IsNew => VendorId <= 0;
-    }
     public class VendorDetailsViewModel : GenericDetailsViewModel<VendorModel>
     {
+        private ObservableCollection<ImagePickerResult> _docList = null;
+        public ObservableCollection<ImagePickerResult> DocList
+        {
+            get => _docList;
+            set => Set(ref _docList, value);
+        }
         public IVendorService VendorService { get; }
         public IFilePickerService FilePickerService { get; }
         public VendorDetailsViewModel(IVendorService vendorService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
@@ -32,33 +32,15 @@ namespace LandBankManagement.ViewModels
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
-        public VendorDetailsArgs ViewModelArgs { get; private set; }
-
-        public async Task LoadAsync(VendorDetailsArgs args)
+        public async Task LoadAsync()
         {
-            ViewModelArgs = args ?? VendorDetailsArgs.CreateDefault();
-
-            if (ViewModelArgs.IsNew)
-            {
-                Item = new VendorModel();
-                IsEditMode = true;
-            }
-            else
-            {
-                try
-                {
-                    var item = await VendorService.GetVendorAsync(ViewModelArgs.VendorId);
-                    Item = item ?? new VendorModel { VendorId = ViewModelArgs.VendorId, IsEmpty = true };
-                }
-                catch (Exception ex)
-                {
-                    LogException("Vendor", "Load", ex);
-                }
-            }
+            Item = new VendorModel();
+            Item.IsVendorActive = true;
+            IsEditMode = true;
         }
         public void Unload()
         {
-            ViewModelArgs.VendorId = Item?.VendorId ?? 0;
+
         }
 
         public void Subscribe()
@@ -71,40 +53,46 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        public VendorDetailsArgs CreateArgs()
-        {
-            return new VendorDetailsArgs
-            {
-                VendorId = Item?.VendorId ?? 0
-            };
-        }
-
-        private object _newPictureSource = null;
-        public object NewPictureSource
-        {
-            get => _newPictureSource;
-            set => Set(ref _newPictureSource, value);
-        }
-
+       
         public override void BeginEdit()
         {
-            NewPictureSource = null;
             base.BeginEdit();
         }
 
         public ICommand EditPictureCommand => new RelayCommand(OnEditFile);
         private async void OnEditFile()
         {
-            NewPictureSource = null;
             var result = await FilePickerService.OpenImagePickerAsync();
             if (result != null)
             {
+                if (DocList == null)
+                    DocList = new ObservableCollection<ImagePickerResult>();
 
-             //   NewPictureSource = result.ImageSource;
+                foreach (var file in result)
+                {
+                    DocList.Add(file);
+                }
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    DocList[i].Identity = i + 1;
+                }
             }
-            else
+            
+        }
+
+        public void DeleteDocument(int id)
+        {
+            if (id > 0)
             {
-                NewPictureSource = null;
+                if (DocList[id - 1].blobId > 0)
+                {
+                    VendorService.DeleteVendorDocumentAsync(DocList[id - 1]);
+                }
+                DocList.RemoveAt(id - 1);
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    DocList[i].Identity = i + 1;
+                }
             }
         }
 
@@ -115,9 +103,9 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Saving Vendor...");
                 await Task.Delay(100);
                 if (model.VendorId <= 0)
-                    await VendorService.AddVendorAsync(model);
+                    await VendorService.AddVendorAsync(model,DocList);
                 else
-                    await VendorService.UpdateVendorAsync(model);
+                    await VendorService.UpdateVendorAsync(model, DocList);
                 EndStatusMessage("Vendor saved");
                 LogInformation("Vendor", "Save", "Vendor saved successfully", $"Vendor {model.VendorId} '{model.VendorName}' was saved successfully.");
                 return true;
@@ -132,6 +120,7 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new VendorModel();
+            DocList.Clear();
         }
         protected override async Task<bool> DeleteItemAsync(VendorModel model)
         {

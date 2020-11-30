@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace LandBankManagement.Services
             LogService = logService;
         }
 
-        public async Task<int> AddPartyAsync(PartyModel model)
+        public async Task<int> AddPartyAsync(PartyModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.PartyId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -27,9 +28,21 @@ namespace LandBankManagement.Services
                 var party = new Party();
                 if (party != null)
                 {
+                    if (docs!=null)
+                    {
+                        List<PartyDocuments> docList = new List<PartyDocuments>();
+                        foreach (var obj in docs)
+                        {
+                            var doc = new PartyDocuments();
+                            UpdateDocumentFromModel(doc, obj);
+                            docList.Add(doc);
+                        }
+                        party.PartyDocuments = docList;
+                    }
                     UpdatePartyFromModel(party, model);
                     party.PartyGuid = Guid.NewGuid();
-                    await dataService.AddPartyAsync(party);
+                    //  await dataService.AddPartyAsync(party);
+                    await dataService.UpdatePartyAsync(party);
                     model.Merge(await GetPartyAsync(dataService, party.PartyId));
                 }
                 return 0;
@@ -82,18 +95,29 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> UpdatePartyAsync(PartyModel model)
+        public async Task<int> UpdatePartyAsync(PartyModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.PartyId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var party = id > 0 ? await dataService.GetPartyAsync(model.PartyId) : new Party();
-                if (party != null)
+                //  var party = id > 0 ? await dataService.GetPartyAsync(model.PartyId) : new Party();
+                var party = new Party();
+
+                if (docs != null && docs.Count > 0)
                 {
-                    UpdatePartyFromModel(party, model);
-                    await dataService.UpdatePartyAsync(party);
-                    model.Merge(await GetPartyAsync(dataService, party.PartyId));
+                    List<PartyDocuments> docList = new List<PartyDocuments>();
+                    foreach (var obj in docs)
+                    {
+                        var doc = new PartyDocuments();
+                        UpdateDocumentFromModel(doc, obj);
+                        docList.Add(doc);
+                    }
+                    party.PartyDocuments = docList;
                 }
+                UpdatePartyFromModel(party, model);
+                await dataService.UpdatePartyAsync(party);
+                model.Merge(await GetPartyAsync(dataService, party.PartyId));
+
                 return 0;
             }
         }
@@ -104,6 +128,15 @@ namespace LandBankManagement.Services
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 return await dataService.DeletePartyAsync(party);
+            }
+        }
+        public async Task<int> DeletePartyDocumentAsync(ImagePickerResult documents)
+        {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var doc = new PartyDocuments();
+                UpdateDocumentFromModel(doc, documents);
+                return await dataService.DeletePartyDocumentAsync(doc);
             }
         }
 
@@ -137,7 +170,24 @@ namespace LandBankManagement.Services
                 City = source.City,
                 PinCode = source.PinCode
             };
-
+            if (source.PartyDocuments != null && source.PartyDocuments.Count > 0)
+            {
+                ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
+                foreach (var doc in source.PartyDocuments)
+                {
+                    docs.Add(new ImagePickerResult
+                    {
+                        blobId = doc.PartyBlobId,
+                        guid = doc.PartyGuid,
+                        FileName = doc.FileName,
+                        ImageBytes = doc.FileBlob,
+                        ContentType = doc.FileType,
+                        Size = doc.FileLength,
+                        FileCategoryId = doc.FileCategoryId
+                    });
+                }
+                model.partyDocuments = docs;
+            }
             return model;
         }
 
@@ -159,6 +209,17 @@ namespace LandBankManagement.Services
             target.AddressLine2 = source.AddressLine2;
             target.City = source.City;
             target.PinCode = source.PinCode.Trim();
+        }
+
+        private void UpdateDocumentFromModel(PartyDocuments target, ImagePickerResult source)
+        {
+            target.PartyBlobId = source.blobId;
+            target.PartyGuid = source.guid;
+            target.FileBlob = source.ImageBytes;
+            target.FileName = source.FileName;
+            target.FileType = source.ContentType;
+            target.FileCategoryId = source.FileCategoryId;
+            target.UploadTime = DateTime.Now;
         }
     }
 }

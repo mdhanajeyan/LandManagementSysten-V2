@@ -52,9 +52,9 @@ namespace LandBankManagement
             serviceCollection.AddTransient<CompanyViewModel>();
             serviceCollection.AddTransient<CompanyDetailsViewModel>();
 
-            serviceCollection.AddTransient<VendorsViewModel>();
+            serviceCollection.AddTransient<VendorViewModel>();
             serviceCollection.AddTransient<VendorDetailsViewModel>();
-            serviceCollection.AddTransient<PartiesViewModel>();
+            serviceCollection.AddTransient<PartyViewModel>();
             serviceCollection.AddTransient<PartyDetailsViewModel>();
             serviceCollection.AddTransient<ExpenseHeadViewModel>();
             

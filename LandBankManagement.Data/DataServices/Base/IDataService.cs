@@ -16,21 +16,25 @@ namespace LandBankManagement.Data.Services
         Task<int> UploadCompanyDocumentsAsync(List<CompanyDocuments> company);
         Task<int> DeleteCompanyDocumentAsync(CompanyDocuments documents);
 
-        Task<int> AddVendorAsync(Vendor model);
+       // Task<int> AddVendorAsync(Vendor model);
         Task<Vendor> GetVendorAsync(long id);
         Task<IList<Vendor>> GetVendorsAsync(DataRequest<Vendor> request);
         Task<IList<Vendor>> GetVendorsAsync(int skip, int take, DataRequest<Vendor> request);
         Task<int> GetVendorsCountAsync(DataRequest<Vendor> request);
         Task<int> UpdateVendorAsync(Vendor model);
         Task<int> DeleteVendorAsync(Vendor model);
+        Task<int> UploadVendorDocumentsAsync(List<VendorDocuments> company);
+        Task<int> DeleteVendorDocumentAsync(VendorDocuments documents);
 
-        Task<int> AddPartyAsync(Party model);
+        //  Task<int> AddPartyAsync(Party model);
         Task<Party> GetPartyAsync(long id);
         Task<IList<Party>> GetPartiesAsync(DataRequest<Party> request);
         Task<IList<Party>> GetPartiesAsync(int skip, int take, DataRequest<Party> request);
         Task<int> GetPartiesCountAsync(DataRequest<Party> request);
         Task<int> UpdatePartyAsync(Party model);
         Task<int> DeletePartyAsync(Party model);
+        Task<int> UploadPartyDocumentsAsync(List<PartyDocuments> company);
+        Task<int> DeletePartyDocumentAsync(PartyDocuments documents);
 
         Task<int> AddExpenseHeadAsync(ExpenseHead model);
         Task<ExpenseHead> GetExpenseHeadAsync(long id);

@@ -12,7 +12,9 @@ namespace LandBankManagement.Data.Services
         DbSet<Company> Companies { get; }
         DbSet<CompanyDocuments> CompanyDocuments { get; }
         DbSet<Vendor> Vendors { get; }
-        DbSet<Party> Parties { get; } 
+        DbSet<VendorDocuments> VendorDocuments { get; }
+        DbSet<Party> Parties { get; }
+        DbSet<PartyDocuments> PartyDocuments { get; }
         DbSet<Taluk> Taluks { get; }
         DbSet<Hobli> Hoblis { get; }
         DbSet<Village> Villages { get; }

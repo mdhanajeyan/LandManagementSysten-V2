@@ -9,47 +9,73 @@ namespace LandBankManagement.Data.Services
 {
    partial class DataServiceBase
     {
-        public async Task<int> AddVendorAsync(Vendor vendor)
-        {
-            try
-            {
-                if (vendor == null)
-                    return 0;
+        //public async Task<int> AddVendorAsync(Vendor vendor)
+        //{
+        //    try
+        //    {
+        //        if (vendor == null)
+        //            return 0;
 
-                var entity = new Vendor()
-                {
-                    VendorName = vendor.VendorName,
-                    VendorGuid = vendor.VendorGuid,
-                    VendorAlias = vendor.VendorAlias,
-                    VendorSalutation = vendor.VendorSalutation,
-                    AadharNo = vendor.AadharNo,
-                    ContactPerson = vendor.ContactPerson,
-                    PAN = vendor.PAN,
-                    GSTIN = vendor.GSTIN,
-                    email = vendor.email,
-                    IsVendorActive = vendor.IsVendorActive,
-                    PhoneNo = vendor.PhoneNo,
-                    AddressLine1 = vendor.AddressLine1,
-                    AddressLine2 = vendor.AddressLine2,
-                    City = vendor.City,
-                    PinCode = vendor.PinCode
-                };
-                _dataSource.Entry(entity).State = EntityState.Added;
-                int res = await _dataSource.SaveChangesAsync();
-                return res;
-            }
-            catch (Exception ex)
-            {
-                return 0;
-            }
-        }
+        //        var entity = new Vendor()
+        //        {
+        //            VendorName = vendor.VendorName,
+        //            VendorGuid = vendor.VendorGuid,
+        //            VendorAlias = vendor.VendorAlias,
+        //            VendorSalutation = vendor.VendorSalutation,
+        //            AadharNo = vendor.AadharNo,
+        //            ContactPerson = vendor.ContactPerson,
+        //            PAN = vendor.PAN,
+        //            GSTIN = vendor.GSTIN,
+        //            email = vendor.email,
+        //            IsVendorActive = vendor.IsVendorActive,
+        //            PhoneNo = vendor.PhoneNo,
+        //            AddressLine1 = vendor.AddressLine1,
+        //            AddressLine2 = vendor.AddressLine2,
+        //            City = vendor.City,
+        //            PinCode = vendor.PinCode
+        //        };
+        //        _dataSource.Entry(entity).State = EntityState.Added;
+        //        int res = await _dataSource.SaveChangesAsync();
+        //        return res;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return 0;
+        //    }
+        //}
 
         public async Task<int> UpdateVendorAsync(Vendor vendor)
         {
             try
             {
-                _dataSource.Entry(vendor).State = EntityState.Modified;
+                ICollection<VendorDocuments> docs = vendor.VendorDocuments;
+                vendor.VendorDocuments = null;
+                if (vendor.VendorId > 0)
+                {
+                    _dataSource.Entry(vendor).State = EntityState.Modified;
+                }
+                else
+                {
+                    vendor.VendorGuid = Guid.NewGuid();
+                    //Company.CreatedOn = DateTime.UtcNow;
+                    _dataSource.Entry(vendor).State = EntityState.Added;
+                }
+                vendor.SearchTerms = vendor.BuildSearchTerms();
                 int res = await _dataSource.SaveChangesAsync();
+
+                if (docs != null)
+                {
+                    foreach (var doc in docs)
+                    {
+                        if (doc.VendorBlobId == 0)
+                        {
+                            doc.VendorGuid = vendor.VendorGuid;
+                            _dataSource.VendorDocuments.Add(doc);
+
+                        }
+                    }
+                }
+                await _dataSource.SaveChangesAsync();
                 return res;
             }
             catch (Exception ex)
@@ -62,14 +88,28 @@ namespace LandBankManagement.Data.Services
         {
             try
             {
-                return await _dataSource.Vendors.Where(x => x.VendorId == id).FirstOrDefaultAsync();
+                var vendor= await _dataSource.Vendors.Where(x => x.VendorId == id).FirstOrDefaultAsync();
+                if (vendor.VendorGuid != null)
+                {
+                    var docs = GetVendorDocumentsAsync(vendor.VendorGuid);
+                    if (docs.Any())
+                    {
+                        vendor.VendorDocuments = docs;
+                    }
+
+                }
+                return vendor;
             }
             catch (Exception ex)
             {
                 return null;
             }
         }
-
+        private List<VendorDocuments> GetVendorDocumentsAsync(Guid id)
+        {
+            return _dataSource.VendorDocuments
+                .Where(r => r.VendorGuid == id).ToList();
+        }
         public async Task<IList<Vendor>> GetVendorsAsync(int skip, int take, DataRequest<Vendor> request)
         {
             IQueryable<Vendor> items = GetVendors(request);
@@ -163,6 +203,27 @@ namespace LandBankManagement.Data.Services
 
             return await items.CountAsync();
         }
+        public async Task<int> UploadVendorDocumentsAsync(List<VendorDocuments> documents)
+        {
+            try
+            {
+                foreach (var doc in documents)
+                {
+                    _dataSource.Entry(doc).State = EntityState.Added;
+                }
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        public async Task<int> DeleteVendorDocumentAsync(VendorDocuments documents)
+        {
+            _dataSource.VendorDocuments.Remove(documents);
+            return await _dataSource.SaveChangesAsync();
+        }
     }
 }

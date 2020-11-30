@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,16 +10,14 @@ using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
-    public class PartyDetailsArgs
-    {
-        static public PartyDetailsArgs CreateDefault() => new PartyDetailsArgs();
-
-        public int PartyId { get; set; }
-
-        public bool IsNew => PartyId <= 0;
-    }
     public class PartyDetailsViewModel : GenericDetailsViewModel<PartyModel>
     {
+        private ObservableCollection<ImagePickerResult> _docList = null;
+        public ObservableCollection<ImagePickerResult> DocList
+        {
+            get => _docList;
+            set => Set(ref _docList, value);
+        }
         public IPartyService PartyService { get; }
         public IFilePickerService FilePickerService { get; }
         public PartyDetailsViewModel(IPartyService partyService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
@@ -32,33 +31,15 @@ namespace LandBankManagement.ViewModels
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
-        public PartyDetailsArgs ViewModelArgs { get; private set; }
-
-        public async Task LoadAsync(PartyDetailsArgs args)
+        public async Task LoadAsync()
         {
-            ViewModelArgs = args ?? PartyDetailsArgs.CreateDefault();
-
-            if (ViewModelArgs.IsNew)
-            {
-                Item = new PartyModel();
-                IsEditMode = true;
-            }
-            else
-            {
-                try
-                {
-                    var item = await PartyService.GetPartyAsync(ViewModelArgs.PartyId);
-                    Item = item ?? new PartyModel { PartyId = ViewModelArgs.PartyId, IsEmpty = true };
-                }
-                catch (Exception ex)
-                {
-                    LogException("Party", "Load", ex);
-                }
-            }
+            Item = new PartyModel();
+            Item.IsPartyActive = true;
+            IsEditMode = true;
         }
         public void Unload()
         {
-            ViewModelArgs.PartyId = Item?.PartyId ?? 0;
+
         }
 
         public void Subscribe()
@@ -71,40 +52,46 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        public PartyDetailsArgs CreateArgs()
-        {
-            return new PartyDetailsArgs
-            {
-                PartyId = Item?.PartyId ?? 0
-            };
-        }
-
-        private object _newPictureSource = null;
-        public object NewPictureSource
-        {
-            get => _newPictureSource;
-            set => Set(ref _newPictureSource, value);
-        }
 
         public override void BeginEdit()
         {
-            NewPictureSource = null;
             base.BeginEdit();
         }
 
         public ICommand EditPictureCommand => new RelayCommand(OnEditFile);
         private async void OnEditFile()
         {
-            NewPictureSource = null;
             var result = await FilePickerService.OpenImagePickerAsync();
             if (result != null)
             {
+                if (DocList == null)
+                    DocList = new ObservableCollection<ImagePickerResult>();
 
-              //  NewPictureSource = result.ImageSource;
+                foreach (var file in result)
+                {
+                    DocList.Add(file);
+                }
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    DocList[i].Identity = i + 1;
+                }
             }
-            else
+
+        }
+
+        public void DeleteDocument(int id)
+        {
+            if (id > 0)
             {
-                NewPictureSource = null;
+                if (DocList[id - 1].blobId > 0)
+                {
+                    PartyService.DeletePartyDocumentAsync(DocList[id - 1]);
+                }
+                DocList.RemoveAt(id - 1);
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    DocList[i].Identity = i + 1;
+                }
             }
         }
 
@@ -115,9 +102,9 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Saving Party...");
                 await Task.Delay(100);
                 if (model.PartyId <= 0)
-                    await PartyService.AddPartyAsync(model);
+                    await PartyService.AddPartyAsync(model, DocList);
                 else
-                    await PartyService.UpdatePartyAsync(model);
+                    await PartyService.UpdatePartyAsync(model, DocList);
                 EndStatusMessage("Party saved");
                 LogInformation("Party", "Save", "Party saved successfully", $"Party {model.PartyId} '{model.PartyName}' was saved successfully.");
                 return true;
@@ -132,6 +119,7 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new PartyModel();
+            DocList.Clear();
         }
         protected override async Task<bool> DeleteItemAsync(PartyModel model)
         {

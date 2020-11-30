@@ -76,6 +76,14 @@ namespace LandBankManagement.ViewModels
                 var model = await CompanyService.GetCompanyAsync(selected.CompanyID);
                 selected.Merge(model);
                 CompanyDetials.Item = model;
+                if (model.CompanyDocuments != null)
+                {
+                    CompanyDetials.DocList = model.CompanyDocuments;
+                    for (int i = 0; i < CompanyDetials.DocList.Count; i++)
+                    {
+                        CompanyDetials.DocList[i].Identity = i + 1;
+                    }
+                }
             }
             catch (Exception ex)
             {

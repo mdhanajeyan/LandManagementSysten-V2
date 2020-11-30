@@ -12,8 +12,8 @@ namespace LandBankManagement.ViewModels
         private readonly NavigationItem DashboardItem = new NavigationItem(0xE80F, "Dashboard", typeof(DashboardViewModel));
         private readonly NavigationItem AppLogsItem = new NavigationItem(0xE7BA, "Activity Log", typeof(AppLogsViewModel));
         private readonly NavigationItem CompanyItem = new NavigationItem(0xEC0B, "Company", typeof(CompanyViewModel));
-        private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorsViewModel));
-        private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartiesViewModel));
+        private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel));
+        private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartyViewModel));
         private readonly NavigationItem ExpenseHeadItem = new NavigationItem(0xE912, "ExpenseHead", typeof(ExpenseHeadViewModel));
         private readonly NavigationItem TalukItem = new NavigationItem(0xE759, "Taluk", typeof(TalukViewModel));
         private readonly NavigationItem HobliItem = new NavigationItem(0xE802, "Hobli", typeof(HobliViewModel));
@@ -73,10 +73,10 @@ namespace LandBankManagement.ViewModels
                 case "SettingsViewModel":
                   //  NavigationService.Navigate(viewModel, new SettingsArgs());
                     break;
-                case "VendorsViewModel":
+                case "VendorViewModel":
                     NavigationService.Navigate(viewModel,new VendorListArgs());
                     break;
-                case "PartiesViewModel":
+                case "PartyViewModel":
                     NavigationService.Navigate(viewModel, new PartyListArgs());
                     break;
                 case "ExpenseHeadViewModel":

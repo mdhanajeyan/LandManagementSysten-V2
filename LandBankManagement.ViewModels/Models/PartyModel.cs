@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LandBankManagement.Services;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace LandBankManagement.Models
@@ -28,7 +30,7 @@ namespace LandBankManagement.Models
         public string AadharNo { get; set; }
         public bool IsPartyActive { get; set; }
         public string GSTIN { get; set; }
-
+        public ObservableCollection<ImagePickerResult> partyDocuments { get; set; }
         public bool IsNew => PartyId <= 0;
 
 

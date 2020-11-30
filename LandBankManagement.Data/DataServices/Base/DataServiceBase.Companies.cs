@@ -21,7 +21,7 @@ namespace LandBankManagement.Data.Services
                 }
 
             }
-
+          
             return company;
         }
 

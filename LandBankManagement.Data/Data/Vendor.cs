@@ -32,7 +32,8 @@ namespace LandBankManagement.Data
         public bool IsVendorActive { get; set; }
         [NotMapped]
         public string SearchTerms { get; set; }
-
-        public virtual ICollection<VendorDocument> VendorDocuments { get; set; }
+        public string BuildSearchTerms() => $"{VendorId} {VendorName} {email} {AddressLine1}".ToLower();
+        [NotMapped]
+        public  ICollection<VendorDocuments> VendorDocuments { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,7 +63,7 @@ namespace LandBankManagement.Services
             var item = await dataService.GetCompanyAsync(id);
             if (item != null)
             {
-                return await CreateCompanyModelAsync(item, includeAllFields: true);
+                return  CreateCompanyModelAsync(item, includeAllFields: true);
             }
             return null;
         }
@@ -82,7 +83,7 @@ namespace LandBankManagement.Services
                 var items = await dataService.GetCompaniesAsync(skip, take, request);
                 foreach (var item in items)
                 {
-                    models.Add(await CreateCompanyModelAsync(item, includeAllFields: false));
+                    models.Add( CreateCompanyModelAsync(item, includeAllFields: false));
                 }
                 return models;
             }
@@ -101,24 +102,23 @@ namespace LandBankManagement.Services
             long id = model.CompanyID;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var company = id > 0 ? await dataService.GetCompanyAsync(model.CompanyID) : new Company();
-                if (company != null)
+                //  var company = id > 0 ? await dataService.GetCompanyAsync(model.CompanyID) : new Company();
+                var company = new Company();
+
+                if (docs != null && docs.Count > 0)
                 {
-                    if ( docs !=null && docs.Count > 0)
+                    List<CompanyDocuments> docList = new List<CompanyDocuments>();
+                    foreach (var obj in docs)
                     {
-                        List<CompanyDocuments> docList = new List<CompanyDocuments>();
-                        foreach (var obj in docs)
-                        {
-                            var doc = new CompanyDocuments();
-                            UpdateDocumentFromModel(doc, obj);
-                            docList.Add(doc);
-                        }
-                        company.CompanyDocuments = docList;
+                        var doc = new CompanyDocuments();
+                        UpdateDocumentFromModel(doc, obj);
+                        docList.Add(doc);
                     }
-                    UpdateCompanyFromModel(company, model);
-                    await dataService.UpdateCompanyAsync(company);
-                    model.Merge(await GetCompanyAsync(dataService, company.CompanyID));
+                    company.CompanyDocuments = docList;
                 }
+                UpdateCompanyFromModel(company, model);
+                await dataService.UpdateCompanyAsync(company);
+                model.Merge(await GetCompanyAsync(dataService, company.CompanyID));
                 return 0;
             }
         }
@@ -162,7 +162,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        static public async Task<CompanyModel> CreateCompanyModelAsync(Company source, bool includeAllFields)
+        static public CompanyModel CreateCompanyModelAsync(Company source, bool includeAllFields)
         {
             var model = new CompanyModel()
             {
@@ -181,11 +181,28 @@ namespace LandBankManagement.Services
                 Pincode = source.Pincode
             };
 
+            if (source.CompanyDocuments!=null && source.CompanyDocuments.Count > 0) {
+                ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
+                foreach (var doc in source.CompanyDocuments) {
+                    docs.Add(new ImagePickerResult
+                    {blobId=doc.CompanyBlobId,
+                    guid=doc.CompanyGuid,
+                    FileName=doc.FileName,
+                    ImageBytes=doc.FileBlob,
+                    ContentType=doc.FileType,
+                    Size=doc.FileLength,
+                    FileCategoryId=doc.FileCategoryId
+                    });
+                }
+                model.CompanyDocuments = docs;
+            }
+
             return model;
         }
 
         private void UpdateCompanyFromModel(Company target, CompanyModel source)
         {
+            target.CompanyID = source.CompanyID;
             target.CompanyGuid = source.CompanyGuid;
             target.Name = source.Name;
             target.PhoneNoIsdCode = source.PhoneNoIsdCode;
