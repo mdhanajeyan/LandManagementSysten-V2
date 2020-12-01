@@ -17,5 +17,7 @@ namespace LandBankManagement.Data
         [NotMapped]
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() => $"{TalukId} {HobliName}".ToLower();
+        [NotMapped]
+        public string TalukName { get; set; }
     }
 }

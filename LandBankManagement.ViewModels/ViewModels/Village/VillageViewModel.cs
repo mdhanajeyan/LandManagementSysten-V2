@@ -15,15 +15,16 @@ namespace LandBankManagement.ViewModels
 
         public VillageDetailsViewModel VillageDetials { get; set; }
 
-        public VillageViewModel(ITalukService talukService, IHobliService hobliService, ICommonServices commonServices, IFilePickerService filePickerService, IVillageService villageService) : base(commonServices)
+        public VillageViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IVillageService villageService) : base(commonServices)
         {
             VillageService = villageService;
             VillageList = new VillageListViewModel(villageService, commonServices);
-            VillageDetials = new VillageDetailsViewModel(talukService, hobliService,villageService, filePickerService, commonServices);
+            VillageDetials = new VillageDetailsViewModel(dropDownService, villageService, filePickerService, commonServices, VillageList);
         }
 
         public async Task LoadAsync(VillageListArgs args)
         {
+            await VillageDetials.LoadAsync();
             await VillageList.LoadAsync(args);
         }
         public void Unload()

@@ -13,10 +13,12 @@ namespace LandBankManagement.ViewModels
     {
         public ICheckListService CheckListService { get; }
         public IFilePickerService FilePickerService { get; }
-        public CheckListDetailsViewModel(ICheckListService checkListService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        public CheckListListViewModel CheckListListViewModel { get; }
+        public CheckListDetailsViewModel(ICheckListService checkListService, IFilePickerService filePickerService, ICommonServices commonServices, CheckListListViewModel checkListListViewModel) : base(commonServices)
         {
             CheckListService = checkListService;
             FilePickerService = filePickerService;
+            CheckListListViewModel = checkListListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New CheckList" : TitleEdit;
@@ -85,6 +87,8 @@ namespace LandBankManagement.ViewModels
                 else
                     await CheckListService.UpdateCheckListAsync(model);
                 EndStatusMessage("CheckList saved");
+                await CheckListListViewModel.RefreshAsync();
+                ClearItem();
                 LogInformation("CheckList", "Save", "CheckList saved successfully", $"CheckList {model.CheckListId} '{model.CheckListName}' was saved successfully.");
                 return true;
             }
@@ -107,6 +111,8 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting CheckList...");
                 await Task.Delay(100);
                 await CheckListService.DeleteCheckListAsync(model);
+                await CheckListListViewModel.RefreshAsync();
+                ClearItem();
                 EndStatusMessage("CheckList deleted");
                 LogWarning("CheckList", "Delete", "CheckList deleted", $"CheckList {model.CheckListId} '{model.CheckListName}' was deleted.");
                 return true;

@@ -89,7 +89,7 @@ namespace LandBankManagement.Services
             long id = model.CashAccountId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var bankAccount = id > 0 ? await dataService.GetCashAccountAsync(model.CashAccountId) : new CashAccount();
+                var bankAccount =  new CashAccount();
                 if (bankAccount != null)
                 {
                     UpdateCashAccountFromModel(bankAccount, model);
@@ -117,8 +117,9 @@ namespace LandBankManagement.Services
                 CashAccountGuid = source.CashAccountGuid,
                 CashAccountName = source.CashAccountName,
                 IsCashAccountActive = source.IsCashAccountActive,
-                AccountTypeId = source.AccountTypeId   ,
-                CompanyID = source.CompanyID
+                AccountTypeId = source.AccountTypeId,
+                CompanyID = source.CompanyID,
+                CompanyName=source.CompanyName
             };
             return model;
         }

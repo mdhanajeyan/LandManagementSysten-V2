@@ -66,6 +66,8 @@ namespace LandBankManagement
             NavigationService.Register<CashAccountViewModel, CashAccountView>();
             NavigationService.Register<DocumentTypeViewModel, DocumentTypeView>();
             NavigationService.Register<CheckListViewModel, CheckListView>();
+            NavigationService.Register<PropertyTypeViewModel, PropertyTypeView>();
+            NavigationService.Register<BankAccountViewModel, BankAccountView>();
         }
        
         static private async Task EnsureLogDbAsync()

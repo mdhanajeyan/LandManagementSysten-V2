@@ -57,7 +57,15 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<Hobli> GetHoblis(DataRequest<Hobli> request)
         {
-            IQueryable<Hobli> items = _dataSource.Hoblis;
+            IQueryable<Hobli> items = from h in _dataSource.Hoblis join t in _dataSource.Taluks on h.TalukId equals t.TalukId 
+                                      select (new Hobli {
+                                          HobliId=h.HobliId,
+                                          HobliGuid=h.HobliGuid,
+                                      HobliGMapLink=h.HobliGMapLink,
+                                      TalukId=h.TalukId,
+                                      HobliName=h.HobliName,
+                                      TalukName=t.TalukName
+                                      });
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -96,6 +104,7 @@ namespace LandBankManagement.Data.Services
                     HobliName = source.HobliName,
                     HobliGMapLink = source.HobliGMapLink,
                     HobliIsActive = source.HobliIsActive,
+                    TalukName=source.TalukName
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -105,7 +114,9 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> GetHoblisCountAsync(DataRequest<Hobli> request)
         {
-            IQueryable<Hobli> items = _dataSource.Hoblis;
+            IQueryable<Hobli> items = from h in _dataSource.Hoblis
+                                      join t in _dataSource.Taluks on h.TalukId equals t.TalukId
+                                      select h;
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -135,9 +146,6 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.SaveChangesAsync();
         }
 
-        public Dictionary<int, string> GetHobliOptions()
-        {
-            return _dataSource.Hoblis.Select(x => new { x.HobliId, x.HobliName }).ToDictionary(t => t.HobliId, t => t.HobliName);
-        }
+      
     }
 }

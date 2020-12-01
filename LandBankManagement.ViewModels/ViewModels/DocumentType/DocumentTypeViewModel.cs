@@ -17,7 +17,7 @@ namespace LandBankManagement.ViewModels
         {
             DocumentTypeService = documentTypeService;
             DocumentTypeList = new DocumentTypeListViewModel(documentTypeService, commonServices);
-            DocumentTypeDetials = new DocumentTypeDetailsViewModel(documentTypeService, filePickerService, commonServices);
+            DocumentTypeDetials = new DocumentTypeDetailsViewModel(documentTypeService, filePickerService, commonServices, DocumentTypeList);
         }
 
         public async Task LoadAsync(DocumentTypeListArgs args)

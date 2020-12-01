@@ -17,11 +17,12 @@ namespace LandBankManagement.ViewModels
         {
             TalukService = talukService;
             TalukList = new TalukListViewModel(talukService, commonServices);
-            TalukDetials = new TalukDetailsViewModel(talukService, filePickerService, commonServices);
+            TalukDetials = new TalukDetailsViewModel(talukService, filePickerService, commonServices, TalukList);
         }
 
         public async Task LoadAsync(TalukListArgs args)
         {
+            await TalukDetials.LoadAsync();
             await TalukList.LoadAsync(args);
         }
         public void Unload()

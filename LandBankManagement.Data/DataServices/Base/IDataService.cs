@@ -61,7 +61,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateHobliAsync(Hobli model);
         Task<int> DeleteHobliAsync(Hobli model);
         Dictionary<int, string> GetHobliOptions();
-
+        Dictionary<int, string> GetAccountTypeOptions();
         Task<int> AddVillageAsync(Village model);
         Task<Village> GetVillageAsync(long id);
         Task<IList<Village>> GetVillagesAsync(DataRequest<Village> request);
@@ -70,7 +70,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateVillageAsync(Village model);
         Task<int> DeleteVillageAsync(Village model);
         Dictionary<int, string> GetVillageOptions();
-
+        Dictionary<int, string> GetCompanyOptions();
         Task<int> AddAccountTypeAsync(AccountType model);
         Task<AccountType> GetAccountTypeAsync(long id);
         Task<IList<AccountType>> GetAccountTypesAsync(DataRequest<AccountType> request);

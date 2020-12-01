@@ -13,11 +13,11 @@ namespace LandBankManagement.ViewModels
 
         public HobliDetailsViewModel HobliDetials { get; set; }
 
-        public HobliViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IHobliService hobliService,ITalukService talukService) : base(commonServices)
+        public HobliViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IHobliService hobliService,IDropDownService dropDownService) : base(commonServices)
         {
             HobliService = hobliService;
             HobliList = new HobliListViewModel(hobliService, commonServices);
-            HobliDetials = new HobliDetailsViewModel(hobliService, filePickerService, commonServices, talukService);
+            HobliDetials = new HobliDetailsViewModel(hobliService, filePickerService, commonServices, dropDownService);
         }
 
         public async Task LoadAsync(HobliListArgs args)

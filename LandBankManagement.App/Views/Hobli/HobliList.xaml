@@ -18,7 +18,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Hobli Name" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="Hobli Map Link" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="2" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="2" Text="Taluk Name" Style="{StaticResource ColumnHeaderStyle}" />
 
             </Grid>
         </DataTemplate>
@@ -33,7 +33,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{x:Bind HobliName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="1" Text="{x:Bind HobliGMapLink, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="2" Text="{x:Bind HobliIsActive, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="2" Text="{x:Bind TalukName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
 
                 </Grid>
             </Grid>

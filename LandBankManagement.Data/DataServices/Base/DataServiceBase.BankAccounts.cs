@@ -11,25 +11,31 @@ namespace LandBankManagement.Data.Services
     {
         public async Task<int> AddBankAccountAsync(BankAccount model)
         {
-
-            if (model == null)
-                return 0;
-
-            var entity = new BankAccount()
+            try
             {
-                BankAccountId = model.BankAccountId,
-                BankGuid = model.BankGuid,
-                BankName = model.BankName,
-                BranchName = model.BranchName,
-                AccountNumber = model.AccountNumber,
-                AccountType = model.AccountType,
-                IFSCCode = model.IFSCCode,
-                OpeningBalance = model.OpeningBalance,
-                IsBankAccountActive = model.IsBankAccountActive,
-            };
-            _dataSource.Entry(entity).State = EntityState.Added;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+
+                if (model == null)
+                    return 0;
+
+                var entity = new BankAccount()
+                {
+                    BankGuid = model.BankGuid,
+                    BankName = model.BankName,
+                    BranchName = model.BranchName,
+                    AccountNumber = model.AccountNumber,
+                    AccountType = model.AccountType,
+                    IFSCCode = model.IFSCCode,
+                    OpeningBalance = model.OpeningBalance,
+                    IsBankAccountActive = model.IsBankAccountActive,
+                    CompanyID = model.CompanyID
+                };
+                _dataSource.Entry(entity).State = EntityState.Added;
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<BankAccount> GetBankAccountAsync(long id)
@@ -60,6 +66,9 @@ namespace LandBankManagement.Data.Services
                     IFSCCode = source.IFSCCode,
                     OpeningBalance = source.OpeningBalance,
                     IsBankAccountActive = source.IsBankAccountActive,
+                    CompanyID=source.CompanyID,
+                    CompanyName=source.CompanyName,
+                    AccountTypeName=source.AccountTypeName
         })
                 .AsNoTracking()
                 .ToListAsync();
@@ -69,7 +78,25 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<BankAccount> GetBankAccounts(DataRequest<BankAccount> request)
         {
-            IQueryable<BankAccount> items = _dataSource.BankAccounts;
+            IQueryable<BankAccount> items = from bank in _dataSource.BankAccounts
+                                            join c in _dataSource.Companies on bank.CompanyID equals c.CompanyID
+                                            join a in _dataSource.AccountTypes on bank.AccountType equals a.AccountTypeId
+                                            select (new BankAccount
+                                            {
+                                                BankAccountId = bank.BankAccountId,
+                                                BankGuid = bank.BankGuid,
+                                                BankName = bank.BankName,
+                                                BranchName = bank.BranchName,
+                                                AccountNumber = bank.AccountNumber,
+                                                AccountType = bank.AccountType,
+                                                IFSCCode = bank.IFSCCode,
+                                                OpeningBalance = bank.OpeningBalance,
+                                                IsBankAccountActive = bank.IsBankAccountActive,
+                                                CompanyID = bank.CompanyID,
+                                                CompanyName = c.Name,
+                                                AccountTypeName=a.AccountTypeName
+                                            });
+            //IQueryable<BankAccount> items = _dataSource.BankAccounts;
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))

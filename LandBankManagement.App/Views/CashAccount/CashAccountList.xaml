@@ -31,9 +31,9 @@
                         <ColumnDefinition Width="40*"/>
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{x:Bind CashAccountName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="1" Text="{x:Bind CashAccountId, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="2" Text="{x:Bind IsCashAccountActive, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="0" Text="{x:Bind CompanyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="1" Text="{x:Bind CashAccountName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <CheckBox Grid.Column="6" x:Name="isActive" IsEnabled="False"  IsChecked="{x:Bind IsCashAccountActive, Mode=TwoWay}"/>
 
                 </Grid>
             </Grid>

@@ -9,15 +9,17 @@ using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
-   
+
     public class DocumentTypeDetailsViewModel : GenericDetailsViewModel<DocumentTypeModel>
     {
         public IDocumentTypeService DocumentTypeService { get; }
         public IFilePickerService FilePickerService { get; }
-        public DocumentTypeDetailsViewModel(IDocumentTypeService documentTypeService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        public DocumentTypeListViewModel DocumentTypeListViewModel {get;}
+        public DocumentTypeDetailsViewModel(IDocumentTypeService documentTypeService, IFilePickerService filePickerService, ICommonServices commonServices, DocumentTypeListViewModel documentTypeListViewModel) : base(commonServices)
         {
             DocumentTypeService = documentTypeService;
             FilePickerService = filePickerService;
+            DocumentTypeListViewModel = documentTypeListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New DocumentType" : TitleEdit;
@@ -29,7 +31,6 @@ namespace LandBankManagement.ViewModels
         public async Task LoadAsync()
         {
             Item = new DocumentTypeModel();
-            IsEditMode = true;
         }
         public void Unload()
         {
@@ -85,6 +86,9 @@ namespace LandBankManagement.ViewModels
                     await DocumentTypeService.AddDocumentTypeAsync(model);
                 else
                     await DocumentTypeService.UpdateDocumentTypeAsync(model);
+
+                await DocumentTypeListViewModel.RefreshAsync();
+                ClearItem();
                 EndStatusMessage("DocumentType saved");
                 LogInformation("DocumentType", "Save", "DocumentType saved successfully", $"DocumentType {model.DocumentTypeId} '{model.DocumentTypeName}' was saved successfully.");
                 return true;
@@ -107,6 +111,8 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting DocumentType...");
                 await Task.Delay(100);
                 await DocumentTypeService.DeleteDocumentTypeAsync(model);
+                ClearItem();
+                await DocumentTypeListViewModel.RefreshAsync();
                 EndStatusMessage("DocumentType deleted");
                 LogWarning("DocumentType", "Delete", "DocumentType deleted", $"DocumentType {model.DocumentTypeId} '{model.DocumentTypeName}' was deleted.");
                 return true;

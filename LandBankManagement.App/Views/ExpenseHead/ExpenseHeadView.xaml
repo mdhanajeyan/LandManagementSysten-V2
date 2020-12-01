@@ -8,13 +8,12 @@
     xmlns:controls="using:LandBankManagement.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:views="using:LandBankManagement.Views" 
-    xmlns:viewmodels="using:LandBankManagement.ViewModels" 
-    xmlns:models="using:LandBankManagement.Models">
+    xmlns:viewmodels="using:LandBankManagement.ViewModels">
 
     <UserControl.Resources>
         <DataTemplate x:Key="ListHeaderTemplate">
             <StackPanel Margin="6,4,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="Expense Head" FontSize="18" />
+                <TextBlock Text="ExpenseHead" FontSize="18" />
                 <TextBlock Text="{Binding}" FontSize="18" Foreground="Gray" />
             </StackPanel>
         </DataTemplate>
@@ -23,35 +22,33 @@
     <Grid Background="WhiteSmoke"
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
-        <controls:WindowTitle Prefix="Expense Head" Title="{x:Bind ViewModel.Title, Mode=OneWay}" />
+        <controls:WindowTitle Prefix="Expense Head" Title="{x:Bind ViewModel.ExpenseHeadList.Title, Mode=OneWay}" />
 
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+
+            <!--Details-->
+            <Grid Grid.Row="0" 
+                  BorderBrush="LightGray"
+                  BorderThickness="0,1,0,0">
+                <views:ExpenseHeadDetails ViewModel="{x:Bind ViewModel.ExpenseHeadDetials}"/>
+
+            </Grid>
+
             <!--List-->
-            <Grid>
-                <controls:Section Header="{x:Bind ViewModel.Title, Mode=OneWay}" 
+            <Grid Grid.Row="1"  Grid.RowSpan="{x:Bind GetRowSpan(ViewModel.ExpenseHeadList.IsMultipleSelection), Mode=OneWay}">
+                <controls:Section Header="{x:Bind ViewModel.ExpenseHeadList.Title, Mode=OneWay}" 
                                   HeaderTemplate="{StaticResource ListHeaderTemplate}"
+                                  HeaderButtonGlyph="&#xE2B4;" 
+                                  HeaderButtonClick="OpenInNewView"
                                   IsButtonVisible="{x:Bind ViewModel.IsMainView}">
-                    <toolkit:DataGrid
-                    CanUserReorderColumns="False"
-                    CanUserResizeColumns="False"
-                    AutoGenerateColumns="False"
-                    BorderThickness="0"
-                    GridLinesVisibility="None"
-                    ItemsSource="{x:Bind ViewModel.Items, Mode=TwoWay}"
-                    SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}">
-                        <toolkit:DataGrid.Columns>
-                            <toolkit:DataGridTextColumn
-                            Header="Expense Head"
-                            Tag="LastName"
-                            Binding="{Binding ExpenseHeadName}"/>
-                        </toolkit:DataGrid.Columns>
-                    </toolkit:DataGrid>
+                    <views:ExpenseHeadList ViewModel="{x:Bind ViewModel.ExpenseHeadList}" />
                 </controls:Section>
             </Grid>
+
         </Grid>
     </Grid>
 </Page>

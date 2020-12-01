@@ -14,6 +14,9 @@ namespace LandBankManagement.Models
         public string VillageGMapLink { get; set; }
         public bool VillageIsActive { get; set; }
         public bool IsNew => VillageId <= 0;
+
+        public string TalukName { get; set; }
+        public string HobliName { get; set; }
         public override void Merge(ObservableObject source)
         {
             if (source is VillageModel model)

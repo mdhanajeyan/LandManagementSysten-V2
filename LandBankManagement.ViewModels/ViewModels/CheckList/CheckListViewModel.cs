@@ -20,7 +20,7 @@ namespace LandBankManagement.ViewModels
         {
             CheckListService = checkListService;
             CheckListList = new CheckListListViewModel(checkListService, commonServices);
-            CheckListDetials = new CheckListDetailsViewModel(checkListService, filePickerService, commonServices);
+            CheckListDetials = new CheckListDetailsViewModel(checkListService, filePickerService, commonServices, CheckListList);
         }
 
         public async Task LoadAsync(CheckListListArgs args)

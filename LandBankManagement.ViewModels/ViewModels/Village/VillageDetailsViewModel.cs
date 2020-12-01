@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,18 +12,28 @@ namespace LandBankManagement.ViewModels
 {
    public class VillageDetailsViewModel : GenericDetailsViewModel<VillageModel>
     {
-        public ITalukService TalukService { get; }
-        public IHobliService HobliService { get; }
+       public IDropDownService DropDownService { get; }
         public IVillageService VillageService { get; }
         public IFilePickerService FilePickerService { get; }
-        public List<ComboBoxOptions> TalukOptions { get; set; }
-        public List<ComboBoxOptions> HobliOptions { get; set; }
-        public VillageDetailsViewModel(ITalukService talukService, IHobliService hobliService, IVillageService villageService,IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        public VillageListViewModel VillageListViewModel { get; }
+        private ObservableCollection<ComboBoxOptions> _talukOptions = null;
+        public ObservableCollection<ComboBoxOptions> TalukOptions
         {
-            TalukService = talukService;
-            HobliService= hobliService;
+            get => _talukOptions;
+            set => Set(ref _talukOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptions> _hobliOptions = null;
+        public ObservableCollection<ComboBoxOptions> HobliOptions
+        {
+            get => _hobliOptions;
+            set => Set(ref _hobliOptions, value);
+        }
+        public VillageDetailsViewModel(IDropDownService dropDownService, IVillageService villageService,IFilePickerService filePickerService, ICommonServices commonServices, VillageListViewModel villageListViewModel) : base(commonServices)
+        {
+            DropDownService = dropDownService;
             FilePickerService = filePickerService;
             VillageService = villageService;
+            VillageListViewModel = villageListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Village" : TitleEdit;
@@ -35,19 +46,20 @@ namespace LandBankManagement.ViewModels
         public async Task LoadAsync()
         {
             Item = new VillageModel();
+            Item.VillageIsActive = true;
             IsEditMode = true;
             GetTaluks();
             GetHobli();
         }
         private void GetTaluks()
         {
-            var models = TalukService.GetTaluksOptions();
+            var models = DropDownService.GetTalukOptions();
             TalukOptions = models;
 
         }
         private void GetHobli()
         {
-            var models = HobliService.GetHobliOptions();
+            var models = DropDownService.GetHobliOptions();
             HobliOptions = models;
 
         }
@@ -71,8 +83,6 @@ namespace LandBankManagement.ViewModels
         //}
 
 
-
-
         protected override async Task<bool> SaveItemAsync(VillageModel model)
         {
             try
@@ -83,6 +93,7 @@ namespace LandBankManagement.ViewModels
                     await VillageService.AddVillageAsync(model);
                 else
                     await VillageService.UpdateVillageAsync(model);
+                await VillageListViewModel.RefreshAsync();
                 EndStatusMessage("Village saved");
                 LogInformation("Village", "Save", "Village saved successfully", $"Village {model.VillageId} '{model.VillageName}' was saved successfully.");
                 return true;
@@ -96,7 +107,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new VillageModel();
+            Item = new VillageModel() { TalukId = 0, HobliId = 0 ,VillageId=0,VillageIsActive=true};
         }
         protected override async Task<bool> DeleteItemAsync(VillageModel model)
         {
@@ -105,6 +116,8 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Village...");
                 await Task.Delay(100);
                 await VillageService.DeleteVillageAsync(model);
+                ClearItem();
+                 await VillageListViewModel.RefreshAsync();
                 EndStatusMessage("Village deleted");
                 LogWarning("Village", "Delete", "Village deleted", $"Taluk {model.VillageId} '{model.VillageName}' was deleted.");
                 return true;
@@ -190,7 +203,7 @@ namespace LandBankManagement.ViewModels
                     case "ItemRangesDeleted":
                         try
                         {
-                            var model = await TalukService.GetTalukAsync(current.VillageId);
+                            var model = await VillageService.GetVillageAsync(current.VillageId);
                             if (model == null)
                             {
                                 await OnItemDeletedExternally();

@@ -13,10 +13,12 @@ namespace LandBankManagement.ViewModels
     {
         public IPropertyTypeService PropertyTypeService { get; }
         public IFilePickerService FilePickerService { get; }
-        public PropertyTypeDetailsViewModel(IPropertyTypeService propertyTypeService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        public PropertyTypeListViewModel PropertyTypeList { get;  }
+        public PropertyTypeDetailsViewModel(IPropertyTypeService propertyTypeService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyTypeListViewModel propertyTypeList) : base(commonServices)
         {
             PropertyTypeService = propertyTypeService;
             FilePickerService = filePickerService;
+            PropertyTypeList = propertyTypeList;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New PropertyType" : TitleEdit;
@@ -84,6 +86,8 @@ namespace LandBankManagement.ViewModels
                     await PropertyTypeService.AddPropertyTypeAsync(model);
                 else
                     await PropertyTypeService.UpdatePropertyTypeAsync(model);
+                await PropertyTypeList.RefreshAsync();
+                ClearItem();
                 EndStatusMessage("PropertyType saved");
                 LogInformation("PropertyType", "Save", "PropertyType saved successfully", $"PropertyType {model.PropertyTypeId} '{model.PropertyTypeText}' was saved successfully.");
                 return true;
@@ -107,6 +111,8 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting PropertyType...");
                 await Task.Delay(100);
                 await PropertyTypeService.DeletePropertyTypeAsync(model);
+                await PropertyTypeList.RefreshAsync();
+                ClearItem();
                 EndStatusMessage("PropertyType deleted");
                 LogWarning("PropertyType", "Delete", "PropertyType deleted", $"PropertyType {model.PropertyTypeId} '{model.PropertyTypeText}' was deleted.");
                 return true;

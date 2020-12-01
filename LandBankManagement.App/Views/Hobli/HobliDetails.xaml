@@ -19,7 +19,7 @@
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormTextBox Header="Hobli Name" Text="{x:Bind EditableItem.HobliName, Mode=TwoWay}" />
                 <controls:FormTextBox Header="GMap Link" Text="{x:Bind EditableItem.HobliGMapLink, Mode=TwoWay}" />
-                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.HobliIsActive, Mode=TwoWay}" Content="IsActive"/>
+                <!--<CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.HobliIsActive, Mode=TwoWay}" Content="IsActive"/>-->
 
             </controls:FluidGrid>
         </DataTemplate>

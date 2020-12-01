@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,20 +12,20 @@ namespace LandBankManagement.ViewModels
 {
     public class HobliDetailsViewModel : GenericDetailsViewModel<HobliModel>
     {
-        private List<ComboBoxOptions> _talukOptions = null;
-        public List<ComboBoxOptions> TalukOptions
+        private ObservableCollection<ComboBoxOptions> _talukOptions = null;
+        public ObservableCollection<ComboBoxOptions> TalukOptions
         {
             get => _talukOptions;
             set => Set(ref _talukOptions, value);
         }
         public IHobliService HobliService { get; }
         public IFilePickerService FilePickerService { get; }
-       public ITalukService TalukService { get; }
-        public HobliDetailsViewModel(IHobliService hobliService, IFilePickerService filePickerService, ICommonServices commonServices, ITalukService talukService) : base(commonServices)
+      public IDropDownService DropDownService { get; }
+        public HobliDetailsViewModel(IHobliService hobliService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService) : base(commonServices)
         {
             HobliService = hobliService;
             FilePickerService = filePickerService;
-            TalukService = talukService;
+            DropDownService = dropDownService;
 
         }
 
@@ -37,20 +38,17 @@ namespace LandBankManagement.ViewModels
 
         public void Load() {
           
-            Item = new HobliModel();
+            Item =new HobliModel();
              IsEditMode=true;
-            TalukOptions = new List<ComboBoxOptions>();
-            TalukOptions.Add(new ComboBoxOptions { Id = 1, Description = "test1" });
-            // GetTaluks();
-
-
+           // TalukOptions = new ObservableCollection<ComboBoxOptions>();
+            //TalukOptions.Add(new ComboBoxOptions { Id = 1, Description = "test1" });
+             GetTaluks();
         }
 
         private void GetTaluks() {
-            var models = TalukService.GetTaluksOptions();
+            var models = DropDownService.GetTalukOptions();
             TalukOptions = models;            
-        }
-       
+        }       
 
         public void Subscribe()
         {
@@ -88,7 +86,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new HobliModel();
+            Item = HobliModel.CreateEmpty();
         }
         protected override async Task<bool> DeleteItemAsync(HobliModel model)
         {

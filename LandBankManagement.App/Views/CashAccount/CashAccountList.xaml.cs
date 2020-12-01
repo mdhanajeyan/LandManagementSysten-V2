@@ -19,7 +19,7 @@ namespace LandBankManagement.Views
             get { return (CashAccountListViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(CashAccountListViewModel), typeof(TalukList), new PropertyMetadata(null));
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(CashAccountListViewModel), typeof(CashAccountList), new PropertyMetadata(null));
         #endregion
     }
 }

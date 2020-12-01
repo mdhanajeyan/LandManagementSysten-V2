@@ -14,10 +14,12 @@ namespace LandBankManagement.ViewModels
 
         public ITalukService TalukService { get; }
         public IFilePickerService FilePickerService { get; }
-        public TalukDetailsViewModel(ITalukService talukService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        public TalukListViewModel TalukListViewModel { get; }
+        public TalukDetailsViewModel(ITalukService talukService, IFilePickerService filePickerService, ICommonServices commonServices, TalukListViewModel talukListViewModel) : base(commonServices)
         {
             TalukService = talukService;
             FilePickerService = filePickerService;
+            TalukListViewModel = talukListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Taluk" : TitleEdit;
@@ -92,6 +94,7 @@ namespace LandBankManagement.ViewModels
                     await TalukService.UpdateTalukAsync(model);
                 EndStatusMessage("Taluk saved");
                 LogInformation("Taluk", "Save", "Taluk saved successfully", $"Taluk {model.TalukName} '{model.TalukName}' was saved successfully.");
+                await TalukListViewModel.RefreshAsync();
                 return true;
             }
             catch (Exception ex)
@@ -131,7 +134,7 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<TalukModel>> GetValidationConstraints(TalukModel model)
         {
-            yield return new RequiredConstraint<TalukModel>("Name", m => m.TalukName);
+            yield return new RequiredConstraint<TalukModel>(" Taluk Name", m => m.TalukName);
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 

@@ -91,7 +91,7 @@ namespace LandBankManagement.Services
             long id = model.BankAccountId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var bankAccount = id > 0 ? await dataService.GetBankAccountAsync(model.BankAccountId) : new BankAccount();
+                var bankAccount =  new BankAccount();
                 if (bankAccount != null)
                 {
                     UpdateBankAccountFromModel(bankAccount, model);
@@ -122,8 +122,11 @@ namespace LandBankManagement.Services
                 AccountNumber = source.AccountNumber,
                 AccountType = source.AccountType,
                 IFSCCode = source.IFSCCode,
-                OpeningBalance = source.OpeningBalance,
+                OpeningBalance = source.OpeningBalance.ToString(),
                 IsBankAccountActive = source.IsBankAccountActive,
+                comapnyName=source.CompanyName,
+                CompanyID=source.CompanyID,
+                AccountTypeName=source.AccountTypeName
         };
             return model;
         }
@@ -137,8 +140,9 @@ namespace LandBankManagement.Services
             target.AccountNumber = source.AccountNumber;
             target.AccountType = source.AccountType;
             target.IFSCCode = source.IFSCCode;
-            target.OpeningBalance = source.OpeningBalance;
+            target.OpeningBalance =Convert.ToDecimal(  string.IsNullOrEmpty(source.OpeningBalance)?"0": source.OpeningBalance);
             target.IsBankAccountActive = source.IsBankAccountActive;
+            target.CompanyID = source.CompanyID;
 
         }
     }

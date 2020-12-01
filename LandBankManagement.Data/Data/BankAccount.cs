@@ -17,10 +17,14 @@ namespace LandBankManagement.Data
         public string IFSCCode { get; set; }
         public decimal OpeningBalance { get; set; }
         public bool IsBankAccountActive { get; set; }
+        public int CompanyID { get; set; }
 
         [NotMapped]
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() => $"{BankName} {BranchName} {IFSCCode}".ToLower();
-
+        [NotMapped]
+        public string CompanyName { get; set; }
+        [NotMapped]
+        public string AccountTypeName { get; set; }
     }
 }

@@ -192,6 +192,7 @@
     <Compile Include="Services\DataServiceFactory\DataServiceFactory.cs" />
     <Compile Include="Services\DataServiceFactory\IDataServiceFactory.cs" />
     <Compile Include="Services\DocumentTypeService.cs" />
+    <Compile Include="Services\DropDownService.cs" />
     <Compile Include="Services\ExpenseHeadService.cs" />
     <Compile Include="Services\FundTransferService.cs" />
     <Compile Include="Services\PropCheckListMasterService.cs" />
@@ -252,6 +253,15 @@
     <Compile Include="Views\AppLogs\List\AppLogsList.xaml.cs">
       <DependentUpon>AppLogsList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BankAccount\BankAccountDetails.xaml.cs">
+      <DependentUpon>BankAccountDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BankAccount\BankAccountList.xaml.cs">
+      <DependentUpon>BankAccountList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BankAccount\BankAccountView.xaml.cs">
+      <DependentUpon>BankAccountView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CashAccount\CashAccountDetails.xaml.cs">
       <DependentUpon>CashAccountDetails.xaml</DependentUpon>
     </Compile>
@@ -290,6 +300,12 @@
     </Compile>
     <Compile Include="Views\DocumentType\DocumentTypeView.xaml.cs">
       <DependentUpon>DocumentTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExpenseHead\ExpenseHeadDetails.xaml.cs">
+      <DependentUpon>ExpenseHeadDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExpenseHead\ExpenseHeadList.xaml.cs">
+      <DependentUpon>ExpenseHeadList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExpenseHead\ExpenseHeadView.xaml.cs">
       <DependentUpon>ExpenseHeadView.xaml</DependentUpon>
@@ -495,6 +511,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\BankAccount\BankAccountDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BankAccount\BankAccountList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BankAccount\BankAccountView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\CashAccount\CashAccountDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -546,6 +574,14 @@
     <Page Include="Views\DocumentType\DocumentTypeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ExpenseHead\ExpenseHeadDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExpenseHead\ExpenseHeadList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExpenseHead\ExpenseHeadView.xaml">
       <Generator>MSBuild:Compile</Generator>

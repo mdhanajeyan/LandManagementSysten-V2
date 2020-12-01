@@ -20,11 +20,12 @@ namespace LandBankManagement.ViewModels
         {
             PropertyTypeService = propertyTypeService;
             PropertyTypeList = new PropertyTypeListViewModel(propertyTypeService, commonServices);
-            PropertyTypeDetials = new PropertyTypeDetailsViewModel(propertyTypeService, filePickerService, commonServices);
+            PropertyTypeDetials = new PropertyTypeDetailsViewModel(propertyTypeService, filePickerService, commonServices, PropertyTypeList);
         }
 
         public async Task LoadAsync(PropertyTypeListArgs args)
         {
+            await PropertyTypeDetials.LoadAsync();
             await PropertyTypeList.LoadAsync(args);
         }
         public void Unload()

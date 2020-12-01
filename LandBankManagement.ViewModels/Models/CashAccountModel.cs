@@ -14,6 +14,7 @@ namespace LandBankManagement.Models
         public string CashAccountName { get; set; }
         public bool IsCashAccountActive { get; set; }
 
+        public string CompanyName { get; set; }
         public bool IsNew => CashAccountId <= 0;
 
         public override void Merge(ObservableObject source)

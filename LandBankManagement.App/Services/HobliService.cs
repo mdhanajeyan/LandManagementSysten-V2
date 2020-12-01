@@ -89,7 +89,7 @@ namespace LandBankManagement.Services
             long id = model.HobliId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var hobli = id > 0 ? await dataService.GetHobliAsync(model.HobliId) : new Hobli();
+                var hobli =  new Hobli();
                 if (hobli != null)
                 {
                     UpdateHobliFromModel(hobli, model);
@@ -119,6 +119,8 @@ namespace LandBankManagement.Services
                 HobliName = source.HobliName,
                 HobliGMapLink = source.HobliGMapLink,
                 HobliIsActive = source.HobliIsActive,
+                TalukId=source.TalukId,
+                TalukName=source.TalukName
             };
 
             return model;
@@ -130,23 +132,9 @@ namespace LandBankManagement.Services
             target.HobliName = source.HobliName;
             target.HobliGMapLink = source.HobliGMapLink;
             target.HobliIsActive = source.HobliIsActive;
+            target.TalukId = source.TalukId;
+            target.HobliId = source.HobliId;
         }
-        public List<ComboBoxOptions> GetHobliOptions()
-        {
-            List<ComboBoxOptions> list = new List<ComboBoxOptions>();
-            using (var dataService = DataServiceFactory.CreateDataService())
-            {
-                var models = dataService.GetHobliOptions();
-                foreach (var obj in models)
-                {
-                    list.Add(new ComboBoxOptions
-                    {
-                        Id = obj.Key,
-                        Description = obj.Value
-                    });
-                }
-                return list;
-            }
-        }
+       
     }
 }

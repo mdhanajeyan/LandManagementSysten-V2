@@ -1,0 +1,50 @@
+﻿<UserControl
+    x:Class="LandBankManagement.Views.BankAccountDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:LandBankManagement.Controls"
+    xmlns:views="using:LandBankManagement.Views"
+    xmlns:viewmodels="using:LandBankManagement.ViewModels"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:BankAccountDetailsViewModel">
+            <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5">
+                <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
+                                           SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                <controls:FormTextBox Header="Bank Name" Text="{x:Bind EditableItem.BankName, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Branch Name" Text="{x:Bind EditableItem.BranchName, Mode=TwoWay}" />
+                <controls:FormComboBox  Header="Type of Bank Account" ItemsSource="{x:Bind AcctTypeOptions}"
+                                           SelectedValue="{x:Bind EditableItem.AccountType, Mode=TwoWay}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                <controls:FormTextBox Header="A/C No" Text="{x:Bind EditableItem.AccountNumber, Mode=TwoWay}" />
+                <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Opening Balance" Text="{x:Bind EditableItem.OpeningBalance, Mode=TwoWay}" />
+                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.IsBankAccountActive, Mode=TwoWay}" Content="IsActive"/>
+
+            </controls:FluidGrid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid ColumnSpacing="6" 
+          Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <controls:Details x:Name="details" Grid.Column="1" Margin="6,0,0,0"
+                          DetailsContent="{x:Bind ViewModel}"
+                          DetailsTemplate="{StaticResource DetailsTemplate}"
+                          IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"
+                          EditCommand="{x:Bind ViewModel.EditCommand}"
+                          DeleteCommand="{x:Bind ViewModel.DeleteCommand}"
+                          SaveCommand="{x:Bind ViewModel.SaveCommand}"
+                          CancelCommand="{x:Bind ViewModel.CancelCommand}" />
+    </Grid>
+</UserControl>

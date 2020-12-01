@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,15 +12,24 @@ namespace LandBankManagement.ViewModels
 {
     public class CashAccountDetailsViewModel : GenericDetailsViewModel<CashAccountModel>
     {
-        public List<ComboBoxOptions> CompanyOptions { get; set; }
+        private ObservableCollection<ComboBoxOptions> _companyOptions = null;
+        public ObservableCollection<ComboBoxOptions> CompanyOptions
+
+        {
+            get => _companyOptions;
+            set => Set(ref _companyOptions, value);
+        }
+
         public ICashAccountService CashAccountService { get; }
         public IFilePickerService FilePickerService { get; }
-        ICompanyService CompanyService { get; }
-        public CashAccountDetailsViewModel(ICashAccountService cashAccountService, IFilePickerService filePickerService, ICommonServices commonServices, ICompanyService companyService) : base(commonServices)
+        public IDropDownService DropDownService { get; }
+        public CashAccountListViewModel CashAccountListViewModel { get; }
+        public CashAccountDetailsViewModel(ICashAccountService cashAccountService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService, CashAccountListViewModel cashAccountListViewModel) : base(commonServices)
         {
             CashAccountService = cashAccountService;
             FilePickerService = filePickerService;
-            CompanyService = companyService;
+            DropDownService = dropDownService;
+            CashAccountListViewModel = cashAccountListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New CashAccount" : TitleEdit;
@@ -32,11 +42,12 @@ namespace LandBankManagement.ViewModels
         public void Load()
         {
             Item = new CashAccountModel();
-            IsEditMode = true;
+            GetCompanyOption();
         }
 
-       
-
+        private void GetCompanyOption() {
+            CompanyOptions = DropDownService.GetCompanyOptions();
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<CashAccountDetailsViewModel, CashAccountModel>(this, OnDetailsMessage);
@@ -60,6 +71,8 @@ namespace LandBankManagement.ViewModels
                 }
                 else
                     await CashAccountService.UpdateCashAccountAsync(model);
+                ClearItem();
+                await CashAccountListViewModel.RefreshAsync();
                 EndStatusMessage("CashAccount saved");
                 LogInformation("CashAccount", "Save", "CashAccount saved successfully", $"CashAccount {model.CashAccountName} '{model.CashAccountName}' was saved successfully.");
                 return true;
@@ -73,7 +86,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new CashAccountModel();
+            Item = new CashAccountModel() { CompanyID = 0 };
         }
         protected override async Task<bool> DeleteItemAsync(CashAccountModel model)
         {
@@ -82,6 +95,8 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting CashAccount...");
                 await Task.Delay(100);
                 await CashAccountService.DeleteCashAccountAsync(model);
+                ClearItem();
+                await CashAccountListViewModel.RefreshAsync();
                 EndStatusMessage("CashAccount deleted");
                 LogWarning("CashAccount", "Delete", "CashAccount deleted", $"CashAccount {model.CashAccountId} '{model.CashAccountName}' was deleted.");
                 return true;

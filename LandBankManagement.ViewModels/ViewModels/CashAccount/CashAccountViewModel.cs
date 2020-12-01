@@ -14,16 +14,17 @@ namespace LandBankManagement.ViewModels
 
         public CashAccountDetailsViewModel CashAccountDetials { get; set; }
 
-        public CashAccountViewModel(ICommonServices commonServices, IFilePickerService filePickerService, ICashAccountService cashAccountService, ICompanyService companyService) : base(commonServices)
+        public CashAccountViewModel(ICommonServices commonServices, IFilePickerService filePickerService, ICashAccountService cashAccountService, IDropDownService dropDownService) : base(commonServices)
         {
             CashAccountService = cashAccountService;
             CashAccountList = new CashAccountListViewModel(cashAccountService, commonServices);
-            CashAccountDetials = new CashAccountDetailsViewModel(cashAccountService, filePickerService, commonServices, companyService);
+            CashAccountDetials = new CashAccountDetailsViewModel(cashAccountService, filePickerService, commonServices, dropDownService, CashAccountList);
         }
 
         public async Task LoadAsync(CashAccountListArgs args)
         {
-            await CashAccountList.LoadAsync(args);
+            CashAccountDetials.Load();
+               await CashAccountList.LoadAsync(args);
         }
         public void Unload()
         {

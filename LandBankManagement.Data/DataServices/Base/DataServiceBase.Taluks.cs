@@ -128,9 +128,6 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.SaveChangesAsync();
         }
 
-        public  Dictionary<int, string> GetTalukOptions() {
-
-            return _dataSource.Taluks.Select(x =>new { x.TalukId, x.TalukName} ).ToDictionary(t=>t.TalukId,t=>t.TalukName);
-        }
+      
     }
 }

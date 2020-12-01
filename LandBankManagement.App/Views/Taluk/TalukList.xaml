@@ -14,11 +14,11 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30*"/>
                     <ColumnDefinition Width="40*"/>
-                    <ColumnDefinition Width="25*"/>
+                    <!--<ColumnDefinition Width="25*"/>-->
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Taluk Name" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="Taluk Map Link" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="2" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />
+                <!--<TextBlock Grid.Column="2" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />-->
 
             </Grid>
         </DataTemplate>
@@ -29,11 +29,11 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30*"/>
                         <ColumnDefinition Width="40*"/>
-                        <ColumnDefinition Width="25*"/>
+                        <!--<ColumnDefinition Width="25*"/>-->
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{x:Bind TalukName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="1" Text="{x:Bind TalukGMapLink, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="2" Text="{x:Bind TalukIsActive, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <!--<TextBlock Grid.Column="2" Text="{x:Bind TalukIsActive, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />-->
 
                 </Grid>
             </Grid>

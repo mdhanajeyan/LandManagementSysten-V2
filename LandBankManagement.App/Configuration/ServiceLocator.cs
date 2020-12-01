@@ -34,12 +34,13 @@ namespace LandBankManagement
             serviceCollection.AddSingleton<IDocumentTypeService, DocumentTypeService>();
             serviceCollection.AddSingleton<ICheckListService, CheckListService>();
             serviceCollection.AddSingleton<IPropertyTypeService, PropertyTypeService>();
-
+            serviceCollection.AddSingleton<IBankAccountService, BankAccountService>();
             serviceCollection.AddSingleton<IMessageService, MessageService>();
             serviceCollection.AddSingleton<ILogService, LogService>();
             serviceCollection.AddSingleton<IDialogService, DialogService>();
             serviceCollection.AddSingleton<IFilePickerService, FilePickerService>();
             serviceCollection.AddSingleton<ILoginService, LoginService>();
+            serviceCollection.AddSingleton<IDropDownService, DropDownService>();
 
             serviceCollection.AddScoped<IContextService, ContextService>();
             serviceCollection.AddScoped<INavigationService, NavigationService>();
@@ -72,6 +73,8 @@ namespace LandBankManagement
             serviceCollection.AddTransient<CheckListDetailsViewModel>();
             serviceCollection.AddTransient<PropertyTypeViewModel>();
             serviceCollection.AddTransient<PropertyTypeDetailsViewModel>();
+            serviceCollection.AddTransient<BankAccountViewModel>();
+            serviceCollection.AddTransient<BankAccountDetailsViewModel>();
 
             serviceCollection.AddTransient<AppLogsViewModel>();
 

@@ -19,6 +19,7 @@ namespace LandBankManagement.ViewModels
         private readonly NavigationItem HobliItem = new NavigationItem(0xE802, "Hobli", typeof(HobliViewModel));
         private readonly NavigationItem VillageItem = new NavigationItem(0xF156, "Village", typeof(VillageViewModel));
         private readonly NavigationItem CashAccountItem = new NavigationItem(0xF584, "Cash Account", typeof(CashAccountViewModel));
+        private readonly NavigationItem BankAccountItem = new NavigationItem(0xE825, "Bank Account", typeof(BankAccountViewModel));
         private readonly NavigationItem DocumentTypeItem = new NavigationItem(0xF8A5, "Document Type", typeof(DocumentTypeViewModel));
         private readonly NavigationItem CheckListItem = new NavigationItem(0xF0B5, "CheckList", typeof(CheckListViewModel));
         private readonly NavigationItem PropertyTypeItem = new NavigationItem(0xF97C, "Property Type", typeof(PropertyTypeViewModel));
@@ -80,7 +81,7 @@ namespace LandBankManagement.ViewModels
                     NavigationService.Navigate(viewModel, new PartyListArgs());
                     break;
                 case "ExpenseHeadViewModel":
-                    NavigationService.Navigate(viewModel,new ExpenseHeadArgs());
+                    NavigationService.Navigate(viewModel,new ExpenseHeadListArgs());
                     break;
                 case "TalukViewModel":
                     NavigationService.Navigate(viewModel,new TalukListArgs());
@@ -93,6 +94,9 @@ namespace LandBankManagement.ViewModels
                     break;
                 case "CashAccountViewModel":
                     NavigationService.Navigate(viewModel, new CashAccountListArgs());
+                    break;
+                case "BankAccountViewModel":
+                    NavigationService.Navigate(viewModel, new BankAccountListArgs());
                     break;
                 case "DocumentTypeViewModel":
                     NavigationService.Navigate(viewModel, new DocumentTypeListArgs());
@@ -114,11 +118,12 @@ namespace LandBankManagement.ViewModels
             yield return CompanyItem;
             yield return VendorItem;
             yield return PartyItem;
+            yield return CashAccountItem;
+            yield return BankAccountItem;
             yield return ExpenseHeadItem;
             yield return TalukItem;
             yield return HobliItem;
-            yield return VillageItem;
-            yield return CashAccountItem;
+            yield return VillageItem;            
             yield return DocumentTypeItem;
             yield return CheckListItem;
             yield return PropertyTypeItem;

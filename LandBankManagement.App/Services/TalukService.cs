@@ -91,7 +91,7 @@ namespace LandBankManagement.Services
             long id = model.TalukId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var taluk = id > 0 ? await dataService.GetTalukAsync(model.TalukId) : new Taluk();
+                var taluk = new Taluk();
                 if (taluk != null)
                 {
                     UpdateTalukFromModel(taluk, model);
@@ -134,21 +134,6 @@ namespace LandBankManagement.Services
             target.TalukIsActive = source.TalukIsActive;
         }
 
-        public List<ComboBoxOptions> GetTaluksOptions() {
-            List<ComboBoxOptions> list = new List<ComboBoxOptions>();
-            using (var dataService = DataServiceFactory.CreateDataService())
-            {
-                var models = dataService.GetTalukOptions();
-                foreach (var obj in models) {
-                    list.Add(new ComboBoxOptions
-                    {
-                        Id = obj.Key,
-                        Description = obj.Value
-                    });                
-                }
-                return list;
-            }
-        }
-
+       
     }
 }

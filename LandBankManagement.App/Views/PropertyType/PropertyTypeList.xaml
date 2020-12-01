@@ -13,10 +13,10 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50*"/>
-                    <ColumnDefinition Width="45*"/>
+                    <!--<ColumnDefinition Width="45*"/>-->
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Description" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="1" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />
+                <!--<TextBlock Grid.Column="1" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />-->
 
             </Grid>
         </DataTemplate>
@@ -26,10 +26,10 @@
                 <Grid Visibility="{x:Bind IsEmpty, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50*"/>
-                        <ColumnDefinition Width="45*"/>
+                        <!--<ColumnDefinition Width="45*"/>-->
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{x:Bind PropertyTypeText, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="1" Text="{x:Bind PropertyTypeIsActive, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <!--<TextBlock Grid.Column="1" Text="{x:Bind PropertyTypeIsActive, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />-->
 
                 </Grid>
             </Grid>

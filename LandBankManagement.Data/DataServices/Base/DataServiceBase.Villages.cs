@@ -46,7 +46,21 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<Village> GetVillages(DataRequest<Village> request)
         {
-            IQueryable<Village> items = _dataSource.Villages;
+            IQueryable<Village> items = from v in _dataSource.Villages join
+                                      h in _dataSource.Hoblis on v.HobliId equals h.HobliId
+                                      join t in _dataSource.Taluks on h.TalukId equals t.TalukId
+                                      select( new Village
+                                      {
+                                          VillageId = v.VillageId,
+                                          VillageGuid = v.VillageGuid,
+                                          TalukId = v.TalukId,
+                                          HobliId = v.HobliId,
+                                          VillageName = v.VillageName,
+                                          VillageGMapLink = v.VillageGMapLink,
+                                          VillageIsActive = v.VillageIsActive,
+                                          HobliName=h.HobliName,
+                                          TalukName=t.TalukName
+                                      });
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -92,6 +106,8 @@ namespace LandBankManagement.Data.Services
                     VillageName = source.VillageName,
                     VillageGMapLink = source.VillageGMapLink,
                     VillageIsActive = source.VillageIsActive,
+                    HobliName = source.HobliName,
+                    TalukName = source.TalukName
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -101,7 +117,10 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> GetVillagesCountAsync(DataRequest<Village> request)
         {
-            IQueryable<Village> items = _dataSource.Villages;
+            IQueryable<Village> items = from v in _dataSource.Villages
+                                        join h in _dataSource.Hoblis on v.HobliId equals h.HobliId
+                                        join t in _dataSource.Taluks on h.TalukId equals t.TalukId
+                                        select v;
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -130,9 +149,6 @@ namespace LandBankManagement.Data.Services
             _dataSource.Villages.Remove(model);
             return await _dataSource.SaveChangesAsync();
         }
-        public Dictionary<int, string> GetVillageOptions()
-        {
-            return _dataSource.Villages.Select(x => new { x.VillageId, x.VillageName }).ToDictionary(t => t.VillageId, t => t.VillageName);
-        }
+       
     }
 }

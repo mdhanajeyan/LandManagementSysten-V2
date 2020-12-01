@@ -13,38 +13,40 @@ namespace LandBankManagement.Views
     public sealed partial class ExpenseHeadView : Page
     {
 
+        public ExpenseHeadViewModel ViewModel { get; }
         public INavigationService NavigationService { get; }
         public ExpenseHeadView()
         {
             ViewModel = ServiceLocator.Current.GetService<ExpenseHeadViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
-
+            ViewModel.ExpenseHeadDetials.IsEditMode = true;
         }
-
-        public ExpenseHeadViewModel ViewModel
-        {
-            get { return (ExpenseHeadViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(ExpenseHeadViewModel), typeof(ExpenseHeadView), new PropertyMetadata(null));
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.LoadAsync(e.Parameter as ExpenseHeadArgs);
+            await ViewModel.LoadAsync(e.Parameter as ExpenseHeadListArgs);
+            await ViewModel.ExpenseHeadDetials.LoadAsync();
         }
 
-        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-           var saveIdSuccess=await ViewModel.SaveItemsAsync();
-            if (!saveIdSuccess)
-            {
-                e.Cancel = true;
-                return;
-            }
             ViewModel.Unload();
             ViewModel.Unsubscribe();
+        }
+
+        private async void OpenInNewView(object sender, RoutedEventArgs e)
+        {
+            //await NavigationService.CreateNewViewAsync<PartiesViewModel>(ViewModel.PartyList.CreateArgs());
+        }
+
+        private async void OpenDetailsInNewView(object sender, RoutedEventArgs e)
+        {
+            //ViewModel.PartyDetails.CancelEdit();
+
+            //await NavigationService.CreateNewViewAsync<VendorDetailsViewModel>(ViewModel.PartyDetails.CreateArgs());
+
         }
 
         public int GetRowSpan(bool isMultipleSelection)

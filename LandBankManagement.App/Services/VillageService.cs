@@ -88,7 +88,7 @@ namespace LandBankManagement.Services
             long id = model.VillageId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var village = id > 0 ? await dataService.GetVillageAsync(model.VillageId) : new Village();
+                var village =  new Village();
                 if (village != null)
                 {
                     UpdateVillageFromModel(village, model);
@@ -119,6 +119,8 @@ namespace LandBankManagement.Services
                 VillageName = source.VillageName,
                 VillageGMapLink = source.VillageGMapLink,
                 VillageIsActive = source.VillageIsActive,
+                TalukName=source.TalukName,
+                HobliName=source.HobliName
             };
 
             return model;
@@ -132,24 +134,9 @@ namespace LandBankManagement.Services
             target.VillageName = source.VillageName;
             target.VillageGMapLink = source.VillageGMapLink;
             target.VillageIsActive = source.VillageIsActive;
+            target.VillageId = source.VillageId;
         }
 
-        public List<ComboBoxOptions> GetVillageOptions()
-        {
-            List<ComboBoxOptions> list = new List<ComboBoxOptions>();
-            using (var dataService = DataServiceFactory.CreateDataService())
-            {
-                var models = dataService.GetVillageOptions();
-                foreach (var obj in models)
-                {
-                    list.Add(new ComboBoxOptions
-                    {
-                        Id = obj.Key,
-                        Description = obj.Value
-                    });
-                }
-                return list;
-            }
-        }
+        
     }
 }

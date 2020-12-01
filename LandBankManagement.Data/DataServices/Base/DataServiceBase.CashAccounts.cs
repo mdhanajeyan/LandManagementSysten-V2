@@ -21,7 +21,7 @@ namespace LandBankManagement.Data.Services
                     AccountTypeId = 1,
                     CashAccountName = model.CashAccountName,
                     IsCashAccountActive = model.IsCashAccountActive,
-                    CompanyID=1
+                    CompanyID=model.CompanyID
                 };
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
@@ -44,7 +44,18 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<CashAccount> GetCashAccounts(DataRequest<CashAccount> request)
         {
-            IQueryable<CashAccount> items = _dataSource.CashAccounts;
+            IQueryable<CashAccount> items = from cash in _dataSource.CashAccounts join 
+                                            c in _dataSource.Companies on cash.CompanyID equals c.CompanyID
+                                            select (new CashAccount
+                                            {
+                                                CashAccountId = cash.CashAccountId,
+                                                CashAccountGuid = cash.CashAccountGuid,
+                                                AccountTypeId = cash.AccountTypeId,
+                                                CashAccountName = cash.CashAccountName,
+                                                IsCashAccountActive = cash.IsCashAccountActive,
+                                                CompanyID = cash.CompanyID,
+                                                CompanyName=c.Name
+                                            });
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -83,7 +94,8 @@ namespace LandBankManagement.Data.Services
                     AccountTypeId = source.AccountTypeId,
                     CashAccountName = source.CashAccountName,
                     IsCashAccountActive = source.IsCashAccountActive,
-                    CompanyID = source.CompanyID
+                    CompanyID = source.CompanyID,
+                    CompanyName=source.CompanyName
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -93,7 +105,9 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> GetCashAccountsCountAsync(DataRequest<CashAccount> request)
         {
-            IQueryable<CashAccount> items = _dataSource.CashAccounts;
+            IQueryable<CashAccount> items = from cash in _dataSource.CashAccounts
+                                            join c in _dataSource.Companies on cash.CompanyID equals c.CompanyID
+                                            select cash;
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))

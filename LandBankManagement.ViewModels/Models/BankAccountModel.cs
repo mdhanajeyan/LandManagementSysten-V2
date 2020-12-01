@@ -15,9 +15,11 @@ namespace LandBankManagement.Models
         public string AccountNumber { get; set; }
         public int AccountType { get; set; }
         public string IFSCCode { get; set; }
-        public decimal OpeningBalance { get; set; }
+        public string OpeningBalance { get; set; }
         public bool IsBankAccountActive { get; set; }
-
+        public int CompanyID { get; set; }
+        public string comapnyName { get; set; }
+        public string AccountTypeName { get; set; }
         public bool IsNew => BankAccountId <= 0;
 
         public override void Merge(ObservableObject source)
@@ -41,6 +43,7 @@ namespace LandBankManagement.Models
                 IFSCCode = source.IFSCCode;
                 OpeningBalance = source.OpeningBalance;
                 IsBankAccountActive = source.IsBankAccountActive;
+                CompanyID = source.CompanyID;
             }
         }
     }
