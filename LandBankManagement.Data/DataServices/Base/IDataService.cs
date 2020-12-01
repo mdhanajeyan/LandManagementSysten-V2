@@ -15,6 +15,8 @@ namespace LandBankManagement.Data.Services
         Task<int> DeleteCompanyAsync(params Company[] company);
         Task<int> UploadCompanyDocumentsAsync(List<CompanyDocuments> company);
         Task<int> DeleteCompanyDocumentAsync(CompanyDocuments documents);
+        Task<IList<Company>> GetCompaniesAsync();
+
 
        // Task<int> AddVendorAsync(Vendor model);
         Task<Vendor> GetVendorAsync(long id);

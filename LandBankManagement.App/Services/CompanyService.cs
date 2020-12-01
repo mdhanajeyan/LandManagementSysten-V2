@@ -227,5 +227,19 @@ namespace LandBankManagement.Services
             target.FileCategoryId = source.FileCategoryId;
             target.UploadTime = DateTime.Now;
         }
+
+        public async Task<IList<CompanyModel>> GetCompaniesAsync()
+        {
+            var models = new List<CompanyModel>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var items = await dataService.GetCompaniesAsync();
+                foreach (var item in items)
+                {
+                    models.Add(CreateCompanyModelAsync(item, includeAllFields: false));
+                }
+                return models;
+            }
+        }
     }
 }

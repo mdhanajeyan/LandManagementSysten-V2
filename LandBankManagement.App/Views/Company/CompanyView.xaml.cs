@@ -21,6 +21,8 @@ namespace LandBankManagement.Views
             ViewModel = ServiceLocator.Current.GetService<CompanyViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
+            progressRing.IsActive = true;
+            progressRing.Visibility = Visibility.Visible;
             ViewModel.CompanyDetials.IsEditMode = true;
         }
 
@@ -29,7 +31,8 @@ namespace LandBankManagement.Views
             ViewModel.Subscribe();
             await ViewModel.CompanyDetials.LoadAsync();
             await ViewModel.LoadAsync(e.Parameter as CompanyListArgs);
-           
+            progressRing.IsActive = false;
+            progressRing.Visibility = Visibility.Collapsed;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

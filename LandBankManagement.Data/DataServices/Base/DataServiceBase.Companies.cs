@@ -187,5 +187,30 @@ namespace LandBankManagement.Data.Services
             _dataSource.CompanyDocuments.Remove(documents);
             return await _dataSource.SaveChangesAsync();
         }
+
+        public async Task<IList<Company>> GetCompaniesAsync()
+        {
+            var items = _dataSource.Companies;
+
+            var result = await items.Select(source => new Company
+            {
+                CompanyID = source.CompanyID,
+                CompanyGuid = source.CompanyGuid,
+                City = source.City,
+                GSTIN = source.GSTIN,
+                IsActive = source.IsActive,
+                Name = source.Name,
+                PAN = source.PAN,
+                PhoneNo = source.PhoneNo,
+                AddressLine1 = source.AddressLine1,
+                AddressLine2 = source.AddressLine2,
+                PhoneNoIsdCode = source.PhoneNoIsdCode,
+                Pincode = source.Pincode,
+                Email = source.Email,
+            }).AsNoTracking()
+              .ToListAsync();
+
+            return result;
+        }
     }
 }

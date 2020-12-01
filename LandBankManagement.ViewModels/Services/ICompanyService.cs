@@ -10,6 +10,7 @@ namespace LandBankManagement.Services
         Task<int> AddCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs);
         Task<CompanyModel> GetCompanyAsync(long id);
         Task<IList<CompanyModel>> GetCompaniesAsync(DataRequest<Company> request);
+        Task<IList<CompanyModel>> GetCompaniesAsync();
         Task<IList<CompanyModel>> GetCompaniesAsync(int skip, int take, DataRequest<Company> request);
         Task<int> GetCompaniesCountAsync(DataRequest<Company> request);
         Task<int> UpdateCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs);
