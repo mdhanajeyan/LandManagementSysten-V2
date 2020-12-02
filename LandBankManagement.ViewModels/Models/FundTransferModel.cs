@@ -20,6 +20,11 @@ namespace LandBankManagement.Models
         public int ReceiverPaymentType { get; set; }
         public int ReceiverBankId { get; set; }
 
+        public string FromCompanyName { get; set; }
+        public string ToCompanyName { get; set; }
+        public string FromAccountName { get; set; }
+        public string ToAccountName { get; set; }
+
         public bool IsNew => FundTransferId <= 0;
 
         public override void Merge(ObservableObject source)

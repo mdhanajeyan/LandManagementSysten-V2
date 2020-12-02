@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:PropertyTypeDetailsViewModel">
-            <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5">
+            <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5" HorizontalAlignment="Center">
 
                 <controls:FormTextBox Header="Description" Text="{x:Bind EditableItem.PropertyTypeText, Mode=TwoWay}" />
                 <!--<CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.PropertyTypeIsActive}" Content="IsActive"/>-->
@@ -24,12 +24,8 @@
 
     <Grid ColumnSpacing="6" 
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="260"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <controls:Details x:Name="details" Grid.Column="1" Margin="6,0,0,0"
+       
+        <controls:Details x:Name="details" Margin="6,0,0,0"
                           DetailsContent="{x:Bind ViewModel}"
                           DetailsTemplate="{StaticResource DetailsTemplate}"
                           IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"

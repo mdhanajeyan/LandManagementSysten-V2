@@ -41,6 +41,7 @@ namespace LandBankManagement
             serviceCollection.AddSingleton<IFilePickerService, FilePickerService>();
             serviceCollection.AddSingleton<ILoginService, LoginService>();
             serviceCollection.AddSingleton<IDropDownService, DropDownService>();
+            serviceCollection.AddSingleton<IPaymentService, PaymentService>();
 
             serviceCollection.AddScoped<IContextService, ContextService>();
             serviceCollection.AddScoped<INavigationService, NavigationService>();
@@ -58,7 +59,8 @@ namespace LandBankManagement
             serviceCollection.AddTransient<PartyViewModel>();
             serviceCollection.AddTransient<PartyDetailsViewModel>();
             serviceCollection.AddTransient<ExpenseHeadViewModel>();
-            
+            serviceCollection.AddTransient<PaymentsViewModel>();
+
             serviceCollection.AddTransient<TalukViewModel>();
             serviceCollection.AddTransient<TalukDetailsViewModel>();
             serviceCollection.AddTransient<HobliViewModel>();

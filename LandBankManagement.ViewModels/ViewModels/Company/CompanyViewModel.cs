@@ -10,7 +10,8 @@ using LandBankManagement.Services;
 namespace LandBankManagement.ViewModels
 {
     public class CompanyViewModel : ViewModelBase
-    {     
+    {
+       
         ICompanyService CompanyService { get; }
         public CompanyListViewModel CompanyList { get; set; }
 
@@ -84,6 +85,7 @@ namespace LandBankManagement.ViewModels
                         CompanyDetials.DocList[i].Identity = i + 1;
                     }
                 }
+                SelectedPivotIndex = 0;
             }
             catch (Exception ex)
             {

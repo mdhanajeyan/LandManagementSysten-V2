@@ -333,6 +333,15 @@
     <Compile Include="Views\Party\PartyView.xaml.cs">
       <DependentUpon>PartyView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Payment\PaymentDetails.xaml.cs">
+      <DependentUpon>PaymentDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Payment\PaymentList.xaml.cs">
+      <DependentUpon>PaymentList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Payment\PaymentView.xaml.cs">
+      <DependentUpon>PaymentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PropertyType\PropertyTypeDetails.xaml.cs">
       <DependentUpon>PropertyTypeDetails.xaml</DependentUpon>
     </Compile>
@@ -617,6 +626,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Party\PartyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Payment\PaymentDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Payment\PaymentList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Payment\PaymentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

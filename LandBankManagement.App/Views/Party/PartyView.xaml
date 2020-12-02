@@ -22,14 +22,46 @@
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
         <controls:WindowTitle Prefix="Party" Title="{x:Bind ViewModel.PartyList.Title, Mode=OneWay}" />
+        <Pivot  SelectedIndex="{x:Bind ViewModel.SelectedPivotIndex, Mode=TwoWay}">
+            <Pivot.Resources>
+                <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#D60258" />
+            </Pivot.Resources>
+            <PivotItem >
+                <PivotItem.Header>
+                    <PivotHeaderItem  >
+                        <TextBlock Text="Party Details" FontWeight="Bold"  FontSize="17"></TextBlock>
+                    </PivotHeaderItem>
+                </PivotItem.Header>
+                <Grid>
+                    <views:PartyDetails ViewModel="{x:Bind ViewModel.PartyDetails}"/>
 
-        <Grid>
+                </Grid>
+            </PivotItem>
+            <PivotItem >
+                <PivotItem.Header>
+                    <PivotHeaderItem  >
+                        <TextBlock Text="Party List" FontWeight="Bold" FontSize="17" ></TextBlock>
+                    </PivotHeaderItem>
+                </PivotItem.Header>
+                <Grid >
+                    <controls:Section Header="{x:Bind ViewModel.PartyList.Title, Mode=OneWay}" 
+                                  HeaderTemplate="{StaticResource ListHeaderTemplate}"
+                                  HeaderButtonGlyph="&#xE2B4;" 
+                                  HeaderButtonClick="OpenInNewView"
+                                  IsButtonVisible="{x:Bind ViewModel.IsMainView}">
+                        <views:PartyList ViewModel="{x:Bind ViewModel.PartyList}" />
+                    </controls:Section>
+                </Grid>
+            </PivotItem>
+        </Pivot>
+       
+        <!--<Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!--Details-->
+            --><!--Details--><!--
             <Grid Grid.Row="0" 
                   BorderBrush="LightGray"
                   BorderThickness="0,1,0,0">
@@ -37,7 +69,7 @@
 
             </Grid>
 
-            <!--List-->
+            --><!--List--><!--
             <Grid Grid.Row="1"  Grid.RowSpan="{x:Bind GetRowSpan(ViewModel.PartyList.IsMultipleSelection), Mode=OneWay}">
                 <controls:Section Header="{x:Bind ViewModel.PartyList.Title, Mode=OneWay}" 
                                   HeaderTemplate="{StaticResource ListHeaderTemplate}"
@@ -48,6 +80,6 @@
                 </controls:Section>
             </Grid>
 
-        </Grid>
+        </Grid>-->
     </Grid>
 </Page>

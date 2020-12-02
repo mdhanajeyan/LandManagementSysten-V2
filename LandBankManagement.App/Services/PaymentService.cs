@@ -130,9 +130,13 @@ namespace LandBankManagement.Services
                 DocumentTypeId = source.DocumentTypeId,
                 PaymentTypeId = source.PaymentTypeId,
                 DateOfPayment = source.DateOfPayment,
-                Amount = source.Amount,
+                Amount = source.Amount.ToString(),
                 ChequeNo = source.ChequeNo,
                 Narration = source.Narration,
+                BankAccountId=source.BankAccountId,
+                CashAccountId=source.CashAccountId,
+                PDC=source.PDC,
+                AccountName=source.AccountName
         };
 
             return model;
@@ -149,11 +153,13 @@ namespace LandBankManagement.Services
             target.PartyId = source.PartyId;
             target.DocumentTypeId = source.DocumentTypeId;
             target.PaymentTypeId = source.PaymentTypeId;
-            target.DateOfPayment = source.DateOfPayment;
-            target.Amount = source.Amount;
+            target.DateOfPayment = source.DateOfPayment.DateTime;
+            target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.ChequeNo = source.ChequeNo;
             target.Narration = source.Narration;
-
+            target.BankAccountId = source.BankAccountId;
+            target.CashAccountId = source.CashAccountId;
+            target.PDC = source.PDC;
         }
     }
 }

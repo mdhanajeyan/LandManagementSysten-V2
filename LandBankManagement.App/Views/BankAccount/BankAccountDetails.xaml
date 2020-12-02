@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:BankAccountDetailsViewModel">
-            <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5">
+            <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="12" RowSpacing="5"  HorizontalAlignment="Center">
                 <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
@@ -23,22 +23,20 @@
                                            SelectedValue="{x:Bind EditableItem.AccountType, Mode=TwoWay}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormTextBox Header="A/C No" Text="{x:Bind EditableItem.AccountNumber, Mode=TwoWay}" />
-                <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay}" />
+                <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay}" CharacterCasing="Upper"/>
                 <controls:FormTextBox Header="Opening Balance" Text="{x:Bind EditableItem.OpeningBalance, Mode=TwoWay}" />
-                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.IsBankAccountActive, Mode=TwoWay}" Content="IsActive"/>
+                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsBankAccountActive, Mode=TwoWay}"  >
+                    <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
+                </CheckBox>
 
             </controls:FluidGrid>
         </DataTemplate>
     </UserControl.Resources>
 
     <Grid ColumnSpacing="6" 
-          Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="260"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+          Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">        
 
-        <controls:Details x:Name="details" Grid.Column="1" Margin="6,0,0,0"
+        <controls:Details x:Name="details"  Margin="6,0,0,0"
                           DetailsContent="{x:Bind ViewModel}"
                           DetailsTemplate="{StaticResource DetailsTemplate}"
                           IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"

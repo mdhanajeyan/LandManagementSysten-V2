@@ -21,14 +21,54 @@
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
         <controls:WindowTitle Prefix="Company" Title="{x:Bind ViewModel.CompanyList.Title, Mode=OneWay}" />
+        <Pivot  SelectedIndex="{x:Bind ViewModel.SelectedPivotIndex, Mode=TwoWay}">
+            <Pivot.Resources>
+                <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#D60258" />
+            </Pivot.Resources>
+            <PivotItem >
+                <PivotItem.Header>
+                    <PivotHeaderItem  >
+                        <TextBlock Text="Company Details" FontWeight="Bold"  FontSize="17"></TextBlock>
+                    </PivotHeaderItem>
+                </PivotItem.Header>
+                <Grid>
+                    <views:CompanyDetails ViewModel="{x:Bind ViewModel.CompanyDetials}"/>
 
-        <Grid>
+                </Grid>
+            </PivotItem>
+            <PivotItem >
+                <PivotItem.Header>
+                    <PivotHeaderItem  >
+                        <TextBlock Text="Company List" FontWeight="Bold" FontSize="17" ></TextBlock>
+                    </PivotHeaderItem>
+                </PivotItem.Header>
+                <Grid Grid.Row="1"  Grid.RowSpan="{x:Bind GetRowSpan(ViewModel.CompanyList.IsMultipleSelection), Mode=OneWay}">
+                    <controls:Section Header="{x:Bind ViewModel.CompanyList.Title, Mode=OneWay}" 
+                                  HeaderTemplate="{StaticResource ListHeaderTemplate}"
+                                  HeaderButtonGlyph="&#xE2B4;" 
+                                  HeaderButtonClick="OpenInNewView"
+                                  IsButtonVisible="{x:Bind ViewModel.IsMainView}">
+                        <views:CompaniesList ViewModel="{x:Bind ViewModel.CompanyList}" />
+                    </controls:Section>
+                </Grid>
+            </PivotItem>
+        </Pivot>
+        <ProgressRing x:Name="progressRing"
+                      Height="40"
+                      Width="40"
+                      IsActive="True"
+                      Foreground="Black"
+                      Canvas.Left="650"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Canvas.Top="550" />
+        <!--<Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!--Details-->
+            --><!--Details--><!--
             <Grid Grid.Row="0" 
                   BorderBrush="LightGray"
                   BorderThickness="0,1,0,0">
@@ -36,7 +76,7 @@
 
             </Grid>
 
-            <!--List-->
+            --><!--List--><!--
             <Grid Grid.Row="1"  Grid.RowSpan="{x:Bind GetRowSpan(ViewModel.CompanyList.IsMultipleSelection), Mode=OneWay}">
                 <controls:Section Header="{x:Bind ViewModel.CompanyList.Title, Mode=OneWay}" 
                                   HeaderTemplate="{StaticResource ListHeaderTemplate}"
@@ -56,6 +96,6 @@
                       Canvas.Left="650"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      Canvas.Top="550" />
+                      Canvas.Top="550" />-->
     </Grid>
 </Page>

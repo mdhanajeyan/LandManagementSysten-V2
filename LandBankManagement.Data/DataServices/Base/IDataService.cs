@@ -165,6 +165,11 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdatePaymentAsync(Payment model);
         Task<int> DeletePaymentAsync(Payment model);
 
-
+        Dictionary<int, string> GetExpenseHeadOptions();
+        Dictionary<int, string> GetPartyOptions();
+        Dictionary<int, string> GetDocumentTypeOptions();
+        Dictionary<int, string> GetPropertyOptions();
+        Dictionary<int, string> GetCashOptions();
+        Dictionary<int, string> GetBankOptions();
     }
 }

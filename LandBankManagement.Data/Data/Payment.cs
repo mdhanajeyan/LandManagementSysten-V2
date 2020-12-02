@@ -20,11 +20,15 @@ namespace LandBankManagement.Data
         public decimal Amount { get; set; }
         public string ChequeNo { get; set; }
         public string Narration { get; set; }
+        public int? CashAccountId { get; set; }
+        public int? BankAccountId { get; set; }
+        public bool PDC { get; set; }
 
 
         [NotMapped]
         public string SearchTerms { get; set; }
-
-        public string BuildSearchTerms() => $"{ChequeNo}".ToLower();
+        public string BuildSearchTerms() => $"{PayeeId} {ChequeNo} ".ToLower();
+        [NotMapped]
+        public string AccountName { get; set; }
     }
 }

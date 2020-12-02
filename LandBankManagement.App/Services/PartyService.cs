@@ -200,15 +200,15 @@ namespace LandBankManagement.Services
             target.PartySalutation = source.PartySalutation;
             target.AadharNo = source.AadharNo;
             target.ContactPerson = source.ContactPerson;
-            target.PAN = source.PAN.Trim();
+            target.PAN = source.PAN;
             target.GSTIN = source.GSTIN;
             target.email = source.email;
             target.IsPartyActive = source.IsPartyActive;
-            target.PhoneNo = source.PhoneNo.Trim();
+            target.PhoneNo = source.PhoneNo;
             target.AddressLine1 = source.AddressLine1;
             target.AddressLine2 = source.AddressLine2;
             target.City = source.City;
-            target.PinCode = source.PinCode.Trim();
+            target.PinCode = source.PinCode;
         }
 
         private void UpdateDocumentFromModel(PartyDocuments target, ImagePickerResult source)

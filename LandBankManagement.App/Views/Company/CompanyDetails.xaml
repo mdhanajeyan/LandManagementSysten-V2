@@ -14,11 +14,11 @@
     <UserControl.Resources>
         <x:Double x:Key="CardPictureRadius">132</x:Double>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CompanyDetailsViewModel" >
-            <controls:FluidGrid Margin="0,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12">
+            <controls:FluidGrid Margin="0,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12" HorizontalAlignment="Center" >
                 <controls:FormTextBox Header="Company Name" Text="{x:Bind EditableItem.Name, Mode=TwoWay}" />
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
-                    <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay}" />
-                    <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay}" CharacterCasing="Upper" />
+                    <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay}" CharacterCasing="Upper"/>
                 </controls:FluidGrid>
                 <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.Email, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay}" />
@@ -28,7 +28,9 @@
                     <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.Pincode, Mode=TwoWay}" />
                     <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
                 </controls:FluidGrid>
-                <CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.IsActive, Mode=TwoWay}" Content="IsActive"/>
+                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsActive, Mode=TwoWay}">
+                    <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
+                </CheckBox>
             </controls:FluidGrid>
         </DataTemplate>
     </UserControl.Resources>

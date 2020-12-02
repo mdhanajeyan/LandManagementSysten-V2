@@ -29,5 +29,29 @@ namespace LandBankManagement.Data.Services
         {
             return _dataSource.AccountTypes.Select(x => new { x.AccountTypeId, x.AccountTypeName }).ToDictionary(t => t.AccountTypeId, t => t.AccountTypeName);
         }
+        public Dictionary<int, string> GetExpenseHeadOptions()
+        {
+            return _dataSource.ExpenseHeads.Select(x => new { x.ExpenseHeadId, x.ExpenseHeadName }).ToDictionary(t => t.ExpenseHeadId, t => t.ExpenseHeadName);
+        }
+        public Dictionary<int, string> GetPartyOptions()
+        {
+            return _dataSource.Parties.Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionary(t => t.PartyId, t => t.PartyFirstName);
+        }
+        public Dictionary<int, string> GetDocumentTypeOptions()
+        {
+            return _dataSource.DocumentTypes.Select(x => new { x.DocumentTypeId, x.DocumentTypeName }).ToDictionary(t => t.DocumentTypeId, t => t.DocumentTypeName);
+        }
+        public Dictionary<int, string> GetPropertyOptions()
+        {
+            return _dataSource.Properties.Select(x => new { x.PropertyId, x.PropertyName }).ToDictionary(t => t.PropertyId, t => t.PropertyName);
+        }
+        public Dictionary<int, string> GetCashOptions()
+        {
+            return _dataSource.CashAccounts.Select(x => new { x.CashAccountId, x.CashAccountName }).ToDictionary(t => t.CashAccountId, t => t.CashAccountName);
+        }
+        public Dictionary<int, string> GetBankOptions()
+        {
+            return _dataSource.BankAccounts.Select(x => new { x.BankAccountId, x.BankName }).ToDictionary(t => t.BankAccountId, t => t.BankName);
+        }
     }
 }

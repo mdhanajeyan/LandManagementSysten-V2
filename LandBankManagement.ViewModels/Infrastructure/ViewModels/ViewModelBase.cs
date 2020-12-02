@@ -10,6 +10,13 @@ namespace LandBankManagement.ViewModels
 {
     public class ViewModelBase : ObservableObject
     {
+        private int _selectedPivotIndex;
+        public int SelectedPivotIndex
+        {
+            get => _selectedPivotIndex;
+            set => Set(ref _selectedPivotIndex, value);
+        }
+
         private Stopwatch _stopwatch = new Stopwatch();
 
         public ViewModelBase(ICommonServices commonServices)

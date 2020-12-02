@@ -13,26 +13,33 @@ namespace LandBankManagement.Data.Services
         {
             if (model == null)
                 return 0;
-
-            var entity = new Payment()
+            try
             {
-                PaymentId = model.PaymentId,
-                PaymentGuid = model.PaymentGuid,
-                PayeeId = model.PayeeId,
-                PayeeTypeId = model.PayeeTypeId,
-                ExpenseHeadId = model.ExpenseHeadId,
-                PropertyId = model.PropertyId,
-                PartyId = model.PartyId,
-                PaymentTypeId = model.PaymentTypeId,
-                DocumentTypeId = model.DocumentTypeId,
-                DateOfPayment = model.DateOfPayment,
-                Amount = model.Amount,
-                ChequeNo = model.ChequeNo,
-                Narration = model.Narration,
-        };
-            _dataSource.Entry(entity).State = EntityState.Added;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+                var entity = new Payment()
+                {
+                    PaymentGuid = model.PaymentGuid,
+                    PayeeId = model.PayeeId,
+                    PayeeTypeId = model.PayeeTypeId,
+                    ExpenseHeadId = model.ExpenseHeadId,
+                    PropertyId = model.PropertyId,
+                    PartyId = model.PartyId,
+                    PaymentTypeId = model.PaymentTypeId,
+                    DocumentTypeId = model.DocumentTypeId,
+                    DateOfPayment = model.DateOfPayment,
+                    Amount = model.Amount,
+                    ChequeNo = model.ChequeNo,
+                    Narration = model.Narration,
+                    PDC = model.PDC,
+                    BankAccountId = model.BankAccountId,
+                    CashAccountId = model.CashAccountId
+                };
+                _dataSource.Entry(entity).State = EntityState.Added;
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<Payment> GetPaymentAsync(long id)
@@ -65,6 +72,10 @@ namespace LandBankManagement.Data.Services
                     Amount = source.Amount,
                     ChequeNo = source.ChequeNo,
                     Narration = source.Narration,
+                    PDC = source.PDC,
+                    BankAccountId = source.BankAccountId,
+                    CashAccountId = source.CashAccountId,
+                    AccountName=source.AccountName
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -74,12 +85,34 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<Payment> GetPayments(DataRequest<Payment> request)
         {
-            IQueryable<Payment> items = _dataSource.Payments;
-
+            IQueryable<Payment> items = from pay in _dataSource.Payments
+                                        from c in _dataSource.CashAccounts.Where(c=>c.CashAccountId==pay.CashAccountId).DefaultIfEmpty()
+                                          from b in _dataSource.BankAccounts.Where(b=>b.BankAccountId== pay.BankAccountId).DefaultIfEmpty()
+                                        select new Payment
+                                        {
+                                            PaymentId = pay.PaymentId,
+                                            PaymentGuid = pay.PaymentGuid,
+                                            PayeeId = pay.PayeeId,
+                                            PayeeTypeId = pay.PayeeTypeId,
+                                            ExpenseHeadId = pay.ExpenseHeadId,
+                                            PropertyId = pay.PropertyId,
+                                            PartyId = pay.PartyId,
+                                            PaymentTypeId = pay.PaymentTypeId,
+                                            DocumentTypeId = pay.DocumentTypeId,
+                                            DateOfPayment = pay.DateOfPayment,
+                                            Amount = pay.Amount,
+                                            ChequeNo = pay.ChequeNo,
+                                            Narration = pay.Narration,
+                                            PDC = pay.PDC,
+                                            BankAccountId = pay.BankAccountId,
+                                            CashAccountId = pay.CashAccountId,
+                                             AccountName=(pay.PayeeTypeId==1)?c.CashAccountName:b.BankName
+                                        };
+            //  IQueryable<Payment> items =  _dataSource.Payments;
             // Query
             if (!String.IsNullOrEmpty(request.Query))
             {
-                items = items.Where(r => r.BuildSearchTerms().Contains(request.Query.ToLower()));
+                items = items.Where(r => r.SearchTerms.Contains(request.Query.ToLower()));
             }
 
             // Where
@@ -97,14 +130,13 @@ namespace LandBankManagement.Data.Services
             {
                 items = items.OrderByDescending(request.OrderByDesc);
             }
-
             return items;
         }
 
         public async Task<int> GetPaymentsCountAsync(DataRequest<Payment> request)
-        {
+        {           
+           
             IQueryable<Payment> items = _dataSource.Payments;
-
             // Query
             if (!String.IsNullOrEmpty(request.Query))
             {

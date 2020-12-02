@@ -24,5 +24,14 @@ namespace LandBankManagement.Data
         [NotMapped]
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() => $"{PayeeId} {ReceiverId}".ToLower();
+        [NotMapped]
+        public string FromCompanyName { get; set; }
+        [NotMapped]
+        public string ToCompanyName { get; set; }
+        [NotMapped]
+        public string FromAccountName { get; set; }
+        [NotMapped]
+        public string ToAccountName { get; set; }
+
     }
 }
