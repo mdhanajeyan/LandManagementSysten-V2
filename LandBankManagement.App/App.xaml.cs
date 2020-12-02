@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.ViewManagement;
@@ -7,6 +9,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using LandBankManagement.Services;
 using LandBankManagement.Views.SplashScreen;
+using Syncfusion.UI.Xaml.Reports;
 
 namespace LandBankManagement
 {
@@ -17,7 +20,15 @@ namespace LandBankManagement
     {
         public App()
         {
+            List<Assembly> assembliesToInclude = new List<Assembly>();
+
+            //Now, add in all the assemblies your app uses  
+            assembliesToInclude.Add(typeof(SfReportViewer).GetTypeInfo().Assembly);
+
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NjY1NUAzMTM4MmUzMzJlMzBQcDlLM3d2N0Ywd1liN29jdWdJWDFaMnduc0ZaVTMrK3JCSXc3RUVRdnBBPQ==");
+            
             InitializeComponent();
+
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.PreferredLaunchViewSize = new Size(1280, 840);
