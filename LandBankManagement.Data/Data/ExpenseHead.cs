@@ -15,5 +15,7 @@ namespace LandBankManagement.Data
         public bool IsExpenseHeadActive { get; set; }
         [NotMapped]
         public string SearchTerms { get; set; }
+
+        public string BuildSearchTerms() => $"{ExpenseHeadName}".ToLower();
     }
 }
