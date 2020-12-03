@@ -26,11 +26,11 @@ namespace LandBankManagement.Services
         {
             long id = model.CompanyID;
             using (var dataService = DataServiceFactory.CreateDataService())
-            {
+            { 
                 var company = new Company();
                 if (company != null)
                 {
-                    if (docs.Count > 0)
+                    if (docs != null && docs.Count > 0)
                     {
                         List<CompanyDocuments> docList = new List<CompanyDocuments>();
                         foreach (var obj in docs)
