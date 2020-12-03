@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
 using LandBankManagement.Models;
 using LandBankManagement.Services;
 
@@ -22,10 +20,12 @@ namespace LandBankManagement.ViewModels
 
         public ICompanyService CompanyService { get; }
         public IFilePickerService FilePickerService { get; }
-        public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        CompanyListViewModel CompanyListViewModel { get; }
+        public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices,CompanyListViewModel companyListViewModel) : base(commonServices)
         {
             CompanyService = companyService;
             FilePickerService = filePickerService;
+            CompanyListViewModel = companyListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Company" : TitleEdit;
@@ -36,13 +36,16 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new CompanyModel();
-            Item.IsActive = true;
-            IsEditMode = true;
+            Reset();
         }
         public void Unload()
         {
 
+        }
+
+        private void Reset() {
+            Item = new CompanyModel();
+            Item.IsActive = true;
         }
 
         public void Subscribe()
@@ -83,22 +86,34 @@ namespace LandBankManagement.ViewModels
         }
 
         public void DeleteDocument(int id) {
-            if (id > 0) {
-                if (DocList[id - 1].blobId > 0) {
-                    CompanyService.DeleteCompanyDocumentAsync(DocList[id - 1]);
-                }
-                DocList.RemoveAt(id-1);
-                for (int i = 0; i < DocList.Count; i++)
+            try
+            {
+                if (id > 0)
                 {
-                    DocList[i].Identity = i + 1;
+                    if (DocList[id - 1].blobId > 0)
+                    {
+                        ShowProgressRing();
+                        CompanyService.DeleteCompanyDocumentAsync(DocList[id - 1]);
+                        HideProgressRing();
+                    }
+                    DocList.RemoveAt(id - 1);
+                    for (int i = 0; i < DocList.Count; i++)
+                    {
+                        DocList[i].Identity = i + 1;
+                    }
                 }
+            }
+            catch (Exception ) {
+                HideProgressRing();
             }
         }
 
-        public void DownloadDocument(int id)
+        public async void DownloadDocument(int id)
         {
             if (id > 0)
             {
+               await FilePickerService.DownloadFile(DocList[id - 1].FileName, DocList[id - 1].ImageBytes);
+               
                 //var downloadPath = System.Environment.ExpandEnvironmentVariables("%userprofile%/downloads/");
                 //var ms = new MemoryStream(DocList[id - 1].ImageBytes);
                 //var fs = File.Create(@downloadPath);
@@ -112,11 +127,14 @@ namespace LandBankManagement.ViewModels
             try
             {               
                 StartStatusMessage("Saving Company...");
+                ShowProgressRing();
                 await Task.Delay(100);
+              
                 if (model.CompanyID <= 0)
                     await CompanyService.AddCompanyAsync(model, DocList);
                 else
                     await CompanyService.UpdateCompanyAsync(model, DocList);
+                HideProgressRing();
                 //if (DocList.Count > 0)
                 //{
                 //    foreach (var doc in DocList)
@@ -127,11 +145,15 @@ namespace LandBankManagement.ViewModels
                 //    await CompanyService.UploadCompanyDocumentsAsync(DocList.ToList());
                 //}
                 EndStatusMessage("Company saved");
+                ClearItem();
+                Reset();
+                CompanyListViewModel.RefreshAsync();
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                HideProgressRing();
                 StatusError($"Error saving Company: {ex.Message}");
                 LogException("Company", "Save", ex);
                 return false;
@@ -141,6 +163,7 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new CompanyModel();
+            if(DocList!=null)
             DocList.Clear();
         }
         protected override async Task<bool> DeleteItemAsync(CompanyModel model)
@@ -148,14 +171,17 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Company...");
+                ShowProgressRing();
                 await Task.Delay(100);
                 await CompanyService.DeleteCompanyAsync(model);
+                HideProgressRing();
                 EndStatusMessage("Company deleted");
                 LogWarning("Company", "Delete", "Company deleted", $"Company {model.CompanyID} '{model.Name}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
+                HideProgressRing();
                 StatusError($"Error deleting Company: {ex.Message}");
                 LogException("Company", "Delete", ex);
                 return false;
@@ -164,7 +190,7 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current Company?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete this Company?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<CompanyModel>> GetValidationConstraints(CompanyModel model)

@@ -119,7 +119,8 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new PartyModel();
-            DocList.Clear();
+            if (DocList != null)
+                DocList.Clear();
         }
         protected override async Task<bool> DeleteItemAsync(PartyModel model)
         {
@@ -142,7 +143,7 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current Party?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete this Party?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<PartyModel>> GetValidationConstraints(PartyModel model)

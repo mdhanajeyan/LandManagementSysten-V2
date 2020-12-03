@@ -82,10 +82,14 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                ShowProgressRing();
+                await Task.Delay(100);
                 Items = await GetItemsAsync();
+                HideProgressRing();
             }
             catch (Exception ex)
             {
+                HideProgressRing();
                 Items = new List<CompanyModel>();
                 StatusError($"Error loading Company: {ex.Message}");
                 LogException("Company", "Refresh", ex);

@@ -71,5 +71,22 @@ namespace LandBankManagement.Services
                 }
             }
         }
+
+        public async Task<bool> DownloadFile(string fileName,byte[] buffer) {
+            try
+            {
+                //var downloadFolder = await DownloadsFolder.CreateFolderAsync("LmsFiles",CreationCollisionOption.GenerateUniqueName);
+                //var srcFile = await downloadFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                var srcFile = await DownloadsFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
+                Stream stream = await srcFile.OpenStreamForWriteAsync();
+                stream.Write(buffer, 0, buffer.Length);
+                return true;
+            }
+            catch (Exception ex) {
+                return false;
+            }
+           
+        }
+
     }
 }

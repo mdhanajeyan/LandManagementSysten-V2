@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>LandBankManagement</RootNamespace>
+    <UserSecretsId>4e2ba825-7aac-4f57-9a85-c79251202b44</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

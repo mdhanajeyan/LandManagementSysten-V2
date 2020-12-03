@@ -120,7 +120,8 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new VendorModel();
-            DocList.Clear();
+            if (DocList != null)
+                DocList.Clear();
         }
         protected override async Task<bool> DeleteItemAsync(VendorModel model)
         {
@@ -143,7 +144,7 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current Vendor?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure  to delete this Vendor?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<VendorModel>> GetValidationConstraints(VendorModel model)

@@ -17,15 +17,15 @@
             <controls:FluidGrid Margin="0,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12" HorizontalAlignment="Center" >
                 <controls:FormTextBox Header="Company Name" Text="{x:Bind EditableItem.Name, Mode=TwoWay}" />
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
-                    <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay}" CharacterCasing="Upper" />
+                    <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay}" CharacterCasing="Upper" AcceptsReturn="True"  />
                     <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay}" CharacterCasing="Upper"/>
                 </controls:FluidGrid>
-                <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.Email, Mode=TwoWay}" />
+                <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.Email, Mode=TwoWay}"  />
                 <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Address" Text="{x:Bind EditableItem.AddressLine1, Mode=TwoWay}" />
 
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
-                    <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.Pincode, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.Pincode, Mode=TwoWay}"  />
                     <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
                 </controls:FluidGrid>
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsActive, Mode=TwoWay}">
@@ -66,7 +66,7 @@
                                 <!--<TextBlock Text="{Binding FileName}"  Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
                             <TextBlock Text="{Binding Size}"  Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>-->
                                 <TextBlock Text="{Binding FileName}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.6}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
+                       Path=ActualWidth, ConverterParameter=0.5}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
                                 <TextBlock Text="{Binding Size}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
                        Path=ActualWidth, ConverterParameter=0.2}" Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>
                                 <Button x:Name="Doc_Delete" Tag="{Binding Identity}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
@@ -76,13 +76,13 @@
                                         <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                     </Button.Resources>
                                 </Button>
-                                    <!--<Button x:Name="Doc_Dpwnload" Tag="{Binding Identity}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
+                                    <Button x:Name="Doc_Dpwnload" Tag="{Binding Identity}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
                        Path=ActualWidth, ConverterParameter=0.1}" Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Doc_Dpwnload_Click" HorizontalAlignment="Left">
-                                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE896;" Foreground="Red"  HorizontalAlignment="Left"/>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE896;" Foreground="#05a344"  HorizontalAlignment="Left"/>
                                         <Button.Resources>
                                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                         </Button.Resources>
-                                    </Button>-->
+                                    </Button>
                                 </StackPanel>
 
                         </DataTemplate>

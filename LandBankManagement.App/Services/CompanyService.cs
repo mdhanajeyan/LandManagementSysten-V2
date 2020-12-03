@@ -226,6 +226,7 @@ namespace LandBankManagement.Services
             target.FileType = source.ContentType;
             target.FileCategoryId = source.FileCategoryId;
             target.UploadTime = DateTime.Now;
+            target.FileLength = source.Size;
         }
 
         public async Task<IList<CompanyModel>> GetCompaniesAsync()
