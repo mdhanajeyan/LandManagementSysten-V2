@@ -28,7 +28,8 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync(ExpenseHeadListArgs args)
         {
-            await ExpenseHeadList.LoadAsync(args);
+            await ExpenseHeadDetials.LoadAsync();
+               await ExpenseHeadList.LoadAsync(args);
         }
         public void Unload()
         {

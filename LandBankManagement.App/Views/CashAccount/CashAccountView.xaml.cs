@@ -28,7 +28,7 @@ namespace LandBankManagement.Views
         {
             ViewModel.Subscribe();
             await ViewModel.LoadAsync(e.Parameter as CashAccountListArgs);
-            ViewModel.CashAccountDetials.Load();
+          // ViewModel.CashAccountDetials.Load();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

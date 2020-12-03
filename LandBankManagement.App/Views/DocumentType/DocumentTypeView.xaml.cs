@@ -28,7 +28,7 @@ namespace LandBankManagement.Views
         {
             ViewModel.Subscribe();
             await ViewModel.LoadAsync(e.Parameter as DocumentTypeListArgs);
-            await ViewModel.DocumentTypeDetials.LoadAsync();
+          //  await ViewModel.DocumentTypeDetials.LoadAsync();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

@@ -133,8 +133,8 @@ namespace LandBankManagement.Services
                 Amount = source.Amount.ToString(),
                 ChequeNo = source.ChequeNo,
                 Narration = source.Narration,
-                BankAccountId=source.BankAccountId,
-                CashAccountId=source.CashAccountId,
+                BankAccountId=source.BankAccountId??0,
+                CashAccountId=source.CashAccountId??0,
                 PDC=source.PDC,
                 AccountName=source.AccountName
         };

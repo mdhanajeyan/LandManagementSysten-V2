@@ -21,7 +21,7 @@
     <Grid Background="WhiteSmoke"
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
-        <controls:WindowTitle Prefix="CheckList" Title="{x:Bind ViewModel.PropertyTypeList.Title, Mode=OneWay}" />
+        <controls:WindowTitle Prefix="Property Type" Title="{x:Bind ViewModel.PropertyTypeList.Title, Mode=OneWay}" />
 
         <Grid>
             <Grid.RowDefinitions>

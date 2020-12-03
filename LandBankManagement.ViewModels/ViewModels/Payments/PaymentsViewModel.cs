@@ -22,7 +22,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync(PaymentsListArgs args)
         {
-            await PaymentsDetails.LoadAsync();
+            //await PaymentsDetails.LoadAsync();
             await PaymentsList.LoadAsync(args);
         }
         public void Unload()

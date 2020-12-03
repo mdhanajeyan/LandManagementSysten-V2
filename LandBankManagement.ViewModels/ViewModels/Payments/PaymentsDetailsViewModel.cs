@@ -7,7 +7,6 @@ using System.Windows.Input;
 
 using LandBankManagement.Models;
 using LandBankManagement.Services;
-using Windows.UI.Xaml;
 
 namespace LandBankManagement.ViewModels
 {
@@ -60,29 +59,29 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _bankOptions, value);
         }
 
-        private Visibility _expenseVisibility ;
-        public Visibility ExpenseVisibility
+        private bool _expenseVisibility ;
+        public bool ExpenseVisibility
         {
             get => _expenseVisibility;
             set => Set(ref _expenseVisibility, value);
         }
 
-        private Visibility _partyVisibility;
-        public Visibility PartyVisibility
+        private bool _partyVisibility;
+        public bool PartyVisibility
         {
             get => _partyVisibility;
             set => Set(ref _partyVisibility, value);
         }
 
-        private Visibility _cashVisibility;
-        public Visibility CashVisibility
+        private bool _cashVisibility;
+        public bool CashVisibility
         {
             get => _cashVisibility;
             set => Set(ref _cashVisibility, value);
         }
 
-        private Visibility _bankVisibility;
-        public Visibility BankVisibility
+        private bool _bankVisibility;
+        public bool BankVisibility
         {
             get => _bankVisibility;
             set => Set(ref _bankVisibility, value);
@@ -179,12 +178,12 @@ namespace LandBankManagement.ViewModels
         {
             if (IsExpenseChecked)
             {
-                ExpenseVisibility = Visibility.Visible;
-                PartyVisibility = Visibility.Collapsed;
+                ExpenseVisibility = true;
+                PartyVisibility = false;
             }
             else {
-                ExpenseVisibility = Visibility.Collapsed;
-                PartyVisibility = Visibility.Visible;
+                ExpenseVisibility = false;
+                PartyVisibility = true;
             }            
         }
         public ICommand CashCheckedCommand => new RelayCommand(OnCashRadioChecked);
@@ -192,13 +191,13 @@ namespace LandBankManagement.ViewModels
         {
             if (IsCashChecked)
             {
-                CashVisibility = Visibility.Visible;
-                BankVisibility = Visibility.Collapsed;
+                CashVisibility = true;
+                BankVisibility = false;
             }
             else
             {
-                CashVisibility = Visibility.Collapsed;
-                BankVisibility = Visibility.Visible;
+                CashVisibility = false;
+                BankVisibility =true;
             }
         }
 

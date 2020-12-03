@@ -38,21 +38,21 @@
                     </RadioButton>
                 </StackPanel>
                 <StackPanel>
-                <controls:FormComboBox  Header="Expense Head" ItemsSource="{x:Bind ExpenseOptions}" Visibility="{Binding  ExpenseVisibility,Mode=TwoWay}"
+                    <controls:FormComboBox  Header="Expense Head" ItemsSource="{x:Bind ExpenseOptions}" Visibility="{Binding Path=ExpenseVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
                                            SelectedValue="{x:Bind EditableItem.ExpenseHeadId, Mode=TwoWay}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                <controls:FormComboBox  Header="Party" ItemsSource="{x:Bind PartyOptions}" Visibility="{Binding PartyVisibility,Mode=TwoWay}"
+                    <controls:FormComboBox  Header="Party" ItemsSource="{x:Bind PartyOptions}" Visibility="{Binding Path=PartyVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
                                            SelectedValue="{x:Bind EditableItem.PartyId, Mode=TwoWay}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 </StackPanel>
-                <!--<StackPanel>
-                <controls:FormComboBox x:Name="cashCombo" Header="Cash" ItemsSource="{x:Bind CashOptions}" Visibility="{Binding CashVisibility,Mode=TwoWay}"
+                <StackPanel>
+                    <controls:FormComboBox x:Name="cashCombo" Header="Cash" ItemsSource="{x:Bind CashOptions}" Visibility="{Binding Path=CashVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
                                            SelectedValue="{x:Bind EditableItem.CashAccountId, Mode=TwoWay}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />            
-                <controls:FormComboBox x:Name="bankCombo" Header="Bank" ItemsSource="{x:Bind BankOptions}" Visibility="{Binding BankVisibility,Mode=TwoWay}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                    <controls:FormComboBox x:Name="bankCombo" Header="Bank" ItemsSource="{x:Bind BankOptions}" Visibility="{Binding Path=BankVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
                                            SelectedValue="{x:Bind EditableItem.BankAccountId, Mode=TwoWay}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                </StackPanel>-->
+                </StackPanel>
                 <controls:FormComboBox  Header="Document Type" ItemsSource="{x:Bind DocumentTypeOptions}"
                                            SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />

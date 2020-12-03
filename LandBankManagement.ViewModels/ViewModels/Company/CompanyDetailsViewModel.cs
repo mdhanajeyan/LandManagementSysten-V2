@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -91,6 +92,18 @@ namespace LandBankManagement.ViewModels
                 {
                     DocList[i].Identity = i + 1;
                 }
+            }
+        }
+
+        public void DownloadDocument(int id)
+        {
+            if (id > 0)
+            {
+                //var downloadPath = System.Environment.ExpandEnvironmentVariables("%userprofile%/downloads/");
+                //var ms = new MemoryStream(DocList[id - 1].ImageBytes);
+                //var fs = File.Create(@downloadPath);
+                //ms.Seek(0, SeekOrigin.Begin);
+                //ms.CopyTo(fs);
             }
         }
 

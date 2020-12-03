@@ -34,5 +34,12 @@ namespace LandBankManagement.Views
             var identity = Convert.ToInt32( ((Button)sender).Tag.ToString());
             ViewModel.DeleteDocument(identity);
         }
+
+        private void Doc_Dpwnload_Click(object sender, RoutedEventArgs e)
+        {
+            var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.DownloadDocument(identity);
+
+        }
     }
 }

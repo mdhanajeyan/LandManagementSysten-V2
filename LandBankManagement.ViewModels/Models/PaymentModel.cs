@@ -21,8 +21,8 @@ namespace LandBankManagement.Models
         public string Amount { get; set; }
         public string ChequeNo { get; set; }
         public string Narration { get; set; }
-        public int? CashAccountId { get; set; }
-        public int? BankAccountId { get; set; }
+        public int CashAccountId { get; set; }
+        public int BankAccountId { get; set; }
         public bool PDC { get; set; }
        
         public string AccountName { get; set; }

@@ -21,7 +21,7 @@
     <Grid Background="WhiteSmoke"
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
-        <controls:WindowTitle Prefix="Village" Title="{x:Bind ViewModel.PaymentsList.Title, Mode=OneWay}" />
+        <controls:WindowTitle Prefix="Payments" Title="{x:Bind ViewModel.PaymentsList.Title, Mode=OneWay}" />
         <Pivot  SelectedIndex="{x:Bind ViewModel.SelectedPivotIndex, Mode=TwoWay}">
             <Pivot.Resources>
                 <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#D60258" />
