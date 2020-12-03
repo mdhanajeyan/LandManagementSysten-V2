@@ -40,12 +40,7 @@ namespace LandBankManagement.ViewModels
         {
             ViewModelArgs = args ?? CompanyListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
-
-            StartStatusMessage("Loading Company...");
-            if (await RefreshAsync())
-            {
-                EndStatusMessage("Company loaded");
-            }
+            await RefreshAsync();
         }
         public void Unload()
         {
@@ -72,28 +67,27 @@ namespace LandBankManagement.ViewModels
             };
         }
 
-        public async Task<bool> RefreshAsync()
-        {
-            bool isOk = true;
-
+        public async Task RefreshAsync()
+        { 
             Items = null;
             ItemsCount = 0;
             SelectedItem = null;
-
             try
             {
                 ShowProgressRing();
-                await Task.Delay(100);
+                await Task.Delay(200);
+                StartStatusMessage("Loading Company...");
+               
                 Items = await GetItemsAsync();
                 HideProgressRing();
+                EndStatusMessage("Company loaded");
             }
             catch (Exception ex)
             {
                 HideProgressRing();
                 Items = new List<CompanyModel>();
                 StatusError($"Error loading Company: {ex.Message}");
-                LogException("Company", "Refresh", ex);
-                isOk = false;
+                LogException("Company", "Refresh", ex);              
             }
 
             ItemsCount = Items.Count;
@@ -101,17 +95,16 @@ namespace LandBankManagement.ViewModels
             {
                 //  SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
             }
-            NotifyPropertyChanged(nameof(Title));
-
-            return isOk;
+            NotifyPropertyChanged(nameof(Title));           
         }
 
         private async Task<IList<CompanyModel>> GetItemsAsync()
-        {
+        {           
             if (!ViewModelArgs.IsEmpty)
             {
                 DataRequest<Data.Company> request = BuildDataRequest();
-                return await CompanyService.GetCompaniesAsync(request);
+                var list= await CompanyService.GetCompaniesAsync(request);
+                return list;
             }
             return new List<CompanyModel>();
         }
@@ -135,11 +128,7 @@ namespace LandBankManagement.ViewModels
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading Company...");
-            if (await RefreshAsync())
-            {
-                EndStatusMessage("Company loaded");
-            }
+            await RefreshAsync();
         }
 
         protected override async void OnDeleteSelection()

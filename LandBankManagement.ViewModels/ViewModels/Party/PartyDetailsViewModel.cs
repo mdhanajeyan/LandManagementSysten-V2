@@ -88,10 +88,13 @@ namespace LandBankManagement.ViewModels
                     PartyService.DeletePartyDocumentAsync(DocList[id - 1]);
                 }
                 DocList.RemoveAt(id - 1);
-                for (int i = 0; i < DocList.Count; i++)
+                var newlist = DocList;
+                for (int i = 0; i < newlist.Count; i++)
                 {
-                    DocList[i].Identity = i + 1;
+                    newlist[i].Identity = i + 1;
                 }
+                DocList = null;
+                DocList = newlist;
             }
         }
 

@@ -36,18 +36,14 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Reset();
+            Item = new CompanyModel() { IsActive = true };
         }
         public void Unload()
         {
 
         }
 
-        private void Reset() {
-            Item = new CompanyModel();
-            Item.IsActive = true;
-        }
-
+       
         public void Subscribe()
         {
             MessageService.Subscribe<CompanyDetailsViewModel, CompanyModel>(this, OnDetailsMessage);
@@ -97,10 +93,13 @@ namespace LandBankManagement.ViewModels
                         HideProgressRing();
                     }
                     DocList.RemoveAt(id - 1);
-                    for (int i = 0; i < DocList.Count; i++)
+                    var newlist = DocList;
+                    for (int i = 0; i < newlist.Count; i++)
                     {
-                        DocList[i].Identity = i + 1;
+                        newlist[i].Identity = i + 1;
                     }
+                    DocList = null;
+                    DocList = newlist;
                 }
             }
             catch (Exception ) {
@@ -113,12 +112,7 @@ namespace LandBankManagement.ViewModels
             if (id > 0)
             {
                await FilePickerService.DownloadFile(DocList[id - 1].FileName, DocList[id - 1].ImageBytes);
-               
-                //var downloadPath = System.Environment.ExpandEnvironmentVariables("%userprofile%/downloads/");
-                //var ms = new MemoryStream(DocList[id - 1].ImageBytes);
-                //var fs = File.Create(@downloadPath);
-                //ms.Seek(0, SeekOrigin.Begin);
-                //ms.CopyTo(fs);
+              
             }
         }
 
@@ -145,8 +139,7 @@ namespace LandBankManagement.ViewModels
                 //    await CompanyService.UploadCompanyDocumentsAsync(DocList.ToList());
                 //}
                 EndStatusMessage("Company saved");
-                ClearItem();
-                Reset();
+                ClearItem();               
                 CompanyListViewModel.RefreshAsync();
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
                 return true;
@@ -162,8 +155,8 @@ namespace LandBankManagement.ViewModels
 
         protected override void ClearItem()
         {
-            Item = new CompanyModel();
-            if(DocList!=null)
+            Item = new CompanyModel() { IsActive = true };
+            if (DocList!=null)
             DocList.Clear();
         }
         protected override async Task<bool> DeleteItemAsync(CompanyModel model)

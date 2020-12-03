@@ -182,11 +182,12 @@
             </NavigationView.PaneFooter>
         </NavigationView>
 
-        <Button x:Name="NavigationViewBackButton"
+        <!--<Button x:Name="NavigationViewBackButton"
                 IsEnabled="False"
                 Click="OnNavigationViewBackButton"
                 Content="&#xE72B;"
-                Style="{StaticResource PaneToggleButtonStyle}"/>
+                Style="{StaticResource PaneToggleButtonStyle}"/>-->
+        
 
         <Grid Grid.Row="1" Background="DarkGray">
             <Rectangle Fill="{StaticResource Error}" Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />

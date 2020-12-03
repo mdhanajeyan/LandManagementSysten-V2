@@ -13,7 +13,7 @@
         <AppBarButton x:Name="buttonDelete" Icon="Delete" Label="Delete" LabelPosition="Default" HorizontalAlignment="Left" Style="{StaticResource ToolBarButtonStyle}" Tag="delete" />
         <CommandBar.Content>
             <StackPanel Orientation="Horizontal">
-                <AppBarButton x:Name="buttonSelect" Icon="List" Label="Label" LabelPosition="Collapsed" Style="{StaticResource ToolBarButtonCollapsedStyle}" Tag="select" />
+                <!--<AppBarButton x:Name="buttonSelect" Icon="List" Label="Label" LabelPosition="Collapsed" Style="{StaticResource ToolBarButtonCollapsedStyle}" Tag="select" />-->
                 <AppBarButton x:Name="buttonRefresh" Icon="Refresh" Label="Label" LabelPosition="Collapsed" Style="{StaticResource ToolBarButtonCollapsedStyle}" Tag="refresh" />
                 <controls:Search x:Name="search" Margin="6,0,0,0" Query="{x:Bind Query, Mode=TwoWay}" Width="240" VerticalAlignment="Center" Tag="search" QuerySubmitted="OnQuerySubmitted" />
             </StackPanel>

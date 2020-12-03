@@ -91,7 +91,7 @@ namespace LandBankManagement.Views
 
         private void UpdateBackButton()
         {
-            NavigationViewBackButton.IsEnabled = _navigationService.CanGoBack;
+          //  NavigationViewBackButton.IsEnabled = _navigationService.CanGoBack;
         }
 
         private async void OnLogoff(object sender, RoutedEventArgs e)
