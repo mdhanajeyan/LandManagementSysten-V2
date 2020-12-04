@@ -169,17 +169,17 @@ namespace LandBankManagement.Services
             {
                 CompanyID = source.CompanyID,
                 CompanyGuid = source.CompanyGuid,
-                Name = source.Name,
-                PhoneNoIsdCode = source.PhoneNoIsdCode,
-                PhoneNo = source.PhoneNo,
-                Email = source.Email,
-                PAN = source.PAN,
-                GSTIN = source.GSTIN,
-                AddressLine1 = source.AddressLine1,
-                AddressLine2 = source.AddressLine2,
-                City = source.City,
+                Name = string.IsNullOrEmpty(source.Name) ? source.Name : source.Name.Trim(),
+                PhoneNoIsdCode = string.IsNullOrEmpty(source.PhoneNoIsdCode) ? source.PhoneNoIsdCode : source.PhoneNoIsdCode.Trim(),
+                PhoneNo = string.IsNullOrEmpty(source.PhoneNo) ? source.PhoneNo : source.PhoneNo.Trim(),
+                Email = string.IsNullOrEmpty(source.Email) ? source.Email : source.Email.Trim(),
+                PAN = string.IsNullOrEmpty(source.PAN) ? source.PAN : source.PAN.Trim(),
+                GSTIN = string.IsNullOrEmpty(source.GSTIN) ? source.GSTIN : source.GSTIN.Trim(),
+                AddressLine1 = string.IsNullOrEmpty(source.AddressLine1) ? source.AddressLine1 : source.AddressLine1.Trim(),
+                AddressLine2 = string.IsNullOrEmpty(source.AddressLine2) ? source.AddressLine2 : source.AddressLine2.Trim(),
+                City = string.IsNullOrEmpty(source.City) ? source.City : source.City.Trim(),
                 IsActive = source.IsActive,
-                Pincode = source.Pincode
+                Pincode = string.IsNullOrEmpty(source.Pincode)? source.Pincode : source.Pincode.Trim()
             };
 
             if (source.CompanyDocuments!=null && source.CompanyDocuments.Count > 0) {
