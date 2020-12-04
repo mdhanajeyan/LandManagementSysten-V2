@@ -127,7 +127,8 @@ namespace LandBankManagement.ViewModels
                 if (model.CompanyID <= 0)
                     await CompanyService.AddCompanyAsync(model, DocList);
                 else
-                    await CompanyService.UpdateCompanyAsync(model, DocList);
+                    model = await CompanyService.UpdateCompanyAsync(model, DocList);
+                
                 HideProgressRing();
                 //if (DocList.Count > 0)
                 //{
@@ -140,7 +141,7 @@ namespace LandBankManagement.ViewModels
                 //}
                 EndStatusMessage("Company saved");
                 ClearItem();               
-                CompanyListViewModel.RefreshAsync();
+                //await CompanyListViewModel.RefreshAsync();
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
                 return true;
             }
