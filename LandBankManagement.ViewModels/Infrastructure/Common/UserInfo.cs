@@ -6,9 +6,9 @@ namespace LandBankManagement
     {
         static readonly public UserInfo Default = new UserInfo
         {
-            AccountName = "Dhanajeyan Manohar",
-            FirstName = "Dhanajeyan",
-            LastName = "Manohar"
+            AccountName = "Madhu Sudhan",
+            FirstName = "Madhu",
+            LastName = "N"
         };
 
         public string AccountName { get; set; }

@@ -22,7 +22,7 @@ namespace LandBankManagement.Services
         public ILogService LogService { get; }
 
 
-        public async Task<int> AddCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs)
+        public async Task<CompanyModel> AddCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.CompanyID;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -47,7 +47,7 @@ namespace LandBankManagement.Services
                     await dataService.UpdateCompanyAsync(company);
                     model.Merge(await GetCompanyAsync(dataService, company.CompanyID));
                 }
-                return 0;
+                return model;
             }
         }
 
@@ -97,7 +97,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> UpdateCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs)
+        public async Task<CompanyModel> UpdateCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.CompanyID;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -119,7 +119,7 @@ namespace LandBankManagement.Services
                 UpdateCompanyFromModel(company, model);
                 await dataService.UpdateCompanyAsync(company);
                 model.Merge(await GetCompanyAsync(dataService, company.CompanyID));
-                return 0;
+                return model;
             }
         }
 
