@@ -42,6 +42,7 @@ namespace LandBankManagement
             serviceCollection.AddSingleton<ILoginService, LoginService>();
             serviceCollection.AddSingleton<IDropDownService, DropDownService>();
             serviceCollection.AddSingleton<IPaymentService, PaymentService>();
+            serviceCollection.AddSingleton<IFundTransferService, FundTransferService>();
 
             serviceCollection.AddScoped<IContextService, ContextService>();
             serviceCollection.AddScoped<INavigationService, NavigationService>();
@@ -78,6 +79,8 @@ namespace LandBankManagement
             serviceCollection.AddTransient<CompanyReportViewModel>();
             serviceCollection.AddTransient<BankAccountViewModel>();
             serviceCollection.AddTransient<BankAccountDetailsViewModel>();
+            serviceCollection.AddTransient<FundTransferViewModel>();
+            serviceCollection.AddTransient<FundTransferDetailsViewModel>();
 
             serviceCollection.AddTransient<AppLogsViewModel>();
 

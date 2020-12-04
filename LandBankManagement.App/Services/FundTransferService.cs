@@ -74,9 +74,7 @@ namespace LandBankManagement.Services
                 }
                 return models;
             }
-        }
-
-       
+        }       
 
         public async Task<int> GetFundTransfersCountAsync(DataRequest<FundTransfer> request)
         {
@@ -122,11 +120,15 @@ namespace LandBankManagement.Services
                 PayeePaymentType = source.PayeePaymentType,
                 PayeeBankId = source.PayeeBankId,
                 DateOfPayment = source.DateOfPayment,
-                Amount = source.Amount,
+                Amount = source.Amount.ToString(),
                 Narration = source.Narration,
                 ReceiverId = source.ReceiverId,
                 ReceiverPaymentType = source.ReceiverPaymentType,
                 ReceiverBankId = source.ReceiverBankId,
+                FromAccountName=source.FromAccountName,
+                FromCompanyName=source.FromCompanyName,
+                ToAccountName=source.ToAccountName,
+                ToCompanyName=source.ToCompanyName
         };
 
             return model;
@@ -140,7 +142,7 @@ namespace LandBankManagement.Services
             target.PayeePaymentType = source.PayeePaymentType;
             target.PayeeBankId = source.PayeeBankId;
             target.DateOfPayment = source.DateOfPayment;
-            target.Amount = source.Amount;
+            target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.Narration = source.Narration;
             target.ReceiverId = source.ReceiverId;
             target.ReceiverPaymentType = source.ReceiverPaymentType;

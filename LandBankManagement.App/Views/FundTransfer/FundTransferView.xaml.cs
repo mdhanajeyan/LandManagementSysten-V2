@@ -4,29 +4,32 @@ using Windows.UI.Xaml.Navigation;
 
 using LandBankManagement.ViewModels;
 using LandBankManagement.Services;
-namespace LandBankManagement.Views
-{
+
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+
+namespace LandBankManagement.Views 
+{ 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PaymentView : Page
+    public sealed partial class FundTransferView : Page
     {
-        public PaymentsViewModel ViewModel { get; }
+        public FundTransferViewModel ViewModel { get; }
         public INavigationService NavigationService { get; }
-        public PaymentView()
+        public FundTransferView()
         {
-            ViewModel = ServiceLocator.Current.GetService<PaymentsViewModel>();
+            ViewModel = ServiceLocator.Current.GetService<FundTransferViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
             progressRing.IsActive = true;
             progressRing.Visibility = Visibility.Visible;
-            ViewModel.PaymentsDetails.IsEditMode = true;
+            ViewModel.FundTransferDetails.IsEditMode = true;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.LoadAsync(e.Parameter as PaymentsListArgs);
+            await ViewModel.LoadAsync(e.Parameter as FundTransferListArgs);
             progressRing.IsActive = false;
             progressRing.Visibility = Visibility.Collapsed;
         }
@@ -60,8 +63,8 @@ namespace LandBankManagement.Views
             var index = ((Pivot)sender).SelectedIndex;
             if (index == 1)
             {
-                await ViewModel.PaymentsList.LoadAsync(new PaymentsListArgs { IsEmpty = false });
-                await ViewModel.PaymentsList.RefreshAsync();
+                await ViewModel.FundTransferList.LoadAsync(new FundTransferListArgs { IsEmpty = false });
+                await ViewModel.FundTransferList.RefreshAsync();
             }
         }
     }

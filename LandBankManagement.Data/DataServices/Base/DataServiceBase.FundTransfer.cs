@@ -13,29 +13,57 @@ namespace LandBankManagement.Data.Services
         {
             if (model == null)
                 return 0;
-
-            var entity = new FundTransfer()
+            try
             {
-                FundTransferId = model.FundTransferId,
-                FundTransferGuid = model.FundTransferGuid,
-                PayeeId = model.PayeeId,
-                PayeePaymentType = model.PayeePaymentType,
-                PayeeBankId = model.PayeeBankId,
-                DateOfPayment = model.DateOfPayment,
-                Amount = model.Amount,
-                Narration = model.Narration,
-                ReceiverId = model.ReceiverId,
-                ReceiverPaymentType = model.ReceiverPaymentType,
-                ReceiverBankId = model.ReceiverBankId,
-        };
-            _dataSource.Entry(entity).State = EntityState.Added;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+                var entity = new FundTransfer()
+                {
+                    FundTransferGuid = model.FundTransferGuid,
+                    PayeeId = model.PayeeId,
+                    PayeePaymentType = model.PayeePaymentType,
+                    PayeeBankId = model.PayeeBankId,
+                    DateOfPayment = model.DateOfPayment,
+                    Amount = model.Amount,
+                    Narration = model.Narration,
+                    ReceiverId = model.ReceiverId,
+                    ReceiverPaymentType = model.ReceiverPaymentType,
+                    ReceiverBankId = model.ReceiverBankId,
+                };
+                _dataSource.Entry(entity).State = EntityState.Added;
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw ex; 
+            }
         }
 
         private IQueryable<FundTransfer> GetFundTransfers(DataRequest<FundTransfer> request)
         {
-            IQueryable<FundTransfer> items = _dataSource.FundTransfers;
+            IQueryable<FundTransfer> items = from fund in _dataSource.FundTransfers
+                                             from fromComp in _dataSource.Companies.Where(x => x.CompanyID == fund.PayeeId).DefaultIfEmpty()
+                                             from fromBank in _dataSource.BankAccounts.Where(x => x.BankAccountId == fund.PayeeBankId).DefaultIfEmpty()
+                                             from toComp in _dataSource.Companies.Where(x => x.CompanyID == fund.ReceiverId).DefaultIfEmpty()
+                                             from toBank in _dataSource.BankAccounts.Where(x => x.BankAccountId == fund.ReceiverBankId).DefaultIfEmpty()
+                                             select new FundTransfer
+                                             {
+                                                 FundTransferId = fund.FundTransferId,
+                                                 FundTransferGuid = fund.FundTransferGuid,
+                                                 PayeeId = fund.PayeeId,
+                                                 PayeePaymentType = fund.PayeePaymentType,
+                                                 PayeeBankId = fund.PayeeBankId,
+                                                 DateOfPayment = fund.DateOfPayment,
+                                                 Amount = fund.Amount,
+                                                 Narration = fund.Narration,
+                                                 ReceiverId = fund.ReceiverId,
+                                                 ReceiverPaymentType = fund.ReceiverPaymentType,
+                                                 ReceiverBankId = fund.ReceiverBankId,
+                                                 FromAccountName = fromBank.BankName,
+                                                 FromCompanyName = fromComp.Name,
+                                                 ToAccountName = fromBank.BankName,
+                                                 ToCompanyName = toComp.Name
+                                             };
+          
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -92,6 +120,10 @@ namespace LandBankManagement.Data.Services
                     ReceiverId = source.ReceiverId,
                     ReceiverPaymentType = source.ReceiverPaymentType,
                     ReceiverBankId = source.ReceiverBankId,
+                    FromAccountName=source.FromAccountName,
+                    FromCompanyName=source.FromCompanyName,
+                    ToAccountName=source.ToAccountName,
+                    ToCompanyName=source.ToCompanyName
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -102,7 +134,6 @@ namespace LandBankManagement.Data.Services
         public async Task<int> GetFundTransfersCountAsync(DataRequest<FundTransfer> request)
         {
             IQueryable<FundTransfer> items = _dataSource.FundTransfers;
-
             // Query
             if (!String.IsNullOrEmpty(request.Query))
             {

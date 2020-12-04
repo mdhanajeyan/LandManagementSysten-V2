@@ -15,7 +15,7 @@ namespace LandBankManagement.ViewModels
         public IDropDownService DropDownService { get; }
         public IPaymentService PaymentsService { get; }
         public IFilePickerService FilePickerService { get; }
-        public PaymentsListViewModel PaymentsListViewModel { get; }
+      
         private ObservableCollection<ComboBoxOptions> _companyOptions = null;
         public ObservableCollection<ComboBoxOptions> CompanyOptions
         {
@@ -112,12 +112,12 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _isBankChecked, value);
         }
 
-        public PaymentsDetailsViewModel(IDropDownService dropDownService, IPaymentService villageService, IFilePickerService filePickerService, ICommonServices commonServices, PaymentsListViewModel villageListViewModel) : base(commonServices)
+        public PaymentsDetailsViewModel(IDropDownService dropDownService, IPaymentService villageService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             PaymentsService = villageService;
-            PaymentsListViewModel = villageListViewModel;
+          
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Payments" : TitleEdit;
@@ -239,7 +239,6 @@ namespace LandBankManagement.ViewModels
                     await PaymentsService.AddPaymentAsync(model);
                 else
                     await PaymentsService.UpdatePaymentAsync(model);
-                await PaymentsListViewModel.RefreshAsync();
                 EndStatusMessage("Payments saved");
                 LogInformation("Payments", "Save", "Payments saved successfully", $"Payments {model.PaymentId}  was saved successfully.");
                 return true;
@@ -265,7 +264,6 @@ namespace LandBankManagement.ViewModels
                 await Task.Delay(100);
                 await PaymentsService.DeletePaymentAsync(model);
                 ClearItem();
-                await PaymentsListViewModel.RefreshAsync();
                 EndStatusMessage("Payments deleted");
                 LogWarning("Payments", "Delete", "Payments deleted", $"Taluk {model.PaymentId}  was deleted.");
                 return true;

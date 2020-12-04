@@ -10,11 +10,11 @@ using System.Windows.Input;
 
 namespace LandBankManagement.ViewModels
 {
-    public class PaymentsListArgs
+    public class FundTransferListArgs
     {
-        static public PaymentsListArgs CreateEmpty() => new PaymentsListArgs { IsEmpty = true };
+        static public FundTransferListArgs CreateEmpty() => new FundTransferListArgs { IsEmpty = true };
 
-        public PaymentsListArgs()
+        public FundTransferListArgs()
         {
             OrderBy = r => r.DateOfPayment;
         }
@@ -23,28 +23,23 @@ namespace LandBankManagement.ViewModels
 
         public string Query { get; set; }
 
-        public Expression<Func<Data.Payment, object>> OrderBy { get; set; }
-        public Expression<Func<Data.Payment, object>> OrderByDesc { get; set; }
+        public Expression<Func<Data.FundTransfer, object>> OrderBy { get; set; }
+        public Expression<Func<Data.FundTransfer, object>> OrderByDesc { get; set; }
     }
-    public class PaymentsListViewModel : GenericListViewModel<PaymentModel>
+    public class FundTransferListViewModel : GenericListViewModel<FundTransferModel>
     {
-        public IPaymentService PaymentsService { get; }
-        public PaymentsListArgs ViewModelArgs { get; private set; }
+        public IFundTransferService FundTransferService { get; }
+        public FundTransferListArgs ViewModelArgs { get; private set; }
 
-        public PaymentsListViewModel(IPaymentService villageService, ICommonServices commonServices) : base(commonServices)
+        public FundTransferListViewModel(IFundTransferService fundTransferService, ICommonServices commonServices) : base(commonServices)
         {
-            PaymentsService = villageService;
+            FundTransferService = fundTransferService;
         }
-        public async Task LoadAsync(PaymentsListArgs args)
+        public async Task LoadAsync(FundTransferListArgs args)
         {
-            ViewModelArgs = args ?? PaymentsListArgs.CreateEmpty();
+            ViewModelArgs = args ?? FundTransferListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
-
-            //StartStatusMessage("Loading Payments...");
-            //if (await RefreshAsync())
-            //{
-            //    EndStatusMessage("Payments loaded");
-            //}
+           
         }
         public void Unload()
         {
@@ -53,7 +48,7 @@ namespace LandBankManagement.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<PaymentsListViewModel>(this, OnMessage);
+            MessageService.Subscribe<FundTransferListViewModel>(this, OnMessage);
 
         }
         public void Unsubscribe()
@@ -61,9 +56,9 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        public PaymentsListArgs CreateArgs()
+        public FundTransferListArgs CreateArgs()
         {
-            return new PaymentsListArgs
+            return new FundTransferListArgs
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,
@@ -85,9 +80,9 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
-                Items = new List<PaymentModel>();
-                StatusError($"Error loading Payments: {ex.Message}");
-                LogException("Payments", "Refresh", ex);
+                Items = new List<FundTransferModel>();
+                StatusError($"Error loading FundTransfer: {ex.Message}");
+                LogException("FundTransfer", "Refresh", ex);
                 isOk = false;
             }
 
@@ -101,14 +96,14 @@ namespace LandBankManagement.ViewModels
             return isOk;
         }
 
-        private async Task<IList<PaymentModel>> GetItemsAsync()
+        private async Task<IList<FundTransferModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)
             {
-                DataRequest<Data.Payment> request = BuildDataRequest();
-                return await PaymentsService.GetPaymentsAsync(request);
+                DataRequest<Data.FundTransfer> request = BuildDataRequest();
+                return await FundTransferService.GetFundTransfersAsync(request);
             }
-            return new List<PaymentModel>();
+            return new List<FundTransferModel>();
         }
 
 
@@ -122,17 +117,17 @@ namespace LandBankManagement.ViewModels
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading Payments...");
+            StartStatusMessage("Loading FundTransfer...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Payments loaded");
+                EndStatusMessage("FundTransfer loaded");
             }
         }
 
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Payments?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected FundTransfer?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try
@@ -140,22 +135,22 @@ namespace LandBankManagement.ViewModels
                     if (SelectedIndexRanges != null)
                     {
                         count = SelectedIndexRanges.Sum(r => r.Length);
-                        StartStatusMessage($"Deleting {count} Payments...");
+                        StartStatusMessage($"Deleting {count} FundTransfer...");
                         // await DeleteRangesAsync(SelectedIndexRanges);
                         MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
                     }
                     else if (SelectedItems != null)
                     {
                         count = SelectedItems.Count();
-                        StartStatusMessage($"Deleting {count} Payments...");
+                        StartStatusMessage($"Deleting {count} FundTransfer...");
                         await DeleteItemsAsync(SelectedItems);
                         MessageService.Send(this, "ItemsDeleted", SelectedItems);
                     }
                 }
                 catch (Exception ex)
                 {
-                    StatusError($"Error deleting {count} Payments: {ex.Message}");
-                    LogException("Paymentss", "Delete", ex);
+                    StatusError($"Error deleting {count} FundTransfer: {ex.Message}");
+                    LogException("FundTransfers", "Delete", ex);
                     count = 0;
                 }
                 await RefreshAsync();
@@ -163,22 +158,22 @@ namespace LandBankManagement.ViewModels
                 SelectedItems = null;
                 if (count > 0)
                 {
-                    EndStatusMessage($"{count} Payments deleted");
+                    EndStatusMessage($"{count} FundTransfer deleted");
                 }
             }
         }
 
-        private async Task DeleteItemsAsync(IEnumerable<PaymentModel> models)
+        private async Task DeleteItemsAsync(IEnumerable<FundTransferModel> models)
         {
             foreach (var model in models)
             {
-                await PaymentsService.DeletePaymentAsync(model);
+                await FundTransferService.DeleteFundTransferAsync(model);
             }
         }
 
-        private DataRequest<Data.Payment> BuildDataRequest()
+        private DataRequest<Data.FundTransfer> BuildDataRequest()
         {
-            return new DataRequest<Data.Payment>()
+            return new DataRequest<Data.FundTransfer>()
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,

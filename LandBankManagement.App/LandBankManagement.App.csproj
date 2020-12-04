@@ -315,6 +315,15 @@
     <Compile Include="Views\ExpenseHead\ExpenseHeadView.xaml.cs">
       <DependentUpon>ExpenseHeadView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FundTransfer\FundTranfserDetails.xaml.cs">
+      <DependentUpon>FundTranfserDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FundTransfer\FundTransferView.xaml.cs">
+      <DependentUpon>FundTransferView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FundTransfer\FundTransferList.xaml.cs">
+      <DependentUpon>FundTransferList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Hobli\HobliDetails.xaml.cs">
       <DependentUpon>HobliDetails.xaml</DependentUpon>
     </Compile>
@@ -609,6 +618,18 @@
     <Page Include="Views\ExpenseHead\ExpenseHeadView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FundTransfer\FundTranfserDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FundTransfer\FundTransferView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FundTransfer\FundTransferList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Hobli\HobliDetails.xaml">
       <Generator>MSBuild:Compile</Generator>

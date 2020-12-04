@@ -17,12 +17,12 @@ namespace LandBankManagement.ViewModels
         {
             PaymentsService = paymentsService;
             PaymentsList = new PaymentsListViewModel(PaymentsService, commonServices);
-            PaymentsDetails = new PaymentsDetailsViewModel(dropDownService, PaymentsService, filePickerService, commonServices, PaymentsList);
+            PaymentsDetails = new PaymentsDetailsViewModel(dropDownService, PaymentsService, filePickerService, commonServices);
         }
 
         public async Task LoadAsync(PaymentsListArgs args)
         {
-            //await PaymentsDetails.LoadAsync();
+            await PaymentsDetails.LoadAsync();
             await PaymentsList.LoadAsync(args);
         }
         public void Unload()

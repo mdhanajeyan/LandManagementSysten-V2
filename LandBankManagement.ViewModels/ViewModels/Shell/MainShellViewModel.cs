@@ -48,7 +48,8 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xE8C7, "Payments", typeof(PaymentsViewModel))
+                new NavigationItem(0xE8C7, "Payments", typeof(PaymentsViewModel)),
+                 new NavigationItem(0xE912, "Fund Transfer", typeof(FundTransferViewModel))
             }
         };
         private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel));
@@ -153,6 +154,9 @@ namespace LandBankManagement.ViewModels
                     break;
                 case "PaymentsViewModel":
                     NavigationService.Navigate(viewModel, new PaymentsListArgs());
+                    break;
+                case "FundTransferViewModel":
+                    NavigationService.Navigate(viewModel, new FundTransferListArgs());
                     break;
                 default:
                     throw new NotImplementedException();
