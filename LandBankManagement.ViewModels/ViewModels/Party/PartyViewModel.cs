@@ -12,12 +12,12 @@ namespace LandBankManagement.ViewModels
 
         public PartyListViewModel PartyList { get; set; }
         public PartyDetailsViewModel PartyDetails { get; set; }
-        public PartyViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IPartyService partyService) : base(commonServices)
+        public PartyViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IPartyService partyService,IVendorService vendorService,IDropDownService dropDownService) : base(commonServices)
         {
 
             PartyService = partyService;
             PartyList = new PartyListViewModel(partyService, commonServices);
-            PartyDetails = new PartyDetailsViewModel(partyService, filePickerService, commonServices);
+            PartyDetails = new PartyDetailsViewModel(partyService, filePickerService, commonServices, PartyList, dropDownService, vendorService);
         }
 
         public async Task LoadAsync(PartyListArgs args)

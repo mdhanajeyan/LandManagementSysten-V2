@@ -20,12 +20,10 @@ namespace LandBankManagement.ViewModels
 
         public ICompanyService CompanyService { get; }
         public IFilePickerService FilePickerService { get; }
-        CompanyListViewModel CompanyListViewModel { get; }
-        public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices,CompanyListViewModel companyListViewModel) : base(commonServices)
+        public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
         {
             CompanyService = companyService;
             FilePickerService = filePickerService;
-            CompanyListViewModel = companyListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Company" : TitleEdit;
@@ -127,21 +125,9 @@ namespace LandBankManagement.ViewModels
                 if (model.CompanyID <= 0)
                     await CompanyService.AddCompanyAsync(model, DocList);
                 else
-                    model = await CompanyService.UpdateCompanyAsync(model, DocList);
-                
-                HideProgressRing();
-                //if (DocList.Count > 0)
-                //{
-                //    foreach (var doc in DocList)
-                //    {
-                //        if (doc.guid == null || doc.guid == Guid.Empty)
-                //            doc.guid = model.CompanyGuid;
-                //    }
-                //    await CompanyService.UploadCompanyDocumentsAsync(DocList.ToList());
-                //}
-                EndStatusMessage("Company saved");
-                ClearItem();               
-                //await CompanyListViewModel.RefreshAsync();
+                    await CompanyService.UpdateCompanyAsync(model, DocList);
+                HideProgressRing();              
+                EndStatusMessage("Company saved");                             
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
                 return true;
             }

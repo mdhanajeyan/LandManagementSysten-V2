@@ -21,7 +21,7 @@ namespace LandBankManagement.ViewModels
         {
             CompanyService = companyService;
             CompanyList = new CompanyListViewModel(companyService, commonServices);
-            CompanyDetials = new CompanyDetailsViewModel(companyService, filePickerService, commonServices,CompanyList);
+            CompanyDetials = new CompanyDetailsViewModel(companyService, filePickerService, commonServices);
         }
 
         public async Task LoadAsync(CompanyListArgs args)
@@ -80,6 +80,7 @@ namespace LandBankManagement.ViewModels
                 var model = await CompanyService.GetCompanyAsync(selected.CompanyID);
                 HideProgressRing();
                 selected.Merge(model);
+                CompanyDetials.Item=CompanyModel.CreateEmpty();
                 CompanyDetials.Item = model;
                 if (model.CompanyDocuments != null)
                 {

@@ -12,18 +12,43 @@ namespace LandBankManagement.ViewModels
     {
         private readonly NavigationItem DashboardItem = new NavigationItem(0xE80F, "Dashboard", typeof(DashboardViewModel));
 
-        private readonly NavigationItem AppLogsItem = new NavigationItem("Activity Logs", 0xE7BA)
+        private readonly NavigationItem AppLogsItem = new NavigationItem("Activity Logs")
         {
             Children = new ObservableCollection<NavigationItem>
             {
                 new NavigationItem(0xE7BA, "View Log", typeof(AppLogsViewModel)){IconColor = "Red"}
             }
         };
-        private readonly NavigationItem CompanyItem = new NavigationItem(0xEC0B, "Company", typeof(CompanyViewModel))
+        private readonly NavigationItem ReportItem = new NavigationItem( "Report")
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
+                 new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
+            }
+        };
+        private readonly NavigationItem SetupItem = new NavigationItem("Set-up")
+        {
+            Children = new ObservableCollection<NavigationItem>
+            {
+                new NavigationItem(0xE9F9, "Comapny", typeof(CompanyViewModel)),
+                 new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel)),
+                 new NavigationItem(0xE716, "Party", typeof(PartyViewModel)),
+                 new NavigationItem(0xE825, "Bank", typeof(BankAccountViewModel)),
+                 new NavigationItem(0xF584, "Cash", typeof(CashAccountViewModel)),
+                 new NavigationItem(0xE912, "ExpenseHead", typeof(ExpenseHeadViewModel)),
+                 new NavigationItem(0xE759, "Taluk", typeof(TalukViewModel)),
+                 new NavigationItem(0xE802, "Hobli", typeof(HobliViewModel)),
+                 new NavigationItem(0xF156, "Village", typeof(VillageViewModel)),
+                 new NavigationItem(0xF0B5, "Property CheckList Master", typeof(CheckListViewModel)),
+                  new NavigationItem(0xF97C, "Property Type", typeof(PropertyTypeViewModel))
+            }
+        };
+
+        private readonly NavigationItem PropertyItem = new NavigationItem( "Property")
+        {
+            Children = new ObservableCollection<NavigationItem>
+            {
+                new NavigationItem(0xE8C7, "Payments", typeof(PaymentsViewModel))
             }
         };
         private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel));
@@ -136,21 +161,25 @@ namespace LandBankManagement.ViewModels
 
         private IEnumerable<NavigationItem> GetItems()
         {
+            yield return SetupItem;
+            yield return PropertyItem;
+            yield return ReportItem;
             yield return AppLogsItem;
-            yield return CompanyItem;
-            yield return VendorItem;
-            yield return PartyItem;
-            yield return CashAccountItem;
-            yield return BankAccountItem;
-            yield return ExpenseHeadItem;
-            yield return TalukItem;
-            yield return HobliItem;
-            yield return VillageItem;
-            yield return DocumentTypeItem;
-            yield return CheckListItem;
-            yield return PropertyTypeItem;
-            yield return PaymentsItem;
-            yield return DashboardItem;
+            //yield return AppLogsItem;
+            //yield return CompanyItem;
+            //yield return VendorItem;
+            //yield return PartyItem;
+            //yield return CashAccountItem;
+            //yield return BankAccountItem;
+            //yield return ExpenseHeadItem;
+            //yield return TalukItem;
+            //yield return HobliItem;
+            //yield return VillageItem;
+            //yield return DocumentTypeItem;
+            //yield return CheckListItem;
+            //yield return PropertyTypeItem;
+            //yield return PaymentsItem;
+            //yield return DashboardItem;
 
         }
 
