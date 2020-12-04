@@ -53,5 +53,9 @@ namespace LandBankManagement.Data.Services
         {
             return _dataSource.BankAccounts.Select(x => new { x.BankAccountId, x.BankName }).ToDictionary(t => t.BankAccountId, t => t.BankName);
         }
+        public Dictionary<int, string> GetVendorOptions()
+        {
+            return _dataSource.Vendors.Select(x => new { x.VendorId, x.VendorName }).ToDictionary(t => t.VendorId, t => t.VendorName);
+        }
     }
 }

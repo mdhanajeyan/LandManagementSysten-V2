@@ -70,7 +70,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="6" 
+    <Grid ColumnSpacing="6"  Height="530" VerticalAlignment="Top"
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
             

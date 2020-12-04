@@ -40,7 +40,7 @@ namespace LandBankManagement.ViewModels
         {
             ViewModelArgs = args ?? CompanyListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
-            await RefreshAsync();
+           // await RefreshAsync();
         }
         public void Unload()
         {

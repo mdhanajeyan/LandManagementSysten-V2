@@ -38,7 +38,7 @@
         Description="LandBankManagement.App"
         BackgroundColor="black">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
-        <uap:SplashScreen Image="Assets\SplashScreen.png"  BackgroundColor="black"/>
+        <uap:SplashScreen BackgroundColor="white" Image="Assets\SplashScreen.png"/>
       </uap:VisualElements>
     </Application>
   </Applications>

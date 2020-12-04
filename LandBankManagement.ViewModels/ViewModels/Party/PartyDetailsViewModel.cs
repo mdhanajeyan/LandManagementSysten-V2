@@ -18,12 +18,26 @@ namespace LandBankManagement.ViewModels
             get => _docList;
             set => Set(ref _docList, value);
         }
+        private ObservableCollection<ComboBoxOptions> _vendorOptions = null;
+        public ObservableCollection<ComboBoxOptions> VendorOptions
+
+        {
+            get => _vendorOptions;
+            set => Set(ref _vendorOptions, value);
+        }
+
         public IPartyService PartyService { get; }
+        public IDropDownService DropDownService { get; }
         public IFilePickerService FilePickerService { get; }
-        public PartyDetailsViewModel(IPartyService partyService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        public PartyListViewModel PartyListViewModel { get; }
+        public IVendorService VendorService { get; }
+        public PartyDetailsViewModel(IPartyService partyService, IFilePickerService filePickerService, ICommonServices commonServices, PartyListViewModel partyListViewModel,IDropDownService dropDownService,IVendorService vendorService) : base(commonServices)
         {
             PartyService = partyService;
+            PartyListViewModel = partyListViewModel;
             FilePickerService = filePickerService;
+            DropDownService = dropDownService;
+            VendorService = vendorService;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Party" : TitleEdit;
@@ -36,10 +50,45 @@ namespace LandBankManagement.ViewModels
             Item = new PartyModel();
             Item.IsPartyActive = true;
             IsEditMode = true;
+            getVendors();
+        }
+
+        private void getVendors() {
+            VendorOptions = DropDownService.GetVendorOptions();
         }
         public void Unload()
         {
+        }
 
+        public async void ClodeVendorDetails(int id) {
+
+            var model =await VendorService.GetVendorAsync(id);
+            Item = new PartyModel
+            {
+                PartyName = model.VendorName,
+                PartyAlias = model.VendorAlias,
+                PartySalutation = model.VendorSalutation,
+                AadharNo = model.AadharNo,
+                ContactPerson = model.ContactPerson,
+                PAN = model.PAN,
+                GSTIN = model.GSTIN,
+                email = model.email,
+                IsPartyActive = model.IsVendorActive,
+                PhoneNo = model.PhoneNo,
+                AddressLine1 = model.AddressLine1,
+                AddressLine2 = model.AddressLine2,
+                City = model.City,
+                PinCode = model.PinCode
+            };
+               
+            DocList = model.VendorDocuments;
+            if (model.VendorDocuments != null)
+            {
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    DocList[i].Identity = i + 1;
+                }
+            }
         }
 
         public void Subscribe()
@@ -108,6 +157,8 @@ namespace LandBankManagement.ViewModels
                     await PartyService.AddPartyAsync(model, DocList);
                 else
                     await PartyService.UpdatePartyAsync(model, DocList);
+                ClearItem();
+                await PartyListViewModel.RefreshAsync();
                 EndStatusMessage("Party saved");
                 LogInformation("Party", "Save", "Party saved successfully", $"Party {model.PartyId} '{model.PartyName}' was saved successfully.");
                 return true;
@@ -133,6 +184,8 @@ namespace LandBankManagement.ViewModels
                 await Task.Delay(100);
                 await PartyService.DeletePartyAsync(model);
                 EndStatusMessage("Party deleted");
+                ClearItem();
+                await PartyListViewModel.RefreshAsync();
                 LogWarning("Party", "Delete", "Party deleted", $"Party {model.PartyId} '{model.PartyName}' was deleted.");
                 return true;
             }

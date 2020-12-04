@@ -34,5 +34,12 @@ namespace LandBankManagement.Views
             var identity = Convert.ToInt32( ((Button)sender).Tag.ToString());
             ViewModel.DeleteDocument(identity);
         }
+             
+
+        private void VendorList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var id = Convert.ToInt32(((ComboBox)sender).SelectedValue.ToString());
+            ViewModel.ClodeVendorDetails(id);
+        }
     }
 }

@@ -196,5 +196,6 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetPropertyOptions();
         Dictionary<int, string> GetCashOptions();
         Dictionary<int, string> GetBankOptions();
+        Dictionary<int, string> GetVendorOptions();
     }
 }

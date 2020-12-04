@@ -19,5 +19,6 @@ namespace LandBankManagement.Services
         ObservableCollection<ComboBoxOptions> GetPropertyOptions();
         ObservableCollection<ComboBoxOptions> GetCashOptions();
         ObservableCollection<ComboBoxOptions> GetBankOptions();
+        ObservableCollection<ComboBoxOptions> GetVendorOptions();
     }
 }

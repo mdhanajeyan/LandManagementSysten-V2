@@ -162,8 +162,7 @@
                          VerticalAlignment="Center"
                          x:FieldModifier="public"
                          PlaceholderText="Search"
-                         QueryIcon="Find"
-                         
+                         QueryIcon="Find"                        
                          MinWidth="200"
                          Windows10version1803:KeyboardAcceleratorPlacementMode="Hidden">
                     <AutoSuggestBox.KeyboardAccelerators>

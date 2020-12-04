@@ -8,13 +8,14 @@
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+        <Grid.RowDefinitions>           
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <controls:DetailToolbar ToolbarMode="{x:Bind ToolbarMode, Mode=OneWay}" DefaultCommands="{x:Bind DefaultCommands, Mode=OneWay}" ButtonClick="OnToolbarClick" />
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+       
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
             <ContentControl x:Name="container" Content="{x:Bind DetailsContent}" ContentTemplate="{x:Bind DetailsTemplate}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         </ScrollViewer>
+        <controls:DetailToolbar Margin="0 10 0 20"  Grid.Row="1" ToolbarMode="{x:Bind ToolbarMode, Mode=OneWay}" DefaultCommands="{x:Bind DefaultCommands, Mode=OneWay}" ButtonClick="OnToolbarClick" />
     </Grid>
 </UserControl>

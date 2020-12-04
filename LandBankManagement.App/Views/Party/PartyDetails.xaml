@@ -27,9 +27,10 @@
                 <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Address" Text="{x:Bind EditableItem.AddressLine1, Mode=TwoWay}" />
-
-                <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay}" />
-                <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
+                <controls:FluidGrid  ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60" >
+                    <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
+                </controls:FluidGrid>
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsPartyActive, Mode=TwoWay}" >
                     <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
                 </CheckBox>
@@ -53,7 +54,12 @@
                           SaveCommand="{x:Bind ViewModel.SaveCommand}"
                           CancelCommand="{x:Bind ViewModel.CancelCommand}" />
         <StackPanel  Grid.Column="1">
-            <Button x:Name="uploadBtn"  Command="{x:Bind ViewModel.EditPictureCommand}" Margin="20 70 0 0">
+            <controls:FluidGrid Margin="0,70,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Left">
+                <controls:FormComboBox x:Name="VendorList" Header="Copy From Vendor Master" ItemsSource="{x:Bind ViewModel.VendorOptions}"
+                                          SelectionChanged="VendorList_SelectionChanged"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+            </controls:FluidGrid>
+            <Button x:Name="uploadBtn"  Command="{x:Bind ViewModel.EditPictureCommand}" Margin="0 35 0 0">
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE898;" Foreground="#fff" Margin="0 0 7 0"/>
                     <TextBlock  x:Name="uploadName" Text="Upload" Foreground="#fff"/>
