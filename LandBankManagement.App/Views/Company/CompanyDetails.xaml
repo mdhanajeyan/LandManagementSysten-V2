@@ -35,14 +35,14 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="8" 
+    <Grid ColumnSpacing="8" Height="600" VerticalAlignment="Top"
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
         <Grid.ColumnDefinitions>           
             <ColumnDefinition Width="250*"/>
             <ColumnDefinition Width="300*"/>
         </Grid.ColumnDefinitions>        
 
-        <controls:Details x:Name="details" Grid.Column="0" Margin="20,20,10,20"
+        <controls:Details x:Name="details" Grid.Column="0" Margin="20,20,10,20" 
                           DetailsContent="{x:Bind ViewModel}"
                           DetailsTemplate="{StaticResource DetailsTemplate}"
                           IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"

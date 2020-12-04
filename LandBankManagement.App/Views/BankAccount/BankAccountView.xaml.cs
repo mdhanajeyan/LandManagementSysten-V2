@@ -27,9 +27,7 @@ namespace LandBankManagement.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-           // ViewModel.BankAccountDetials.Load();
-            await ViewModel.LoadAsync(e.Parameter as BankAccountListArgs);
-           
+            await ViewModel.LoadAsync(e.Parameter as BankAccountListArgs);           
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

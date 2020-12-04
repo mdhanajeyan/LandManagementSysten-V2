@@ -27,9 +27,10 @@
                 <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Address" Text="{x:Bind EditableItem.AddressLine1, Mode=TwoWay}" />
-
-                <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay}" />
-                <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
+                <controls:FluidGrid  ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60" >
+                    <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
+                </controls:FluidGrid>
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsPartyActive, Mode=TwoWay}" >
                     <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
                 </CheckBox>

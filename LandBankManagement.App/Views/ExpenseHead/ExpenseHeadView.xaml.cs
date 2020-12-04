@@ -26,8 +26,7 @@ namespace LandBankManagement.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.LoadAsync(e.Parameter as ExpenseHeadListArgs);
-            await ViewModel.ExpenseHeadDetials.LoadAsync();
+            await ViewModel.LoadAsync(e.Parameter as ExpenseHeadListArgs);           
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
