@@ -9,12 +9,12 @@ namespace LandBankManagement.Services
 {
     public interface IPropertyTypeService
     {
-        Task<int> AddPropertyTypeAsync(PropertyTypeModel model);
+        Task<PropertyTypeModel> AddPropertyTypeAsync(PropertyTypeModel model);
         Task<PropertyTypeModel> GetPropertyTypeAsync(long id);
         Task<IList<PropertyTypeModel>> GetPropertyTypesAsync(DataRequest<PropertyType> request);
         Task<IList<PropertyTypeModel>> GetPropertyTypesAsync(int skip, int take, DataRequest<PropertyType> request);
         Task<int> GetPropertyTypesCountAsync(DataRequest<PropertyType> request);
-        Task<int> UpdatePropertyTypeAsync(PropertyTypeModel model);
+        Task<PropertyTypeModel> UpdatePropertyTypeAsync(PropertyTypeModel model);
         Task<int> DeletePropertyTypeAsync(PropertyTypeModel model);
     }
 }

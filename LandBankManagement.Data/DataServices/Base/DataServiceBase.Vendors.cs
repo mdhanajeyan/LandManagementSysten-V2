@@ -46,8 +46,7 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> UpdateVendorAsync(Vendor vendor)
         {
-            try
-            {
+            
                 ICollection<VendorDocuments> docs = vendor.VendorDocuments;
                 vendor.VendorDocuments = null;
                 if (vendor.VendorId > 0)
@@ -77,17 +76,12 @@ namespace LandBankManagement.Data.Services
                 }
                 await _dataSource.SaveChangesAsync();
                 return res;
-            }
-            catch (Exception ex)
-            {
-                return 0;
-            }
+           
         }
 
         public async Task<Vendor> GetVendorAsync(long id)
         {
-            try
-            {
+           
                 var vendor= await _dataSource.Vendors.Where(x => x.VendorId == id).FirstOrDefaultAsync();
                 if (vendor.VendorGuid != null)
                 {
@@ -99,11 +93,7 @@ namespace LandBankManagement.Data.Services
 
                 }
                 return vendor;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+           
         }
         private List<VendorDocuments> GetVendorDocumentsAsync(Guid id)
         {

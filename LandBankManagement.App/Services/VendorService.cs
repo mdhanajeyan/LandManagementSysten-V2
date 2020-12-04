@@ -27,6 +27,7 @@ namespace LandBankManagement.Services
                 return await GetVendorAsync(dataService, id);
             }
         }
+
         static private async Task<VendorModel> GetVendorAsync(IDataService dataService, long id)
         {
             var item = await dataService.GetVendorAsync(id);
@@ -66,7 +67,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> AddVendorAsync(VendorModel model, ICollection<ImagePickerResult> docs)
+        public async Task<VendorModel> AddVendorAsync(VendorModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.VendorId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -90,11 +91,11 @@ namespace LandBankManagement.Services
                     await dataService.UpdateVendorAsync(vendor);
                     model.Merge(await GetVendorAsync(dataService, vendor.VendorId));
                 }
-                return 0;
+                return model;
             }
         }
 
-        public async Task<int> UpdateVendorAsync(VendorModel model, ICollection<ImagePickerResult> docs)
+        public async Task<VendorModel> UpdateVendorAsync(VendorModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.VendorId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -117,7 +118,7 @@ namespace LandBankManagement.Services
                     await dataService.UpdateVendorAsync(vendor);
                     model.Merge(await GetVendorAsync(dataService, vendor.VendorId));
                 }
-                return 0;
+                return model;
             }
         }
 
@@ -220,6 +221,7 @@ namespace LandBankManagement.Services
             target.IsVendorActive = source.IsVendorActive;
 
         }
+
         private void UpdateDocumentFromModel(VendorDocuments target, ImagePickerResult source)
         {
             target.VendorBlobId = source.blobId;

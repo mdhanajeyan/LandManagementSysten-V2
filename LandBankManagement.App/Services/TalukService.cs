@@ -21,7 +21,7 @@ namespace LandBankManagement.Services
             LogService = logService;
         }
 
-        public async Task<int> AddTalukAsync(TalukModel model)
+        public async Task<TalukModel> AddTalukAsync(TalukModel model)
         {
             long id = model.TalukId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -34,7 +34,7 @@ namespace LandBankManagement.Services
                     await dataService.AddTalukAsync(taluk);
                     model.Merge(await GetTalukAsync(dataService, taluk.TalukId));
                 }
-                return 0;
+                return model;
             }
         }
 
@@ -86,7 +86,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> UpdateTalukAsync(TalukModel model)
+        public async Task<TalukModel> UpdateTalukAsync(TalukModel model)
         {
             long id = model.TalukId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -98,7 +98,7 @@ namespace LandBankManagement.Services
                     await dataService.UpdateTalukAsync(taluk);
                     model.Merge(await GetTalukAsync(dataService, taluk.TalukId));
                 }
-                return 0;
+                return model;
             }
         }
 

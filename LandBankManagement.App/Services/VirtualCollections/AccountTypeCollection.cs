@@ -24,17 +24,11 @@ namespace LandBankManagement.Services
 
         public async Task LoadAsync(DataRequest<AccountType> dataRequest)
         {
-            try
-            {
+            
                 _dataRequest = dataRequest;
                 Count = await AccountTypeService.GetAccountTypesCountAsync(_dataRequest);
                 Ranges[0] = await AccountTypeService.GetAccountTypesAsync(0, RangeSize, _dataRequest);
-            }
-            catch (Exception ex)
-            {
-                Count = 0;
-                throw;
-            }
+           
         }
 
         protected override async Task<IList<AccountTypeModel>> FetchDataAsync(int rangeIndex, int rangeSize)

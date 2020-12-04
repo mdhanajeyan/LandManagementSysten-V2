@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+
 namespace LandBankManagement.Data.Services
 {
     public interface IDataService : IDisposable
@@ -164,6 +165,30 @@ namespace LandBankManagement.Data.Services
         Task<int> GetPaymentsCountAsync(DataRequest<Payment> request);
         Task<int> UpdatePaymentAsync(Payment model);
         Task<int> DeletePaymentAsync(Payment model);
+
+        Task<int> AddUserRoleAsync(UserRole model);
+        Task<UserRole> GetUserRoleAsync(long id);
+        Task<IList<UserRole>> GetUserRolesAsync(DataRequest<UserRole> request);
+        Task<IList<UserRole>> GetUserRolesAsync(int skip, int take, DataRequest<UserRole> request);
+        Task<int> GetUserRolesCountAsync(DataRequest<UserRole> request);
+        Task<int> UpdateUserRoleAsync(UserRole model);
+        Task<int> DeleteUserRoleAsync(UserRole model);
+
+        Task<int> AddRoleAsync(Role model);
+        Task<Role> GetRoleAsync(long id);
+        Task<IList<Role>> GetRolesAsync(DataRequest<Role> request);
+        Task<IList<Role>> GetRolesAsync(int skip, int take, DataRequest<Role> request);
+        Task<int> GetRolesCountAsync(DataRequest<Role> request);
+        Task<int> UpdateRoleAsync(Role model);
+        Task<int> DeleteRoleAsync(Role model);
+
+        Task<int> AddUserAsync(User model);
+        Task<User> GetUserAsync(long id);
+        Task<IList<User>> GetUsersAsync(DataRequest<User> request);
+        Task<IList<User>> GetUsersAsync(int skip, int take, DataRequest<User> request);
+        Task<int> GetUsersCountAsync(DataRequest<User> request);
+        Task<int> UpdateUserAsync(User model);
+        Task<int> DeleteUserAsync(User model);
 
         Dictionary<int, string> GetExpenseHeadOptions();
         Dictionary<int, string> GetPartyOptions();

@@ -23,7 +23,7 @@ namespace LandBankManagement.Services
             LogService = logService;
         }
 
-        public async Task<int> AddPropertyTypeAsync(PropertyTypeModel model)
+        public async Task<PropertyTypeModel> AddPropertyTypeAsync(PropertyTypeModel model)
         {
             long id = model.PropertyTypeId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -36,7 +36,7 @@ namespace LandBankManagement.Services
                     await dataService.AddPropertyTypeAsync(propertyType);
                     model.Merge(await GetPropertyTypeAsync(dataService, propertyType.PropertyTypeId));
                 }
-                return 0;
+                return model;
             }
         }
 
@@ -87,7 +87,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> UpdatePropertyTypeAsync(PropertyTypeModel model)
+        public async Task<PropertyTypeModel> UpdatePropertyTypeAsync(PropertyTypeModel model)
         {
             long id = model.PropertyTypeId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -99,7 +99,7 @@ namespace LandBankManagement.Services
                     await dataService.UpdatePropertyTypeAsync(propertyType);
                     model.Merge(await GetPropertyTypeAsync(dataService, propertyType.PropertyTypeId));
                 }
-                return 0;
+                return model;
             }
         }
 

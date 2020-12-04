@@ -30,6 +30,9 @@ namespace LandBankManagement.Data.Services
         DbSet<FundTransfer> FundTransfers { get; }
         DbSet<Receipt> Receipts { get; }
         DbSet<Payment> Payments { get; }
+        DbSet<Role> Roles { get; }
+        DbSet<UserRole> UserRoles { get; }
+        DbSet<User> Users { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

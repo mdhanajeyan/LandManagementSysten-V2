@@ -37,12 +37,12 @@ namespace LandBankManagement.Views
             ViewModel.Unsubscribe();
         }
 
-        private async void OpenInNewView(object sender, RoutedEventArgs e)
+        private void OpenInNewView(object sender, RoutedEventArgs e)
         {
             //await NavigationService.CreateNewViewAsync<PartiesViewModel>(ViewModel.PartyList.CreateArgs());
         }
 
-        private async void OpenDetailsInNewView(object sender, RoutedEventArgs e)
+        private void OpenDetailsInNewView(object sender, RoutedEventArgs e)
         {
             //ViewModel.PartyDetails.CancelEdit();
 

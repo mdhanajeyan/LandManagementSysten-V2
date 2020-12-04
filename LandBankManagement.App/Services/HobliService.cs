@@ -20,7 +20,7 @@ namespace LandBankManagement.Services
             LogService = logService;
         }
 
-        public async Task<int> AddHobliAsync(HobliModel model)
+        public async Task<HobliModel> AddHobliAsync(HobliModel model)
         {
             long id = model.TalukId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -33,7 +33,7 @@ namespace LandBankManagement.Services
                     await dataService.AddHobliAsync(hobli);
                     model.Merge(await GetHobliAsync(dataService, hobli.HobliId));
                 }
-                return 0;
+                return model;
             }
         }
 
@@ -84,7 +84,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> UpdateHobliAsync(HobliModel model)
+        public async Task<HobliModel> UpdateHobliAsync(HobliModel model)
         {
             long id = model.HobliId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -96,7 +96,7 @@ namespace LandBankManagement.Services
                     await dataService.UpdateHobliAsync(hobli);
                     model.Merge(await GetHobliAsync(dataService, hobli.HobliId));
                 }
-                return 0;
+                return model;
             }
         }
 

@@ -19,7 +19,7 @@ namespace LandBankManagement.Services
             DataServiceFactory = dataServiceFactory;
             LogService = logService;
         }
-        public async Task<int> AddVillageAsync(VillageModel model)
+        public async Task<VillageModel> AddVillageAsync(VillageModel model)
         {
             long id = model.VillageId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -32,7 +32,7 @@ namespace LandBankManagement.Services
                     await dataService.AddVillageAsync(village);
                     model.Merge(await GetVillageAsync(dataService, village.VillageId));
                 }
-                return 0;
+                return model;
             }
         }
 
@@ -83,7 +83,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> UpdateVillageAsync(VillageModel model)
+        public async Task<VillageModel> UpdateVillageAsync(VillageModel model)
         {
             long id = model.VillageId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -95,7 +95,7 @@ namespace LandBankManagement.Services
                     await dataService.UpdateVillageAsync(village);
                     model.Merge(await GetVillageAsync(dataService, village.VillageId));
                 }
-                return 0;
+                return model;
             }
         }
 

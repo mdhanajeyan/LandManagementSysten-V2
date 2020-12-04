@@ -20,7 +20,7 @@ namespace LandBankManagement.Services
             LogService = logService;
         }
 
-        public async Task<int> AddFundTransferAsync(FundTransferModel model)
+        public async Task<FundTransferModel> AddFundTransferAsync(FundTransferModel model)
         {
             long id = model.FundTransferId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -33,7 +33,7 @@ namespace LandBankManagement.Services
                     await dataService.AddFundTransferAsync(fundTransfer);
                     model.Merge(await GetFundTransferAsync(dataService, fundTransfer.FundTransferId));
                 }
-                return 0;
+                return model;
             }
         }
 
@@ -86,7 +86,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> UpdateFundTransferAsync(FundTransferModel model)
+        public async Task<FundTransferModel> UpdateFundTransferAsync(FundTransferModel model)
         {
             long id = model.FundTransferId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -98,7 +98,7 @@ namespace LandBankManagement.Services
                     await dataService.UpdateFundTransferAsync(fundTransfer);
                     model.Merge(await GetFundTransferAsync(dataService, fundTransfer.FundTransferId));
                 }
-                return 0;
+                return model;
             }
         }
 

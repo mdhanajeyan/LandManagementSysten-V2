@@ -12,8 +12,6 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> AddExpenseHeadAsync(ExpenseHead expense)
         {
-            try
-            {
                 if (expense == null)
                     return 0;
 
@@ -26,11 +24,8 @@ namespace LandBankManagement.Data.Services
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
                 return res;
-            }
-            catch (Exception ex)
-            {
-                return 0;
-            }
+           
+         
         }
 
         public async Task<ExpenseHead> GetExpenseHeadAsync(long id)

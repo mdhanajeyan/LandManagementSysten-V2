@@ -11,14 +11,12 @@
     <Style x:Key="AccentButtonStyle" TargetType="Button">
         <Setter Property="Foreground" Value="{ThemeResource AccentButtonForeground}" />
         <Setter Property="Background" Value="{ThemeResource AccentButtonBackground}" />
-        <Setter Property="BackgroundSizing" Value="OuterBorderEdge" />
         <Setter Property="BorderBrush" Value="{ThemeResource AccentButtonBorderBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <ContentPresenter x:Name="ContentPresenter"
               Background="{TemplateBinding Background}"
-              BackgroundSizing="{TemplateBinding BackgroundSizing}"
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}"
               Content="{TemplateBinding Content}"

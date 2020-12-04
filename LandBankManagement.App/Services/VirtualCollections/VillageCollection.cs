@@ -21,17 +21,11 @@ namespace LandBankManagement.Services
 
         public async Task LoadAsync(DataRequest<Village> dataRequest)
         {
-            try
-            {
-                _dataRequest = dataRequest;
-                Count = await VillageService.GetVillagesCountAsync(_dataRequest);
-                Ranges[0] = await VillageService.GetVillagesAsync(0, RangeSize, _dataRequest);
-            }
-            catch (Exception ex)
-            {
-                Count = 0;
-                throw;
-            }
+
+            _dataRequest = dataRequest;
+            Count = await VillageService.GetVillagesCountAsync(_dataRequest);
+            Ranges[0] = await VillageService.GetVillagesAsync(0, RangeSize, _dataRequest);
+
         }
 
         protected override async Task<IList<VillageModel>> FetchDataAsync(int rangeIndex, int rangeSize)

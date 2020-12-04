@@ -46,8 +46,7 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> UpdatePartyAsync(Party party)
         {
-            try
-            {
+           
                 ICollection<PartyDocuments> docs = party.PartyDocuments;
                 party.PartyDocuments = null;
                 if (party.PartyId > 0)
@@ -57,7 +56,6 @@ namespace LandBankManagement.Data.Services
                 else
                 {
                     party.PartyGuid = Guid.NewGuid();
-                    //Company.CreatedOn = DateTime.UtcNow;
                     _dataSource.Entry(party).State = EntityState.Added;
                 }
 
@@ -78,11 +76,7 @@ namespace LandBankManagement.Data.Services
                 await _dataSource.SaveChangesAsync();
                 return res;
                
-            }
-            catch (Exception ex)
-            {
-                return 0;
-            }
+           
         }
 
         public async Task<Party> GetPartyAsync(long id)

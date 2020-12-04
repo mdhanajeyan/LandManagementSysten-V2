@@ -1,0 +1,24 @@
+﻿
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
+
+namespace LandBankManagement.Data
+{
+	public class UserRole
+    {
+        [Key]
+        public int UserRoleId { get; set; }
+        public int UserId { get; set; }
+        public int RoleId { get; set; }
+        public DateTime Created { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime Updated { get; set; }
+        public string UpdatedBy { get; set; }
+        [NotMapped]
+        public string SearchTerms { get; set; }
+        public string BuildSearchTerms() => $"{UserId} {RoleId}".ToLower();
+    }
+}

@@ -34,6 +34,10 @@ namespace LandBankManagement.Data.Services
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
         public DbSet<ExpenseHead> ExpenseHeads { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<User> Users { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_connectionString);

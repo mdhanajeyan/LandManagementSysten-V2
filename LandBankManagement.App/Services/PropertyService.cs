@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LandBankManagement.Data;
 using LandBankManagement.Data.Services;
@@ -22,9 +20,8 @@ namespace LandBankManagement.Services
             LogService = logService;
         }
 
-        public async Task<int> AddPropertyAsync(PropertyModel model)
+        public async Task<PropertyModel> AddPropertyAsync(PropertyModel model)
         {
-            long id = model.PropertyId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var property = new Property();
@@ -35,7 +32,7 @@ namespace LandBankManagement.Services
                     await dataService.AddPropertyAsync(property);
                     model.Merge(await GetPropertyAsync(dataService, property.PropertyId));
                 }
-                return 0;
+                return model;
             }
         }
 
@@ -86,7 +83,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> UpdatePropertyAsync(PropertyModel model)
+        public async Task<PropertyModel> UpdatePropertyAsync(PropertyModel model)
         {
             long id = model.PropertyId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -98,7 +95,7 @@ namespace LandBankManagement.Services
                     await dataService.UpdatePropertyAsync(property);
                     model.Merge(await GetPropertyAsync(dataService, property.PropertyId));
                 }
-                return 0;
+                return model;
             }
         }
 

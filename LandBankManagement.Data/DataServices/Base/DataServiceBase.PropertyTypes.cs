@@ -29,15 +29,10 @@ namespace LandBankManagement.Data.Services
 
         public async Task<PropertyType> GetPropertyTypeAsync(long id)
         {
-            try
-            {
+            
                 return await _dataSource.PropertyTypes
                     .Where(x => x.PropertyTypeId == id).FirstOrDefaultAsync();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+           
         }
 
         public async Task<IList<PropertyType>> GetPropertyTypesAsync(DataRequest<PropertyType> request)

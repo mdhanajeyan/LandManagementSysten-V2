@@ -11,42 +11,33 @@ namespace LandBankManagement.Data.Services
     {
         public async Task<int> AddHobliAsync(Hobli model)
         {
-            try
+
+            if (model == null)
+                return 0;
+
+            var entity = new Hobli()
             {
-                if (model == null)
-                    return 0;
+                HobliId = model.HobliId,
+                HobliGuid = model.HobliGuid,
+                TalukId = model.TalukId,
+                HobliName = model.HobliName,
+                HobliGMapLink = model.HobliGMapLink,
+                HobliIsActive = model.HobliIsActive,
 
-                var entity = new Hobli()
-                {
-                    HobliId = model.HobliId,
-                    HobliGuid = model.HobliGuid,
-                    TalukId = model.TalukId,
-                    HobliName = model.HobliName,
-                    HobliGMapLink = model.HobliGMapLink,
-                    HobliIsActive = model.HobliIsActive,
+            };
+            _dataSource.Entry(entity).State = EntityState.Added;
+            int res = await _dataSource.SaveChangesAsync();
+            return res;
 
-                };
-                _dataSource.Entry(entity).State = EntityState.Added;
-                int res = await _dataSource.SaveChangesAsync();
-                return res;
-            }
-            catch (Exception ex) {
-                throw ex;
-            }
         }
 
         public async Task<Hobli> GetHobliAsync(long id)
         {
-            try
-            {
+           
                 return await _dataSource.Hoblis
                                         .Where(x => x.HobliId == id)
                                         .FirstOrDefaultAsync();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+           
         }
 
         public async Task<IList<Hobli>> GetHoblisAsync(DataRequest<Hobli> request)
@@ -57,14 +48,16 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<Hobli> GetHoblis(DataRequest<Hobli> request)
         {
-            IQueryable<Hobli> items = from h in _dataSource.Hoblis join t in _dataSource.Taluks on h.TalukId equals t.TalukId 
-                                      select (new Hobli {
-                                          HobliId=h.HobliId,
-                                          HobliGuid=h.HobliGuid,
-                                      HobliGMapLink=h.HobliGMapLink,
-                                      TalukId=h.TalukId,
-                                      HobliName=h.HobliName,
-                                      TalukName=t.TalukName
+            IQueryable<Hobli> items = from h in _dataSource.Hoblis
+                                      join t in _dataSource.Taluks on h.TalukId equals t.TalukId
+                                      select (new Hobli
+                                      {
+                                          HobliId = h.HobliId,
+                                          HobliGuid = h.HobliGuid,
+                                          HobliGMapLink = h.HobliGMapLink,
+                                          TalukId = h.TalukId,
+                                          HobliName = h.HobliName,
+                                          TalukName = t.TalukName
                                       });
 
             // Query
@@ -104,7 +97,7 @@ namespace LandBankManagement.Data.Services
                     HobliName = source.HobliName,
                     HobliGMapLink = source.HobliGMapLink,
                     HobliIsActive = source.HobliIsActive,
-                    TalukName=source.TalukName
+                    TalukName = source.TalukName
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -135,9 +128,9 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> UpdateHobliAsync(Hobli model)
         {
-                _dataSource.Entry(model).State = EntityState.Modified;
-                int res = await _dataSource.SaveChangesAsync();
-                return res;
+            _dataSource.Entry(model).State = EntityState.Modified;
+            int res = await _dataSource.SaveChangesAsync();
+            return res;
         }
 
         public async Task<int> DeleteHobliAsync(Hobli model)
@@ -146,6 +139,6 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.SaveChangesAsync();
         }
 
-      
+
     }
 }

@@ -65,7 +65,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> AddReceiptAsync(ReceiptModel model)
+        public async Task<ReceiptModel> AddReceiptAsync(ReceiptModel model)
         {
             long id = model.ReceiptId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -78,11 +78,11 @@ namespace LandBankManagement.Services
                     await dataService.AddReceiptAsync(vendor);
                     model.Merge(await GetReceiptAsync(dataService, vendor.ReceiptId));
                 }
-                return 0;
+                return model;
             }
         }
 
-        public async Task<int> UpdateReceiptAsync(ReceiptModel model)
+        public async Task<ReceiptModel> UpdateReceiptAsync(ReceiptModel model)
         {
             long id = model.ReceiptId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -94,7 +94,7 @@ namespace LandBankManagement.Services
                     await dataService.UpdateReceiptAsync(vendor);
                     model.Merge(await GetReceiptAsync(dataService, vendor.ReceiptId));
                 }
-                return 0;
+                return model;
             }
         }
 

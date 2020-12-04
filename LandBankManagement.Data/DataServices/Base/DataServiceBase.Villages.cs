@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LandBankManagement.Data.Services
 {
-   partial class DataServiceBase
+    partial class DataServiceBase
     {
         public async Task<int> AddVillageAsync(Village model)
         {
@@ -24,7 +24,7 @@ namespace LandBankManagement.Data.Services
                 VillageGMapLink = model.VillageGMapLink,
                 VillageIsActive = model.VillageIsActive,
 
-        };
+            };
             _dataSource.Entry(entity).State = EntityState.Added;
             int res = await _dataSource.SaveChangesAsync();
             return res;
@@ -32,35 +32,31 @@ namespace LandBankManagement.Data.Services
 
         public async Task<Village> GetVillageAsync(long id)
         {
-            try
-            {
-                return await _dataSource.Villages
-                    .Where(x => x.VillageId == id)
-                    .FirstOrDefaultAsync();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+
+            return await _dataSource.Villages
+                .Where(x => x.VillageId == id)
+                .FirstOrDefaultAsync();
+
         }
 
         private IQueryable<Village> GetVillages(DataRequest<Village> request)
         {
-            IQueryable<Village> items = from v in _dataSource.Villages join
-                                      h in _dataSource.Hoblis on v.HobliId equals h.HobliId
-                                      join t in _dataSource.Taluks on h.TalukId equals t.TalukId
-                                      select( new Village
-                                      {
-                                          VillageId = v.VillageId,
-                                          VillageGuid = v.VillageGuid,
-                                          TalukId = v.TalukId,
-                                          HobliId = v.HobliId,
-                                          VillageName = v.VillageName,
-                                          VillageGMapLink = v.VillageGMapLink,
-                                          VillageIsActive = v.VillageIsActive,
-                                          HobliName=h.HobliName,
-                                          TalukName=t.TalukName
-                                      });
+            IQueryable<Village> items = from v in _dataSource.Villages
+                                        join
+       h in _dataSource.Hoblis on v.HobliId equals h.HobliId
+                                        join t in _dataSource.Taluks on h.TalukId equals t.TalukId
+                                        select (new Village
+                                        {
+                                            VillageId = v.VillageId,
+                                            VillageGuid = v.VillageGuid,
+                                            TalukId = v.TalukId,
+                                            HobliId = v.HobliId,
+                                            VillageName = v.VillageName,
+                                            VillageGMapLink = v.VillageGMapLink,
+                                            VillageIsActive = v.VillageIsActive,
+                                            HobliName = h.HobliName,
+                                            TalukName = t.TalukName
+                                        });
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -149,6 +145,6 @@ namespace LandBankManagement.Data.Services
             _dataSource.Villages.Remove(model);
             return await _dataSource.SaveChangesAsync();
         }
-       
+
     }
 }
