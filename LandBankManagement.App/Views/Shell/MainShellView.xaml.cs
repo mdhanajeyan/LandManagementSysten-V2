@@ -10,6 +10,9 @@ using Windows.ApplicationModel.Core;
 using LandBankManagement.ViewModels;
 using LandBankManagement.Services;
 
+using muxc = Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+
 namespace LandBankManagement.Views
 {
     public sealed partial class MainShellView : Page
@@ -53,7 +56,7 @@ namespace LandBankManagement.Views
             ViewModel.Unsubscribe();
         }
 
-        private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void OnSelectionChanged(muxc.NavigationView sender, muxc.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.SelectedItem is NavigationItem item)
             {
@@ -107,5 +110,13 @@ namespace LandBankManagement.Views
                 }
             }
         }
+
+        private void CtrlF_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            controlsSearchBox.Focus(FocusState.Programmatic);
+        }
+
+
+
     }
 }

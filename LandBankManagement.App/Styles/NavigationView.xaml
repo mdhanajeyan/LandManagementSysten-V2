@@ -1,13 +1,13 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:LandBankManagement.Styles">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
 
     <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#EBEBEB"/>
     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#EBEBEB"/>
 
-        
-    <Style x:Key="BackButtonNavigationViewStyle" TargetType="NavigationView">
+
+    <Style x:Key="BackButtonNavigationViewStyle" TargetType="muxc:NavigationView">
         <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HeaderTemplate">
@@ -21,7 +21,7 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="NavigationView">
+                <ControlTemplate TargetType="muxc:NavigationView">
                     <Grid x:Name="RootGrid">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="DisplayModeGroup">
@@ -67,7 +67,7 @@
                                 <VisualState x:Name="AutoSuggestBoxVisible"/>
                                 <VisualState x:Name="AutoSuggestBoxCollapsed">
                                     <VisualState.Setters>
-                                        <Setter Target="AutoSuggestArea.Visibility" Value="Collapsed"/>
+                                        <Setter Target="AutoSuggestArea.Visibility" Value="Visible"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -75,7 +75,7 @@
                                 <VisualState x:Name="NotClosedCompact"/>
                                 <VisualState x:Name="ClosedCompact">
                                     <VisualState.Setters>
-                                        <Setter Target="PaneAutoSuggestBoxPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="PaneAutoSuggestBoxPresenter.Visibility" Value="Visible"/>
                                         <Setter Target="PaneAutoSuggestButton.Visibility" Value="Visible"/>
                                     </VisualState.Setters>
                                 </VisualState>
@@ -95,7 +95,6 @@
                               Width="48" 
                               Canvas.ZIndex="100">
                             <Grid.RowDefinitions>
-                                <!-- Moving the Hamburger button 48px down -->
                                 <RowDefinition Height="48"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
@@ -105,7 +104,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <Button x:Name="TogglePaneButton"
                                     AutomationProperties.LandmarkType="Navigation" 
                                     Grid.Row="1"
@@ -134,23 +133,21 @@
                                         <ContentControl x:Name="PaneAutoSuggestBoxPresenter" Content="{TemplateBinding AutoSuggestBox}" HorizontalContentAlignment="Stretch" IsTabStop="False" Margin="12,0,12,0" VerticalContentAlignment="Center"/>
                                         <Button x:Name="PaneAutoSuggestButton" Content="&#xE11A;" MinHeight="40" Style="{TemplateBinding PaneToggleButtonStyle}" Visibility="Collapsed" Width="{TemplateBinding CompactPaneLength}"/>
                                     </Grid>
-                                    <NavigationViewList x:Name="MenuItemsHost" 
-                                                        ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" 
-                                                        ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" 
-                                                        ItemTemplate="{TemplateBinding MenuItemTemplate}" 
-                                                        IsItemClickEnabled="True" 
-                                                        ItemsSource="{TemplateBinding MenuItemsSource}" 
-                                                        ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" 
+                                    <muxc:NavigationView x:Name="MenuItemsHost" 
+                                                        MenuItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" 
+                                                        MenuItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" 
+                                                        MenuItemTemplate="{TemplateBinding MenuItemTemplate}" 
+                                                        MenuItemsSource="{TemplateBinding MenuItemsSource}" 
+                                                        MenuItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" 
                                                         Margin="0,48,0,20" 
                                                         Grid.Row="3" 
-                                                        SelectionMode="Single" 
                                                         SelectedItem="{TemplateBinding SelectedItem}"/>
                                     <Border x:Name="FooterContentBorder" Child="{TemplateBinding PaneFooter}" Grid.Row="4"/>
-                                    <NavigationViewItem x:Name="SettingsNavPaneItem" Grid.Row="5">
-                                        <NavigationViewItem.Icon>
+                                    <muxc:NavigationViewItem x:Name="SettingsNavPaneItem" Grid.Row="5">
+                                        <muxc:NavigationViewItem.Icon>
                                             <SymbolIcon Symbol="Setting"/>
-                                        </NavigationViewItem.Icon>
-                                    </NavigationViewItem>
+                                        </muxc:NavigationViewItem.Icon>
+                                    </muxc:NavigationViewItem>
                                 </Grid>
                             </SplitView.Pane>
                             <Grid x:Name="ContentGrid">

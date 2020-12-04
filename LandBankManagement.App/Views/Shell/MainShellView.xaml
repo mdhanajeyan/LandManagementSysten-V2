@@ -6,28 +6,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:LandBankManagement"
     xmlns:viewmodels="using:LandBankManagement.ViewModels"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:Windows10version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 6)"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Name="NavigationViewItem" x:DataType="viewmodels:NavigationItem">
-            <Grid Height="40">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="32" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <FontIcon Glyph="{x:Bind Glyph}" 
-                          HorizontalAlignment="Left" 
-                          FontSize="16" />
-                <TextBlock Grid.Column="1" 
-                           Text="{x:Bind Label}" 
-                           VerticalAlignment="Center" />
-                <TextBlock Grid.Column="2" 
-                           VerticalAlignment="Center" 
-                           Margin="12,0"
-                           Text="{x:Bind Badge, Mode=OneWay}" 
-                           Foreground="{StaticResource Error}" />
-            </Grid>
+        <DataTemplate x:Key="NavigationViewMenuItem" x:DataType="viewmodels:NavigationItem">
+            <muxc:NavigationViewItem Content="{x:Bind Label}" 
+                                     MenuItemsSource="{x:Bind Children}"
+                                     SelectsOnInvoked="{x:Bind CanInvoke}">
+                <muxc:NavigationViewItem.Icon>
+                    <FontIcon Glyph="{x:Bind Glyph}" Foreground="{x:Bind IconColor}"></FontIcon>
+                </muxc:NavigationViewItem.Icon>
+            </muxc:NavigationViewItem>
         </DataTemplate>
 
         <DataTemplate x:Name="NavigationViewItemProfile" x:DataType="local:UserInfo">
@@ -157,15 +147,30 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <NavigationView Style="{StaticResource BackButtonNavigationViewStyle}" x:Name="navigationView" 
+        <muxc:NavigationView  x:Name="navigationView" 
                         Background="#EBEBEB"
                         MenuItemsSource="{x:Bind ViewModel.Items}" 
-                        MenuItemTemplate="{StaticResource NavigationViewItem}"
+                        MenuItemTemplate="{StaticResource NavigationViewMenuItem}"
                         SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}" 
                         SelectionChanged="OnSelectionChanged"
                         IsPaneOpen="{x:Bind ViewModel.IsPaneOpen, Mode=TwoWay}"
                         AlwaysShowHeader="False"
                         IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=OneWay}">
+            <muxc:NavigationView.AutoSuggestBox>
+                <AutoSuggestBox
+                         x:Name="controlsSearchBox"
+                         VerticalAlignment="Center"
+                         x:FieldModifier="public"
+                         PlaceholderText="Search"
+                         QueryIcon="Find"
+                         
+                         MinWidth="200"
+                         Windows10version1803:KeyboardAcceleratorPlacementMode="Hidden">
+                    <AutoSuggestBox.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="F" Invoked="CtrlF_Invoked" />
+                    </AutoSuggestBox.KeyboardAccelerators>
+                </AutoSuggestBox>
+            </muxc:NavigationView.AutoSuggestBox>
 
             <Grid>
                 <Frame x:Name="frame">
@@ -177,17 +182,17 @@
                 </Frame>
             </Grid>
 
-            <NavigationView.PaneFooter>
+            <muxc:NavigationView.PaneFooter>
                 <NavigationViewItem ContentTemplate="{StaticResource NavigationViewItemProfile}" Content="{x:Bind ViewModel.UserInfo}" />
-            </NavigationView.PaneFooter>
-        </NavigationView>
+            </muxc:NavigationView.PaneFooter>
+        </muxc:NavigationView>
 
         <!--<Button x:Name="NavigationViewBackButton"
                 IsEnabled="False"
                 Click="OnNavigationViewBackButton"
                 Content="&#xE72B;"
                 Style="{StaticResource PaneToggleButtonStyle}"/>-->
-        
+
 
         <Grid Grid.Row="1" Background="DarkGray">
             <Rectangle Fill="{StaticResource Error}" Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />

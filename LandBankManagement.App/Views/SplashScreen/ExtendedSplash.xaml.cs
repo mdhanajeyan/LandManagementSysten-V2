@@ -54,13 +54,11 @@ namespace LandBankManagement.Views.SplashScreen
                 UserInfo = await TryGetUserInfoAsync(e as IActivatedEventArgsWithUser)
             };
 
-//#if SKIP_LOGIN
+
             rootFrame.Navigate(typeof(MainShellView), shellArgs);
             var loginService = ServiceLocator.Current.GetService<ILoginService>();
             loginService.IsAuthenticated = true;
-//#else
-//            rootFrame.Navigate(typeof(LoginView), shellArgs);
-//#endif
+
 
             Window.Current.Content = rootFrame;
 
