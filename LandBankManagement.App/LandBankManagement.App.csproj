@@ -189,6 +189,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportViewers\Company\CompanyReportViewer.cs" />
     <Compile Include="Services\CashAccountService.cs" />
+    <Compile Include="Services\UserRoleService.cs" />
+    <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\CheckListService.cs" />
     <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Services\DataServiceFactory\DataServiceFactory.cs" />
@@ -221,6 +223,8 @@
     <Compile Include="Services\VendorService.cs" />
     <Compile Include="Services\VillageService.cs" />
     <Compile Include="Services\VirtualCollections\AccountTypeCollection.cs" />
+    <Compile Include="Services\VirtualCollections\RoleCollection.cs" />
+    <Compile Include="Services\VirtualCollections\UserRoleCollection.cs" />
     <Compile Include="Services\VirtualCollections\UserCollection.cs" />
     <Compile Include="Services\VirtualCollections\CashAccountCollection.cs" />
     <Compile Include="Services\VirtualCollections\FundTransferCollection.cs" />
