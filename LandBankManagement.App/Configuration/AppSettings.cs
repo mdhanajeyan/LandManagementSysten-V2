@@ -59,6 +59,12 @@ namespace LandBankManagement
             set => LocalSettings.Values["IsRandomErrorsEnabled"] = value;
         }
 
+        public string WindowsHelloPublicKeyHint
+        {
+            get => GetSettingsValue("WindowsHelloPublicKeyHint", default(String));
+            set => LocalSettings.Values["WindowsHelloPublicKeyHint"] = value;
+        }
+
         private TResult GetSettingsValue<TResult>(string name, TResult defaultValue)
         {
             try

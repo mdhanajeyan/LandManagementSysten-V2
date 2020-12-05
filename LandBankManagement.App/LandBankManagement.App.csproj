@@ -339,6 +339,15 @@
     <Compile Include="Views\Hobli\HobliView.xaml.cs">
       <DependentUpon>HobliView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Login\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Login\NamePasswordControl.xaml.cs">
+      <DependentUpon>NamePasswordControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Login\WindowsHelloControl.xaml.cs">
+      <DependentUpon>WindowsHelloControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Party\PartyDetails.xaml.cs">
       <DependentUpon>PartyDetails.xaml</DependentUpon>
     </Compile>
@@ -646,6 +655,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Hobli\HobliView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Login\LoginView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Login\NamePasswordControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Login\WindowsHelloControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
