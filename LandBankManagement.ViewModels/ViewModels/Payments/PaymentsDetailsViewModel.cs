@@ -234,7 +234,7 @@ namespace LandBankManagement.ViewModels
                     model.PaymentTypeId = 2;
 
                 StartStatusMessage("Saving Payments...");
-                await Task.Delay(100);
+                
                 if (model.PaymentId <= 0)
                     await PaymentsService.AddPaymentAsync(model);
                 else
@@ -261,7 +261,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Payments...");
-                await Task.Delay(100);
+                
                 await PaymentsService.DeletePaymentAsync(model);
                 ClearItem();
                 EndStatusMessage("Payments deleted");

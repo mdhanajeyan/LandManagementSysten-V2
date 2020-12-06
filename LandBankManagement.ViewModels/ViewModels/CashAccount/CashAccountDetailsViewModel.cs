@@ -63,7 +63,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving CashAccount...");
-                await Task.Delay(100);
+                
                 if (model.CashAccountId <= 0)
                 {
                     model.CashAccountId = 1;
@@ -93,7 +93,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting CashAccount...");
-                await Task.Delay(100);
+                
                 await CashAccountService.DeleteCashAccountAsync(model);
                 ClearItem();
                 await CashAccountListViewModel.RefreshAsync();

@@ -49,7 +49,7 @@ namespace LandBankManagement.Views
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 DoEffectOut();
-                await Task.Delay(100);
+                
                 ViewModel.Login();
             }
             base.OnKeyDown(e);
@@ -57,7 +57,7 @@ namespace LandBankManagement.Views
 
         private async void OnShowLoginWithPassword(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(100);
+            
             passwordView.Focus();
         }
 

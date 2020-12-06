@@ -76,7 +76,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 ShowProgressRing();
-                await Task.Delay(200); //todo need for this?
+                
                 StartStatusMessage("Loading Company...");
                
                 Items = await GetItemsAsync();

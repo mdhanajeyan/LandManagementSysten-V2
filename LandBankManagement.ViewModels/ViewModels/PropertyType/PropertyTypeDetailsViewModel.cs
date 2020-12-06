@@ -81,7 +81,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving PropertyType...");
-                await Task.Delay(100);
+                
                 if (model.PropertyTypeId <= 0)
                     await PropertyTypeService.AddPropertyTypeAsync(model);
                 else
@@ -109,7 +109,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting PropertyType...");
-                await Task.Delay(100);
+                
                 await PropertyTypeService.DeletePropertyTypeAsync(model);
                 await PropertyTypeList.RefreshAsync();
                 ClearItem();

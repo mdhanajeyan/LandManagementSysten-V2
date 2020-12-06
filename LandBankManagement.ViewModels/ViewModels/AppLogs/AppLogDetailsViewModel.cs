@@ -79,7 +79,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting log...");
-                await Task.Delay(100);
+                
                 await LogService.DeleteLogAsync(model);
                 EndStatusMessage("Log deleted");
                 return true;

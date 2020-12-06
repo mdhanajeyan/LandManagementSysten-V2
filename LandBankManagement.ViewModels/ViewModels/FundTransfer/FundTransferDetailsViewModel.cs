@@ -154,7 +154,7 @@ namespace LandBankManagement.ViewModels
                     model.ReceiverPaymentType = 2;
 
                 StartStatusMessage("Saving FundTransfer...");
-                await Task.Delay(100);
+                
                 if (model.FundTransferId <= 0)
                     await FundTransferService.AddFundTransferAsync(model);
                 else
@@ -181,7 +181,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting FundTransfer...");
-                await Task.Delay(100);
+                
                 await FundTransferService.DeleteFundTransferAsync(model);
                 ClearItem();
                 EndStatusMessage("FundTransfer deleted");

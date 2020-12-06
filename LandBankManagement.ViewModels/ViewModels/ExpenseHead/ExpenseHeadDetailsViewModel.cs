@@ -80,7 +80,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving ExpenseHead...");
-                await Task.Delay(100);
+                
                 if (model.ExpenseHeadId <= 0)
                     await ExpenseHeadService.AddExpenseHeadAsync(model);
                 else
@@ -108,7 +108,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting ExpenseHead...");
-                await Task.Delay(100);
+                
                 await ExpenseHeadService.DeleteExpenseHeadAsync(model);
                 ClearItem();
                 await ExpenseHeadListViewModel.RefreshAsync();

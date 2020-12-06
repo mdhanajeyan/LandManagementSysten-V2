@@ -81,7 +81,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving DocumentType...");
-                await Task.Delay(100);
+                
                 if (model.DocumentTypeId <= 0)
                     await DocumentTypeService.AddDocumentTypeAsync(model);
                 else
@@ -109,7 +109,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting DocumentType...");
-                await Task.Delay(100);
+                
                 await DocumentTypeService.DeleteDocumentTypeAsync(model);
                 ClearItem();
                 await DocumentTypeListViewModel.RefreshAsync();

@@ -152,7 +152,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Party...");
-                await Task.Delay(100);
+                
                 if (model.PartyId <= 0)
                     await PartyService.AddPartyAsync(model, DocList);
                 else
@@ -181,7 +181,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Party...");
-                await Task.Delay(100);
+                
                 await PartyService.DeletePartyAsync(model);
                 EndStatusMessage("Party deleted");
                 ClearItem();

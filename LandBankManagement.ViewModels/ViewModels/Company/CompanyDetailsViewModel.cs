@@ -120,7 +120,7 @@ namespace LandBankManagement.ViewModels
             {               
                 StartStatusMessage("Saving Company...");
                 ShowProgressRing();
-                await Task.Delay(100);
+                
               
                 if (model.CompanyID <= 0)
                     await CompanyService.AddCompanyAsync(model, DocList);
@@ -152,7 +152,7 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Deleting Company...");
                 ShowProgressRing();
-                await Task.Delay(100);
+                
                 await CompanyService.DeleteCompanyAsync(model);
                 HideProgressRing();
                 EndStatusMessage("Company deleted");

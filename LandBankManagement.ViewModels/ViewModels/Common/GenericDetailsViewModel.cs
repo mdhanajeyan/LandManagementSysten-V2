@@ -135,7 +135,7 @@ namespace LandBankManagement.ViewModels
         }
         virtual public async Task SaveAsync()
         {
-            await Task.Delay(2000);
+            
             IsEnabled = false;
             bool isNew = ItemIsNew;
             if (await SaveItemAsync(EditableItem))

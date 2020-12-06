@@ -87,7 +87,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Taluk...");
-                await Task.Delay(100);
+                
                 if (model.TalukId <= 0)
                     await TalukService.AddTalukAsync(model);
                 else
@@ -113,7 +113,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Taluk...");
-                await Task.Delay(100);
+                
                 await TalukService.DeleteTalukAsync(model);
                 EndStatusMessage("Taluk deleted");
                 LogWarning("Taluk", "Delete", "Taluk deleted", $"Taluk {model.TalukId} '{model.TalukName}' was deleted.");

@@ -148,7 +148,7 @@ namespace LandBankManagement.ViewModels
             var result = await SettingsService.CreateDabaseAsync(SqlConnectionString);
             EnableOtherViews();
             EnableThisView("");
-            await Task.Delay(100);
+            
             if (result.IsOk)
             {
                 StatusMessage(result.Message);

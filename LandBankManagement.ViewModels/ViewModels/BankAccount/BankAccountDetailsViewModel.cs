@@ -77,7 +77,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving BankAccount...");
-                await Task.Delay(100);
+                
                 if (model.BankAccountId <= 0)
                 {
                     model.BankAccountId = 1;
@@ -107,7 +107,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting BankAccount...");
-                await Task.Delay(100);
+                
                 await BankAccountService.DeleteBankAccountAsync(model);
                 ClearItem();
                 await BankAccountListViewModel.RefreshAsync();

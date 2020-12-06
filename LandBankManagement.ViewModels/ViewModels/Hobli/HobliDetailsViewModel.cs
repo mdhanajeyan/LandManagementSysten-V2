@@ -65,7 +65,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Hobli...");
-                await Task.Delay(100);
+                
                 if (model.HobliId <= 0)
                 {
                     model.TalukId = 1;
@@ -93,7 +93,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Hobli...");
-                await Task.Delay(100);
+                
                 await HobliService.DeleteHobliAsync(model);
                 EndStatusMessage("Hobli deleted");
                 LogWarning("Hobli", "Delete", "Hobli deleted", $"Hobli {model.HobliId} '{model.HobliName}' was deleted.");

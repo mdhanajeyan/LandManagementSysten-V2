@@ -81,7 +81,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving CheckList...");
-                await Task.Delay(100);
+                
                 if (model.CheckListId <= 0)
                     await CheckListService.AddCheckListAsync(model);
                 else
@@ -109,7 +109,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting CheckList...");
-                await Task.Delay(100);
+                
                 await CheckListService.DeleteCheckListAsync(model);
                 await CheckListListViewModel.RefreshAsync();
                 ClearItem();

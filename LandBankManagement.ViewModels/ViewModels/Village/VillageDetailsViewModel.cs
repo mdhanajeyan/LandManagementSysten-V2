@@ -88,7 +88,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Village...");
-                await Task.Delay(100);
+                
                 if (model.VillageId <= 0)
                     await VillageService.AddVillageAsync(model);
                 else
@@ -114,7 +114,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Village...");
-                await Task.Delay(100);
+                
                 await VillageService.DeleteVillageAsync(model);
                 ClearItem();
                  await VillageListViewModel.RefreshAsync();

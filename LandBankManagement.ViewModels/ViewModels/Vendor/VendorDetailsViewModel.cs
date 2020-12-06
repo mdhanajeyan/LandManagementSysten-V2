@@ -104,7 +104,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Vendor...");
-                await Task.Delay(100);
+                
                 if (model.VendorId <= 0)
                     await VendorService.AddVendorAsync(model,DocList);
                 else
@@ -131,7 +131,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Vendor...");
-                await Task.Delay(100);
+                
                 await VendorService.DeleteVendorAsync(model);
                 EndStatusMessage("Vendor deleted");
                 LogWarning("Vendor", "Delete", "Vendor deleted", $"Vendor {model.VendorId} '{model.VendorName}' was deleted.");
