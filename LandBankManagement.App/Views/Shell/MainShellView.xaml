@@ -152,7 +152,6 @@
 
         <muxc:NavigationView  x:Name="navigationView" 
                         Background="#EBEBEB"
-                        FontWeight="Bold"
                         MenuItemsSource="{x:Bind ViewModel.Items}" 
                         MenuItemTemplate="{StaticResource NavigationViewMenuItem}"
                         SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}" 
