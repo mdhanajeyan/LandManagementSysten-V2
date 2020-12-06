@@ -41,10 +41,10 @@ namespace LandBankManagement.ViewModels
             ViewModelArgs = args ?? ExpenseHeadListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading Document Type...");
+            StartStatusMessage("Loading Expense Head...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Document Type loaded");
+                EndStatusMessage("Expense Head loaded");
             }
         }
         public void Unload()
@@ -87,7 +87,7 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 Items = new List<ExpenseHeadModel>();
-                StatusError($"Error loading Document Type: {ex.Message}");
+                StatusError($"Error loading Expense Head: {ex.Message}");
                 LogException("Document Type", "Refresh", ex);
                 isOk = false;
             }
@@ -141,7 +141,7 @@ namespace LandBankManagement.ViewModels
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected ExpenseHead?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete selected ExpenseHead?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try

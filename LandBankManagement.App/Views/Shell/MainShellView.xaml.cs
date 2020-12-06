@@ -100,7 +100,7 @@ namespace LandBankManagement.Views
         private async void OnLogoff(object sender, RoutedEventArgs e)
         {
             var dialogService = ServiceLocator.Current.GetService<IDialogService>();
-            if (await dialogService.ShowAsync("Confirm logoff", "Are you sure you want to logoff?", "Ok", "Cancel"))
+            if (await dialogService.ShowAsync("Confirm logoff", "Are you sure to logoff?", "Ok", "Cancel"))
             {
                 var loginService = ServiceLocator.Current.GetService<ILoginService>();
                 loginService.Logoff();

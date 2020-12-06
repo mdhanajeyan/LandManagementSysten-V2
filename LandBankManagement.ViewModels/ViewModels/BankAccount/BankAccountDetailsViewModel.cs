@@ -125,7 +125,7 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current BankAccount?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current BankAccount?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<BankAccountModel>> GetValidationConstraints(BankAccountModel model)

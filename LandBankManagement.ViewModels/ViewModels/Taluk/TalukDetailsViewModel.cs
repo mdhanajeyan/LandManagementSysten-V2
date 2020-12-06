@@ -129,7 +129,7 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current Taluk?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Taluk?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<TalukModel>> GetValidationConstraints(TalukModel model)

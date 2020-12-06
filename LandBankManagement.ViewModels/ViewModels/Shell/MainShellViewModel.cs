@@ -26,11 +26,11 @@ namespace LandBankManagement.ViewModels
                  new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
             }
         };
-        private readonly NavigationItem SetupItem = new NavigationItem("Set-up")
+        private readonly NavigationItem SetupItem = new NavigationItem("Set-up", 0xE9F9)
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xE9F9, "Comapny", typeof(CompanyViewModel)),
+                 new NavigationItem(0xE9F9, "Comapny", typeof(CompanyViewModel)),
                  new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel)),
                  new NavigationItem(0xE716, "Party", typeof(PartyViewModel)),
                  new NavigationItem(0xE825, "Bank", typeof(BankAccountViewModel)),

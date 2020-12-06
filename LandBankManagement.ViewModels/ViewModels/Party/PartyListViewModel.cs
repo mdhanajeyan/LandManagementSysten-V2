@@ -125,17 +125,17 @@ namespace LandBankManagement.ViewModels
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading Partys...");
+            StartStatusMessage("Loading Party List...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("vendor loaded");
+                EndStatusMessage("Party List Loaded");
             }
         }
 
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected Partys?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete selected Party?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try

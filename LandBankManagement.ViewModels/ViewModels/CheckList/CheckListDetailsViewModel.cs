@@ -127,7 +127,7 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current CheckList?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current CheckList?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<CheckListModel>> GetValidationConstraints(CheckListModel model)

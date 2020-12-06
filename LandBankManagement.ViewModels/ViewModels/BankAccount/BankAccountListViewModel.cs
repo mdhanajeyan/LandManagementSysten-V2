@@ -132,7 +132,7 @@ namespace LandBankManagement.ViewModels
         protected override async void OnDeleteSelection()
         {
             StatusReady();
-            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete selected BankAccount?", "Ok", "Cancel"))
+            if (await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete selected BankAccount?", "Ok", "Cancel"))
             {
                 int count = 0;
                 try

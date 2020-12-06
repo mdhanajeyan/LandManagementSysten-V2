@@ -126,7 +126,7 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure you want to delete current ExpenseHead?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current ExpenseHead?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<ExpenseHeadModel>> GetValidationConstraints(ExpenseHeadModel model)

@@ -53,7 +53,7 @@
                           SaveCommand="{x:Bind ViewModel.SaveCommand}"
                           CancelCommand="{x:Bind ViewModel.CancelCommand}" />
         <StackPanel  Grid.Column="1">
-            <Button x:Name="uploadBtn"  Command="{x:Bind ViewModel.EditPictureCommand}" Margin="20 70 0 0">
+            <Button x:Name="uploadBtn"  Style="{StaticResource AccentButtonStyle}"   Command="{x:Bind ViewModel.EditPictureCommand}" Margin="20 70 0 0">
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE898;" Foreground="#fff" Margin="0 0 7 0"/>
                     <TextBlock  x:Name="uploadName" Text="Upload" Foreground="#fff"/>
