@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using LandBankManagement.Data;
 using LandBankManagement.Data.Services;
@@ -120,13 +117,9 @@ namespace LandBankManagement.Services
                 UserName = source.UserName,
                 loginName = source.loginName,
                 UserPassword = source.UserPassword,
-                Code = source.Code,
                 Email = source.Email,
                 MobileNo = source.MobileNo,
-                FromDate = source.FromDate,
-                ToDate = source.ToDate,
                 IsActive = source.IsActive,
-                IsAgent = source.IsAgent,
                 IsAdmin = source.IsAdmin,
                 Created = source.Created,
                 CreatedBy = source.CreatedBy,
@@ -142,13 +135,9 @@ namespace LandBankManagement.Services
             target.UserName = source.UserName;
             target.loginName = source.loginName;
             target.UserPassword = source.UserPassword;
-            target.Code = source.Code;
             target.Email = source.Email;
             target.MobileNo = source.MobileNo;
-            target.FromDate = source.FromDate;
-            target.ToDate = source.ToDate;
             target.IsActive = source.IsActive;
-            target.IsAgent = source.IsAgent;
             target.IsAdmin = source.IsAdmin;
             target.Created = source.Created;
             target.CreatedBy = source.CreatedBy;
