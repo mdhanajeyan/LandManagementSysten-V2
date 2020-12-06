@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+
 using LandBankManagement.Models;
 
 
@@ -11,6 +12,7 @@ namespace LandBankManagement.ViewModels
         {
             Label = label;
             CanInvoke = false;
+            FontWeight = "Bold";
         }
 
         public NavigationItem(string label, int glyph)
@@ -18,6 +20,7 @@ namespace LandBankManagement.ViewModels
             Label = label;
             Glyph = char.ConvertFromUtf32(glyph).ToString();
             CanInvoke = false;
+            FontWeight = "Bold";
 
         }
         public NavigationItem(Type viewModel)
@@ -33,7 +36,8 @@ namespace LandBankManagement.ViewModels
         public readonly string Glyph;
         public readonly string Label;
         public readonly Type ViewModel;
-        
+        public string FontWeight { get; private set; } = "Normal";
+
         public ObservableCollection<NavigationItem> Children { get; set; }
         public bool CanInvoke { get; private set; } = true;
         public string IconColor { get; set; } = "Black";
