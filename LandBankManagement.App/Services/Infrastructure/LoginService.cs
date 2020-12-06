@@ -28,7 +28,7 @@ namespace LandBankManagement.Services
             {
                 if (userName.Equals(AppSettings.Current.UserName, StringComparison.OrdinalIgnoreCase))
                 {
-                   
+                    return AppSettings.Current.WindowsHelloPublicKeyHint != null;
                 }
             }
             return false;
@@ -102,7 +102,7 @@ namespace LandBankManagement.Services
                     // public key in order to identify which key the server should use to verify the challenge.
                     var hashProvider = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha256);
                     var publicKeyHash = hashProvider.HashData(publicKey);
-                   // AppSettings.Current.WindowsHelloPublicKeyHint = CryptographicBuffer.EncodeToBase64String(publicKeyHash);
+                   AppSettings.Current.WindowsHelloPublicKeyHint = CryptographicBuffer.EncodeToBase64String(publicKeyHash);
                 }
             }
             else
@@ -141,7 +141,7 @@ namespace LandBankManagement.Services
         {
             try
             {
-               // AppSettings.Current.WindowsHelloPublicKeyHint = null;
+               AppSettings.Current.WindowsHelloPublicKeyHint = null;
                 await KeyCredentialManager.DeleteAsync(userName);
                 return true;
             }

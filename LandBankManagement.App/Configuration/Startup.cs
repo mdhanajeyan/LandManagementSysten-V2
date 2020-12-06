@@ -42,6 +42,8 @@ namespace LandBankManagement
 
         private static void ConfigureNavigation()
         {
+            NavigationService.Register<LoginViewModel, LoginView>();
+
             NavigationService.Register<ShellViewModel, ShellView>();
             NavigationService.Register<MainShellViewModel, MainShellView>();
 

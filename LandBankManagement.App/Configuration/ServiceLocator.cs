@@ -48,6 +48,7 @@ namespace LandBankManagement
             serviceCollection.AddScoped<INavigationService, NavigationService>();
             serviceCollection.AddScoped<ICommonServices, CommonServices>();
 
+            serviceCollection.AddTransient<LoginViewModel>();
             serviceCollection.AddTransient<ShellViewModel>();
             serviceCollection.AddTransient<MainShellViewModel>();
             serviceCollection.AddTransient<DashboardViewModel>();

@@ -55,9 +55,8 @@ namespace LandBankManagement.Views.SplashScreen
             };
 
 
-            rootFrame.Navigate(typeof(MainShellView), shellArgs);
-            var loginService = ServiceLocator.Current.GetService<ILoginService>();
-            loginService.IsAuthenticated = true;
+            rootFrame.Navigate(typeof(LoginView), shellArgs);
+
 
 
             Window.Current.Content = rootFrame;
@@ -120,7 +119,7 @@ namespace LandBankManagement.Views.SplashScreen
                     return userInfo;
                 }
             }
-            return UserInfo.Default;
+            return null;
         }
     }
 }

@@ -38,9 +38,10 @@ namespace LandBankManagement.ViewModels
         }
         public async Task LoadAsync(CompanyListArgs args)
         {
+            ShowProgressRing();
             ViewModelArgs = args ?? CompanyListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
-           // await RefreshAsync();
+            HideProgressRing();
         }
         public void Unload()
         {
