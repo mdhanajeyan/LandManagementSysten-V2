@@ -8,7 +8,6 @@ namespace LandBankManagement.Models
         static public DocumentTypeModel CreateEmpty() => new DocumentTypeModel { DocumentTypeId = -1, IsEmpty = true };
 
         public int DocumentTypeId { get; set; }
-        public Guid DocumentTypeGuid { get; set; }
         public string DocumentTypeName { get; set; }
         public bool IsDocumentTypeActive { get; set; }
         
@@ -27,7 +26,6 @@ namespace LandBankManagement.Models
             if (source != null)
             {
                 DocumentTypeId = source.DocumentTypeId;
-                DocumentTypeGuid = source.DocumentTypeGuid;
                 DocumentTypeName = source.DocumentTypeName;
                 IsDocumentTypeActive = source.IsDocumentTypeActive;
             }

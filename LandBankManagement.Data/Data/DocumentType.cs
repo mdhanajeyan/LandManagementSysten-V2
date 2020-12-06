@@ -8,7 +8,6 @@ namespace LandBankManagement.Data
     {
         [Key]
         public int DocumentTypeId { get; set; }
-        public Guid DocumentTypeGuid { get; set; }
         public string DocumentTypeName { get; set; }
         public bool IsDocumentTypeActive { get; set; }
 

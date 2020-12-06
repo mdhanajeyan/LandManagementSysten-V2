@@ -17,8 +17,6 @@ namespace LandBankManagement.Data.Services
             var entity = new Role()
             {
                 Name = model.Name,
-                ReportingTo = model.ReportingTo,
-                IsOrganizationRole = model.IsOrganizationRole,
                 Created = model.Created,
                 CreatedBy = model.CreatedBy,
                 Updated = model.Updated,
@@ -48,8 +46,6 @@ namespace LandBankManagement.Data.Services
                 {
                     RoleId = source.RoleId,
                     Name = source.Name,
-                    ReportingTo = source.ReportingTo,
-                    IsOrganizationRole = source.IsOrganizationRole,
                     Created = source.Created,
                     CreatedBy = source.CreatedBy,
                     Updated = source.Updated,

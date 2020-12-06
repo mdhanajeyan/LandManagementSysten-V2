@@ -11,8 +11,6 @@ namespace LandBankManagement.Data
         [Key]
         public int RoleId { get; set; }
         public string Name { get; set; }
-        public string ReportingTo { get; set; }
-        public bool IsOrganizationRole { get; set; }
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public DateTime Updated { get; set; }

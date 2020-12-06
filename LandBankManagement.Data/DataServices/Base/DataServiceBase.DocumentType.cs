@@ -17,7 +17,6 @@ namespace LandBankManagement.Data.Services
             var entity = new DocumentType()
             {
                 DocumentTypeId = model.DocumentTypeId,
-                DocumentTypeGuid = model.DocumentTypeGuid,
                 DocumentTypeName = model.DocumentTypeName,
                 IsDocumentTypeActive = model.IsDocumentTypeActive,
         };
@@ -75,7 +74,6 @@ namespace LandBankManagement.Data.Services
                 .Select(source => new DocumentType
                 {
                     DocumentTypeId = source.DocumentTypeId,
-                    DocumentTypeGuid = source.DocumentTypeGuid,
                     DocumentTypeName = source.DocumentTypeName,
                     IsDocumentTypeActive = source.IsDocumentTypeActive,
         })

@@ -9,8 +9,6 @@ namespace LandBankManagement.Models
 
         public int RoleId { get; set; }
         public string Name { get; set; }
-        public string ReportingTo { get; set; }
-        public bool IsOrganizationRole { get; set; }
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public DateTime Updated { get; set; }
@@ -31,13 +29,10 @@ namespace LandBankManagement.Models
             {
                 RoleId = source.RoleId;
                 Name = source.Name;
-                ReportingTo = source.ReportingTo;
-                IsOrganizationRole = source.IsOrganizationRole;
                 Created = source.Created;
                 CreatedBy = source.CreatedBy;
                 Updated = source.Updated;
                 UpdatedBy = source.UpdatedBy;
-
             }
         }
     }
