@@ -29,7 +29,7 @@ namespace LandBankManagement.Services
                 if (documentType != null)
                 {
                     UpdateDocumentTypeFromModel(documentType, model);
-                    documentType.DocumentTypeGuid = Guid.NewGuid();
+
                     await dataService.AddDocumentTypeAsync(documentType);
                     model.Merge(await GetDocumentTypeAsync(dataService, documentType.DocumentTypeId));
                 }
@@ -52,7 +52,6 @@ namespace LandBankManagement.Services
             var model = new DocumentTypeModel()
             {
                 DocumentTypeId = source.DocumentTypeId,
-                DocumentTypeGuid = source.DocumentTypeGuid,
                 DocumentTypeName = source.DocumentTypeName,
                 IsDocumentTypeActive = source.IsDocumentTypeActive,
             };
@@ -63,7 +62,6 @@ namespace LandBankManagement.Services
         private void UpdateDocumentTypeFromModel(DocumentType target, DocumentTypeModel source)
         {
             target.DocumentTypeId = source.DocumentTypeId;
-            target.DocumentTypeGuid = source.DocumentTypeGuid;
             target.DocumentTypeName = source.DocumentTypeName;
             target.IsDocumentTypeActive = source.IsDocumentTypeActive;
         }

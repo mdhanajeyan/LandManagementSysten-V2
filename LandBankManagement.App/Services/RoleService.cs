@@ -52,13 +52,11 @@ namespace LandBankManagement.Services
             {
                 RoleId = source.RoleId,
                 Name = source.Name,
-                ReportingTo = source.ReportingTo,
-                IsOrganizationRole = source.IsOrganizationRole,
                 Created = source.Created,
                 CreatedBy = source.CreatedBy,
                 Updated = source.Updated,
                 UpdatedBy = source.UpdatedBy,
-        };
+            };
 
             return model;
         }
@@ -67,8 +65,6 @@ namespace LandBankManagement.Services
         {
             target.RoleId = source.RoleId;
             target.Name = source.Name;
-            target.ReportingTo = source.ReportingTo;
-            target.IsOrganizationRole = source.IsOrganizationRole;
             target.Created = source.Created;
             target.CreatedBy = source.CreatedBy;
             target.Updated = source.Updated;
