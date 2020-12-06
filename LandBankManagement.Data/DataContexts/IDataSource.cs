@@ -32,7 +32,7 @@ namespace LandBankManagement.Data.Services
         DbSet<Payment> Payments { get; }
         DbSet<Role> Roles { get; }
         DbSet<UserRole> UserRoles { get; }
-        DbSet<User> Users { get; }
+        DbSet<UserInfo> UserInfos { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

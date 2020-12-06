@@ -16,7 +16,7 @@ namespace LandBankManagement.Data.Services
 
             var entity = new UserRole()
             {
-                UserId = model.UserId,
+                UserInfoId = model.UserInfoId,
                 RoleId = model.RoleId,
                 Created = model.Created,
                 CreatedBy = model.CreatedBy,
@@ -45,7 +45,7 @@ namespace LandBankManagement.Data.Services
             var records = await items.Skip(skip).Take(take)
                 .Select(source => new UserRole
                 {
-                    UserId = source.UserId,
+                    UserInfoId = source.UserInfoId,
                     UserRoleId = source.UserRoleId,
                     RoleId = source.RoleId,
                     Created = source.Created,

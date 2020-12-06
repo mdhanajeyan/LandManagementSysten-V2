@@ -7,7 +7,7 @@ namespace LandBankManagement.Models
     {
         public static UserRoleModel CreateEmpty() => new UserRoleModel { UserRoleId = -1, IsEmpty = true };
         public int UserRoleId { get; set; }
-        public int UserId { get; set; }
+        public int UserInfoId { get; set; }
         public int RoleId { get; set; }
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
@@ -29,7 +29,7 @@ namespace LandBankManagement.Models
             if (source != null)
             {
                 UserRoleId = source.UserRoleId;
-                UserId = source.UserId;
+                UserInfoId = source.UserInfoId;
                 RoleId = source.RoleId;
                 Created = source.Created;
                 CreatedBy = source.CreatedBy;

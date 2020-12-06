@@ -182,13 +182,13 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateRoleAsync(Role model);
         Task<int> DeleteRoleAsync(Role model);
 
-        Task<int> AddUserAsync(User model);
-        Task<User> GetUserAsync(long id);
-        Task<IList<User>> GetUsersAsync(DataRequest<User> request);
-        Task<IList<User>> GetUsersAsync(int skip, int take, DataRequest<User> request);
-        Task<int> GetUsersCountAsync(DataRequest<User> request);
-        Task<int> UpdateUserAsync(User model);
-        Task<int> DeleteUserAsync(User model);
+        Task<int> AddUserInfoAsync(UserInfo model);
+        Task<UserInfo> GetUserInfoAsync(long id);
+        Task<IList<UserInfo>> GetUserInfosAsync(DataRequest<UserInfo> request);
+        Task<IList<UserInfo>> GetUserInfosAsync(int skip, int take, DataRequest<UserInfo> request);
+        Task<int> GetUserInfosCountAsync(DataRequest<UserInfo> request);
+        Task<int> UpdateUserInfoAsync(UserInfo model);
+        Task<int> DeleteUserInfoAsync(UserInfo model);
 
         Dictionary<int, string> GetExpenseHeadOptions();
         Dictionary<int, string> GetPartyOptions();

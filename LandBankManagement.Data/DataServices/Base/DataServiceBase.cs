@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace LandBankManagement.Data.Services
 {
@@ -29,5 +30,6 @@ namespace LandBankManagement.Data.Services
             }
         }
         #endregion
+
     }
 }

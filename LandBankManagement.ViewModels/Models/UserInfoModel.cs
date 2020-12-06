@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LandBankManagement.Models
 {
-    public class UserModel : ObservableObject
+    public class UserInfoModel : ObservableObject
     {
-        public static UserModel CreateEmpty() => new UserModel { UserId = -1, IsEmpty = true };
-        public int UserId { get; set; }
+        public static UserInfoModel CreateEmpty() => new UserInfoModel { UserInfoId = -1, IsEmpty = true };
+        public int UserInfoId { get; set; }
         public string UserName { get; set; }
         public string loginName { get; set; }
         public string UserPassword { get; set; }
@@ -25,17 +25,17 @@ namespace LandBankManagement.Models
 
         public override void Merge(ObservableObject source)
         {
-            if (source is UserModel model)
+            if (source is UserInfoModel model)
             {
                 Merge(model);
             }
         }
 
-        public void Merge(UserModel source)
+        public void Merge(UserInfoModel source)
         {
             if (source != null)
             {
-                UserId = source.UserId;
+                UserInfoId = source.UserInfoId;
                 UserName = source.UserName ;
                 loginName = source.loginName;
                 UserPassword = source.UserPassword;

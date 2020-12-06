@@ -7,19 +7,19 @@ using LandBankManagement.Models;
 
 namespace LandBankManagement.Services
 {
-    public class UserCollection : VirtualCollection<UserModel>
+    public class UserCollection : VirtualCollection<UserInfoModel>
     {
-        private DataRequest<User> _dataRequest = null;
+        private DataRequest<Data.UserInfo> _dataRequest = null;
         public IUserService UserService { get; }
         public UserCollection(IUserService cashAccountService, ILogService logService) : base(logService)
         {
             UserService = cashAccountService;
         }
 
-        private UserModel _defaultItem = UserModel.CreateEmpty();
-        protected override UserModel DefaultItem => _defaultItem;
+        private UserInfoModel _defaultItem = UserInfoModel.CreateEmpty();
+        protected override UserInfoModel DefaultItem => _defaultItem;
 
-        public async Task LoadAsync(DataRequest<User> dataRequest)
+        public async Task LoadAsync(DataRequest<Data.UserInfo> dataRequest)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        protected override async Task<IList<UserModel>> FetchDataAsync(int rangeIndex, int rangeSize)
+        protected override async Task<IList<UserInfoModel>> FetchDataAsync(int rangeIndex, int rangeSize)
         {
             try
             {

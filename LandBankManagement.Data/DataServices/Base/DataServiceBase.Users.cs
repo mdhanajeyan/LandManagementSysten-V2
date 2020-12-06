@@ -9,12 +9,12 @@ namespace LandBankManagement.Data.Services
 {
     partial class DataServiceBase
     {
-        public async Task<int> AddUserAsync(User model)
+        public async Task<int> AddUserInfoAsync(UserInfo model)
         {
             if (model == null)
                 return 0;
 
-            var entity = new User()
+            var entity = new UserInfo()
             {
                 UserName = model.UserName,
                 loginName = model.loginName,
@@ -38,28 +38,28 @@ namespace LandBankManagement.Data.Services
             return res;
         }
 
-        public async Task<User> GetUserAsync(long id)
+        public async Task<UserInfo> GetUserInfoAsync(long id)
         {
 
-            return await _dataSource.Users
-                .Where(x => x.UserId == id)
+            return await _dataSource.UserInfos
+                .Where(x => x.UserInfoId == id)
                 .FirstOrDefaultAsync();
 
         }
 
-        public async Task<IList<User>> GetUsersAsync(DataRequest<User> request)
+        public async Task<IList<UserInfo>> GetUserInfosAsync(DataRequest<UserInfo> request)
         {
-            IQueryable<User> items = GetUsers(request);
+            IQueryable<UserInfo> items = GetUsers(request);
             return await items.ToListAsync();
         }
 
-        public async Task<IList<User>> GetUsersAsync(int skip, int take, DataRequest<User> request)
+        public async Task<IList<UserInfo>> GetUserInfosAsync(int skip, int take, DataRequest<UserInfo> request)
         {
-            IQueryable<User> items = GetUsers(request);
+            IQueryable<UserInfo> items = GetUsers(request);
             var records = await items.Skip(skip).Take(take)
-                .Select(source => new User
+                .Select(source => new UserInfo
                 {
-                    UserId = source.UserId,
+                    UserInfoId = source.UserInfoId,
                     UserName = source.UserName,
                     loginName = source.loginName,
                     UserPassword = source.UserPassword,
@@ -82,9 +82,9 @@ namespace LandBankManagement.Data.Services
             return records;
         }
 
-        private IQueryable<User> GetUsers(DataRequest<User> request)
+        private IQueryable<UserInfo> GetUsers(DataRequest<UserInfo> request)
         {
-            IQueryable<User> items = _dataSource.Users;
+            IQueryable<UserInfo> items = _dataSource.UserInfos;
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -112,9 +112,9 @@ namespace LandBankManagement.Data.Services
         }
 
 
-        public async Task<int> GetUsersCountAsync(DataRequest<User> request)
+        public async Task<int> GetUserInfosCountAsync(DataRequest<UserInfo> request)
         {
-            IQueryable<User> items = _dataSource.Users;
+            IQueryable<UserInfo> items = _dataSource.UserInfos;
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -131,16 +131,16 @@ namespace LandBankManagement.Data.Services
             return await items.CountAsync();
         }
 
-        public async Task<int> UpdateUserAsync(User model)
+        public async Task<int> UpdateUserInfoAsync(UserInfo model)
         {
             _dataSource.Entry(model).State = EntityState.Modified;
             int res = await _dataSource.SaveChangesAsync();
             return res;
         }
 
-        public async Task<int> DeleteUserAsync(User model)
+        public async Task<int> DeleteUserInfoAsync(UserInfo model)
         {
-            _dataSource.Users.Remove(model);
+            _dataSource.UserInfos.Remove(model);
             return await _dataSource.SaveChangesAsync();
         }
     }

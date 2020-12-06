@@ -20,26 +20,26 @@ namespace LandBankManagement.Services
             LogService = logService;
         }
 
-        public async Task<int> AddUserAsync(UserModel model)
+        public async Task<int> AddUserAsync(UserInfoModel model)
         {
-            long id = model.UserId;
+            long id = model.UserInfoId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var user = new User();
+                var user = new Data.UserInfo();
                 if (user != null)
                 {
                     UpdateUserFromModel(user, model);
-                    await dataService.AddUserAsync(user);
-                    model.Merge(await GetUserAsync(dataService, user.UserId));
+                    await dataService.AddUserInfoAsync(user);
+                    model.Merge(await GetUserAsync(dataService, user.UserInfoId));
                 }
 
                 return 0;
             }
         }
 
-        static private async Task<UserModel> GetUserAsync(IDataService dataService, long id)
+        static private async Task<UserInfoModel> GetUserAsync(IDataService dataService, long id)
         {
-            var item = await dataService.GetUserAsync(id);
+            var item = await dataService.GetUserInfoAsync(id);
             if (item != null)
             {
                 return CreateUserModelAsync(item, includeAllFields: true);
@@ -48,7 +48,7 @@ namespace LandBankManagement.Services
             return null;
         }
 
-        public async Task<UserModel> GetUserAsync(long id)
+        public async Task<UserInfoModel> GetUserAsync(long id)
         {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
@@ -56,19 +56,19 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<IList<UserModel>> GetUsersAsync(DataRequest<User> request)
+        public async Task<IList<UserInfoModel>> GetUsersAsync(DataRequest<Data.UserInfo> request)
         {
             var collection = new UserCollection(this, LogService);
             await collection.LoadAsync(request);
             return collection;
         }
 
-        public async Task<IList<UserModel>> GetUsersAsync(int skip, int take, DataRequest<User> request)
+        public async Task<IList<UserInfoModel>> GetUsersAsync(int skip, int take, DataRequest<Data.UserInfo> request)
         {
-            var models = new List<UserModel>();
+            var models = new List<UserInfoModel>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var items = await dataService.GetUsersAsync(skip, take, request);
+                var items = await dataService.GetUserInfosAsync(skip, take, request);
                 foreach (var item in items)
                 {
                     models.Add(CreateUserModelAsync(item, includeAllFields: false));
@@ -78,45 +78,45 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> GetUsersCountAsync(DataRequest<User> request)
+        public async Task<int> GetUsersCountAsync(DataRequest<Data.UserInfo> request)
         {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                return await dataService.GetUsersCountAsync(request);
+                return await dataService.GetUserInfosCountAsync(request);
             }
         }
 
-        public async Task<int> UpdateUserAsync(UserModel model)
+        public async Task<int> UpdateUserAsync(UserInfoModel model)
         {
-            long id = model.UserId;
+            long id = model.UserInfoId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var user = new User();
+                var user = new Data.UserInfo();
                 if (user != null)
                 {
                     UpdateUserFromModel(user, model);
-                    await dataService.UpdateUserAsync(user);
-                    model.Merge(await GetUserAsync(dataService, user.UserId));
+                    await dataService.UpdateUserInfoAsync(user);
+                    model.Merge(await GetUserAsync(dataService, user.UserInfoId));
                 }
 
                 return 0;
             }
         }
 
-        public async Task<int> DeleteUserAsync(UserModel model)
+        public async Task<int> DeleteUserInfoAsync(UserInfoModel model)
         {
-            var bankAcc = new User {UserId = model.UserId};
+            var bankAcc = new Data.UserInfo { UserInfoId = model.UserInfoId};
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                return await dataService.DeleteUserAsync(bankAcc);
+                return await dataService.DeleteUserInfoAsync(bankAcc);
             }
         }
 
-        static public UserModel CreateUserModelAsync(User source, bool includeAllFields)
+        static public UserInfoModel CreateUserModelAsync(Data.UserInfo source, bool includeAllFields)
         {
-            var model = new UserModel()
+            var model = new UserInfoModel()
             {
-                UserId = source.UserId,
+                UserInfoId = source.UserInfoId,
                 UserName = source.UserName,
                 loginName = source.loginName,
                 UserPassword = source.UserPassword,
@@ -136,9 +136,9 @@ namespace LandBankManagement.Services
             return model;
         }
 
-        private void UpdateUserFromModel(User target, UserModel source)
+        private void UpdateUserFromModel(Data.UserInfo target, UserInfoModel source)
         {
-            target.UserId = source.UserId;
+            target.UserInfoId = source.UserInfoId;
             target.UserName = source.UserName;
             target.loginName = source.loginName;
             target.UserPassword = source.UserPassword;

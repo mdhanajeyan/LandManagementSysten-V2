@@ -6,10 +6,10 @@ using System.Text;
 
 namespace LandBankManagement.Data
 {
-    public class User
+    public class UserInfo
     {
         [Key]
-        public int UserId { get; set; }
+        public int UserInfoId { get; set; }
         public string UserName { get; set; }
         public string loginName { get; set; }
         public string UserPassword { get; set; }

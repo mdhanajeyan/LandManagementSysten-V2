@@ -11,7 +11,7 @@ namespace LandBankManagement.Data
     {
         [Key]
         public int UserRoleId { get; set; }
-        public int UserId { get; set; }
+        public int UserInfoId { get; set; }
         public int RoleId { get; set; }
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
@@ -19,6 +19,6 @@ namespace LandBankManagement.Data
         public string UpdatedBy { get; set; }
         [NotMapped]
         public string SearchTerms { get; set; }
-        public string BuildSearchTerms() => $"{UserId} {RoleId}".ToLower();
+        public string BuildSearchTerms() => $"{UserInfoId} {RoleId}".ToLower();
     }
 }

@@ -51,7 +51,7 @@ namespace LandBankManagement.Services
             var model = new UserRoleModel()
             {
                 UserRoleId = source.UserRoleId,
-                UserId = source.UserId,
+                UserInfoId = source.UserInfoId,
                 RoleId = source.RoleId,
                 Created = source.Created,
                 CreatedBy = source.CreatedBy,
@@ -65,7 +65,7 @@ namespace LandBankManagement.Services
         private void UpdateUserRoleFromModel(UserRole target, UserRoleModel source)
         {
             target.UserRoleId = source.UserRoleId;
-            target.UserId = source.UserId;
+            target.UserInfoId = source.UserInfoId;
             target.RoleId = source.RoleId;
             target.Created = source.Created;
             target.CreatedBy = source.CreatedBy;
