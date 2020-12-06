@@ -26,7 +26,7 @@ namespace LandBankManagement.ViewModels
                  new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
             }
         };
-        private readonly NavigationItem SetupItem = new NavigationItem("Set-up", 0xE9F9)
+        private readonly NavigationItem SetupItem = new NavigationItem("Set-up", 0xF0AD)
         {
             Children = new ObservableCollection<NavigationItem>
             {
