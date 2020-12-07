@@ -190,6 +190,15 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateUserInfoAsync(UserInfo model);
         Task<int> DeleteUserInfoAsync(UserInfo model);
 
+        Task<int> AddRolePermissionAsync(RolePermission model);
+        Task<RolePermission> GetRolePermissionAsync(long id);
+        Task<IList<RolePermission>> GetRolePermissionsAsync(DataRequest<RolePermission> request);
+        Task<IList<RolePermission>> GetRolePermissionsAsync(int skip, int take, DataRequest<RolePermission> request);
+        Task<int> GetRolePermissionsCountAsync(DataRequest<RolePermission> request);
+        Task<int> UpdateRolePermissionAsync(RolePermission model);
+        Task<int> DeleteRolePermissionAsync(RolePermission model);
+
+
         Dictionary<int, string> GetExpenseHeadOptions();
         Dictionary<int, string> GetPartyOptions();
         Dictionary<int, string> GetDocumentTypeOptions();

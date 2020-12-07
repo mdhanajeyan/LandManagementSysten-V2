@@ -33,6 +33,9 @@ namespace LandBankManagement.Data.Services
         DbSet<Role> Roles { get; }
         DbSet<UserRole> UserRoles { get; }
         DbSet<UserInfo> UserInfos { get; }
+        DbSet<RolePermission> RolePermissions { get; set; }
+
+
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
