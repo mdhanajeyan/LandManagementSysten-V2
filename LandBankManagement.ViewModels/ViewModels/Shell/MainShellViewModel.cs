@@ -16,7 +16,9 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xE7BA, "View Log", typeof(AppLogsViewModel)){IconColor = "Red"}
+                new NavigationItem(0xE7BA, "View Log", typeof(AppLogsViewModel)){IconColor = "Red"},
+                 new NavigationItem(0xE7EE, "Role", typeof(RoleViewModel)),
+                 new NavigationItem(0xE716, "User", typeof(UserViewModel))
             }
         };
         private readonly NavigationItem ReportItem = new NavigationItem( "REPORT")
@@ -54,14 +56,7 @@ namespace LandBankManagement.ViewModels
             }
         };
 
-        private readonly NavigationItem UserItem = new NavigationItem("USER")
-        {
-            Children = new ObservableCollection<NavigationItem>
-            {
-                new NavigationItem(0xE7EE, "Role", typeof(RoleViewModel)),
-                 new NavigationItem(0xE716, "User", typeof(UserViewModel))
-            }
-        };
+      
 
         private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel));
         private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartyViewModel));
@@ -185,7 +180,6 @@ namespace LandBankManagement.ViewModels
 
         private IEnumerable<NavigationItem> GetItems()
         {
-            yield return UserItem;
             yield return SetupItem;
             yield return PropertyItem;
             yield return ReportItem;

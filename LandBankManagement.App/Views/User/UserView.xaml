@@ -26,17 +26,7 @@
             <Pivot.Resources>
                 <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#D60258" />
             </Pivot.Resources>
-            <PivotItem >
-                <PivotItem.Header>
-                    <PivotHeaderItem  >
-                        <TextBlock Text="User Details" FontWeight="Bold"  FontSize="17"></TextBlock>
-                    </PivotHeaderItem>
-                </PivotItem.Header>
-                <Grid>
-                    <views:UserDetails  ViewModel="{x:Bind ViewModel.UserDetails}"/>
-
-                </Grid>
-            </PivotItem>
+           
             <PivotItem >
                 <PivotItem.Header>
                     <PivotHeaderItem  >
@@ -51,6 +41,17 @@
                                   IsButtonVisible="{x:Bind ViewModel.IsMainView}">
                         <views:UserList ViewModel="{x:Bind ViewModel.UserList}" />
                     </controls:Section>
+                </Grid>
+            </PivotItem>
+            <PivotItem >
+                <PivotItem.Header>
+                    <PivotHeaderItem  >
+                        <TextBlock Text="User Details" FontWeight="Bold"  FontSize="17"></TextBlock>
+                    </PivotHeaderItem>
+                </PivotItem.Header>
+                <Grid>
+                    <views:UserDetails  ViewModel="{x:Bind ViewModel.UserDetails}"/>
+
                 </Grid>
             </PivotItem>
         </Pivot>

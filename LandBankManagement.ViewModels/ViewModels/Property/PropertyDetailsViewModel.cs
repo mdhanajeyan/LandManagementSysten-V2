@@ -10,29 +10,29 @@ using LandBankManagement.Services;
 
 namespace LandBankManagement.ViewModels
 {
-    public class ReceiptsDetailsViewModel : GenericDetailsViewModel<ReceiptModel>
+    public class PropertyDetailsViewModel : GenericDetailsViewModel<PropertyModel>
     {
         public IDropDownService DropDownService { get; }
-        public IReceiptService ReceiptsService { get; }
+        public IPropertyService PropertyService { get; }
         public IFilePickerService FilePickerService { get; }
-        public ReceiptsListViewModel ReceiptsListViewModel { get; }
+        public PropertyListViewModel PropertyListViewModel { get; }
         private ObservableCollection<ComboBoxOptions> _companyOptions = null;
         public ObservableCollection<ComboBoxOptions> CompanyOptions
         {
             get => _companyOptions;
             set => Set(ref _companyOptions, value);
         }
-        private ObservableCollection<ComboBoxOptions> _bankOptions = null;
-        public ObservableCollection<ComboBoxOptions> BankOptions
+        private ObservableCollection<ComboBoxOptions> _documentTypeOptions = null;
+        public ObservableCollection<ComboBoxOptions> DocumentTypeOptions
         {
-            get => _bankOptions;
-            set => Set(ref _bankOptions, value);
+            get => _documentTypeOptions;
+            set => Set(ref _documentTypeOptions, value);
         }
-        private ObservableCollection<ComboBoxOptions> _dealOptions = null;
-        public ObservableCollection<ComboBoxOptions> DealOptions
+        private ObservableCollection<ComboBoxOptions> _talukOptions = null;
+        public ObservableCollection<ComboBoxOptions> TalukOptions
         {
-            get => _dealOptions;
-            set => Set(ref _dealOptions, value);
+            get => _talukOptions;
+            set => Set(ref _talukOptions, value);
         }
 
         private ObservableCollection<ComboBoxOptions> _partyOptions = null;
@@ -41,16 +41,16 @@ namespace LandBankManagement.ViewModels
             get => _partyOptions;
             set => Set(ref _partyOptions, value);
         }
-        public ReceiptsDetailsViewModel(IDropDownService dropDownService, IReceiptService receiptService, IFilePickerService filePickerService, ICommonServices commonServices, ReceiptsListViewModel villageListViewModel) : base(commonServices)
+        public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel villageListViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
-            ReceiptsService = receiptService;
-            ReceiptsListViewModel = villageListViewModel;
+            PropertyService = propertyService;
+            PropertyListViewModel = villageListViewModel;
         }
 
-        override public string Title => (Item?.IsNew ?? true) ? "New Receipts" : TitleEdit;
-        public string TitleEdit => Item == null ? "Receipts" : $"{Item.PayeeId}";
+        override public string Title => (Item?.IsNew ?? true) ? "New Property" : TitleEdit;
+        public string TitleEdit => Item == null ? "Property" : $"{Item.PropertyName}";
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
@@ -58,23 +58,22 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new ReceiptModel();
+            Item = new PropertyModel();
             IsEditMode = true;
             GetDropdowns();
         }
         private void GetDropdowns()
         {
-             PartyOptions = DropDownService.GetPartyOptions();
-            BankOptions = DropDownService.GetBankOptions();
+            PartyOptions = DropDownService.GetPartyOptions();
             CompanyOptions = DropDownService.GetCompanyOptions();
-           // DealOptions = DropDownService.GetDealOptions();
+            // DealOptions = DropDownService.GetDealOptions();
         }
-       
+
 
         public void Subscribe()
         {
-            MessageService.Subscribe<ReceiptsDetailsViewModel, ReceiptModel>(this, OnDetailsMessage);
-            MessageService.Subscribe<ReceiptsListViewModel>(this, OnListMessage);
+            MessageService.Subscribe<PropertyDetailsViewModel, PropertyModel>(this, OnDetailsMessage);
+            MessageService.Subscribe<PropertyListViewModel>(this, OnListMessage);
         }
         public void Unsubscribe()
         {
@@ -90,61 +89,61 @@ namespace LandBankManagement.ViewModels
         //}
 
 
-        protected override async Task<bool> SaveItemAsync(ReceiptModel model)
+        protected override async Task<bool> SaveItemAsync(PropertyModel model)
         {
             try
             {
-                StartStatusMessage("Saving Receipts...");
+                StartStatusMessage("Saving Property...");
 
-                if (model.ReceiptId <= 0)
-                    await ReceiptsService.AddReceiptAsync(model);
+                if (model.PropertyId <= 0)
+                    await PropertyService.AddPropertyAsync(model);
                 else
-                    await ReceiptsService.UpdateReceiptAsync(model);
-                await ReceiptsListViewModel.RefreshAsync();
-                EndStatusMessage("Receipts saved");
-                LogInformation("Receipts", "Save", "Receipts saved successfully", $"Receipts {model.ReceiptId} '{model.PayeeId}' was saved successfully.");
+                    await PropertyService.UpdatePropertyAsync(model);
+                await PropertyListViewModel.RefreshAsync();
+                EndStatusMessage("Property saved");
+                LogInformation("Property", "Save", "Property saved successfully", $"Property {model.PropertyId} '{model.PropertyName}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error saving Receipts: {ex.Message}");
-                LogException("Receipts", "Save", ex);
+                StatusError($"Error saving Property: {ex.Message}");
+                LogException("Property", "Save", ex);
                 return false;
             }
         }
         protected override void ClearItem()
         {
-            Item = new ReceiptModel() { PayeeId = 1 };
+            Item = new PropertyModel();
         }
-        protected override async Task<bool> DeleteItemAsync(ReceiptModel model)
+        protected override async Task<bool> DeleteItemAsync(PropertyModel model)
         {
             try
             {
-                StartStatusMessage("Deleting Receipts...");
+                StartStatusMessage("Deleting Property...");
 
-                await ReceiptsService.DeleteReceiptAsync(model);
+                await PropertyService.DeletePropertyAsync(model);
                 ClearItem();
-                await ReceiptsListViewModel.RefreshAsync();
-                EndStatusMessage("Receipts deleted");
-                LogWarning("Receipts", "Delete", "Receipts deleted", $"Taluk {model.ReceiptId} '{model.PayeeId}' was deleted.");
+                await PropertyListViewModel.RefreshAsync();
+                EndStatusMessage("Property deleted");
+                LogWarning("Property", "Delete", "Property deleted", $"Taluk {model.PropertyId} '{model.PropertyName}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error deleting Receipts: {ex.Message}");
-                LogException("Receipts", "Delete", ex);
+                StatusError($"Error deleting Property: {ex.Message}");
+                LogException("Property", "Delete", ex);
                 return false;
             }
         }
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Receipts?", "Ok", "Cancel");
+            return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Property?", "Ok", "Cancel");
         }
 
-        override protected IEnumerable<IValidationConstraint<ReceiptModel>> GetValidationConstraints(ReceiptModel model)
+        override protected IEnumerable<IValidationConstraint<PropertyModel>> GetValidationConstraints(PropertyModel model)
         {
-            yield return new RequiredConstraint<ReceiptModel>("Name", m => m.PayeeId);
+            yield return new RequiredConstraint<PropertyModel>("Name", m => m.PropertyName);
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 
@@ -153,12 +152,12 @@ namespace LandBankManagement.ViewModels
         /*
          *  Handle external messages
          ****************************************************************/
-        private async void OnDetailsMessage(ReceiptsDetailsViewModel sender, string message, ReceiptModel changed)
+        private async void OnDetailsMessage(PropertyDetailsViewModel sender, string message, PropertyModel changed)
         {
             var current = Item;
             if (current != null)
             {
-                if (changed != null && changed.ReceiptId == current?.ReceiptId)
+                if (changed != null && changed.PropertyId == current?.PropertyId)
                 {
                     switch (message)
                     {
@@ -167,19 +166,19 @@ namespace LandBankManagement.ViewModels
                             {
                                 try
                                 {
-                                    var item = await ReceiptsService.GetReceiptAsync(current.ReceiptId);
-                                    item = item ?? new ReceiptModel { ReceiptId = current.ReceiptId, IsEmpty = true };
+                                    var item = await PropertyService.GetPropertyAsync(current.PropertyId);
+                                    item = item ?? new PropertyModel { PropertyId = current.PropertyId, IsEmpty = true };
                                     current.Merge(item);
                                     current.NotifyChanges();
                                     NotifyPropertyChanged(nameof(Title));
                                     if (IsEditMode)
                                     {
-                                        StatusMessage("WARNING: This Receipts has been modified externally");
+                                        StatusMessage("WARNING: This Property has been modified externally");
                                     }
                                 }
                                 catch (Exception ex)
                                 {
-                                    LogException("Receipts", "Handle Changes", ex);
+                                    LogException("Property", "Handle Changes", ex);
                                 }
                             });
                             break;
@@ -191,7 +190,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async void OnListMessage(ReceiptsListViewModel sender, string message, object args)
+        private async void OnListMessage(PropertyListViewModel sender, string message, object args)
         {
             var current = Item;
             if (current != null)
@@ -199,9 +198,9 @@ namespace LandBankManagement.ViewModels
                 switch (message)
                 {
                     case "ItemsDeleted":
-                        if (args is IList<ReceiptModel> deletedModels)
+                        if (args is IList<PropertyModel> deletedModels)
                         {
-                            if (deletedModels.Any(r => r.ReceiptId == current.ReceiptId))
+                            if (deletedModels.Any(r => r.PropertyId == current.PropertyId))
                             {
                                 await OnItemDeletedExternally();
                             }
@@ -210,7 +209,7 @@ namespace LandBankManagement.ViewModels
                     case "ItemRangesDeleted":
                         try
                         {
-                            var model = await ReceiptsService.GetReceiptAsync(current.ReceiptId);
+                            var model = await PropertyService.GetPropertyAsync(current.PropertyId);
                             if (model == null)
                             {
                                 await OnItemDeletedExternally();
@@ -218,7 +217,7 @@ namespace LandBankManagement.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            LogException("Receipts", "Handle Ranges Deleted", ex);
+                            LogException("Property", "Handle Ranges Deleted", ex);
                         }
                         break;
                 }

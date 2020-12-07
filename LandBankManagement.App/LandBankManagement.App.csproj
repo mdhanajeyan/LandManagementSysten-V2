@@ -379,6 +379,24 @@
     <Compile Include="Views\PropertyType\PropertyTypeView.xaml.cs">
       <DependentUpon>PropertyTypeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Property\PropertyDetails.xaml.cs">
+      <DependentUpon>PropertyDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Property\PropertyList.xaml.cs">
+      <DependentUpon>PropertyList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Property\PropertyView.xaml.cs">
+      <DependentUpon>PropertyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Receipts\ReceiptsDetails.xaml.cs">
+      <DependentUpon>ReceiptsDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Receipts\ReceiptsList.xaml.cs">
+      <DependentUpon>ReceiptsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Receipts\ReceiptsView.xaml.cs">
+      <DependentUpon>ReceiptsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Role\RoleDetails.xaml.cs">
       <DependentUpon>RoleDetails.xaml</DependentUpon>
     </Compile>
@@ -728,6 +746,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Property\PropertyDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Property\PropertyList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Property\PropertyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Receipts\ReceiptsDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Receipts\ReceiptsList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Receipts\ReceiptsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Role\RoleDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -876,6 +918,7 @@
   <ItemGroup>
     <Content Include="Assets\AppLog\AppLog.db" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
