@@ -199,6 +199,8 @@ namespace LandBankManagement.Data.Services
         Task<int> DeleteRolePermissionAsync(RolePermission model);
 
 
+
+
         Dictionary<int, string> GetExpenseHeadOptions();
         Dictionary<int, string> GetPartyOptions();
         Dictionary<int, string> GetDocumentTypeOptions();
