@@ -101,21 +101,12 @@ namespace LandBankManagement.Views.SplashScreen
                 var user = argsWithUser.User;
                 var userInfo = new UserInfo
                 {
-                    AccountName = await user.GetPropertyAsync(KnownUserProperties.AccountName) as String,
-                    FirstName = await user.GetPropertyAsync(KnownUserProperties.FirstName) as String,
-                    LastName = await user.GetPropertyAsync(KnownUserProperties.LastName) as String
+                    UserName = await user.GetPropertyAsync(KnownUserProperties.AccountName) as String,
+                    loginName = await user.GetPropertyAsync(KnownUserProperties.FirstName) as String
+
                 };
                 if (!userInfo.IsEmpty)
                 {
-                    if (String.IsNullOrEmpty(userInfo.AccountName))
-                    {
-                        userInfo.AccountName = $"{userInfo.FirstName} {userInfo.LastName}";
-                    }
-                    var pictureStream = await user.GetPictureAsync(UserPictureSize.Size64x64);
-                    if (pictureStream != null)
-                    {
-                        userInfo.PictureSource = await BitmapTools.LoadBitmapAsync(pictureStream);
-                    }
                     return userInfo;
                 }
             }

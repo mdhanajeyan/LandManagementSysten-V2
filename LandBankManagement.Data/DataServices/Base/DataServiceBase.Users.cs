@@ -49,6 +49,14 @@ namespace LandBankManagement.Data.Services
             return await items.ToListAsync();
         }
 
+        public UserInfo AuthenticateUser(string username, string password)
+        {
+            var userInfo = _dataSource.UserInfos.Where(x => x.UserName == username && x.UserPassword == password).FirstOrDefault();
+            if (userInfo != null) return userInfo;
+
+            throw new AccessDeniedException();
+        }
+
         public async Task<IList<UserInfo>> GetUserInfosAsync(int skip, int take, DataRequest<UserInfo> request)
         {
             IQueryable<UserInfo> items = GetUsers(request);

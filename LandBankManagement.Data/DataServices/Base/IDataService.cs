@@ -19,7 +19,7 @@ namespace LandBankManagement.Data.Services
         Task<IList<Company>> GetCompaniesAsync();
 
 
-       // Task<int> AddVendorAsync(Vendor model);
+        // Task<int> AddVendorAsync(Vendor model);
         Task<Vendor> GetVendorAsync(long id);
         Task<IList<Vendor>> GetVendorsAsync(DataRequest<Vendor> request);
         Task<IList<Vendor>> GetVendorsAsync(int skip, int take, DataRequest<Vendor> request);
@@ -41,7 +41,7 @@ namespace LandBankManagement.Data.Services
 
         Task<int> AddExpenseHeadAsync(ExpenseHead model);
         Task<ExpenseHead> GetExpenseHeadAsync(long id);
-       // Task<IList<ExpenseHead>> GetExpenseHeadsAsync(DataRequest<ExpenseHead> request);
+        // Task<IList<ExpenseHead>> GetExpenseHeadsAsync(DataRequest<ExpenseHead> request);
         Task<IList<ExpenseHead>> GetExpenseHeadsAsync(int skip, int take, DataRequest<ExpenseHead> request);
         Task<int> GetExpenseHeadsCountAsync(DataRequest<ExpenseHead> request);
         Task<int> UpdateExpenseHeadAsync(ExpenseHead model);
@@ -189,6 +189,8 @@ namespace LandBankManagement.Data.Services
         Task<int> GetUserInfosCountAsync(DataRequest<UserInfo> request);
         Task<int> UpdateUserInfoAsync(UserInfo model);
         Task<int> DeleteUserInfoAsync(UserInfo model);
+        UserInfo AuthenticateUser(string username, string password);
+
 
         Dictionary<int, string> GetExpenseHeadOptions();
         Dictionary<int, string> GetPartyOptions();

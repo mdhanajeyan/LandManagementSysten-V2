@@ -14,9 +14,7 @@ namespace LandBankManagement.Services
     {
         string Version { get; }
         string DbVersion { get; }
-
-        string UserName { get; set; }
-
+        
         DataProviderType DataProvider { get; set; }
         string PatternConnectionString { get; }
         string SQLServerConnectionString { get; set; }

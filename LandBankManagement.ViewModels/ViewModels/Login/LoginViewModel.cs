@@ -62,7 +62,7 @@ namespace LandBankManagement.ViewModels
         {
             ViewModelArgs = args;
 
-            UserName = SettingsService.UserName ?? args.UserInfo.AccountName;
+            UserName = args.UserInfo.UserName;
             IsLoginWithWindowsHello = LoginService.IsWindowsHelloEnabled(UserName);
             IsLoginWithPassword = !IsLoginWithWindowsHello;
             IsBusy = false;
@@ -100,7 +100,7 @@ namespace LandBankManagement.ViewModels
                     {
                         await LoginService.TrySetupWindowsHelloAsync(UserName);
                     }
-                    SettingsService.UserName = UserName;
+
                     EnterApplication();
                     return;
                 }
@@ -124,17 +124,6 @@ namespace LandBankManagement.ViewModels
 
         private void EnterApplication()
         {
-            //TODO: Add the correct username that needs to be displayed after
-            //complete implementation of Login
-            //if (ViewModelArgs.UserInfo.AccountName != UserName)
-            //{
-            //    ViewModelArgs.UserInfo = new UserInfo
-            //    {
-            //        AccountName = UserName,
-            //        FirstName = UserName,
-            //        PictureSource = null
-            //    };
-            //}
             NavigationService.Navigate<MainShellViewModel>(ViewModelArgs);
         }
 
@@ -144,7 +133,7 @@ namespace LandBankManagement.ViewModels
             {
                 return Result.Error("Login error", "Please, enter valid credentials.");
             }
-            
+
             return Result.Ok();
         }
     }

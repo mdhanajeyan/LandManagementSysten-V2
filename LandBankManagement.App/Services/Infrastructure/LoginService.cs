@@ -10,15 +10,19 @@ namespace LandBankManagement.Services
 {
     public class LoginService : ILoginService
     {
-        public LoginService(IMessageService messageService, IDialogService dialogService)
+        public LoginService(IMessageService messageService, IDialogService dialogService, ILogService logService, IDataServiceFactory dataServiceFactory)
         {
             IsAuthenticated = false;
             MessageService = messageService;
             DialogService = dialogService;
+            LogService = logService;
+            DataServiceFactory = dataServiceFactory;
         }
 
         public IMessageService MessageService { get; }
         public IDialogService DialogService { get; }
+        private ILogService LogService { get; }
+        private IDataServiceFactory DataServiceFactory { get; }
 
         public bool IsAuthenticated { get; set; }
 
@@ -36,10 +40,21 @@ namespace LandBankManagement.Services
 
         public Task<bool> SignInWithPasswordAsync(string userName, string password)
         {
-            // Perform authentication here.
-            // This sample accepts any user name and password.
-            UpdateAuthenticationStatus(true);
-            return Task.FromResult(true);
+            var loginStatus = false;
+            
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                try
+                {
+                    var user = dataService.AuthenticateUser(userName, password);
+                    AppSettings.Current.UserName = user.UserName;
+                    AppSettings.Current.UserId = user.UserInfoId;
+                }
+                catch (AccessDeniedException) { }
+            }
+
+            UpdateAuthenticationStatus(loginStatus);
+            return Task.FromResult(loginStatus);
         }
 
         public async Task<Result> SignInWithWindowsHelloAsync()
@@ -102,7 +117,7 @@ namespace LandBankManagement.Services
                     // public key in order to identify which key the server should use to verify the challenge.
                     var hashProvider = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha256);
                     var publicKeyHash = hashProvider.HashData(publicKey);
-                   AppSettings.Current.WindowsHelloPublicKeyHint = CryptographicBuffer.EncodeToBase64String(publicKeyHash);
+                    AppSettings.Current.WindowsHelloPublicKeyHint = CryptographicBuffer.EncodeToBase64String(publicKeyHash);
                 }
             }
             else
@@ -141,7 +156,7 @@ namespace LandBankManagement.Services
         {
             try
             {
-               AppSettings.Current.WindowsHelloPublicKeyHint = null;
+                AppSettings.Current.WindowsHelloPublicKeyHint = null;
                 await KeyCredentialManager.DeleteAsync(userName);
                 return true;
             }

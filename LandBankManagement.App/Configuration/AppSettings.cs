@@ -47,6 +47,12 @@ namespace LandBankManagement
             set => LocalSettings.Values["UserName"] = value;
         }
 
+        public int UserId
+        {
+            get => GetSettingsValue("UserId", default(int));
+            set => LocalSettings.Values["UserId"] = value;
+        }
+
         public string SQLServerConnectionString
         {
             get => GetSettingsValue("SQLServerConnectionString", @"Data Source=SQL5097.site4now.net;Initial Catalog=DB_A637E6_LandBank;User Id=DB_A637E6_LandBank_admin;Password=Matrix@291;Pooling=False");
