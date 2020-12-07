@@ -13,7 +13,8 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:UserDetailsViewModel">
-            <controls:FluidGrid  Margin="0,30,0,0" Columns="1" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
+            <controls:FluidGrid  Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
+               
                 <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
 
                 <controls:FormTextBox Header="Staff Name" Text="{x:Bind EditableItem.UserName, Mode=TwoWay}" />
@@ -33,8 +34,10 @@
                 <controls:FormTextBox Header="Login Name" Text="{x:Bind EditableItem.loginName, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Password" Text="{x:Bind EditableItem.UserPassword, Mode=TwoWay}" />
 
-            </controls:FluidGrid>          
+            </controls:FluidGrid>
+              
                 <StackPanel Margin="0 20 0 0">
+                    <TextBlock Text="Roles"  Foreground="#3b81d1" FontSize="15" Margin="10"/>
                     <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500" >
                         <ListView x:Name="docListView" ItemsSource="{x:Bind RoleList,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
                             <ListView.ItemTemplate>
@@ -44,9 +47,13 @@
                                         <TextBlock Text="{Binding Name}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
                        Path=ActualWidth, ConverterParameter=0.8}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
 
-                                        <CheckBox x:Name="isAdmin" Margin="10 20 0 0" IsChecked="{Binding IsSelected,Mode=TwoWay}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
+                                        <!--<CheckBox x:Name="isAdmin" Margin="10 20 0 0" IsChecked="{Binding IsSelected,Mode=TwoWay}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
                        Path=ActualWidth, ConverterParameter=0.2}">
-                                        </CheckBox>
+                                        </CheckBox>-->
+                                        <RadioButton    Margin="10" GroupName="role" IsChecked="{Binding IsSelected,Mode=TwoWay}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
+                       Path=ActualWidth, ConverterParameter=0.2}">
+                                            <TextBlock   Foreground="#3b81d1" FontSize="15"/>
+                                        </RadioButton>
 
                                     </StackPanel>
 

@@ -73,7 +73,7 @@ namespace LandBankManagement
             NavigationService.Register<BankAccountViewModel, BankAccountView>();
             NavigationService.Register<PaymentsViewModel, PaymentView>();
             NavigationService.Register<FundTransferViewModel, FundTransferView>();
-           // NavigationService.Register<ReceiptsViewModel, ReceiptsView>();
+            NavigationService.Register<ReceiptsViewModel, ReceiptsView>();
             NavigationService.Register<RoleViewModel, RoleView>();
             NavigationService.Register<UserViewModel, UserView>();
         }

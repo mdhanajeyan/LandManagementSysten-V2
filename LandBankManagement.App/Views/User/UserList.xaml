@@ -17,8 +17,8 @@
                     <ColumnDefinition Width="25*"/>
                     <ColumnDefinition Width="45*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Name" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="1" Text="LoginName" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="0" Text="Name*" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="1" Text="LoginName*" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="2" Text="Email" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="3" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />
 

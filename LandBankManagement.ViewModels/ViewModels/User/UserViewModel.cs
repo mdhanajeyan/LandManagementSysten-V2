@@ -77,7 +77,7 @@ namespace LandBankManagement.ViewModels
                 selected.Merge(model);
                 UserDetails.Item = model;
                 UserDetails.getUserRoles();
-                SelectedPivotIndex = 0;
+                SelectedPivotIndex = 1;
             }
             catch (Exception ex)
             {

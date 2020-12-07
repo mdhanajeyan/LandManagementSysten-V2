@@ -29,17 +29,6 @@
             <PivotItem >
                 <PivotItem.Header>
                     <PivotHeaderItem  >
-                        <TextBlock Text="Payment Details" FontWeight="Bold"  FontSize="17"></TextBlock>
-                    </PivotHeaderItem>
-                </PivotItem.Header>
-                <Grid>
-                    <views:PaymentDetails  ViewModel="{x:Bind ViewModel.PaymentsDetails}"/>
-
-                </Grid>
-            </PivotItem>
-            <PivotItem >
-                <PivotItem.Header>
-                    <PivotHeaderItem  >
                         <TextBlock Text="Payment List" FontWeight="Bold" FontSize="17" ></TextBlock>
                     </PivotHeaderItem>
                 </PivotItem.Header>
@@ -53,6 +42,18 @@
                     </controls:Section>
                 </Grid>
             </PivotItem>
+            <PivotItem >
+                <PivotItem.Header>
+                    <PivotHeaderItem  >
+                        <TextBlock Text="Payment Details" FontWeight="Bold"  FontSize="17"></TextBlock>
+                    </PivotHeaderItem>
+                </PivotItem.Header>
+                <Grid>
+                    <views:PaymentDetails  ViewModel="{x:Bind ViewModel.PaymentsDetails}"/>
+
+                </Grid>
+            </PivotItem>
+           
         </Pivot>
         <!--<Grid>
             <Grid.RowDefinitions>

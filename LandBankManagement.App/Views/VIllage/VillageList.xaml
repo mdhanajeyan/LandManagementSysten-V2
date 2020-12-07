@@ -18,7 +18,7 @@
                     <ColumnDefinition Width="20*"/>
                     <ColumnDefinition Width="20*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Village Name" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="0" Text="Village Name*" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="Taluk Name" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="2" Text="Hobli Name" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="3" Text="Village Map Link" Style="{StaticResource ColumnHeaderStyle}" />

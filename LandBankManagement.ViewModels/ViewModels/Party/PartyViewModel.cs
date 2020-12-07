@@ -95,7 +95,7 @@ namespace LandBankManagement.ViewModels
                         PartyDetails.DocList[i].Identity = i + 1;
                     }
                 }
-                SelectedPivotIndex = 0;
+                SelectedPivotIndex = 1;
             }
             catch (Exception ex)
             {

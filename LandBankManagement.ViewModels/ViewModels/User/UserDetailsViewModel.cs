@@ -128,10 +128,16 @@ namespace LandBankManagement.ViewModels
         override protected IEnumerable<IValidationConstraint<UserInfoModel>> GetValidationConstraints(UserInfoModel model)
         {
             yield return new RequiredConstraint<UserInfoModel>("Name", m => m.UserName);
+            yield return new RequiredConstraint<UserInfoModel>("Name", m => m.loginName);
+            yield return new ValidationConstraint<UserInfoModel>("Login Name should not contain space.", x => validateLoginName(x.loginName));
+            yield return new RequiredConstraint<UserInfoModel>("Password", m => m.UserPassword);
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 
         }
+    private bool validateLoginName(string name) {
+            return name.Split(' ').Length == 1;
+    }
 
         /*
          *  Handle external messages

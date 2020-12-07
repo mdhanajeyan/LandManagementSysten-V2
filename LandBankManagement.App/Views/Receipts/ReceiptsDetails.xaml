@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:ReceiptsDetailsViewModel">
-            <!--<controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
+            <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
                 <controls:FormComboBox  Header="From Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
@@ -42,7 +42,7 @@
                 <controls:FormTextBox Header="Amount" Text="{x:Bind EditableItem.Amount, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Narration"  Text="{x:Bind EditableItem.Narration, Mode=TwoWay}" />
                 <StackPanel></StackPanel>                
-            </controls:FluidGrid>-->
+            </controls:FluidGrid>
         </DataTemplate>
     </UserControl.Resources>
 
