@@ -51,7 +51,7 @@ namespace LandBankManagement.Services
             var model = new RoleModel()
             {
                 RoleId = source.RoleId,
-                Name = source.Name,
+                Name = source.Name,               
                 Created = source.Created,
                 CreatedBy = source.CreatedBy,
                 Updated = source.Updated,
@@ -64,7 +64,7 @@ namespace LandBankManagement.Services
         private void UpdateRoleFromModel(Role target, RoleModel source)
         {
             target.RoleId = source.RoleId;
-            target.Name = source.Name;
+            target.Name = source.Name;           
             target.Created = source.Created;
             target.CreatedBy = source.CreatedBy;
             target.Updated = source.Updated;
@@ -132,5 +132,20 @@ namespace LandBankManagement.Services
                 return await dataService.DeleteRoleAsync(documentType);
             }
         }
+
+        public async Task<IList<RoleModel>> GetRolesAsync()
+        {
+            var models = new List<RoleModel>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var items = await dataService.GetRolesAsync();
+                foreach (var item in items)
+                {
+                    models.Add(CreateRoleModelAsync(item, includeAllFields: false));
+                }
+                return models;
+            }
+        }
+
     }
 }

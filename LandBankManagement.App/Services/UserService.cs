@@ -23,14 +23,15 @@ namespace LandBankManagement.Services
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var user = new Data.UserInfo();
+                int userid = 0;
                 if (user != null)
                 {
                     UpdateUserFromModel(user, model);
-                    await dataService.AddUserInfoAsync(user);
+                    userid = await dataService.AddUserInfoAsync(user);
                     model.Merge(await GetUserAsync(dataService, user.UserInfoId));
                 }
 
-                return 0;
+                return userid;
             }
         }
 

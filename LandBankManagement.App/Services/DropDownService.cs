@@ -245,5 +245,41 @@ namespace LandBankManagement.Services
                 return list;
             }
         }
+        public ObservableCollection<ComboBoxOptions> GetReportingToOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = dataService.GetReportingToOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                return list;
+            }
+        }
+        public ObservableCollection<ComboBoxOptions> GetGenderOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = dataService.GetGenderOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                return list;
+            }
+        }
     }
 }

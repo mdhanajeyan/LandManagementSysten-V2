@@ -13,18 +13,24 @@ namespace LandBankManagement.Data.Services
         {
             if (model == null)
                 return 0;
-
-            var entity = new Role()
+            try
             {
-                Name = model.Name,
-                Created = model.Created,
-                CreatedBy = model.CreatedBy,
-                Updated = model.Updated,
-                UpdatedBy = model.UpdatedBy,
-        };
-            _dataSource.Entry(entity).State = EntityState.Added;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+                var entity = new Role()
+                {
+                    Name = model.Name,                   
+                    Created = DateTime.Now,
+                    CreatedBy = model.CreatedBy,
+                    Updated = DateTime.Now,
+                    UpdatedBy = model.UpdatedBy
+                };
+                _dataSource.Entry(entity).State = EntityState.Added;
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<Role> GetRoleAsync(long id)
@@ -46,6 +52,7 @@ namespace LandBankManagement.Data.Services
                 {
                     RoleId = source.RoleId,
                     Name = source.Name,
+                   
                     Created = source.Created,
                     CreatedBy = source.CreatedBy,
                     Updated = source.Updated,
@@ -121,6 +128,22 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.SaveChangesAsync();
         }
 
-      
+        public async Task<IList<Role>> GetRolesAsync()
+        {           
+            var records = await _dataSource.Roles
+                .Select(source => new Role
+                {
+                    RoleId = source.RoleId,
+                    Name = source.Name,
+                    Created = source.Created,
+                    CreatedBy = source.CreatedBy,
+                    Updated = source.Updated,
+                    UpdatedBy = source.UpdatedBy,
+                })
+                .AsNoTracking()
+                .ToListAsync();
+
+            return records;
+        }
     }
 }

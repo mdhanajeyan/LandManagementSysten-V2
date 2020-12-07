@@ -379,6 +379,15 @@
     <Compile Include="Views\PropertyType\PropertyTypeView.xaml.cs">
       <DependentUpon>PropertyTypeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Role\RoleDetails.xaml.cs">
+      <DependentUpon>RoleDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Role\RoleList.xaml.cs">
+      <DependentUpon>RoleList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Role\RoleView.xaml.cs">
+      <DependentUpon>RoleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\CreateDatabaseView.xaml.cs">
       <DependentUpon>CreateDatabaseView.xaml</DependentUpon>
     </Compile>
@@ -405,6 +414,15 @@
     </Compile>
     <Compile Include="Views\Taluk\TalukView.xaml.cs">
       <DependentUpon>TalukView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\User\UserDetails.xaml.cs">
+      <DependentUpon>UserDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\User\UserList.xaml.cs">
+      <DependentUpon>UserList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\User\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Vendor\VendorDetails.xaml.cs">
       <DependentUpon>VendorDetails.xaml</DependentUpon>
@@ -710,6 +728,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Role\RoleDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Role\RoleList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Role\RoleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Settings\CreateDatabaseView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -743,6 +773,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Taluk\TalukView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\User\UserDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\User\UserList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\User\UserView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

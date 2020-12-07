@@ -173,6 +173,8 @@ namespace LandBankManagement.Data.Services
         Task<int> GetUserRolesCountAsync(DataRequest<UserRole> request);
         Task<int> UpdateUserRoleAsync(UserRole model);
         Task<int> DeleteUserRoleAsync(UserRole model);
+        Task<IList<UserRole>> GetUserRolesForUserAsync(int userId);
+        Task<int> AddUserRoleForUserAsync(List<UserRole> model, int userId);
 
         Task<int> AddRoleAsync(Role model);
         Task<Role> GetRoleAsync(long id);
@@ -181,7 +183,7 @@ namespace LandBankManagement.Data.Services
         Task<int> GetRolesCountAsync(DataRequest<Role> request);
         Task<int> UpdateRoleAsync(Role model);
         Task<int> DeleteRoleAsync(Role model);
-
+ Task<IList<Role>> GetRolesAsync();
         Task<int> AddUserInfoAsync(UserInfo model);
         Task<UserInfo> GetUserInfoAsync(long id);
         Task<IList<UserInfo>> GetUserInfosAsync(DataRequest<UserInfo> request);
@@ -208,5 +210,7 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetCashOptions();
         Dictionary<int, string> GetBankOptions();
         Dictionary<int, string> GetVendorOptions();
+Dictionary<int, string> GetReportingToOptions();
+        Dictionary<int, string> GetGenderOptions();
     }
 }

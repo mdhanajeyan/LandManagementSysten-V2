@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using LandBankManagement.Data;
 using LandBankManagement.Data.Services;
@@ -33,6 +34,20 @@ namespace LandBankManagement.Services
             }
         }
 
+        public async Task<int> AddUserRoleForUserAsync(List<UserRoleModel> models, int userId) {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var roleList = new List<UserRole>();
+                foreach(var model in models)
+                {
+                    var role = new UserRole();
+                    UpdateUserRoleFromModel(role, model);
+                    roleList.Add(role);                   
+                }
+                return await dataService.AddUserRoleForUserAsync(roleList, userId);
+            }
+        }
+
         static private async Task<UserRoleModel> GetUserRoleAsync(IDataService dataService, long id)
         {
             var item = await dataService.GetUserRoleAsync(id);
@@ -41,6 +56,21 @@ namespace LandBankManagement.Services
                 return CreateUserRoleModelAsync(item, includeAllFields: true);
             }
             return null;
+        }
+
+        public async Task<ObservableCollection<UserRoleModel>> GetUserRolesForUserAsync(int userId) {
+
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var items = await dataService.GetUserRolesForUserAsync(userId);
+                ObservableCollection<UserRoleModel> userRoles = new ObservableCollection<UserRoleModel>();
+                foreach (var  item in items)
+                {
+                    userRoles.Add( CreateUserRoleModelAsync(item, includeAllFields: true));
+                }
+                return userRoles;
+            }
+           
         }
 
         public static UserRoleModel CreateUserRoleModelAsync(UserRole source, bool includeAllFields)
@@ -54,6 +84,8 @@ namespace LandBankManagement.Services
                 CreatedBy = source.CreatedBy,
                 Updated = source.Updated,
                 UpdatedBy = source.UpdatedBy,
+                Name=source.Name,
+                IsSelected=source.IsSelected
         };
 
             return model;
@@ -68,6 +100,7 @@ namespace LandBankManagement.Services
             target.CreatedBy = source.CreatedBy;
             target.Updated = source.Updated;
             target.UpdatedBy = source.UpdatedBy;
+            target.IsSelected = source.IsSelected;
         }
 
         public async Task<UserRoleModel> GetUserRoleAsync(long id)

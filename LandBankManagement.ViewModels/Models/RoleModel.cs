@@ -8,12 +8,14 @@ namespace LandBankManagement.Models
         static public RoleModel CreateEmpty() => new RoleModel { RoleId = -1, IsEmpty = true };
 
         public int RoleId { get; set; }
-        public string Name { get; set; }
-        public DateTime Created { get; set; }
+        public string Name { get; set; }    
+        public DateTime? Created { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime Updated { get; set; }
+        public DateTime? Updated { get; set; }
         public string UpdatedBy { get; set; }
         public bool IsNew => RoleId <= 0;
+
+        public bool IsSelected { get; set; }
 
         public override void Merge(ObservableObject source)
         {

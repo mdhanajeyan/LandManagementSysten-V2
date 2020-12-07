@@ -28,6 +28,44 @@ namespace LandBankManagement.Data.Services
             return res;
         }
 
+        public async Task<int> AddUserRoleForUserAsync(List<UserRole> models,int userId)
+        {
+            if (models == null)
+                return 0;
+            try
+            {
+
+                var oldRoles = _dataSource.UserRoles.Where(x => x.UserInfoId == userId).ToList();
+                if (oldRoles != null)
+                {
+                    _dataSource.UserRoles.RemoveRange(oldRoles);
+                    await _dataSource.SaveChangesAsync();
+                }
+                foreach (var model in models)
+                {
+                    if (!model.IsSelected)
+                        continue;
+
+                    var entity = new UserRole()
+                    {
+                        UserInfoId = userId,
+                        RoleId = model.RoleId,
+                        Created = DateTime.Now,
+                        CreatedBy = model.CreatedBy,
+                        Updated = DateTime.Now,
+                        UpdatedBy = model.UpdatedBy,
+                    };
+                    _dataSource.Entry(entity).State = EntityState.Added;
+                }
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+
         public async Task<UserRole> GetUserRoleAsync(long id)
         {
             return await _dataSource.UserRoles.Where(r => r.UserRoleId == id).FirstOrDefaultAsync();
@@ -121,6 +159,20 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.SaveChangesAsync();
         }
 
-      
+        public async Task<IList<UserRole>> GetUserRolesForUserAsync(int userId)
+        {
+            var list= await(from role  in _dataSource.Roles
+           from userRole in _dataSource.UserRoles.Where(x=>x.RoleId==role.RoleId && x.UserInfoId==userId).DefaultIfEmpty()
+                select(new UserRole
+                {
+                    UserInfoId =(userRole==null|| userRole.UserInfoId==0)?0 : userRole.UserInfoId,
+                    UserRoleId = (userRole == null || userRole.UserRoleId == 0) ? 0 : userRole.UserRoleId,
+                    RoleId = role.RoleId,
+                    Name=role.Name,
+                    IsSelected= (userRole == null || userRole.UserRoleId == 0) ? false : true
+                })).ToListAsync();
+
+            return list;
+        }
     }
 }

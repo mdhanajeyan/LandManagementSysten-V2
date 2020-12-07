@@ -15,5 +15,6 @@ namespace LandBankManagement.Services
         Task<int> GetRolesCountAsync(DataRequest<Role> request);
         Task<int> UpdateRoleAsync(RoleModel model);
         Task<int> DeleteRoleAsync(RoleModel model);
+        Task<IList<RoleModel>> GetRolesAsync();
     }
 }

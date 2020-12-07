@@ -12,25 +12,25 @@ namespace LandBankManagement.ViewModels
     {
         private readonly NavigationItem DashboardItem = new NavigationItem(0xE80F, "Dashboard", typeof(DashboardViewModel));
 
-        private readonly NavigationItem AppLogsItem = new NavigationItem("Activity Logs")
+        private readonly NavigationItem AppLogsItem = new NavigationItem("ADMIN")
         {
             Children = new ObservableCollection<NavigationItem>
             {
                 new NavigationItem(0xE7BA, "View Log", typeof(AppLogsViewModel)){IconColor = "Red"}
             }
         };
-        private readonly NavigationItem ReportItem = new NavigationItem( "Report")
+        private readonly NavigationItem ReportItem = new NavigationItem( "REPORT")
         {
             Children = new ObservableCollection<NavigationItem>
             {
                  new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
             }
         };
-        private readonly NavigationItem SetupItem = new NavigationItem("Set-up", 0xF0AD)
+        private readonly NavigationItem SetupItem = new NavigationItem("SET-UP")
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                 new NavigationItem(0xE9F9, "Comapny", typeof(CompanyViewModel)),
+                new NavigationItem(0xE9F9, "Comapny", typeof(CompanyViewModel)),
                  new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel)),
                  new NavigationItem(0xE716, "Party", typeof(PartyViewModel)),
                  new NavigationItem(0xE825, "Bank", typeof(BankAccountViewModel)),
@@ -44,14 +44,25 @@ namespace LandBankManagement.ViewModels
             }
         };
 
-        private readonly NavigationItem PropertyItem = new NavigationItem( "Property")
+        private readonly NavigationItem PropertyItem = new NavigationItem( "TRANSACTIONS")
         {
             Children = new ObservableCollection<NavigationItem>
             {
                 new NavigationItem(0xE8C7, "Payments", typeof(PaymentsViewModel)),
-                 new NavigationItem(0xE912, "Fund Transfer", typeof(FundTransferViewModel))
+                 new NavigationItem(0xE912, "Fund Transfer", typeof(FundTransferViewModel)),
+                 new NavigationItem(0xF5AD, "Receipts", typeof(ReceiptsViewModel))
             }
         };
+
+        private readonly NavigationItem UserItem = new NavigationItem("USER")
+        {
+            Children = new ObservableCollection<NavigationItem>
+            {
+                new NavigationItem(0xE7EE, "Role", typeof(RoleViewModel)),
+                 new NavigationItem(0xE716, "User", typeof(UserViewModel))
+            }
+        };
+
         private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel));
         private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartyViewModel));
         private readonly NavigationItem ExpenseHeadItem = new NavigationItem(0xE912, "ExpenseHead", typeof(ExpenseHeadViewModel));
@@ -158,6 +169,15 @@ namespace LandBankManagement.ViewModels
                 case "FundTransferViewModel":
                     NavigationService.Navigate(viewModel, new FundTransferListArgs());
                     break;
+                case "ReceiptsViewModel":
+                    NavigationService.Navigate(viewModel, new ReceiptsListArgs());
+                    break;
+                case "RoleViewModel":
+                    NavigationService.Navigate(viewModel, new RoleListArgs());
+                    break;
+                case "UserViewModel":
+                    NavigationService.Navigate(viewModel, new UserListArgs());
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -165,6 +185,7 @@ namespace LandBankManagement.ViewModels
 
         private IEnumerable<NavigationItem> GetItems()
         {
+            yield return UserItem;
             yield return SetupItem;
             yield return PropertyItem;
             yield return ReportItem;
