@@ -37,7 +37,8 @@ namespace LandBankManagement.Models
         public decimal BKarabAreaInGuntas { get; set; }
         public decimal BKarabAreaInSqMts { get; set; }
         public decimal BKarabAreaInSqft { get; set; }
-
+        public decimal SaleValue1 { get; set; }
+        public decimal SaleValue2 { get; set; }
         public bool IsNew => PropertyId <= 0;
 
 
@@ -84,6 +85,8 @@ namespace LandBankManagement.Models
                 BKarabAreaInGuntas = source.BKarabAreaInGuntas;
                 BKarabAreaInSqMts = source.BKarabAreaInSqMts;
                 BKarabAreaInSqft = source.BKarabAreaInSqft;
+                SaleValue1 = source.SaleValue1;
+                SaleValue2 = source.SaleValue2;
             }
         }
 

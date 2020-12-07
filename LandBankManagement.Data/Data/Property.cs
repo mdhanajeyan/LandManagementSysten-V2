@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using LandBankManagement.Data.Data;
 
 namespace LandBankManagement.Data
 {
@@ -40,8 +42,12 @@ namespace LandBankManagement.Data
         public decimal BKarabAreaInGuntas { get; set; }
         public decimal BKarabAreaInSqMts { get; set; }
         public decimal BKarabAreaInSqft { get; set; }
+        public decimal SaleValue1 { get; set; }
+        public decimal SaleValue2 { get; set; }
 
         [NotMapped]
         public string SearchTerms { get; set; }
+
+        public IList<PropPaySchedule> PropPaySchedules { get; set; }
     }
 }

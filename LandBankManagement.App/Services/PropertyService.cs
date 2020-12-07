@@ -125,18 +125,26 @@ namespace LandBankManagement.Services
                 PropertyTypeId = source.PropertyTypeId,
                 SurveyNo = source.SurveyNo,
                 PropertyGMapLink = source.PropertyGMapLink,
+                LandAreaInputAcres = source.LandAreaInputAcres,
+                LandAreaInputGuntas = source.LandAreaInputGuntas,
                 LandAreaInAcres = source.LandAreaInAcres,
                 LandAreaInGuntas = source.LandAreaInGuntas,
                 LandAreaInSqMts = source.LandAreaInSqMts,
                 LandAreaInSqft = source.LandAreaInSqft,
+                AKarabAreaInputAcres = source.AKarabAreaInputAcres,
+                AKarabAreaInputGuntas = source.AKarabAreaInputGuntas,
                 AKarabAreaInAcres = source.AKarabAreaInAcres,
                 AKarabAreaInGuntas = source.AKarabAreaInGuntas,
                 AKarabAreaInSqMts = source.AKarabAreaInSqMts,
                 AKarabAreaInSqft = source.AKarabAreaInSqft,
+                BKarabAreaInputAcres = source.BKarabAreaInputAcres,
+                BKarabAreaInputGuntas = source.BKarabAreaInputGuntas,
                 BKarabAreaInAcres = source.BKarabAreaInAcres,
                 BKarabAreaInGuntas = source.BKarabAreaInGuntas,
                 BKarabAreaInSqMts = source.BKarabAreaInSqMts,
                 BKarabAreaInSqft = source.BKarabAreaInSqft,
+                SaleValue1 = source.SaleValue1,
+                SaleValue2 = source.SaleValue2
             };
             return model;
         }
@@ -156,18 +164,26 @@ namespace LandBankManagement.Services
             target.PropertyTypeId = source.PropertyTypeId;
             target.SurveyNo = source.SurveyNo;
             target.PropertyGMapLink = source.PropertyGMapLink;
+            target.LandAreaInputAcres = source.LandAreaInputAcres;
+            target.LandAreaInputGuntas = source.LandAreaInputGuntas;
             target.LandAreaInAcres = source.LandAreaInAcres;
             target.LandAreaInGuntas = source.LandAreaInGuntas;
             target.LandAreaInSqMts = source.LandAreaInSqMts;
             target.LandAreaInSqft = source.LandAreaInSqft;
+            target.AKarabAreaInputAcres = source.AKarabAreaInputAcres;
+            target.AKarabAreaInputGuntas = source.AKarabAreaInputGuntas;
             target.AKarabAreaInAcres = source.AKarabAreaInAcres;
             target.AKarabAreaInGuntas = source.AKarabAreaInGuntas;
             target.AKarabAreaInSqMts = source.AKarabAreaInSqMts;
             target.AKarabAreaInSqft = source.AKarabAreaInSqft;
+            target.BKarabAreaInputAcres = source.BKarabAreaInputAcres;
+            target.BKarabAreaInputGuntas = source.BKarabAreaInputGuntas;
             target.BKarabAreaInAcres = source.BKarabAreaInAcres;
             target.BKarabAreaInGuntas = source.BKarabAreaInGuntas;
             target.BKarabAreaInSqMts = source.BKarabAreaInSqMts;
             target.BKarabAreaInSqft = source.BKarabAreaInSqft;
+            target.SaleValue1 = source.SaleValue1;
+            target.SaleValue2 = source.SaleValue2;
         }
     }
 }
