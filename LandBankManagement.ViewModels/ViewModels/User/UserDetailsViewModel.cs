@@ -82,7 +82,7 @@ namespace LandBankManagement.ViewModels
                     await UserService.UpdateUserAsync(model);
                 await UserRoleService.AddUserRoleForUserAsync(RoleList.ToList(), model.UserInfoId==0?userID: model.UserInfoId);
 
-                await UserListViewModel.RefreshAsync();
+                reloadUser(model.UserInfoId == 0 ? userID : model.UserInfoId);
                 EndStatusMessage("User saved");
                 LogInformation("User", "Save", "User saved successfully", $"User {model.UserInfoId} '{model.UserName}' was saved successfully.");
                 return true;
@@ -93,6 +93,11 @@ namespace LandBankManagement.ViewModels
                 LogException("User", "Save", ex);
                 return false;
             }
+        }
+
+        private async void reloadUser( int id) {
+           Item = await UserService.GetUserAsync(id);            
+           getUserRoles();
         }
         protected override void ClearItem()
         {
