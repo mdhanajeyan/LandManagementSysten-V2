@@ -32,7 +32,7 @@
                         <ColumnDefinition Width="4" />
                     </Grid.ColumnDefinitions>
                     <Viewbox Margin="-2,9,0,9" HorizontalAlignment="Left">
-                        <!--<PersonPicture ProfilePicture="{x:Bind PictureSource, Converter={StaticResource ObjectToImageConverter}}" DisplayName="{x:Bind DisplayName}" />-->
+                        <PersonPicture ProfilePicture="{x:Bind PictureSource, Converter={StaticResource ObjectToImageConverter}}" DisplayName="{x:Bind loginName}" />
                     </Viewbox>
                     <TextBlock Grid.Column="1" Text="{x:Bind loginName}" VerticalAlignment="Center" />
                 </Grid>
@@ -185,7 +185,7 @@
             </Grid>
 
             <muxc:NavigationView.PaneFooter>
-                <NavigationViewItem ContentTemplate="{StaticResource NavigationViewItemProfile}" Content="{x:Bind ViewModel.UserInfo}" />
+                <NavigationViewItem ContentTemplate="{StaticResource NavigationViewItemProfile}" Content="{x:Bind ViewModel.ViewModelArgs.UserInfo}" />
             </muxc:NavigationView.PaneFooter>
         </muxc:NavigationView>
 

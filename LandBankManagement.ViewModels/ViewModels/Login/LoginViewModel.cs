@@ -47,7 +47,7 @@ namespace LandBankManagement.ViewModels
             set { Set(ref _userName, value); }
         }
 
-        private string _password = "UserPassword";
+        private string _password = "";
         public string Password
         {
             get { return _password; }
@@ -72,6 +72,7 @@ namespace LandBankManagement.ViewModels
 
         public void Login()
         {
+            ShowProgressRing();
             if (IsLoginWithPassword)
             {
                 LoginWithPassword();
@@ -94,16 +95,13 @@ namespace LandBankManagement.ViewModels
             var result = ValidateInput();
             if (result.IsOk)
             {
-                if (await LoginService.SignInWithPasswordAsync(UserName, Password))
+                result = await LoginService.SignInWithPasswordAsync(UserName, Password);
+                if (result.IsOk)
                 {
-                    if (!LoginService.IsWindowsHelloEnabled(UserName))
-                    {
-                       // await LoginService.TrySetupWindowsHelloAsync(UserName);
-                    }
-
                     EnterApplication();
                     return;
                 }
+
             }
             await DialogService.ShowAsync(result.Message, result.Description);
             IsBusy = false;

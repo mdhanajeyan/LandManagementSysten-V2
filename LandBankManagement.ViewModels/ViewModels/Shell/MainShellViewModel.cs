@@ -102,6 +102,7 @@ namespace LandBankManagement.ViewModels
             await base.LoadAsync(args);
             _userInfo = args.UserInfo;
             SetMenuPermissions();
+            HideProgressRing();
         }
 
 

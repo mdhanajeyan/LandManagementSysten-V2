@@ -8,7 +8,7 @@ namespace LandBankManagement.Services
     {
         bool IsAuthenticated { get; set; }
 
-        Task<bool> SignInWithPasswordAsync(string userName, string password);
+        Task<Result> SignInWithPasswordAsync(string userName, string password);
 
         bool IsWindowsHelloEnabled(string userName);
         Task TrySetupWindowsHelloAsync(string userName);

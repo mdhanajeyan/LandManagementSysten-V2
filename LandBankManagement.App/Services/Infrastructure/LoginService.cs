@@ -45,7 +45,7 @@ namespace LandBankManagement.Services
             return false;
         }
 
-        public async Task<bool> SignInWithPasswordAsync(string userName, string password)
+        public async Task<Result> SignInWithPasswordAsync(string userName, string password)
         {
             var loginStatus = false;
             AppSettings.Current.UserName = null;
@@ -60,11 +60,13 @@ namespace LandBankManagement.Services
                     await EnrichUser(user.UserInfoId);
                     loginStatus = true;
                 }
-                catch (AccessDeniedException) { }
+                catch (AccessDeniedException) {
+                    return Result.Error("Login error", "Please, enter valid credentials.");
+                }
             }
 
             UpdateAuthenticationStatus(loginStatus);
-            return loginStatus;
+            return Result.Ok();
         }
 
         public async Task<Result> SignInWithWindowsHelloAsync()

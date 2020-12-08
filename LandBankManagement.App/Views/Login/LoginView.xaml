@@ -57,12 +57,23 @@
                                  Click="OnShowLoginWithPassword" Command="{x:Bind ViewModel.ShowLoginWithPasswordCommand}" />
                 <Border Grid.Row="1">
                     <Image Margin="24" 
-                           Source="ms-appx:///Assets/AppLogo.png" 
+                           Source="ms-appx:///Assets/Eminent-logo.png" 
                            Width="320" 
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Stretch="Uniform" />
                 </Border>
             </Grid>
         </Grid>
+        <ProgressRing x:Name="progressRing"
+                      Height="40"
+                      Width="40"
+                      IsActive="{x:Bind ViewModel.ProgressRingActive,Mode=TwoWay}"
+                      Foreground="Black"
+                      Canvas.Left="650"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Canvas.Top="550"  Visibility="{Binding Path=ProgressRingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}">
+
+        </ProgressRing>
     </Grid>
 </Page>

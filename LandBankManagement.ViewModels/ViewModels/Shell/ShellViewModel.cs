@@ -49,8 +49,6 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _isError, value);
         }
 
-        public UserInfoModel UserInfo { get; protected set; }
-
         public ShellArgs ViewModelArgs { get; protected set; }
 
         virtual public Task LoadAsync(ShellArgs args)
