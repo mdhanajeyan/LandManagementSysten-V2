@@ -16,33 +16,34 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xE7BA, "View Log", typeof(AppLogsViewModel)){IconColor = "Red"},
-                 new NavigationItem(0xE7EE, "Role", typeof(RoleViewModel)),
-                 new NavigationItem(0xE716, "User", typeof(UserViewModel))
+                new NavigationItem(0xf071, "View Log", typeof(AppLogsViewModel)){IconColor = "Red"},
+                 new NavigationItem(0xf044, "Role", typeof(RoleViewModel)),
+                 new NavigationItem(0xf2bb, "User", typeof(UserViewModel))
             }
         };
         private readonly NavigationItem ReportItem = new NavigationItem( "REPORT")
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                 new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
+                 new NavigationItem(0xf201, "Report", typeof(CompanyReportViewModel))
             }
         };
         private readonly NavigationItem SetupItem = new NavigationItem("SET-UP")
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xE9F9, "Comapny", typeof(CompanyViewModel)),
-                 new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel)),
-                 new NavigationItem(0xE716, "Party", typeof(PartyViewModel)),
-                 new NavigationItem(0xE825, "Bank", typeof(BankAccountViewModel)),
-                 new NavigationItem(0xF584, "Cash", typeof(CashAccountViewModel)),
-                 new NavigationItem(0xE912, "ExpenseHead", typeof(ExpenseHeadViewModel)),
-                 new NavigationItem(0xE759, "Taluk", typeof(TalukViewModel)),
-                 new NavigationItem(0xE802, "Hobli", typeof(HobliViewModel)),
-                 new NavigationItem(0xF156, "Village", typeof(VillageViewModel)),
-                 new NavigationItem(0xF0B5, "Property CheckList Master", typeof(CheckListViewModel)),
-                  new NavigationItem(0xF97C, "Property Type", typeof(PropertyTypeViewModel))
+               
+                new NavigationItem(0xf1ad, "Comapny", typeof(CompanyViewModel)),
+                 new NavigationItem(0xf21d, "Vendor", typeof(VendorViewModel)),
+                 new NavigationItem(0xf263, "Party", typeof(PartyViewModel)),
+                 new NavigationItem(0xf19c, "Bank", typeof(BankAccountViewModel)),
+                 new NavigationItem(0xf156, "Cash", typeof(CashAccountViewModel)),
+                 new NavigationItem(0xf19d, "ExpenseHead", typeof(ExpenseHeadViewModel)),
+                 new NavigationItem(0xf279, "Taluk", typeof(TalukViewModel)),
+                 new NavigationItem(0xf018, "Hobli", typeof(HobliViewModel)),
+                 new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel)),
+                 new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)),
+                 new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel))
             }
         };
 
@@ -50,27 +51,27 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xE8C7, "Payments", typeof(PaymentsViewModel)),
-                 new NavigationItem(0xE912, "Fund Transfer", typeof(FundTransferViewModel)),
-                 new NavigationItem(0xF5AD, "Receipts", typeof(ReceiptsViewModel))
+                new NavigationItem(0xf1ed, "Payments", typeof(PaymentsViewModel)),
+                 new NavigationItem(0xf101, "Fund Transfer", typeof(FundTransferViewModel)),
+                 new NavigationItem(0xf02d, "Receipts", typeof(ReceiptsViewModel))
             }
         };
 
       
 
-        private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel));
-        private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartyViewModel));
-        private readonly NavigationItem ExpenseHeadItem = new NavigationItem(0xE912, "ExpenseHead", typeof(ExpenseHeadViewModel));
-        private readonly NavigationItem TalukItem = new NavigationItem(0xE759, "Taluk", typeof(TalukViewModel));
-        private readonly NavigationItem HobliItem = new NavigationItem(0xE802, "Hobli", typeof(HobliViewModel));
-        private readonly NavigationItem VillageItem = new NavigationItem(0xF156, "Village", typeof(VillageViewModel));
+        private readonly NavigationItem VendorItem = new NavigationItem(0xf21d, "Vendor", typeof(VendorViewModel));
+        private readonly NavigationItem PartyItem = new NavigationItem(0xf263, "Party", typeof(PartyViewModel));
+        private readonly NavigationItem ExpenseHeadItem = new NavigationItem(0xf07c, "ExpenseHead", typeof(ExpenseHeadViewModel));
+        private readonly NavigationItem TalukItem = new NavigationItem(0xf279, "Taluk", typeof(TalukViewModel));
+        private readonly NavigationItem HobliItem = new NavigationItem(0xf018, "Hobli", typeof(HobliViewModel));
+        private readonly NavigationItem VillageItem = new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel));
         private readonly NavigationItem CashAccountItem = new NavigationItem(0xF584, "Cash Account", typeof(CashAccountViewModel));
         private readonly NavigationItem BankAccountItem = new NavigationItem(0xE825, "Bank Account", typeof(BankAccountViewModel));
         private readonly NavigationItem DocumentTypeItem = new NavigationItem(0xF8A5, "Document Type", typeof(DocumentTypeViewModel));
         private readonly NavigationItem CheckListItem = new NavigationItem(0xF0B5, "CheckList", typeof(CheckListViewModel));
-        private readonly NavigationItem PropertyTypeItem = new NavigationItem(0xF97C, "Property Type", typeof(PropertyTypeViewModel));
+        private readonly NavigationItem PropertyTypeItem = new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel));
 
-        private readonly NavigationItem PaymentsItem = new NavigationItem(0xE8C7, "Payments", typeof(PaymentsViewModel));
+        private readonly NavigationItem PaymentsItem = new NavigationItem(0xf4c0, "Payments", typeof(PaymentsViewModel));
         public MainShellViewModel(ILoginService loginService, ICommonServices commonServices) : base(loginService, commonServices)
         {
         }
