@@ -8,6 +8,7 @@ using LandBankManagement.Services;
 using LandBankManagement.ViewModels;
 using System.Threading.Tasks;
 using Windows.System;
+using LandBankManagement.Models;
 
 namespace LandBankManagement.Views.SplashScreen
 {
@@ -94,12 +95,12 @@ namespace LandBankManagement.Views.SplashScreen
             }
         }
 
-        private async Task<UserInfo> TryGetUserInfoAsync(IActivatedEventArgsWithUser argsWithUser)
+        private async Task<UserInfoModel> TryGetUserInfoAsync(IActivatedEventArgsWithUser argsWithUser)
         {
             if (argsWithUser != null)
             {
                 var user = argsWithUser.User;
-                var userInfo = new UserInfo
+                var userInfo = new UserInfoModel
                 {
                     UserName = await user.GetPropertyAsync(KnownUserProperties.AccountName) as String,
                     loginName = await user.GetPropertyAsync(KnownUserProperties.FirstName) as String

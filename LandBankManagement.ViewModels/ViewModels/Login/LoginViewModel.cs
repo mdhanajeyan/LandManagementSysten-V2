@@ -98,7 +98,7 @@ namespace LandBankManagement.ViewModels
                 {
                     if (!LoginService.IsWindowsHelloEnabled(UserName))
                     {
-                        await LoginService.TrySetupWindowsHelloAsync(UserName);
+                       // await LoginService.TrySetupWindowsHelloAsync(UserName);
                     }
 
                     EnterApplication();

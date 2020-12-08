@@ -43,6 +43,9 @@ namespace LandBankManagement
             serviceCollection.AddSingleton<IDropDownService, DropDownService>();
             serviceCollection.AddSingleton<IPaymentService, PaymentService>();
             serviceCollection.AddSingleton<IFundTransferService, FundTransferService>();
+            serviceCollection.AddSingleton<IUserService, UserService>();
+            serviceCollection.AddSingleton<IUserRoleService, UserRoleService>();
+
 
             serviceCollection.AddScoped<IContextService, ContextService>();
             serviceCollection.AddScoped<INavigationService, NavigationService>();

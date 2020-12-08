@@ -1,4 +1,5 @@
-﻿using LandBankManagement.Services;
+﻿using LandBankManagement.Models;
+using LandBankManagement.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace LandBankManagement.ViewModels
     {
         public Type ViewModel { get; set; }
         public object Parameter { get; set; }
-        public UserInfo UserInfo { get; set; }
+        public UserInfoModel UserInfo { get; set; }
     }
 
     public class ShellViewModel : ViewModelBase
@@ -48,7 +49,7 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _isError, value);
         }
 
-        public UserInfo UserInfo { get; protected set; }
+        public UserInfoModel UserInfo { get; protected set; }
 
         public ShellArgs ViewModelArgs { get; protected set; }
 

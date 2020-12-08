@@ -191,6 +191,7 @@ namespace LandBankManagement.Data.Services
         Task<int> DeleteUserInfoAsync(UserInfo model);
         UserInfo AuthenticateUser(string username, string password);
 
+        IList<RolePermission> GetRolePermisions(int roleId);
 
         Dictionary<int, string> GetExpenseHeadOptions();
         Dictionary<int, string> GetPartyOptions();

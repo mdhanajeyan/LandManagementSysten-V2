@@ -5,25 +5,31 @@ using Windows.Storage.Streams;
 using Windows.Security.Credentials;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
+using LandBankManagement.Data.Services;
+using LandBankManagement.Data;
+using System.Linq;
 
 namespace LandBankManagement.Services
 {
     public class LoginService : ILoginService
     {
-        public LoginService(IMessageService messageService, IDialogService dialogService, ILogService logService, IDataServiceFactory dataServiceFactory)
+        public LoginService(IMessageService messageService, IDialogService dialogService,
+            ILogService logService, IDataServiceFactory dataServiceFactory,
+            IUserService userService)
         {
             IsAuthenticated = false;
             MessageService = messageService;
             DialogService = dialogService;
             LogService = logService;
             DataServiceFactory = dataServiceFactory;
+            UserService = userService;
         }
 
         public IMessageService MessageService { get; }
         public IDialogService DialogService { get; }
         private ILogService LogService { get; }
         private IDataServiceFactory DataServiceFactory { get; }
-
+        private IUserService UserService { get; }
         public bool IsAuthenticated { get; set; }
 
         public bool IsWindowsHelloEnabled(string userName)
@@ -41,14 +47,17 @@ namespace LandBankManagement.Services
         public Task<bool> SignInWithPasswordAsync(string userName, string password)
         {
             var loginStatus = false;
-            
+            AppSettings.Current.UserName = null;
+            AppSettings.Current.UserInfoId = 0;
+            AppSettings.Current.UserInfo = null;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 try
                 {
                     var user = dataService.AuthenticateUser(userName, password);
                     AppSettings.Current.UserName = user.UserName;
-                    AppSettings.Current.UserId = user.UserInfoId;
+                    EnrichUser(user.UserInfoId);
+                    loginStatus = true;
                 }
                 catch (AccessDeniedException) { }
             }
@@ -176,6 +185,23 @@ namespace LandBankManagement.Services
                 }
             }
             return false;
+        }
+        private async void EnrichUser(long id)
+        {
+
+            var userInfoModel = await UserService.GetUserAsync(id);
+
+            var request = new DataRequest<UserRole> { Where = role => role.UserInfoId == userInfoModel.UserInfoId };
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var userRole =await dataService.GetUserRolesAsync(request);
+                var roleId = userRole.FirstOrDefault().RoleId;
+                userInfoModel.UserRoleId = roleId;
+                var permissions = dataService.GetRolePermisions(roleId).ToList();
+                userInfoModel.Permission = permissions;
+                AppSettings.Current.UserInfo = userInfoModel;
+                AppSettings.Current.UserInfoId = userInfoModel.UserInfoId;
+            }
         }
 
         static private Task<bool> RegisterPassportCredentialWithServerAsync(IBuffer publicKey)

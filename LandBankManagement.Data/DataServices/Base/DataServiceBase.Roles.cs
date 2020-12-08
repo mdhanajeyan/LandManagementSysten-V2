@@ -21,7 +21,7 @@ namespace LandBankManagement.Data.Services
                 CreatedBy = model.CreatedBy,
                 Updated = model.Updated,
                 UpdatedBy = model.UpdatedBy,
-        };
+            };
             _dataSource.Entry(entity).State = EntityState.Added;
             int res = await _dataSource.SaveChangesAsync();
             return res;
@@ -50,7 +50,7 @@ namespace LandBankManagement.Data.Services
                     CreatedBy = source.CreatedBy,
                     Updated = source.Updated,
                     UpdatedBy = source.UpdatedBy,
-        })
+                })
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -107,10 +107,10 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> UpdateRoleAsync(Role role)
         {
-          
+
             _dataSource.Entry(role).State = EntityState.Modified;
-        
-            
+
+
             int res = await _dataSource.SaveChangesAsync();
             return res;
         }
@@ -121,6 +121,9 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.SaveChangesAsync();
         }
 
-      
+        public IList<RolePermission> GetRolePermisions(int roleId)
+        {
+            return _dataSource.RolePermissions.Where(x => x.RoleInfoId == roleId).ToList();
+        }
     }
 }

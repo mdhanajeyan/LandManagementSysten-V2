@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-
+using LandBankManagement.Enums;
 using LandBankManagement.Models;
 
 
@@ -48,5 +48,7 @@ namespace LandBankManagement.ViewModels
             get => _badge;
             set => Set(ref _badge, value);
         }
+        public NavigationScreen Screen { get; set; } = NavigationScreen.Default;
+        public bool HasPermission { get; set; } = false;
     }
 }

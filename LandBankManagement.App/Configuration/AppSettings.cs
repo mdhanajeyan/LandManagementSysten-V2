@@ -1,4 +1,6 @@
-﻿using LandBankManagement.Services;
+﻿using LandBankManagement.Models;
+using LandBankManagement.Services;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -31,6 +33,7 @@ namespace LandBankManagement
         public DataProviderType DataProvider = DataProviderType.SQLServer;
 
         public ApplicationDataContainer LocalSettings => ApplicationData.Current.LocalSettings;
+        public ApplicationDataCompositeValue CompositeSettings => new ApplicationDataCompositeValue();
 
         public string Version
         {
@@ -47,10 +50,20 @@ namespace LandBankManagement
             set => LocalSettings.Values["UserName"] = value;
         }
 
-        public int UserId
+        public int UserInfoId
         {
-            get => GetSettingsValue("UserId", default(int));
-            set => LocalSettings.Values["UserId"] = value;
+            get => GetSettingsValue("UserInfoId", default(int));
+            set => LocalSettings.Values["UserInfoId"] = value;
+        }
+
+        public UserInfoModel UserInfo
+        {
+            get {
+                var jsonstring = GetSettingsValue("UserInfo", default(string));
+                var model = JsonConvert.DeserializeObject<UserInfoModel>(jsonstring);
+                return model;
+            }
+            set => LocalSettings.Values["UserInfo"] = JsonConvert.SerializeObject(value);
         }
 
         public string SQLServerConnectionString

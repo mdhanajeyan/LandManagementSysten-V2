@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LandBankManagement.Data;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LandBankManagement.Models
@@ -7,6 +9,7 @@ namespace LandBankManagement.Models
     {
         public static UserInfoModel CreateEmpty() => new UserInfoModel { UserInfoId = -1, IsEmpty = true };
         public int UserInfoId { get; set; }
+        public int UserRoleId { get; set; }
         public string UserName { get; set; }
         public string loginName { get; set; }
         public string UserPassword { get; set; }
@@ -18,6 +21,7 @@ namespace LandBankManagement.Models
         public string CreatedBy { get; set; }
         public DateTime Updated { get; set; }
         public string UpdatedBy { get; set; }
+        public List<RolePermission> Permission { get; set; }
 
         public override void Merge(ObservableObject source)
         {
@@ -32,7 +36,7 @@ namespace LandBankManagement.Models
             if (source != null)
             {
                 UserInfoId = source.UserInfoId;
-                UserName = source.UserName ;
+                UserName = source.UserName;
                 loginName = source.loginName;
                 UserPassword = source.UserPassword;
                 Email = source.Email;
