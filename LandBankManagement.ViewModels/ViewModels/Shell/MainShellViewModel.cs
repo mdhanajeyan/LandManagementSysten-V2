@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using LandBankManagement;
 
 namespace LandBankManagement.ViewModels
 {
@@ -91,7 +92,7 @@ namespace LandBankManagement.ViewModels
             get => _items;
             set => Set(ref _items, value);
         }
-
+       
         public override async Task LoadAsync(ShellArgs args)
         {
             Items = GetItems().ToArray();

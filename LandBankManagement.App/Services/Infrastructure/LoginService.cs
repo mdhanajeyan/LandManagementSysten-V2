@@ -8,6 +8,7 @@ using Windows.Security.Cryptography.Core;
 using LandBankManagement.Data.Services;
 using LandBankManagement.Data;
 using System.Linq;
+using LandBankManagement.Models;
 
 namespace LandBankManagement.Services
 {
@@ -31,7 +32,7 @@ namespace LandBankManagement.Services
         private IDataServiceFactory DataServiceFactory { get; }
         private IUserService UserService { get; }
         public bool IsAuthenticated { get; set; }
-
+        public UserInfoModel UserInfo { get; set; }
         public bool IsWindowsHelloEnabled(string userName)
         {
             if (!String.IsNullOrEmpty(userName))
@@ -44,7 +45,7 @@ namespace LandBankManagement.Services
             return false;
         }
 
-        public Task<bool> SignInWithPasswordAsync(string userName, string password)
+        public async Task<bool> SignInWithPasswordAsync(string userName, string password)
         {
             var loginStatus = false;
             AppSettings.Current.UserName = null;
@@ -56,14 +57,14 @@ namespace LandBankManagement.Services
                 {
                     var user = dataService.AuthenticateUser(userName, password);
                     AppSettings.Current.UserName = user.UserName;
-                    EnrichUser(user.UserInfoId);
+                    await EnrichUser(user.UserInfoId);
                     loginStatus = true;
                 }
                 catch (AccessDeniedException) { }
             }
 
             UpdateAuthenticationStatus(loginStatus);
-            return Task.FromResult(loginStatus);
+            return loginStatus;
         }
 
         public async Task<Result> SignInWithWindowsHelloAsync()
@@ -186,7 +187,7 @@ namespace LandBankManagement.Services
             }
             return false;
         }
-        private async void EnrichUser(long id)
+        private async Task EnrichUser(long id)
         {
 
             var userInfoModel = await UserService.GetUserAsync(id);
@@ -200,6 +201,7 @@ namespace LandBankManagement.Services
                 var permissions = dataService.GetRolePermisions(roleId).ToList();
                 userInfoModel.Permission = permissions;
                 AppSettings.Current.UserInfo = userInfoModel;
+                UserInfo = userInfoModel;
                 AppSettings.Current.UserInfoId = userInfoModel.UserInfoId;
             }
         }

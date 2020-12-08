@@ -124,6 +124,7 @@ namespace LandBankManagement.ViewModels
 
         private void EnterApplication()
         {
+            ViewModelArgs.UserInfo = LoginService.UserInfo;
             NavigationService.Navigate<MainShellViewModel>(ViewModelArgs);
         }
 

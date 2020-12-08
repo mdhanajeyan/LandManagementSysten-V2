@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LandBankManagement.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace LandBankManagement.Services
@@ -14,5 +15,7 @@ namespace LandBankManagement.Services
         Task<Result> SignInWithWindowsHelloAsync();
 
         void Logoff();
+
+        UserInfoModel UserInfo { get; set; }
     }
 }

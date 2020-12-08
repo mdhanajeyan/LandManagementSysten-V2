@@ -58,7 +58,7 @@ namespace LandBankManagement.ViewModels
             ViewModelArgs = args;
             if (ViewModelArgs != null)
             {
-                UserInfo = ViewModelArgs.UserInfo;
+                //UserInfo = ViewModelArgs.UserInfo;
                 NavigationService.Navigate(ViewModelArgs.ViewModel, ViewModelArgs.Parameter);
             }
             return Task.CompletedTask;
