@@ -16,44 +16,40 @@ namespace LandBankManagement.ViewModels
         private UserInfoModel _userInfo;
         private readonly NavigationItem DashboardItem = new NavigationItem(0xE80F, "Dashboard", typeof(DashboardViewModel));
 
-        private readonly NavigationItem AppLogsItem = new NavigationItem("Activity Logs")
-        {
-            Children = new ObservableCollection<NavigationItem>
-            {
-                new NavigationItem(0xE7BA, "View Log", typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs}
-            }
-        };
-        private readonly NavigationItem ReportItem = new NavigationItem("Report")
-        {
-            Children = new ObservableCollection<NavigationItem>
-            {
-                 new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
-            }
-        };
+       
+      
         private readonly NavigationItem SetupItem = new NavigationItem("Set-up", 0xF0AD)
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                 new NavigationItem(0xE9F9, "Comapny", typeof(CompanyViewModel)),
-                 new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel)),
-                 new NavigationItem(0xE716, "Party", typeof(PartyViewModel)),
-                 new NavigationItem(0xE825, "Bank", typeof(BankAccountViewModel)),
-                 new NavigationItem(0xF584, "Cash", typeof(CashAccountViewModel)),
-                 new NavigationItem(0xE912, "ExpenseHead", typeof(ExpenseHeadViewModel)),
-                 new NavigationItem(0xE759, "Taluk", typeof(TalukViewModel)),
-                 new NavigationItem(0xE802, "Hobli", typeof(HobliViewModel)),
-                 new NavigationItem(0xF156, "Village", typeof(VillageViewModel)),
-                 new NavigationItem(0xF0B5, "Property CheckList Master", typeof(CheckListViewModel)),
-                  new NavigationItem(0xF97C, "Property Type", typeof(PropertyTypeViewModel))
+                 new NavigationItem(0xf1ad, "Company", typeof(CompanyViewModel)),
+                 new NavigationItem(0xf21d, "Vendor", typeof(VendorViewModel)),
+                 new NavigationItem(0xf263, "Party", typeof(PartyViewModel)),
+                 new NavigationItem(0xf19c, "Bank", typeof(BankAccountViewModel)),
+                 new NavigationItem(0xf156, "Cash", typeof(CashAccountViewModel)),
+                 new NavigationItem(0xf19d, "ExpenseHead", typeof(ExpenseHeadViewModel)),
+                 new NavigationItem(0xf279, "Taluk", typeof(TalukViewModel)),
+                 new NavigationItem(0xf018, "Hobli", typeof(HobliViewModel)),
+                 new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel)),
+                 new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)),
+                 new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel))
             }
         };
 
-        private readonly NavigationItem PropertyItem = new NavigationItem("Property")
+        private readonly NavigationItem PropertyItem = new NavigationItem("Transaction", 0xf1ed) //todo change PropetyItem text to TransactionItem
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xE8C7, "Payments", typeof(PaymentsViewModel)),
-                 new NavigationItem(0xE912, "Fund Transfer", typeof(FundTransferViewModel))
+                new NavigationItem(0xf1ed, "Payments", typeof(PaymentsViewModel)),
+                 new NavigationItem(0xf101, "Fund Transfer", typeof(FundTransferViewModel))
+            }
+        };
+
+        private readonly NavigationItem ReportItem = new NavigationItem("Report", 0xf201)
+        {
+            Children = new ObservableCollection<NavigationItem>
+            {
+                //new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
             }
         };
 
@@ -61,7 +57,13 @@ namespace LandBankManagement.ViewModels
         {
 
         }
-
+        private readonly NavigationItem AppLogsItem = new NavigationItem("Activity Logs")
+        {
+            Children = new ObservableCollection<NavigationItem>
+            {
+                new NavigationItem(0xE7BA, "View Log", typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs}
+            }
+        };
         private void SetMenuPermissions()
         {
             AppLogsItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
