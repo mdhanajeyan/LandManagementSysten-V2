@@ -34,6 +34,26 @@ namespace LandBankManagement.ViewModels
             get => _talukOptions;
             set => Set(ref _talukOptions, value);
         }
+        private ObservableCollection<ComboBoxOptions> _hobliOptions = null;
+        public ObservableCollection<ComboBoxOptions> HobliOptions
+        {
+            get => _hobliOptions;
+            set => Set(ref _hobliOptions, value);
+        }
+
+        private ObservableCollection<ComboBoxOptions> _villageOptions = null;
+        public ObservableCollection<ComboBoxOptions> VillageOptions
+        {
+            get => _villageOptions;
+            set => Set(ref _villageOptions, value);
+        }
+
+        private ObservableCollection<ComboBoxOptions> _propertyTypeOptions = null;
+        public ObservableCollection<ComboBoxOptions> PropertyTypeOptions
+        {
+            get => _propertyTypeOptions;
+            set => Set(ref _propertyTypeOptions, value);
+        }
 
         private ObservableCollection<ComboBoxOptions> _partyOptions = null;
         public ObservableCollection<ComboBoxOptions> PartyOptions
@@ -41,6 +61,21 @@ namespace LandBankManagement.ViewModels
             get => _partyOptions;
             set => Set(ref _partyOptions, value);
         }
+
+        private ObservableCollection<ComboBoxOptions> _addedParty = null;
+        public ObservableCollection<ComboBoxOptions> PartyList
+        {
+            get => _addedParty;
+            set => Set(ref _addedParty, value);
+        }
+
+
+        public string _partySearchQuery = null;
+        public string PartySearchQuery {
+            get => _partySearchQuery;
+            set => Set(ref _partySearchQuery, value);
+        }
+
         public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel villageListViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -64,11 +99,30 @@ namespace LandBankManagement.ViewModels
         }
         private void GetDropdowns()
         {
-            PartyOptions = DropDownService.GetPartyOptions();
             CompanyOptions = DropDownService.GetCompanyOptions();
             // DealOptions = DropDownService.GetDealOptions();
         }
 
+        public void GetParties() {
+
+            PartyOptions = DropDownService.GetPartyOptions(PartySearchQuery);
+        }
+
+        public void PreparePartyList() {
+
+            foreach (var item in PartyOptions) {
+                if (item.IsSelected) {
+                    if (PartyList == null)
+                        PartyList = new ObservableCollection<ComboBoxOptions>();
+                    PartyList.Add(item);
+                }
+            }
+        }
+
+        public void RemoveParty(int id) {
+            var inx = PartyList.First(x => x.Id == id);
+            PartyList.Remove(inx);
+        }
 
         public void Subscribe()
         {

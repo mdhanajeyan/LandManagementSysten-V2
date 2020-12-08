@@ -62,13 +62,16 @@ namespace LandBankManagement.Views
 
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ViewModel.ShowProgressRing();
+          
             var index = ((Pivot)sender).SelectedIndex;
-            if (index == 1) {
+            if (index == 0) {
+                ViewModel.ShowProgressRing();
                 await ViewModel.CompanyList.LoadAsync(new CompanyListArgs { IsEmpty = false });
+              
                await ViewModel.CompanyList.RefreshAsync();
+                ViewModel.HideProgressRing();
             }
-            ViewModel.HideProgressRing();
+          
         }
     }
 }

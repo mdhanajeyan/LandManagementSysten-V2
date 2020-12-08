@@ -46,7 +46,7 @@ namespace LandBankManagement.ViewModels
             }
         };
 
-        private readonly NavigationItem PropertyItem = new NavigationItem( "TRANSACTIONS")
+        private readonly NavigationItem TransactionItem = new NavigationItem( "TRANSACTIONS")
         {
             Children = new ObservableCollection<NavigationItem>
             {
@@ -56,7 +56,16 @@ namespace LandBankManagement.ViewModels
             }
         };
 
-      
+        private readonly NavigationItem PropertyItem = new NavigationItem("PROPERTY")
+        {
+            Children = new ObservableCollection<NavigationItem>
+            {
+                new NavigationItem(0xE8C7, "Property", typeof(PropertyViewModel))
+                
+            }
+        };
+
+
 
         private readonly NavigationItem VendorItem = new NavigationItem(0xE731, "Vendor", typeof(VendorViewModel));
         private readonly NavigationItem PartyItem = new NavigationItem(0xE716, "Party", typeof(PartyViewModel));
@@ -173,6 +182,9 @@ namespace LandBankManagement.ViewModels
                 case "UserViewModel":
                     NavigationService.Navigate(viewModel, new UserListArgs());
                     break;
+                case "PropertyViewModel":
+                    NavigationService.Navigate(viewModel, new PropertyListArgs());
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -181,7 +193,8 @@ namespace LandBankManagement.ViewModels
         private IEnumerable<NavigationItem> GetItems()
         {
             yield return SetupItem;
-            yield return PropertyItem;
+           // yield return PropertyItem;
+            yield return TransactionItem;
             yield return ReportItem;
             yield return AppLogsItem;
             //yield return AppLogsItem;

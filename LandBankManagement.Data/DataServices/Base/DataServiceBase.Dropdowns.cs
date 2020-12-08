@@ -72,5 +72,10 @@ namespace LandBankManagement.Data.Services
             list.Add(2, "Female");
             return list;
         }
+
+        public Dictionary<int, string> GetPartyOptions(string party)
+        {
+            return _dataSource.Parties.Where(x=>x.PartyFirstName.Contains(party)).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionary(t => t.PartyId, t => t.PartyFirstName);
+        }
     }
 }

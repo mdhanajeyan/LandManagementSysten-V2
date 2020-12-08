@@ -11,6 +11,8 @@ namespace LandBankManagement.Data
     {
         [Key]
         public int PropertyId { get; set; }
+
+        public int CompanyID { get; set; }
         public Guid PropertyGuid { get; set; }
         public string PropertyName { get; set; }
         public int PartyId { get; set; }
