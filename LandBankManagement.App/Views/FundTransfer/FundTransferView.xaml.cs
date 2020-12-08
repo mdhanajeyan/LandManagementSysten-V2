@@ -61,7 +61,7 @@ namespace LandBankManagement.Views
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var index = ((Pivot)sender).SelectedIndex;
-            if (index == 1)
+            if (index == 0)
             {
                 await ViewModel.FundTransferList.LoadAsync(new FundTransferListArgs { IsEmpty = false });
                 await ViewModel.FundTransferList.RefreshAsync();

@@ -69,23 +69,21 @@ namespace LandBankManagement.ViewModels
         }
 
         public async Task RefreshAsync()
-        { 
+        {
+            ShowProgressRing();
+            await Task.Yield();
             Items = null;
             ItemsCount = 0;
             SelectedItem = null;
             try
-            {
-                ShowProgressRing();
+            {             
                 
-                StartStatusMessage("Loading Company...");
-               
-                Items = await GetItemsAsync();
-                HideProgressRing();
+                StartStatusMessage("Loading Company...");               
+                Items = await GetItemsAsync();            
                 EndStatusMessage("Company loaded");
             }
             catch (Exception ex)
-            {
-                HideProgressRing();
+            {           
                 Items = new List<CompanyModel>();
                 StatusError($"Error loading Company: {ex.Message}");
                 LogException("Company", "Refresh", ex);              
@@ -96,7 +94,8 @@ namespace LandBankManagement.ViewModels
             {
                 //  SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
             }
-            NotifyPropertyChanged(nameof(Title));           
+            NotifyPropertyChanged(nameof(Title));
+            HideProgressRing();
         }
 
         private async Task<IList<CompanyModel>> GetItemsAsync()

@@ -210,7 +210,8 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetCashOptions();
         Dictionary<int, string> GetBankOptions();
         Dictionary<int, string> GetVendorOptions();
-Dictionary<int, string> GetReportingToOptions();
+        Dictionary<int, string> GetReportingToOptions();
         Dictionary<int, string> GetGenderOptions();
+        Dictionary<int, string> GetPartyOptions(string party);
     }
 }

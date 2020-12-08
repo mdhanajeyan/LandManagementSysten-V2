@@ -281,5 +281,23 @@ namespace LandBankManagement.Services
                 return list;
             }
         }
+
+        public ObservableCollection<ComboBoxOptions> GetPartyOptions(string party) {
+
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = dataService.GetPartyOptions(party);
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                return list;
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace LandBankManagement.Models
     {
         static public PropertyModel CreateEmpty() => new PropertyModel { PropertyId = -1, IsEmpty = true };
         public int PropertyId { get; set; }
+        public int CompanyID { get; set; }
         public Guid PropertyGuid { get; set; }
         public string PropertyName { get; set; }
         public int PartyId { get; set; }
