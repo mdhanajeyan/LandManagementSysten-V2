@@ -94,16 +94,13 @@ namespace LandBankManagement.ViewModels
             var result = ValidateInput();
             if (result.IsOk)
             {
-                if (await LoginService.SignInWithPasswordAsync(UserName, Password))
+                result = await LoginService.SignInWithPasswordAsync(UserName, Password);
+                if (result.IsOk)
                 {
-                    if (!LoginService.IsWindowsHelloEnabled(UserName))
-                    {
-                       // await LoginService.TrySetupWindowsHelloAsync(UserName);
-                    }
-
                     EnterApplication();
                     return;
                 }
+
             }
             await DialogService.ShowAsync(result.Message, result.Description);
             IsBusy = false;

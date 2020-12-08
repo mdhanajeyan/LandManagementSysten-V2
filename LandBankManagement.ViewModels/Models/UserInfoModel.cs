@@ -22,7 +22,7 @@ namespace LandBankManagement.Models
         public DateTime Updated { get; set; }
         public string UpdatedBy { get; set; }
         public List<RolePermission> Permission { get; set; }
-
+        public object PictureSource { get; set; }
         public override void Merge(ObservableObject source)
         {
             if (source is UserInfoModel model)
@@ -47,6 +47,7 @@ namespace LandBankManagement.Models
                 CreatedBy = source.CreatedBy;
                 Updated = source.Updated;
                 UpdatedBy = source.UpdatedBy;
+                PictureSource = source.PictureSource;
             }
         }
 
