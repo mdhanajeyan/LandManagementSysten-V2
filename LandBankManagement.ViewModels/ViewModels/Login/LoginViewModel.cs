@@ -47,7 +47,7 @@ namespace LandBankManagement.ViewModels
             set { Set(ref _userName, value); }
         }
 
-        private string _password = "UserPassword";
+        private string _password = "";
         public string Password
         {
             get { return _password; }
@@ -72,6 +72,7 @@ namespace LandBankManagement.ViewModels
 
         public void Login()
         {
+            ShowProgressRing();
             if (IsLoginWithPassword)
             {
                 LoginWithPassword();
