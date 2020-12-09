@@ -48,15 +48,17 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                //new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
+                 new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
             }
         };
 
-        private readonly NavigationItem AdminItem = new NavigationItem("Admin")
+        private readonly NavigationItem AdminItem = new NavigationItem("Admin", 0xf170)
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xf243, "View Log", typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs}
+                new NavigationItem(0xf243, "View Log", typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs},
+                new NavigationItem(0xf044, "Role", typeof(RoleViewModel)){Screen=NavigationScreen.Role},
+                new NavigationItem(0xf2bb, "User", typeof(UserViewModel)){Screen=NavigationScreen.UserInfo},
             }
         };
 
@@ -164,6 +166,18 @@ namespace LandBankManagement.ViewModels
                     break;
                 case "FundTransferViewModel":
                     NavigationService.Navigate(viewModel, new FundTransferListArgs());
+                    break;
+                case "ReceiptsViewModel":
+                    NavigationService.Navigate(viewModel, new ReceiptsListArgs());
+                    break;
+                case "RoleViewModel":
+                    NavigationService.Navigate(viewModel, new RoleListArgs());
+                    break;
+                case "UserViewModel":
+                    NavigationService.Navigate(viewModel, new UserListArgs());
+                    break;
+                case "PropertyViewModel":
+                    NavigationService.Navigate(viewModel, new PropertyListArgs());
                     break;
                 default:
                     throw new NotImplementedException();
