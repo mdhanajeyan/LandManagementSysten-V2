@@ -30,7 +30,7 @@ namespace LandBankManagement.Services
                 {
                     UpdateHobliFromModel(hobli, model);
                     hobli.HobliGuid = Guid.NewGuid();
-                    await dataService.AddHobliAsync(hobli);
+                    hobli.HobliId = await dataService.AddHobliAsync(hobli);
                     model.Merge(await GetHobliAsync(dataService, hobli.HobliId));
                 }
                 return model;
@@ -128,12 +128,13 @@ namespace LandBankManagement.Services
 
         private void UpdateHobliFromModel(Hobli target, HobliModel source)
         {
+            target.HobliId = source.HobliId;
             target.HobliGuid = source.HobliGuid;
             target.HobliName = source.HobliName;
             target.HobliGMapLink = source.HobliGMapLink;
             target.HobliIsActive = source.HobliIsActive;
             target.TalukId = source.TalukId;
-            target.HobliId = source.HobliId;
+            target.TalukName = source.TalukName;
         }
        
     }

@@ -128,13 +128,15 @@ namespace LandBankManagement.Services
 
         private void UpdateVillageFromModel(Village target, VillageModel source)
         {
+            target.VillageId = source.VillageId;
             target.VillageGuid = source.VillageGuid;
             target.TalukId = source.TalukId;
             target.HobliId = source.HobliId;
             target.VillageName = source.VillageName;
             target.VillageGMapLink = source.VillageGMapLink;
             target.VillageIsActive = source.VillageIsActive;
-            target.VillageId = source.VillageId;
+            target.TalukName = source.TalukName;
+            target.HobliName = source.HobliName;
         }
 
         

@@ -160,6 +160,7 @@ namespace LandBankManagement.Services
             target.BankAccountId = source.BankAccountId;
             target.CashAccountId = source.CashAccountId;
             target.PDC = source.PDC;
+            target.AccountName = source.AccountName;
         }
     }
 }
