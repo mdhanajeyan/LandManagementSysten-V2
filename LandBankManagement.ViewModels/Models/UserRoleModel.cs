@@ -9,11 +9,12 @@ namespace LandBankManagement.Models
         public int UserRoleId { get; set; }
         public int UserInfoId { get; set; }
         public int RoleId { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime Updated { get; set; }
+        public DateTime? Updated { get; set; }
         public string UpdatedBy { get; set; }
-
+        public string Name { get; set; }
+        public bool IsSelected { get; set; }
         public bool IsNew => UserRoleId <= 0;
 
         public override void Merge(ObservableObject source)
@@ -35,6 +36,8 @@ namespace LandBankManagement.Models
                 CreatedBy = source.CreatedBy;
                 Updated = source.Updated;
                 UpdatedBy = source.UpdatedBy;
+                IsSelected = source.IsSelected;
+                Name = source.Name;
             }
         }
     }

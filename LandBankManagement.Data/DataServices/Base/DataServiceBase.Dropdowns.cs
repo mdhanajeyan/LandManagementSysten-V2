@@ -57,5 +57,26 @@ namespace LandBankManagement.Data.Services
         {
             return _dataSource.Vendors.Select(x => new { x.VendorId, x.VendorName }).ToDictionary(t => t.VendorId, t => t.VendorName);
         }
+
+
+        public Dictionary<int, string> GetReportingToOptions()
+        {
+            Dictionary<int, string> list = new Dictionary<int, string>();
+            list.Add(1, "Managers");
+            list.Add(2, "Groups");
+            return list;
+        }
+        public Dictionary<int, string> GetGenderOptions()
+        {
+            Dictionary<int, string> list = new Dictionary<int, string>();
+            list.Add(1, "Male");
+            list.Add(2, "Female");
+            return list;
+        }
+
+        public Dictionary<int, string> GetPartyOptions(string party)
+        {
+            return _dataSource.Parties.Where(x => x.PartyFirstName.Contains(party)).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionary(t => t.PartyId, t => t.PartyFirstName);
+        }
     }
 }

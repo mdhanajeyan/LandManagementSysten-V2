@@ -29,17 +29,6 @@
             <PivotItem >
                 <PivotItem.Header>
                     <PivotHeaderItem  >
-                        <TextBlock Text="Party Details" FontWeight="Bold"  FontSize="17"></TextBlock>
-                    </PivotHeaderItem>
-                </PivotItem.Header>
-                <Grid>
-                    <views:PartyDetails ViewModel="{x:Bind ViewModel.PartyDetails}"/>
-
-                </Grid>
-            </PivotItem>
-            <PivotItem >
-                <PivotItem.Header>
-                    <PivotHeaderItem  >
                         <TextBlock Text="Party List" FontWeight="Bold" FontSize="17" ></TextBlock>
                     </PivotHeaderItem>
                 </PivotItem.Header>
@@ -53,6 +42,18 @@
                     </controls:Section>
                 </Grid>
             </PivotItem>
+            <PivotItem >
+                <PivotItem.Header>
+                    <PivotHeaderItem  >
+                        <TextBlock Text="Party Details" FontWeight="Bold"  FontSize="17"></TextBlock>
+                    </PivotHeaderItem>
+                </PivotItem.Header>
+                <Grid>
+                    <views:PartyDetails ViewModel="{x:Bind ViewModel.PartyDetails}"/>
+
+                </Grid>
+            </PivotItem>
+           
         </Pivot>
        
         <!--<Grid>

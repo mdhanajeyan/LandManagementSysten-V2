@@ -29,18 +29,26 @@ namespace LandBankManagement.Data.Services
                 PropertyTypeId = model.PropertyTypeId,
                 SurveyNo = model.SurveyNo,
                 PropertyGMapLink = model.PropertyGMapLink,
+                LandAreaInputAcres = model.LandAreaInputAcres,
+                LandAreaInputGuntas = model.LandAreaInputGuntas,
                 LandAreaInAcres = model.LandAreaInAcres,
                 LandAreaInGuntas = model.LandAreaInGuntas,
                 LandAreaInSqMts = model.LandAreaInSqMts,
                 LandAreaInSqft = model.LandAreaInSqft,
+                AKarabAreaInputAcres = model.AKarabAreaInputAcres,
+                AKarabAreaInputGuntas = model.AKarabAreaInputGuntas,
                 AKarabAreaInAcres = model.AKarabAreaInAcres,
                 AKarabAreaInGuntas = model.AKarabAreaInGuntas,
                 AKarabAreaInSqMts = model.AKarabAreaInSqMts,
                 AKarabAreaInSqft = model.AKarabAreaInSqft,
+                BKarabAreaInputAcres = model.BKarabAreaInputAcres,
+                BKarabAreaInputGuntas = model.BKarabAreaInputGuntas,
                 BKarabAreaInAcres = model.BKarabAreaInAcres,
                 BKarabAreaInGuntas = model.BKarabAreaInGuntas,
                 BKarabAreaInSqMts = model.BKarabAreaInSqMts,
                 BKarabAreaInSqft = model.BKarabAreaInSqft,
+                SaleValue1 = model.SaleValue1,
+                SaleValue2 = model.SaleValue2
             };
             _dataSource.Entry(entity).State = EntityState.Added;
             int res = await _dataSource.SaveChangesAsync();
@@ -107,18 +115,26 @@ namespace LandBankManagement.Data.Services
                     PropertyTypeId = source.PropertyTypeId,
                     SurveyNo = source.SurveyNo,
                     PropertyGMapLink = source.PropertyGMapLink,
+                    LandAreaInputAcres = source.LandAreaInputAcres,
+                    LandAreaInputGuntas = source.LandAreaInputGuntas,
                     LandAreaInAcres = source.LandAreaInAcres,
                     LandAreaInGuntas = source.LandAreaInGuntas,
                     LandAreaInSqMts = source.LandAreaInSqMts,
                     LandAreaInSqft = source.LandAreaInSqft,
+                    AKarabAreaInputAcres = source.AKarabAreaInputAcres,
+                    AKarabAreaInputGuntas = source.AKarabAreaInputGuntas,
                     AKarabAreaInAcres = source.AKarabAreaInAcres,
                     AKarabAreaInGuntas = source.AKarabAreaInGuntas,
                     AKarabAreaInSqMts = source.AKarabAreaInSqMts,
                     AKarabAreaInSqft = source.AKarabAreaInSqft,
+                    BKarabAreaInputAcres = source.BKarabAreaInputAcres,
+                    BKarabAreaInputGuntas = source.BKarabAreaInputGuntas,
                     BKarabAreaInAcres = source.BKarabAreaInAcres,
                     BKarabAreaInGuntas = source.BKarabAreaInGuntas,
                     BKarabAreaInSqMts = source.BKarabAreaInSqMts,
                     BKarabAreaInSqft = source.BKarabAreaInSqft,
+                    SaleValue1 = source.SaleValue1,
+                    SaleValue2 = source.SaleValue2
                 })
                 .AsNoTracking()
                 .ToListAsync();

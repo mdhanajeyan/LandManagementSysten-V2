@@ -125,5 +125,23 @@ namespace LandBankManagement.Data.Services
         {
             return _dataSource.RolePermissions.Where(x => x.RoleInfoId == roleId).ToList();
         }
+
+        public async Task<IList<Role>> GetRolesAsync()
+        {
+            var records = await _dataSource.Roles
+                .Select(source => new Role
+                {
+                    RoleId = source.RoleId,
+                    Name = source.Name,
+                    Created = source.Created,
+                    CreatedBy = source.CreatedBy,
+                    Updated = source.Updated,
+                    UpdatedBy = source.UpdatedBy,
+                })
+                .AsNoTracking()
+                .ToListAsync();
+
+            return records;
+        }
     }
 }

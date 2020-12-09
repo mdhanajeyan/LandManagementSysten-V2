@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace LandBankManagement.Models
 {
     public class PropertyModel : ObservableObject
     {
         static public PropertyModel CreateEmpty() => new PropertyModel { PropertyId = -1, IsEmpty = true };
-        [Key]
         public int PropertyId { get; set; }
+        public int CompanyID { get; set; }
         public Guid PropertyGuid { get; set; }
         public string PropertyName { get; set; }
         public int PartyId { get; set; }
@@ -22,19 +20,26 @@ namespace LandBankManagement.Models
         public int PropertyTypeId { get; set; }
         public string SurveyNo { get; set; }
         public string PropertyGMapLink { get; set; }
+        public decimal LandAreaInputAcres { get; set; }
+        public decimal LandAreaInputGuntas { get; set; }
         public decimal LandAreaInAcres { get; set; }
         public decimal LandAreaInGuntas { get; set; }
         public decimal LandAreaInSqMts { get; set; }
         public decimal LandAreaInSqft { get; set; }
+        public decimal AKarabAreaInputAcres { get; set; }
+        public decimal AKarabAreaInputGuntas { get; set; }
         public decimal AKarabAreaInAcres { get; set; }
         public decimal AKarabAreaInGuntas { get; set; }
         public decimal AKarabAreaInSqMts { get; set; }
         public decimal AKarabAreaInSqft { get; set; }
+        public decimal BKarabAreaInputAcres { get; set; }
+        public decimal BKarabAreaInputGuntas { get; set; }
         public decimal BKarabAreaInAcres { get; set; }
         public decimal BKarabAreaInGuntas { get; set; }
         public decimal BKarabAreaInSqMts { get; set; }
         public decimal BKarabAreaInSqft { get; set; }
-
+        public decimal SaleValue1 { get; set; }
+        public decimal SaleValue2 { get; set; }
         public bool IsNew => PropertyId <= 0;
 
 
@@ -63,18 +68,26 @@ namespace LandBankManagement.Models
                 PropertyTypeId = source.PropertyTypeId;
                 SurveyNo = source.SurveyNo;
                 PropertyGMapLink = source.PropertyGMapLink;
+                LandAreaInputAcres = source.LandAreaInputAcres;
+                LandAreaInputGuntas = source.LandAreaInputGuntas;
                 LandAreaInAcres = source.LandAreaInAcres;
                 LandAreaInGuntas = source.LandAreaInGuntas;
                 LandAreaInSqMts = source.LandAreaInSqMts;
                 LandAreaInSqft = source.LandAreaInSqft;
+                AKarabAreaInputAcres = source.AKarabAreaInputAcres;
+                AKarabAreaInputGuntas = source.AKarabAreaInputGuntas;
                 AKarabAreaInAcres = source.AKarabAreaInAcres;
                 AKarabAreaInGuntas = source.AKarabAreaInGuntas;
                 AKarabAreaInSqMts = source.AKarabAreaInSqMts;
                 AKarabAreaInSqft = source.AKarabAreaInSqft;
+                BKarabAreaInputAcres = source.BKarabAreaInputAcres;
+                BKarabAreaInputGuntas = source.BKarabAreaInputGuntas;
                 BKarabAreaInAcres = source.BKarabAreaInAcres;
                 BKarabAreaInGuntas = source.BKarabAreaInGuntas;
                 BKarabAreaInSqMts = source.BKarabAreaInSqMts;
                 BKarabAreaInSqft = source.BKarabAreaInSqft;
+                SaleValue1 = source.SaleValue1;
+                SaleValue2 = source.SaleValue2;
             }
         }
 

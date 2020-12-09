@@ -13,25 +13,30 @@ namespace LandBankManagement.Data.Services
         {
             if (model == null)
                 return 0;
-
-            var entity = new UserInfo()
+            try
             {
-                UserName = model.UserName,
-                loginName = model.loginName,
-                UserPassword = model.UserPassword,
-                Email = model.Email,
-                MobileNo = model.MobileNo,
-                IsActive = model.IsActive,
-                IsAdmin = model.IsAdmin,
-                Created = model.Created,
-                CreatedBy = model.CreatedBy,
-                Updated = model.Updated,
-                UpdatedBy = model.UpdatedBy,
+                var entity = new UserInfo()
+                {
+                    UserName = model.UserName,
+                    loginName = model.loginName,
+                    UserPassword = model.UserPassword,
+                    Email = model.Email,
+                    MobileNo = model.MobileNo,
+                    IsActive = model.IsActive,
+                    IsAdmin = model.IsAdmin,
+                    Created = DateTime.Now,
+                    CreatedBy = model.CreatedBy,
+                    Updated = DateTime.Now,
+                    UpdatedBy = model.UpdatedBy,
 
-            };
-            _dataSource.Entry(entity).State = EntityState.Added;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+                };
+                _dataSource.Entry(entity).State = EntityState.Added;
+                int res = await _dataSource.SaveChangesAsync();
+                return entity.UserInfoId;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<UserInfo> GetUserInfoAsync(long id)

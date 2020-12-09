@@ -174,6 +174,10 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateUserRoleAsync(UserRole model);
         Task<int> DeleteUserRoleAsync(UserRole model);
 
+        Task<IList<UserRole>> GetUserRolesForUserAsync(int userId);
+        Task<int> AddUserRoleForUserAsync(List<UserRole> model, int userId);
+
+
         Task<int> AddRoleAsync(Role model);
         Task<Role> GetRoleAsync(long id);
         Task<IList<Role>> GetRolesAsync(DataRequest<Role> request);
@@ -181,6 +185,7 @@ namespace LandBankManagement.Data.Services
         Task<int> GetRolesCountAsync(DataRequest<Role> request);
         Task<int> UpdateRoleAsync(Role model);
         Task<int> DeleteRoleAsync(Role model);
+        Task<IList<Role>> GetRolesAsync();
 
         Task<int> AddUserInfoAsync(UserInfo model);
         Task<UserInfo> GetUserInfoAsync(long id);
@@ -193,6 +198,15 @@ namespace LandBankManagement.Data.Services
 
         IList<RolePermission> GetRolePermisions(int roleId);
 
+        Task<int> AddRolePermissionAsync(RolePermission model);
+        Task<RolePermission> GetRolePermissionAsync(long id);
+        Task<IList<RolePermission>> GetRolePermissionsAsync(DataRequest<RolePermission> request);
+        Task<IList<RolePermission>> GetRolePermissionsAsync(int skip, int take, DataRequest<RolePermission> request);
+        Task<int> GetRolePermissionsCountAsync(DataRequest<RolePermission> request);
+        Task<int> UpdateRolePermissionAsync(RolePermission model);
+        Task<int> DeleteRolePermissionAsync(RolePermission model);
+
+
         Dictionary<int, string> GetExpenseHeadOptions();
         Dictionary<int, string> GetPartyOptions();
         Dictionary<int, string> GetDocumentTypeOptions();
@@ -200,5 +214,9 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetCashOptions();
         Dictionary<int, string> GetBankOptions();
         Dictionary<int, string> GetVendorOptions();
+        Dictionary<int, string> GetReportingToOptions();
+        Dictionary<int, string> GetGenderOptions();
+        Dictionary<int, string> GetPartyOptions(string party);
+
     }
 }

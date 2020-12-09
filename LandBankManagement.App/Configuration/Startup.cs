@@ -73,6 +73,10 @@ namespace LandBankManagement
             NavigationService.Register<BankAccountViewModel, BankAccountView>();
             NavigationService.Register<PaymentsViewModel, PaymentView>();
             NavigationService.Register<FundTransferViewModel, FundTransferView>();
+            NavigationService.Register<ReceiptsViewModel, ReceiptsView>();
+            NavigationService.Register<RoleViewModel, RoleView>();
+            NavigationService.Register<UserViewModel, UserView>();
+            NavigationService.Register<PropertyViewModel, PropertyView>();
         }
        
         static private async Task EnsureLogDbAsync()

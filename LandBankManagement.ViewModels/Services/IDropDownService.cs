@@ -20,5 +20,8 @@ namespace LandBankManagement.Services
         ObservableCollection<ComboBoxOptions> GetCashOptions();
         ObservableCollection<ComboBoxOptions> GetBankOptions();
         ObservableCollection<ComboBoxOptions> GetVendorOptions();
+        ObservableCollection<ComboBoxOptions> GetReportingToOptions();
+        ObservableCollection<ComboBoxOptions> GetGenderOptions();
+        ObservableCollection<ComboBoxOptions> GetPartyOptions(string party);
     }
 }

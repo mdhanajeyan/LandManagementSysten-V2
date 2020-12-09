@@ -15,7 +15,7 @@
                     <ColumnDefinition Width="50*"/>
                     <!--<ColumnDefinition Width="45*"/>-->
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Description" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="0" Text="Description*" Style="{StaticResource ColumnHeaderStyle}" />
                 <!--<TextBlock Grid.Column="1" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />-->
 
             </Grid>
