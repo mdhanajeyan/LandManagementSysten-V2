@@ -128,6 +128,7 @@ namespace LandBankManagement.Services
 
         private void UpdateTalukFromModel(Taluk target, TalukModel source)
         {
+            target.TalukId = source.TalukId;
             target.TalukGuid = source.TalukGuid;
             target.TalukName = source.TalukName;
             target.TalukGMapLink = source.TalukGMapLink;

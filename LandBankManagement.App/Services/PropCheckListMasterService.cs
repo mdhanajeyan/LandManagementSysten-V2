@@ -28,7 +28,7 @@ namespace LandBankManagement.Services
                 {
                     UpdatePropCheckListMasterFromModel(propCheckListMaster, model);
                     propCheckListMaster.PropCheckListMasterGuid = Guid.NewGuid();
-                    await dataService.AddPropCheckListMasterAsync(propCheckListMaster);
+                    propCheckListMaster.PropCheckListMasterId = await dataService.AddPropCheckListMasterAsync(propCheckListMaster);
                     model.Merge(await GetPropCheckListMasterAsync(dataService, propCheckListMaster.PropCheckListMasterId));
                 }
                 return 0;

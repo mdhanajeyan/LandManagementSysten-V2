@@ -33,7 +33,7 @@ namespace LandBankManagement.Services
                 {
                     UpdatePropertyTypeFromModel(propertyType, model);
                     propertyType.PropertyTypeGuid = Guid.NewGuid();
-                    await dataService.AddPropertyTypeAsync(propertyType);
+                    propertyType.PropertyTypeId = await dataService.AddPropertyTypeAsync(propertyType);
                     model.Merge(await GetPropertyTypeAsync(dataService, propertyType.PropertyTypeId));
                 }
                 return model;
