@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using LandBankManagement;
 
 namespace LandBankManagement.ViewModels
 {
@@ -16,32 +15,32 @@ namespace LandBankManagement.ViewModels
         private UserInfoModel _userInfo;
         private readonly NavigationItem DashboardItem = new NavigationItem(0xE80F, "Dashboard", typeof(DashboardViewModel));
 
-       
-      
+
+
         private readonly NavigationItem SetupItem = new NavigationItem("Set-up", 0xF0AD)
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                 new NavigationItem(0xf1ad, "Company", typeof(CompanyViewModel)),
-                 new NavigationItem(0xf21d, "Vendor", typeof(VendorViewModel)),
-                 new NavigationItem(0xf263, "Party", typeof(PartyViewModel)),
-                 new NavigationItem(0xf19c, "Bank", typeof(BankAccountViewModel)),
-                 new NavigationItem(0xf156, "Cash", typeof(CashAccountViewModel)),
-                 new NavigationItem(0xf19d, "ExpenseHead", typeof(ExpenseHeadViewModel)),
-                 new NavigationItem(0xf279, "Taluk", typeof(TalukViewModel)),
-                 new NavigationItem(0xf018, "Hobli", typeof(HobliViewModel)),
-                 new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel)),
-                 new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)),
-                 new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel))
+                 new NavigationItem(0xf1ad, "Company", typeof(CompanyViewModel)){Screen=NavigationScreen.Company},
+                 new NavigationItem(0xf21d, "Vendor", typeof(VendorViewModel)){Screen=NavigationScreen.Vendor},
+                 new NavigationItem(0xf263, "Party", typeof(PartyViewModel)){Screen=NavigationScreen.Party},
+                 new NavigationItem(0xf19c, "Bank", typeof(BankAccountViewModel)){Screen=NavigationScreen.Bank},
+                 new NavigationItem(0xf156, "Cash", typeof(CashAccountViewModel)){Screen=NavigationScreen.Cash},
+                 new NavigationItem(0xf19d, "ExpenseHead", typeof(ExpenseHeadViewModel)){Screen=NavigationScreen.ExpenseHead},
+                 new NavigationItem(0xf279, "Taluk", typeof(TalukViewModel)){Screen=NavigationScreen.Taluk},
+                 new NavigationItem(0xf018, "Hobli", typeof(HobliViewModel)){Screen=NavigationScreen.Hobli},
+                 new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel)){Screen=NavigationScreen.Village},
+                 new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
+                 new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel)){Screen=NavigationScreen.PropertyType},
             }
         };
 
-        private readonly NavigationItem PropertyItem = new NavigationItem("Transaction", 0xf1ed) //todo change PropetyItem text to TransactionItem
+        private readonly NavigationItem TransactionItem = new NavigationItem("Transaction", 0xf1ed)
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xf1ed, "Payments", typeof(PaymentsViewModel)),
-                 new NavigationItem(0xf101, "Fund Transfer", typeof(FundTransferViewModel))
+                new NavigationItem(0xf1ed, "Payments", typeof(PaymentsViewModel)){Screen=NavigationScreen.Payments},
+                 new NavigationItem(0xf101, "Fund Transfer", typeof(FundTransferViewModel)){Screen=NavigationScreen.FundTransfer},
             }
         };
 
@@ -53,26 +52,26 @@ namespace LandBankManagement.ViewModels
             }
         };
 
-        public MainShellViewModel(ILoginService loginService, ICommonServices commonServices) : base(loginService, commonServices)
-        {
-
-        }
-        private readonly NavigationItem AppLogsItem = new NavigationItem("Activity Logs")
+        private readonly NavigationItem AdminItem = new NavigationItem("Admin")
         {
             Children = new ObservableCollection<NavigationItem>
             {
                 new NavigationItem(0xE7BA, "View Log", typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs}
             }
         };
-        private void SetMenuPermissions()
+
+        public MainShellViewModel(ILoginService loginService, ICommonServices commonServices) : base(loginService, commonServices)
         {
-            AppLogsItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
-            SetupItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
-            ReportItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
 
         }
 
-
+        private void SetMenuPermissions()
+        {
+            SetupItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
+            TransactionItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
+            ReportItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
+            AdminItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
+        }
 
         private object _selectedItem;
         public object SelectedItem
@@ -94,7 +93,7 @@ namespace LandBankManagement.ViewModels
             get => _items;
             set => Set(ref _items, value);
         }
-       
+
         public override async Task LoadAsync(ShellArgs args)
         {
             Items = GetItems().ToArray();
@@ -174,9 +173,9 @@ namespace LandBankManagement.ViewModels
         private IEnumerable<NavigationItem> GetItems()
         {
             yield return SetupItem;
-            yield return PropertyItem;
+            yield return TransactionItem;
             yield return ReportItem;
-            yield return AppLogsItem;
+            yield return AdminItem;
         }
 
         override public void Subscribe()
@@ -209,7 +208,7 @@ namespace LandBankManagement.ViewModels
         private async Task UpdateAppLogBadge()
         {
             int count = await LogService.GetLogsCountAsync(new DataRequest<AppLog> { Where = r => !r.IsRead });
-            AppLogsItem.Badge = count > 0 ? count.ToString() : null;
+            AdminItem.Badge = count > 0 ? count.ToString() : null;
         }
     }
 }
