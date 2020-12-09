@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+namespace LandBankManagement.Data
+{
+   public class PropertyParty
+    {
+        [Key]
+        public int PropertyPartyId { get; set; }
+        public Guid PropertyGuid { get; set; }
+        public int PartyId { get; set; }
+        public int PropertyId { get; set; }
+
+        [NotMapped]
+        public string PartyName { get; set; }
+    }
+}

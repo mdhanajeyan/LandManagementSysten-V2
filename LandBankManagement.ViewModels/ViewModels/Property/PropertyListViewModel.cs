@@ -30,10 +30,17 @@ namespace LandBankManagement.ViewModels
     {
         public IPropertyService PropertyService { get; }
         public PropertyListArgs ViewModelArgs { get; private set; }
-
+        public CostDetailsViewModel CostDetails { get; set; }
+        private bool _popupOpened = false;
+        public bool PopupOpened
+        {
+            get => _popupOpened;
+            set => Set(ref _popupOpened, value);
+        }
         public PropertyListViewModel(IPropertyService propertyService, ICommonServices commonServices) : base(commonServices)
         {
             PropertyService = propertyService;
+            CostDetails = new CostDetailsViewModel(propertyService, commonServices,this);
         }
         public async Task LoadAsync(PropertyListArgs args)
         {

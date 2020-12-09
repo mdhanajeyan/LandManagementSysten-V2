@@ -23,5 +23,6 @@ namespace LandBankManagement.Services
         ObservableCollection<ComboBoxOptions> GetReportingToOptions();
         ObservableCollection<ComboBoxOptions> GetGenderOptions();
         ObservableCollection<ComboBoxOptions> GetPartyOptions(string party);
+        ObservableCollection<ComboBoxOptions> GetPropertyTypeOptions();
     }
 }

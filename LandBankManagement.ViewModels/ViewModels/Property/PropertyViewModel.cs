@@ -76,6 +76,8 @@ namespace LandBankManagement.ViewModels
                 var model = await PropertyService.GetPropertyAsync(selected.PropertyId);
                 selected.Merge(model);
                 PropertyDetials.Item = model;
+                PropertyDetials.GetPropertyParties(model.PropertyId);
+                SelectedPivotIndex = 1;
             }
             catch (Exception ex)
             {

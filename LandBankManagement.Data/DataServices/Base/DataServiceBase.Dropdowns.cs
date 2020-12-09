@@ -76,7 +76,12 @@ namespace LandBankManagement.Data.Services
 
         public Dictionary<int, string> GetPartyOptions(string party)
         {
-            return _dataSource.Parties.Where(x => x.PartyFirstName.Contains(party)).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionary(t => t.PartyId, t => t.PartyFirstName);
+            return _dataSource.Parties.Where(x=>x.PartyFirstName.Contains(party)).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionary(t => t.PartyId, t => t.PartyFirstName);
+        }
+
+        public Dictionary<int, string> GetPropertyTypeOptions()
+        {
+            return _dataSource.PropertyTypes.Select(x => new { x.PropertyTypeId, x.PropertyTypeText }).ToDictionary(t => t.PropertyTypeId, t => t.PropertyTypeText);
         }
     }
 }

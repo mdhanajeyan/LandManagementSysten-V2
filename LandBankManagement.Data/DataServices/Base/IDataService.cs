@@ -123,7 +123,9 @@ namespace LandBankManagement.Data.Services
         Task<int> GetPropertiesCountAsync(DataRequest<Property> request);
         Task<int> UpdatePropertyAsync(Property model);
         Task<int> DeletePropertyAsync(Property model);
-
+        Task<int> AddPropertyParty(List<PropertyParty> propertyParties);
+        Task<int> AddPropPaySchedule(List<PropPaySchedule> schedules, decimal Sale1, decimal Sale2);
+        Task<PropertyCostDetails> GetPropertyCostDetails(int propertyId);
 
         Task<int> AddPropertyTypeAsync(PropertyType model);
         Task<PropertyType> GetPropertyTypeAsync(long id);
@@ -132,6 +134,8 @@ namespace LandBankManagement.Data.Services
         Task<int> GetPropertyTypesCountAsync(DataRequest<PropertyType> request);
         Task<int> UpdatePropertyTypeAsync(PropertyType model);
         Task<int> DeletePropertyTypeAsync(PropertyType model);
+        Task<List<PropertyParty>> GetPartiesOfProperty(int propertyId);
+        Task<int> DeletePropertyPartyAsync(PropertyParty model);
 
         Task<int> AddPropCheckListMasterAsync(PropCheckListMaster model);
         Task<PropCheckListMaster> GetPropCheckListMasterAsync(long id);
@@ -185,8 +189,7 @@ namespace LandBankManagement.Data.Services
         Task<int> GetRolesCountAsync(DataRequest<Role> request);
         Task<int> UpdateRoleAsync(Role model);
         Task<int> DeleteRoleAsync(Role model);
-        Task<IList<Role>> GetRolesAsync();
-
+ 		Task<IList<Role>> GetRolesAsync();
         Task<int> AddUserInfoAsync(UserInfo model);
         Task<UserInfo> GetUserInfoAsync(long id);
         Task<IList<UserInfo>> GetUserInfosAsync(DataRequest<UserInfo> request);
@@ -194,9 +197,6 @@ namespace LandBankManagement.Data.Services
         Task<int> GetUserInfosCountAsync(DataRequest<UserInfo> request);
         Task<int> UpdateUserInfoAsync(UserInfo model);
         Task<int> DeleteUserInfoAsync(UserInfo model);
-        UserInfo AuthenticateUser(string username, string password);
-
-        IList<RolePermission> GetRolePermisions(int roleId);
 
         Task<int> AddRolePermissionAsync(RolePermission model);
         Task<RolePermission> GetRolePermissionAsync(long id);
@@ -217,6 +217,6 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetReportingToOptions();
         Dictionary<int, string> GetGenderOptions();
         Dictionary<int, string> GetPartyOptions(string party);
-
+        Dictionary<int, string> GetPropertyTypeOptions();
     }
 }

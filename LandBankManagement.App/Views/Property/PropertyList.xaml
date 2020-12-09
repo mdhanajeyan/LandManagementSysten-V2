@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:views="using:LandBankManagement.Views"
+     xmlns:viewmodels="using:LandBankManagement.ViewModels"
       xmlns:models="using:LandBankManagement.Models"
     xmlns:controls="using:LandBankManagement.Controls"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
@@ -11,6 +13,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="HeaderTemplate">
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25*"/>
@@ -21,7 +24,7 @@
                 <TextBlock Grid.Column="0" Text="Property Name*" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="Document No*" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="2" Text="Survey No" Style="{StaticResource ColumnHeaderStyle}" />
-
+                <TextBlock Grid.Column="3" Text="Cost Details" Style="{StaticResource ColumnHeaderStyle}" />
             </Grid>
         </DataTemplate>
 
@@ -37,12 +40,18 @@
                     <TextBlock Grid.Column="0" Text="{x:Bind PropertyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="1" Text="{x:Bind DocumentNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="2" Text="{x:Bind SurveyNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <Button x:Name="CostDetails" Grid.Column="3" Tag="{x:Bind PropertyId}" Content="Add Cost" Click="CostDetails_Click"/>
                 </Grid>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
+    <Grid>       
+       
+        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100">
+            <views:CostDetails  ViewModel="{x:Bind ViewModel.CostDetails}" />
+        </Popup>
 
-    <controls:DataListWithSearch ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"                      
+        <controls:DataListWithSearch  ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"                      
                        NewLabel="New Village"
                        SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
                        HeaderTemplate="{StaticResource HeaderTemplate}"
@@ -59,4 +68,5 @@
                        DeselectItemsCommand="{x:Bind ViewModel.DeselectItemsCommand}"
                        SelectRangesCommand="{x:Bind ViewModel.SelectRangesCommand}"
                        DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}" />
+    </Grid>
 </UserControl>

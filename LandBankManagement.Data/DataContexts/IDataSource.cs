@@ -34,6 +34,11 @@ namespace LandBankManagement.Data.Services
         DbSet<UserRole> UserRoles { get; }
         DbSet<UserInfo> UserInfos { get; }
         DbSet<RolePermission> RolePermissions { get; set; }
+        DbSet<PropertyParty> PropertyParty { get; set; }
+        DbSet<PropPaySchedule> PropPaySchedules { get; set; }
+
+
+
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
         int SaveChanges();

@@ -48,7 +48,8 @@ namespace LandBankManagement.Data.Services
                 BKarabAreaInSqMts = model.BKarabAreaInSqMts,
                 BKarabAreaInSqft = model.BKarabAreaInSqft,
                 SaleValue1 = model.SaleValue1,
-                SaleValue2 = model.SaleValue2
+                SaleValue2 = model.SaleValue2,
+                CompanyID=model.CompanyID
             };
             _dataSource.Entry(entity).State = EntityState.Added;
             int res = await _dataSource.SaveChangesAsync();
@@ -172,6 +173,117 @@ namespace LandBankManagement.Data.Services
         {
             _dataSource.Properties.Remove(model);
             return await _dataSource.SaveChangesAsync();
+        }
+
+        public async Task<int> AddPropertyParty(List<PropertyParty> propertyParties) {
+            if (propertyParties == null)
+                return 0;
+            foreach (var model in propertyParties) {
+                _dataSource.Entry(model).State = EntityState.Added;
+            }
+            int res = await _dataSource.SaveChangesAsync();
+            return res;
+        }
+
+        public async Task<List<PropertyParty>> GetPartiesOfProperty(int propertyId) {
+            try
+            {
+                var model = await (from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == propertyId)
+                                   from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
+                                   select new PropertyParty
+                                   {
+                                       PropertyPartyId = pp.PropertyPartyId,
+                                       PartyId = pp.PartyId,
+                                       PropertyGuid = pp.PropertyGuid,
+                                       PropertyId = pp.PropertyId,
+                                       PartyName = party.PartyFirstName
+                                   }).ToListAsync();
+                return model;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public async Task<int> DeletePropertyPartyAsync(PropertyParty model)
+        {
+            _dataSource.PropertyParty.Remove(model);
+            return await _dataSource.SaveChangesAsync();
+        }
+
+        public async Task<int> AddPropPaySchedule(List<PropPaySchedule> schedules,decimal Sale1,decimal Sale2)
+        {
+            if (schedules == null)
+                return 0;
+            try
+            {
+                var property = _dataSource.Properties.Where(x => x.PropertyId == schedules[0].PropertyId).FirstOrDefault();
+                if (property != null) {
+                    property.SaleValue1 = Sale1;
+                    property.SaleValue2 = Sale2;
+                    _dataSource.Entry(property).State = EntityState.Modified;
+                    await _dataSource.SaveChangesAsync();
+                }
+
+                foreach (var model in schedules)
+                {
+                    _dataSource.Entry(model).State = EntityState.Added;
+                }
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public async Task<PropertyCostDetails> GetPropertyCostDetails(int propertyId)
+        {
+            try
+            {
+                var model = (from prop in _dataSource.Properties.Where(x => x.PropertyId == propertyId)
+                             from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == propertyId).DefaultIfEmpty()
+                             from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId).DefaultIfEmpty()
+                             from com in _dataSource.Companies.Where(x => x.CompanyID == prop.CompanyID).DefaultIfEmpty()
+                             from pt in _dataSource.PropertyTypes.Where(x => x.PropertyTypeId == prop.PropertyTypeId).DefaultIfEmpty()
+                             from dt in _dataSource.DocumentTypes.Where(x => x.DocumentTypeId == prop.DocumentTypeId).DefaultIfEmpty()
+                             from t in _dataSource.Taluks.Where(x => x.TalukId == prop.TalukId).DefaultIfEmpty()
+                             from h in _dataSource.Hoblis.Where(x => x.HobliId == prop.HobliId).DefaultIfEmpty()
+                             from v in _dataSource.Villages.Where(x => x.VillageId == prop.VillageId).DefaultIfEmpty()
+                             select new PropertyCostDetails
+                             {
+                                 PropertyId = prop.PropertyId,
+                                 PropertyName = prop.PropertyName,
+                                 ComapnyName = com.Name,
+                                 PropertyType = pt.PropertyTypeText,
+                                 DocumentType = dt.DocumentTypeName,
+                                 Taluk = t.TalukName,
+                                 Hobli = h.HobliName,
+                                 Village = v.VillageName,
+                                 SurveyNo = prop.SurveyNo,
+                                 SaleValue1 = prop.SaleValue1,
+                                 SaleValue2 = prop.SaleValue2,
+
+                             }).FirstOrDefault();
+
+                model.PropertyParties = await (from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == propertyId)
+                                               from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
+                                               select new PropertyParty
+                                               {
+                                                   PropertyPartyId = pp.PropertyPartyId,
+                                                   PartyId = pp.PartyId,
+                                                   PropertyGuid = pp.PropertyGuid,
+                                                   PropertyId = pp.PropertyId,
+                                                   PartyName = party.PartyFirstName
+                                               }).ToListAsync();
+                model.PropPaySchedules = await _dataSource.PropPaySchedules.Where(p => p.PropertyId == propertyId).ToListAsync();
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

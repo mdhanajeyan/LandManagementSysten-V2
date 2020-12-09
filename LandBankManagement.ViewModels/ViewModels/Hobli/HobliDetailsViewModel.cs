@@ -68,7 +68,6 @@ namespace LandBankManagement.ViewModels
                 
                 if (model.HobliId <= 0)
                 {
-                    model.TalukId = 1;
                     await HobliService.AddHobliAsync(model);
                 }
                 else

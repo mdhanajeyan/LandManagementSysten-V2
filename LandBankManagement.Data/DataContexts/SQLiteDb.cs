@@ -37,8 +37,9 @@ namespace LandBankManagement.Data.Services
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserInfo> UserInfos { get; set; }
-        public DbSet<RolePermission> RolePermissions { get ; set; }
-
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<PropertyParty> PropertyParty { get; set; }
+        public DbSet<PropPaySchedule> PropPaySchedules { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(_connectionString);

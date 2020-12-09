@@ -389,6 +389,9 @@
     <Compile Include="Views\PropertyType\PropertyTypeView.xaml.cs">
       <DependentUpon>PropertyTypeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Property\CostDetails.xaml.cs">
+      <DependentUpon>CostDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Property\PropertyDetails.xaml.cs">
       <DependentUpon>PropertyDetails.xaml</DependentUpon>
     </Compile>
@@ -754,6 +757,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PropertyType\PropertyTypeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Property\CostDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

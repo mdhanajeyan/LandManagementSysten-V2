@@ -4,10 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using LandBankManagement.Data.Data;
 using LandBankManagement.Models;
 using LandBankManagement.Services;
-
 namespace LandBankManagement.ViewModels
 {
     public class PropertyDetailsViewModel : GenericDetailsViewModel<PropertyModel>
@@ -62,8 +61,8 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _partyOptions, value);
         }
 
-        private ObservableCollection<ComboBoxOptions> _addedParty = null;
-        public ObservableCollection<ComboBoxOptions> PartyList
+        private ObservableCollection<PropertyPartyModel> _addedParty = null;
+        public ObservableCollection<PropertyPartyModel> PartyList
         {
             get => _addedParty;
             set => Set(ref _addedParty, value);
@@ -94,13 +93,47 @@ namespace LandBankManagement.ViewModels
         public async Task LoadAsync()
         {
             Item = new PropertyModel();
+            Item.DateOfExecution = DateTime.Now;
             IsEditMode = true;
             GetDropdowns();
+        }
+
+       public void loadAcres(Area area,string type) {
+
+            if (type == "Area")
+            {             
+                   Item.LandAreaInAcres = area.Acres.ToString();
+                   Item.LandAreaInGuntas = area.Guntas.ToString();
+                   Item.LandAreaInSqft = area.SqFt.ToString();
+                   Item.LandAreaInSqMts = area.SqMeters.ToString();
+            }
+            if (type == "AKarab")
+            {
+                    Item.AKarabAreaInAcres = area.Acres.ToString();
+                    Item.AKarabAreaInGuntas = area.Guntas.ToString();
+                    Item.AKarabAreaInSqft = area.SqFt.ToString();
+                    Item.AKarabAreaInSqMts = area.SqMeters.ToString();
+              
+            }
+            if (type == "BKarab")
+            {
+                    Item.BKarabAreaInAcres = area.Acres.ToString();
+                    Item.BKarabAreaInGuntas = area.Guntas.ToString();
+                    Item.BKarabAreaInSqft = area.SqFt.ToString();
+                    Item.BKarabAreaInSqMts = area.SqMeters.ToString();
+            }
+            var old = Item;
+            Item = null;
+            Item = old;
         }
         private void GetDropdowns()
         {
             CompanyOptions = DropDownService.GetCompanyOptions();
-            // DealOptions = DropDownService.GetDealOptions();
+            HobliOptions = DropDownService.GetHobliOptions();
+            TalukOptions = DropDownService.GetTalukOptions();
+            VillageOptions = DropDownService.GetVillageOptions();
+            DocumentTypeOptions = DropDownService.GetDocumentTypeOptions();
+            PropertyTypeOptions = DropDownService.GetPropertyTypeOptions();
         }
 
         public void GetParties() {
@@ -109,20 +142,31 @@ namespace LandBankManagement.ViewModels
         }
 
         public void PreparePartyList() {
+            if (PartyOptions == null)
+                return;
 
             foreach (var item in PartyOptions) {
                 if (item.IsSelected) {
                     if (PartyList == null)
-                        PartyList = new ObservableCollection<ComboBoxOptions>();
-                    PartyList.Add(item);
+                        PartyList = new ObservableCollection<PropertyPartyModel>();
+                    PartyList.Add(new PropertyPartyModel { 
+                    PartyId=item.Id,
+                    PartyName=item.Description
+                    });
                 }
             }
         }
 
-        public void RemoveParty(int id) {
-            var inx = PartyList.First(x => x.Id == id);
-            PartyList.Remove(inx);
+        public async void RemoveParty(int id) {
+            var model = PartyList.First(x => x.PartyId == id);
+            if (model.PropertyPartyId > 0) {
+               await PropertyService.DeletePropertyPartyAsync(model);
+                GetPropertyParties(Item.PropertyId);
+            }
+            else
+            PartyList.Remove(model);
         }
+              
 
         public void Subscribe()
         {
@@ -134,14 +178,6 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        //public ExpenseHeadDetailsArgs CreateArgs()
-        //{
-        //    return new ExpenseHeadDetailsArgs
-        //    {
-        //        ExpenseHeadId = Item?.ExpenseHeadId ?? 0
-        //    };
-        //}
-
 
         protected override async Task<bool> SaveItemAsync(PropertyModel model)
         {
@@ -150,10 +186,12 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Saving Property...");
 
                 if (model.PropertyId <= 0)
-                    await PropertyService.AddPropertyAsync(model);
+                   model= await PropertyService.AddPropertyAsync(model);
                 else
                     await PropertyService.UpdatePropertyAsync(model);
-                await PropertyListViewModel.RefreshAsync();
+               
+                  SaveParties(model);
+                GetPropertyParties(model.PropertyId);
                 EndStatusMessage("Property saved");
                 LogInformation("Property", "Save", "Property saved successfully", $"Property {model.PropertyId} '{model.PropertyName}' was saved successfully.");
                 return true;
@@ -165,9 +203,37 @@ namespace LandBankManagement.ViewModels
                 return false;
             }
         }
+
+        private async void SaveParties(PropertyModel property) {
+
+            var parties = new List<PropertyPartyModel>();
+            foreach (var model in PartyList) {
+                if (model.PropertyPartyId == 0)
+                {
+                    parties.Add(new PropertyPartyModel
+                    {
+                        PartyId=model.PartyId,
+                        PropertyId= property.PropertyId,
+                        PropertyGuid=property.PropertyGuid
+
+                    });                    
+                }
+            }
+            if (parties.Count > 0) {
+               await PropertyService.AddPropertyPartyAsync(parties);
+            }
+        }
+
+        public async  void GetPropertyParties(int id) {
+            PartyList =await PropertyService.GetPartiesOfProperty(id);
+        }
+
         protected override void ClearItem()
         {
-            Item = new PropertyModel();
+            Item = new PropertyModel() { PropertyId = -1,  PropertyTypeId = 0, CompanyID = 0, TalukId = 0, HobliId = 0, VillageId = 0, DocumentTypeId = 0};
+            PartySearchQuery = "";
+            PartyOptions = null;
+            PartyList = null;
         }
         protected override async Task<bool> DeleteItemAsync(PropertyModel model)
         {
