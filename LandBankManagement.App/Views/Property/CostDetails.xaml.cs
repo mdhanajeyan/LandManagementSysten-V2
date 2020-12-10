@@ -32,6 +32,8 @@ namespace LandBankManagement.Views
         private void AddPayment_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.AddPaymentToList();
+            TotalAmountTxt1.Text = ViewModel.TotalAmount1;
+            TotalAmountTxt2.Text = ViewModel.TotalAmount2;
         }
 
         private void ClearPayment_Click(object sender, RoutedEventArgs e)
@@ -42,6 +44,18 @@ namespace LandBankManagement.Views
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.SavePaymentSequence();
+        }
+
+        private void SaleValue_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ViewModel.Item.SaleValue1) && !string.IsNullOrEmpty(ViewModel.Item.SaleValue1)) {
+
+                var valu = Convert.ToDecimal(ViewModel.Item.SaleValue1) + Convert.ToDecimal(ViewModel.Item.SaleValue2);
+                if (valu > 0) {
+                    TotalSales.Text = valu.ToString();
+                }
+            }
+
         }
     }
 }

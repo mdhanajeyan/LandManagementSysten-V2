@@ -33,6 +33,20 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _currentPayment, value);
         }
 
+        private string _totalAmount1 = null;
+        public string TotalAmount1
+        {
+            get => _totalAmount1;
+            set => Set(ref _totalAmount1, value);
+        }
+        private string _totalAmount2 = null;
+        public string TotalAmount2
+        {
+            get => _totalAmount2;
+            set => Set(ref _totalAmount2, value);
+        }
+
+
         public CostDetailsViewModel( IPropertyService propertyService, ICommonServices commonServices, PropertyListViewModel propertyListViewModel) : base(commonServices)
         {           
             PropertyService = propertyService;
@@ -45,9 +59,21 @@ namespace LandBankManagement.ViewModels
             Parties = Item.Parties;
             PaymentScheduleList = new ObservableCollection<PaymentScheduleModel>(Item.PropPaySchedules);
             CurrentPayment = new PaymentScheduleModel() { ScheduleDate = DateTimeOffset.Now,PropertyId=Item.PropertyId };
-
+            CalculateTotalAMounts();
         }
 
+        private void CalculateTotalAMounts() {
+            decimal totalAmt1 = 0;
+            decimal totalAmt2 = 0;
+            foreach (var model in PaymentScheduleList)
+            {
+                totalAmt1 += model.Amount1;
+                totalAmt2 += model.Amount2;
+            }
+
+            TotalAmount1 = totalAmt1.ToString();
+            TotalAmount2 = totalAmt2.ToString();
+        }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Property" : TitleEdit;
         public string TitleEdit => Item == null ? "Property" : $"{Item.PropertyName}";
@@ -68,11 +94,11 @@ namespace LandBankManagement.ViewModels
             CurrentPayment.Total = CurrentPayment.Amount1 + CurrentPayment.Amount2;
             PaymentScheduleList.Add(CurrentPayment);
             CurrentPayment = new PaymentScheduleModel() { ScheduleDate = DateTimeOffset.Now, PropertyId = Item.PropertyId };
+            CalculateTotalAMounts();
         }
         public void ClearPayment() {
             CurrentPayment = new PaymentScheduleModel() { ScheduleDate = DateTimeOffset.Now , PropertyId = Item.PropertyId };
         }
-
         protected override void ClearItem()
         {
             throw new NotImplementedException();

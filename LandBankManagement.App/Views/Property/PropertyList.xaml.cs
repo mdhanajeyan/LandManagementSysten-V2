@@ -28,5 +28,10 @@ namespace LandBankManagement.Views
              ViewModel.CostDetails.LoadAsync(propertyId);
             ViewModel.PopupOpened = true;
         }
+
+        private void Doc_Dpwnload_Click(object sender, RoutedEventArgs e)
+        {
+            CostDetailsPopup.IsOpen = false;
+        }
     }
 }
