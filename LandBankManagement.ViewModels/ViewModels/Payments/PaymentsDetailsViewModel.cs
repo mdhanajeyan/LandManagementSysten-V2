@@ -252,9 +252,8 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new PaymentModel() { PayeeTypeId = 1, PaymentTypeId = 1 };
+            Item = new PaymentModel() { PayeeTypeId = 1, PaymentTypeId = 1,DateOfPayment=DateTimeOffset.Now };
             defaultSettings();
-            Item.DateOfPayment = DateTime.Now.AddMinutes(1);
         }
         protected override async Task<bool> DeleteItemAsync(PaymentModel model)
         {
@@ -283,10 +282,28 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<PaymentModel>> GetValidationConstraints(PaymentModel model)
         {
-            yield return new RequiredConstraint<PaymentModel>("Name", m => m.PropertyId);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
+            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Company", m => m.PayeeId);
+            yield return new ValidationConstraint<PaymentModel>("Expense head Or Party Not to be empty", x => ValidateExpenseHeadAndParty(x));
+            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Property Name", m => m.PropertyId);
+            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Document Type", m => m.DocumentTypeId);
+            yield return new ValidationConstraint<PaymentModel>("Cash Or Bank Account Not to be empty", x => ValidateCashAndBank(x));
+            yield return new ValidationConstraint<PaymentModel>("Amount Not to be empty", x => ValidateAmount(x));
+            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Amount", m => m.Amount);
+            yield return new RequiredConstraint<PaymentModel>("Cheque / Ref No", m => m.ChequeNo);
+        }
 
+        private bool ValidateExpenseHeadAndParty(PaymentModel model) {
+            return model.ExpenseHeadId > 0 || model.PartyId > 0;
+        }
+
+        private bool ValidateCashAndBank(PaymentModel model)
+        {
+            return model.CashAccountId > 0 || model.BankAccountId > 0;
+        }
+
+        private bool ValidateAmount(PaymentModel model)
+        {
+            return string.IsNullOrEmpty(model.Amount) ? false : Convert.ToDecimal(model.Amount) > 0;            
         }
 
         /*

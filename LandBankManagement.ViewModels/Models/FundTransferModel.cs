@@ -13,7 +13,7 @@ namespace LandBankManagement.Models
         public int PayeeId { get; set; }
         public int PayeePaymentType { get; set; }
         public int PayeeBankId { get; set; }
-        public DateTime DateOfPayment { get; set; }
+        public DateTimeOffset DateOfPayment { get; set; }
         public string Amount { get; set; }
         public string Narration { get; set; }
         public int ReceiverId { get; set; }

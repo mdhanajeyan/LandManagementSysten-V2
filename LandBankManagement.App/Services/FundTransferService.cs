@@ -141,7 +141,7 @@ namespace LandBankManagement.Services
             target.PayeeId = source.PayeeId;
             target.PayeePaymentType = source.PayeePaymentType;
             target.PayeeBankId = source.PayeeBankId;
-            target.DateOfPayment = source.DateOfPayment;
+            target.DateOfPayment = source.DateOfPayment.UtcDateTime;
             target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.Narration = source.Narration;
             target.ReceiverId = source.ReceiverId;

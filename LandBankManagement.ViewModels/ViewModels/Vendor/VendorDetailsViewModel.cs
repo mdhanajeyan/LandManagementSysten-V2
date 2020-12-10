@@ -122,7 +122,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new VendorModel();
+            Item = new VendorModel() { IsVendorActive=true};
             if (DocList != null)
                 DocList.Clear();
         }
@@ -133,6 +133,7 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Vendor...");
                 
                 await VendorService.DeleteVendorAsync(model);
+                ClearItem();
                 EndStatusMessage("Vendor deleted");
                 LogWarning("Vendor", "Delete", "Vendor deleted", $"Vendor {model.VendorId} '{model.VendorName}' was deleted.");
                 return true;

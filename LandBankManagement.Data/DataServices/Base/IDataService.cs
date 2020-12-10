@@ -180,7 +180,7 @@ namespace LandBankManagement.Data.Services
 
         Task<IList<UserRole>> GetUserRolesForUserAsync(int userId);
         Task<int> AddUserRoleForUserAsync(List<UserRole> model, int userId);
-
+        UserInfo AuthenticateUser(string username, string password);
 
         Task<int> AddRoleAsync(Role model);
         Task<Role> GetRoleAsync(long id);
@@ -205,7 +205,7 @@ namespace LandBankManagement.Data.Services
         Task<int> GetRolePermissionsCountAsync(DataRequest<RolePermission> request);
         Task<int> UpdateRolePermissionAsync(RolePermission model);
         Task<int> DeleteRolePermissionAsync(RolePermission model);
-
+        IList<RolePermission> GetRolePermisions(int roleId);
 
         Dictionary<int, string> GetExpenseHeadOptions();
         Dictionary<int, string> GetPartyOptions();

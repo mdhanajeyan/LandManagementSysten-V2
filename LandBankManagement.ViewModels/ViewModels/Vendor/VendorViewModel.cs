@@ -21,7 +21,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync(VendorListArgs args)
         {
-            await VendorList.LoadAsync(args);
+           // await VendorList.LoadAsync(args);
         }
         public void Unload()
         {
@@ -94,7 +94,7 @@ namespace LandBankManagement.ViewModels
                         VendorDetails.DocList[i].Identity = i + 1;
                     }
                 }
-                SelectedPivotIndex = 0;
+                SelectedPivotIndex = 1;
             }
             catch (Exception ex)
             {

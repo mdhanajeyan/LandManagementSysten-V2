@@ -29,7 +29,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new ExpenseHeadModel();
+            Item = new ExpenseHeadModel() { IsExpenseHeadActive = true };
         }
         public void Unload()
         {
@@ -101,7 +101,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new ExpenseHeadModel();
+            Item = new ExpenseHeadModel() { IsExpenseHeadActive = true };
         }
         protected override async Task<bool> DeleteItemAsync(ExpenseHeadModel model)
         {
@@ -131,7 +131,7 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<ExpenseHeadModel>> GetValidationConstraints(ExpenseHeadModel model)
         {
-            yield return new RequiredConstraint<ExpenseHeadModel>("Name", m => m.ExpenseHeadName);
+            yield return new RequiredConstraint<ExpenseHeadModel>("Expense Head", m => m.ExpenseHeadName);
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 

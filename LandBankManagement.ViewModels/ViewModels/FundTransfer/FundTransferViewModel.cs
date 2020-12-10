@@ -75,7 +75,7 @@ namespace LandBankManagement.ViewModels
                 selected.Merge(model);
                 FundTransferDetails.Item = model;
                 FundTransferDetails.defaultSettings();
-                SelectedPivotIndex = 0;
+                SelectedPivotIndex = 1;
             }
             catch (Exception ex)
             {

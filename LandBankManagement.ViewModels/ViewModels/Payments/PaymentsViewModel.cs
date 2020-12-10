@@ -75,7 +75,7 @@ namespace LandBankManagement.ViewModels
                 selected.Merge(model);
                 PaymentsDetails.Item = model;
                 PaymentsDetails.defaultSettings();
-                SelectedPivotIndex = 0;
+                SelectedPivotIndex = 1;
             }
             catch (Exception ex)
             {

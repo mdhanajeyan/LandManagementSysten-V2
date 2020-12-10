@@ -55,5 +55,17 @@ namespace LandBankManagement.Views
         {
             return isMultipleSelection ? 2 : 1;
         }
+
+        private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.ShowProgressRing();
+            var index = ((Pivot)sender).SelectedIndex;
+            if (index == 0)
+            {
+                await ViewModel.VendorList.LoadAsync(new VendorListArgs { IsEmpty = false });
+                
+            }
+            ViewModel.HideProgressRing();
+        }
     }
 }

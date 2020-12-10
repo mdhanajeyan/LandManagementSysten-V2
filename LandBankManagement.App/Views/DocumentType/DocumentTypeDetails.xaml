@@ -14,9 +14,9 @@
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:DocumentTypeDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5" HorizontalAlignment="Center">
-               
-                <controls:FormTextBox Header="Document Type" Text="{x:Bind EditableItem.DocumentTypeName, Mode=TwoWay}" />
-                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsDocumentTypeActive, Mode=TwoWay}" >
+
+                <controls:FormTextBox Header="Document Type" Text="{x:Bind EditableItem.DocumentTypeName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsDocumentTypeActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
                     <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
                 </CheckBox>
             </controls:FluidGrid>

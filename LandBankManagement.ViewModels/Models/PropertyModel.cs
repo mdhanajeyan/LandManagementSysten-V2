@@ -15,7 +15,7 @@ namespace LandBankManagement.Models
         public int HobliId { get; set; }
         public int VillageId { get; set; }
         public int DocumentTypeId { get; set; }
-        public DateTime DateOfExecution { get; set; }
+        public DateTimeOffset DateOfExecution { get; set; }
         public string DocumentNo { get; set; }
         public int PropertyTypeId { get; set; }
         public string SurveyNo { get; set; }

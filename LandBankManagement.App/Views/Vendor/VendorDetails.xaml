@@ -14,23 +14,23 @@
         <x:Double x:Key="CardPictureRadius">132</x:Double>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:VendorDetailsViewModel" >
             <controls:FluidGrid Margin="0,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
-                <controls:FormTextBox Header="Vendor Name" Text="{x:Bind EditableItem.VendorName, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Vendor Alias" Text="{x:Bind EditableItem.VendorAlias, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Vendor Name" Text="{x:Bind EditableItem.VendorName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Vendor Alias" Text="{x:Bind EditableItem.VendorAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
-                <controls:FormTextBox Header="Son of / Daughter of / Wife of" MaxLength="4" Text="{x:Bind EditableItem.VendorSalutation, Mode=TwoWay}" />
-                <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay}" CharacterCasing="Upper"/>
-                <controls:FormTextBox Header="Aadhaar No" Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay}" />
-                <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay}" CharacterCasing="Upper"/>
-                <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay}" />
-                <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Address" Text="{x:Bind EditableItem.AddressLine1, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Son of / Daughter of / Wife of" MaxLength="4" Text="{x:Bind EditableItem.VendorSalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
+                <controls:FormTextBox Header="Aadhaar No" Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
+                <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Address" Text="{x:Bind EditableItem.AddressLine1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FluidGrid  ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60" >
-                    <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay}" />
-                    <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 </controls:FluidGrid>
-              
-                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsVendorActive, Mode=TwoWay}"  >
+
+                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsVendorActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >
                     <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
                 </CheckBox>
             </controls:FluidGrid>

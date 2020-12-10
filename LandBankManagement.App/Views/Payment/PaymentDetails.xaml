@@ -15,10 +15,10 @@
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:PaymentsDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
                 <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
-                                           SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormComboBox  Header="Property Name" ItemsSource="{x:Bind PropertyOptions}"
-                                           SelectedValue="{x:Bind EditableItem.PropertyId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.PropertyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                
                 <StackPanel  Orientation="Horizontal">
@@ -39,31 +39,31 @@
                 </StackPanel>
                 <StackPanel>
                     <controls:FormComboBox  Header="Expense Head" ItemsSource="{x:Bind ExpenseOptions}" Visibility="{Binding Path=ExpenseVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.ExpenseHeadId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.ExpenseHeadId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                     <controls:FormComboBox  Header="Party" ItemsSource="{x:Bind PartyOptions}" Visibility="{Binding Path=PartyVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.PartyId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.PartyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 </StackPanel>
                 <StackPanel>
                     <controls:FormComboBox x:Name="cashCombo" Header="Cash" ItemsSource="{x:Bind CashOptions}" Visibility="{Binding Path=CashVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.CashAccountId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.CashAccountId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                     <controls:FormComboBox x:Name="bankCombo" Header="Bank" ItemsSource="{x:Bind BankOptions}" Visibility="{Binding Path=BankVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.BankAccountId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.BankAccountId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 </StackPanel>
                 <controls:FormComboBox  Header="Document Type" ItemsSource="{x:Bind DocumentTypeOptions}"
-                                           SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Date Of Payment" Foreground="#3b81d1" Margin="0 0 0 10"/>
-                    <CalendarDatePicker MinWidth="360" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{Binding EditableItem.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter}}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
+                    <CalendarDatePicker MinWidth="360" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{x:Bind EditableItem.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
                 </StackPanel>
-                <controls:FormTextBox Header="Amount" Text="{x:Bind EditableItem.Amount, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Cheque / ref No" Text="{x:Bind EditableItem.ChequeNo, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Narration" Text="{x:Bind EditableItem.Narration, Mode=TwoWay}" />
-                <CheckBox x:Name="PDC" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.PDC, Mode=TwoWay}" >
+                <controls:FormTextBox Header="Amount" Text="{x:Bind EditableItem.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Cheque / ref No" Text="{x:Bind EditableItem.ChequeNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Narration" Text="{x:Bind EditableItem.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox x:Name="PDC" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.PDC, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
                     <TextBlock Text="PDC"  Foreground="#3b81d1" FontSize="15"/>
                 </CheckBox>
             </controls:FluidGrid>

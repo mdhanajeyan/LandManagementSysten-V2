@@ -15,13 +15,13 @@
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:ReceiptsDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
                 <controls:FormComboBox  Header="From Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
-                                           SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormComboBox  Header="Deal" ItemsSource="{x:Bind DealOptions}"
-                                           SelectedValue="{x:Bind EditableItem.DealId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.DealId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormComboBox  Header="Party" ItemsSource="{x:Bind PartyOptions}"
-                                           SelectedValue="{x:Bind EditableItem.PartyId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.PartyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <StackPanel></StackPanel>
                 <StackPanel  Orientation="Horizontal" Margin="0 15 0 0">
@@ -37,10 +37,10 @@
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Date Of Payment" Foreground="#3b81d1" Margin="0 0 0 10"/>
-                    <CalendarDatePicker MinWidth="360" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{Binding EditableItem.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter}}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
+                    <CalendarDatePicker MinWidth="360" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{x:Bind EditableItem.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
                 </StackPanel>
-                <controls:FormTextBox Header="Amount" Text="{x:Bind EditableItem.Amount, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Narration"  Text="{x:Bind EditableItem.Narration, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Amount" Text="{x:Bind EditableItem.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Narration"  Text="{x:Bind EditableItem.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <StackPanel></StackPanel>                
             </controls:FluidGrid>
         </DataTemplate>

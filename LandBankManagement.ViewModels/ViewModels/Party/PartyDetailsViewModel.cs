@@ -157,8 +157,7 @@ namespace LandBankManagement.ViewModels
                     await PartyService.AddPartyAsync(model, DocList);
                 else
                     await PartyService.UpdatePartyAsync(model, DocList);
-                ClearItem();
-                await PartyListViewModel.RefreshAsync();
+               
                 EndStatusMessage("Party saved");
                 LogInformation("Party", "Save", "Party saved successfully", $"Party {model.PartyId} '{model.PartyName}' was saved successfully.");
                 return true;
@@ -184,8 +183,7 @@ namespace LandBankManagement.ViewModels
                 
                 await PartyService.DeletePartyAsync(model);
                 EndStatusMessage("Party deleted");
-                ClearItem();
-                await PartyListViewModel.RefreshAsync();
+                ClearItem();                
                 LogWarning("Party", "Delete", "Party deleted", $"Party {model.PartyId} '{model.PartyName}' was deleted.");
                 return true;
             }

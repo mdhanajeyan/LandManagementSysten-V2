@@ -93,7 +93,7 @@ namespace LandBankManagement.ViewModels
         public async Task LoadAsync()
         {
             Item = new PropertyModel();
-            Item.DateOfExecution = DateTime.Now;
+            Item.DateOfExecution = DateTimeOffset.Now;
             IsEditMode = true;
             GetDropdowns();
         }
@@ -230,7 +230,7 @@ namespace LandBankManagement.ViewModels
 
         protected override void ClearItem()
         {
-            Item = new PropertyModel() { PropertyId = -1,  PropertyTypeId = 0, CompanyID = 0, TalukId = 0, HobliId = 0, VillageId = 0, DocumentTypeId = 0};
+            Item = new PropertyModel() { PropertyId = -1,  PropertyTypeId = 0, CompanyID = 0, TalukId = 0, HobliId = 0, VillageId = 0, DocumentTypeId = 0,DateOfExecution=DateTimeOffset.Now};
             PartySearchQuery = "";
             PartyOptions = null;
             PartyList = null;

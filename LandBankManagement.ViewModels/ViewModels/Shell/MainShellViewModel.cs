@@ -62,6 +62,15 @@ namespace LandBankManagement.ViewModels
             }
         };
 
+        private readonly NavigationItem PropertyItem = new NavigationItem("PROPERTY")
+        {
+            Children = new ObservableCollection<NavigationItem>
+            {
+                new NavigationItem(0xE8C7, "Property", typeof(PropertyViewModel)){ Screen=NavigationScreen.Property}
+
+            }
+        };
+
         public MainShellViewModel(ILoginService loginService, ICommonServices commonServices) : base(loginService, commonServices)
         {
 
@@ -73,6 +82,7 @@ namespace LandBankManagement.ViewModels
             TransactionItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
             ReportItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
             AdminItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
+            PropertyItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(items => (NavigationScreen)items.ScreenId == x.Screen));
         }
 
         private object _selectedItem;
@@ -187,6 +197,7 @@ namespace LandBankManagement.ViewModels
         private IEnumerable<NavigationItem> GetItems()
         {
             yield return SetupItem;
+            yield return PropertyItem;
             yield return TransactionItem;
             yield return ReportItem;
             yield return AdminItem;

@@ -123,15 +123,15 @@
             </StackPanel>
             <StackPanel  Grid.Row="1" Grid.Column="1" Padding="5 0 5 0" Orientation="Vertical">
                 <TextBlock Text="Sale Value 1"  Style="{StaticResource PopupLabels}"/>
-                <TextBox Text="{x:Bind ViewModel.Item.SaleValue1,Mode=TwoWay}" Style="{StaticResource PopupTextbox}"/>
+                <TextBox Text="{x:Bind ViewModel.Item.SaleValue1,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PopupTextbox}"/>
             </StackPanel>
             <StackPanel  Grid.Row="1" Grid.Column="2" Padding="5 0 5 0"  Orientation="Vertical">
                 <TextBlock Text="Sale Value 2"  Style="{StaticResource PopupLabels}"/>
-                <TextBox Text="{x:Bind ViewModel.Item.SaleValue2,Mode=TwoWay}" Style="{StaticResource PopupTextbox}"/>
+                <TextBox Text="{x:Bind ViewModel.Item.SaleValue2,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PopupTextbox}"/>
             </StackPanel>
             <StackPanel  Grid.Row="1" Grid.Column="3" Padding="5 0 5 0" Orientation="Vertical">
                 <TextBlock Text="Total Sale Value"  Style="{StaticResource PopupLabels}"/>
-                <TextBox Text="{x:Bind ViewModel.Item.SaleValue2,Mode=TwoWay}" Style="{StaticResource PopupTextbox}"/>
+                <TextBox Text="{x:Bind ViewModel.Item.SaleValue2,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PopupTextbox}"/>
             </StackPanel>            
         </Grid>
         <Grid Grid.Row="2"  VerticalAlignment="Top">

@@ -15,17 +15,17 @@
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:BankAccountDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="12" RowSpacing="5"  HorizontalAlignment="Center">
                 <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
-                                           SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                <controls:FormTextBox Header="Bank Name" Text="{x:Bind EditableItem.BankName, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Branch Name" Text="{x:Bind EditableItem.BranchName, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Bank Name" Text="{x:Bind EditableItem.BankName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Branch Name" Text="{x:Bind EditableItem.BranchName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormComboBox  Header="Type of Bank Account" ItemsSource="{x:Bind AcctTypeOptions}"
-                                           SelectedValue="{x:Bind EditableItem.AccountType, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.AccountType, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                <controls:FormTextBox Header="A/C No" Text="{x:Bind EditableItem.AccountNumber, Mode=TwoWay}" />
-                <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay}" CharacterCasing="Upper"/>
-                <controls:FormTextBox Header="Opening Balance" Text="{x:Bind EditableItem.OpeningBalance, Mode=TwoWay}" />
-                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsBankAccountActive, Mode=TwoWay}"  >
+                <controls:FormTextBox Header="A/C No" Text="{x:Bind EditableItem.AccountNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
+                <controls:FormTextBox Header="Opening Balance" Text="{x:Bind EditableItem.OpeningBalance, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsBankAccountActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >
                     <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
                 </CheckBox>
 

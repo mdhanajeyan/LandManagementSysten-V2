@@ -93,6 +93,7 @@ namespace LandBankManagement.ViewModels
                     await VillageService.AddVillageAsync(model);
                 else
                     await VillageService.UpdateVillageAsync(model);
+                ClearItem();
                 await VillageListViewModel.RefreshAsync();
                 EndStatusMessage("Village saved");
                 LogInformation("Village", "Save", "Village saved successfully", $"Village {model.VillageId} '{model.VillageName}' was saved successfully.");

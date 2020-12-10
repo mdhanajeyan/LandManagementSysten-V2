@@ -49,7 +49,7 @@
                     <TextBlock Grid.Column="3" Text="{x:Bind PhoneNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="4" Text="{x:Bind AddressLine1, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="5" Text="{x:Bind City, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <CheckBox Grid.Column="6" x:Name="isActive" IsEnabled="False"  IsChecked="{x:Bind IsVendorActive, Mode=TwoWay}" Content="IsActive"/>
+                    <CheckBox Grid.Column="6" x:Name="isActive" IsEnabled="False"  IsChecked="{x:Bind IsVendorActive, Mode=TwoWay}"/>
                 </Grid>
             </Grid>
         </DataTemplate>

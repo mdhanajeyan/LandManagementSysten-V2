@@ -17,7 +17,7 @@ namespace LandBankManagement.ViewModels
         {
             HobliService = hobliService;
             HobliList = new HobliListViewModel(hobliService, commonServices);
-            HobliDetials = new HobliDetailsViewModel(hobliService, filePickerService, commonServices, dropDownService);
+            HobliDetials = new HobliDetailsViewModel(hobliService, filePickerService, commonServices, dropDownService,HobliList);
         }
 
         public async Task LoadAsync(HobliListArgs args)

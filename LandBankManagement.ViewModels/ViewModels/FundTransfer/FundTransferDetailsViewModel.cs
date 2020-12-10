@@ -91,8 +91,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new FundTransferModel() {  PayeePaymentType = 1,ReceiverPaymentType=1 };
-            Item.DateOfPayment = DateTime.Now;
+            Item = new FundTransferModel() {  PayeePaymentType = 1,ReceiverPaymentType=1,DateOfPayment=DateTimeOffset.Now };
             GetDropdowns();
             defaultSettings();
         }
@@ -172,9 +171,8 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new FundTransferModel() { PayeePaymentType = 1, ReceiverPaymentType = 1 };
+            Item = new FundTransferModel() { PayeePaymentType = 1, ReceiverPaymentType = 1 ,DateOfPayment=DateTimeOffset.Now};
             defaultSettings();
-            Item.DateOfPayment = DateTime.Now.AddMinutes(1);
         }
         protected override async Task<bool> DeleteItemAsync(FundTransferModel model)
         {

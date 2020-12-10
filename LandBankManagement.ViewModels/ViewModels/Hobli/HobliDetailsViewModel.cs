@@ -21,12 +21,13 @@ namespace LandBankManagement.ViewModels
         public IHobliService HobliService { get; }
         public IFilePickerService FilePickerService { get; }
       public IDropDownService DropDownService { get; }
-        public HobliDetailsViewModel(IHobliService hobliService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService) : base(commonServices)
+        public HobliListViewModel HobliListViewModel { get; }
+        public HobliDetailsViewModel(IHobliService hobliService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService,HobliListViewModel hobliListViewModel) : base(commonServices)
         {
             HobliService = hobliService;
             FilePickerService = filePickerService;
             DropDownService = dropDownService;
-
+            HobliListViewModel = hobliListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Hobli" : TitleEdit;
@@ -72,6 +73,8 @@ namespace LandBankManagement.ViewModels
                 }
                 else
                     await HobliService.UpdateHobliAsync(model);
+                await HobliListViewModel.RefreshAsync();
+                ClearItem();
                 EndStatusMessage("Hobli saved");
                 LogInformation("Hobli", "Save", "Hobli saved successfully", $"Hobli {model.HobliName} '{model.HobliName}' was saved successfully.");
                 return true;
@@ -94,6 +97,8 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Hobli...");
                 
                 await HobliService.DeleteHobliAsync(model);
+                await HobliListViewModel.RefreshAsync();
+                ClearItem();
                 EndStatusMessage("Hobli deleted");
                 LogWarning("Hobli", "Delete", "Hobli deleted", $"Hobli {model.HobliId} '{model.HobliName}' was deleted.");
                 return true;

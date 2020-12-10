@@ -63,7 +63,7 @@ namespace LandBankManagement.Views
             var index = ((Pivot)sender).SelectedIndex;
             if (index == 0)
             {
-                await ViewModel.FundTransferList.LoadAsync(new FundTransferListArgs { IsEmpty = false });
+                //await ViewModel.FundTransferList.LoadAsync(new FundTransferListArgs { IsEmpty = false });
                 await ViewModel.FundTransferList.RefreshAsync();
             }
         }

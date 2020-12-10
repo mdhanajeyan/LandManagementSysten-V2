@@ -17,22 +17,22 @@
                
                 <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
 
-                <controls:FormTextBox Header="Staff Name" Text="{x:Bind EditableItem.UserName, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Email" Text="{x:Bind EditableItem.Email, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Mobile" Text="{x:Bind EditableItem.MobileNo, Mode=TwoWay}" />             
-               
-                
-                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsActive, Mode=TwoWay}" >
+                    <controls:FormTextBox Header="Staff Name" Text="{x:Bind EditableItem.UserName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Email" Text="{x:Bind EditableItem.Email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Mobile" Text="{x:Bind EditableItem.MobileNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+
+
+                    <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
                     <TextBlock Text="Is Active"  Foreground="#3b81d1" FontSize="15"/>
                 </CheckBox>
                 <StackPanel Orientation="Horizontal">
-              
-                <CheckBox x:Name="isAdmin" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsAdmin, Mode=TwoWay}" >
+
+                        <CheckBox x:Name="isAdmin" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsAdmin, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
                     <TextBlock Text="Is Admin"  Foreground="#3b81d1" FontSize="15"/>
                 </CheckBox>
                 </StackPanel>
-                <controls:FormTextBox Header="Login Name" Text="{x:Bind EditableItem.loginName, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Password" Text="{x:Bind EditableItem.UserPassword, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="Login Name" Text="{x:Bind EditableItem.loginName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Password" Text="{x:Bind EditableItem.UserPassword, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
             </controls:FluidGrid>
               

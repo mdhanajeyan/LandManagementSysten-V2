@@ -64,7 +64,7 @@ namespace LandBankManagement.Views
         {
             ViewModel.ShowProgressRing();
             var index = ((Pivot)sender).SelectedIndex;
-            if (index == 1) {
+            if (index == 0) {
                 await ViewModel.CompanyList.LoadAsync(new CompanyListArgs { IsEmpty = false });
                await ViewModel.CompanyList.RefreshAsync();
             }

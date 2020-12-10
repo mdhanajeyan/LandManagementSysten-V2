@@ -27,8 +27,7 @@ namespace LandBankManagement.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.PartyDetails.LoadAsync();
-            await ViewModel.LoadAsync(e.Parameter as PartyListArgs);
+            await ViewModel.PartyDetails.LoadAsync();        
            
         }
 
@@ -54,6 +53,17 @@ namespace LandBankManagement.Views
         public int GetRowSpan(bool isMultipleSelection)
         {
             return isMultipleSelection ? 2 : 1;
+        }
+        private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.ShowProgressRing();
+            var index = ((Pivot)sender).SelectedIndex;
+            if (index == 0)
+            {
+                await ViewModel.LoadAsync(new PartyListArgs());
+
+            }
+            ViewModel.HideProgressRing();
         }
     }
 }

@@ -296,7 +296,7 @@ namespace LandBankManagement.Services
             target.HobliId = source.HobliId;
             target.VillageId = source.VillageId;
             target.DocumentTypeId = source.DocumentTypeId;
-            target.DateOfExecution = source.DateOfExecution;
+            target.DateOfExecution = source.DateOfExecution.UtcDateTime;
             target.DocumentNo = source.DocumentNo;
             target.PropertyTypeId = source.PropertyTypeId;
             target.SurveyNo = source.SurveyNo;

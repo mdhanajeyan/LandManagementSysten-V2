@@ -15,10 +15,10 @@
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:HobliDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5" HorizontalAlignment="Center">
                 <controls:FormComboBox  Header="Taluk" ItemsSource="{x:Bind TalukOptions, Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.TalukId, Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.TalukId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                <controls:FormTextBox Header="Hobli Name" Text="{x:Bind EditableItem.HobliName, Mode=TwoWay}" />
-                <controls:FormTextBox Header="GMap Link" Text="{x:Bind EditableItem.HobliGMapLink, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Hobli Name" Text="{x:Bind EditableItem.HobliName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="GMap Link" Text="{x:Bind EditableItem.HobliGMapLink, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <!--<CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.HobliIsActive, Mode=TwoWay}" Content="IsActive"/>-->
 
             </controls:FluidGrid>

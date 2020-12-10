@@ -14,8 +14,8 @@
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:RoleDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="12" RowSpacing="5" HorizontalAlignment="Center">
-                
-                    <controls:FormTextBox Header="Description" Text="{x:Bind EditableItem.Name, Mode=TwoWay}" />
+
+                <controls:FormTextBox Header="Description" Text="{x:Bind EditableItem.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 
 
             </controls:FluidGrid>

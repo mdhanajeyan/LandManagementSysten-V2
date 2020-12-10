@@ -87,13 +87,11 @@ namespace LandBankManagement.Services
             long id = model.PaymentId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var vendor = id > 0 ? await dataService.GetPaymentAsync(model.PaymentId) : new Payment();
-                if (vendor != null)
-                {
-                    UpdatePaymentFromModel(vendor, model);
-                    await dataService.UpdatePaymentAsync(vendor);
-                    model.Merge(await GetPaymentAsync(dataService, vendor.PaymentId));
-                }
+                var vendor = new Payment();
+                UpdatePaymentFromModel(vendor, model);
+                await dataService.UpdatePaymentAsync(vendor);
+                model.Merge(await GetPaymentAsync(dataService, vendor.PaymentId));
+
                 return 0;
             }
         }
@@ -153,7 +151,7 @@ namespace LandBankManagement.Services
             target.PartyId = source.PartyId;
             target.DocumentTypeId = source.DocumentTypeId;
             target.PaymentTypeId = source.PaymentTypeId;
-            target.DateOfPayment = source.DateOfPayment.DateTime;
+            target.DateOfPayment = source.DateOfPayment.UtcDateTime;
             target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.ChequeNo = source.ChequeNo;
             target.Narration = source.Narration;
