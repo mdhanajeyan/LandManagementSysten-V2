@@ -67,6 +67,7 @@ namespace LandBankManagement.ViewModels
                     await RoleService.AddRoleAsync(model);
                 else
                     await RoleService.UpdateRoleAsync(model);
+                ClearItem();
                 await RoleListViewModel.RefreshAsync();
                 EndStatusMessage("Role saved");
                 LogInformation("Role", "Save", "Role saved successfully", $"Role {model.RoleId} '{model.Name}' was saved successfully.");

@@ -62,7 +62,7 @@ namespace LandBankManagement.ViewModels
             }
         };
 
-        private readonly NavigationItem PropertyItem = new NavigationItem("PROPERTY")
+        private readonly NavigationItem PropertyItem = new NavigationItem("PROPERTY", 0xf557)
         {
             Children = new ObservableCollection<NavigationItem>
             {

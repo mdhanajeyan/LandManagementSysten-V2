@@ -13,39 +13,79 @@
     <UserControl.Resources>
         <x:Double x:Key="CardPictureRadius">132</x:Double>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:PartyDetailsViewModel" >
-            <controls:FluidGrid Margin="0,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
-                <controls:FormTextBox Header="Party Name" Text="{x:Bind EditableItem.PartyName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="Party Alias" Text="{x:Bind EditableItem.PartyAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+            <controls:FluidGrid Margin="0,12,0,0" Columns="3" ColumnSpacing="40" RowSpacing="12"  HorizontalAlignment="Center">
+                <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"  ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
+                    <controls:FormTextBox Header="Party Name" Text="{x:Bind EditableItem.PartyName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Party Alias" Text="{x:Bind EditableItem.PartyAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
-                <controls:FormTextBox Header="Son of / Daughter of / Wife of" MaxLength="4" Text="{x:Bind EditableItem.PartySalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
-                    <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
-                    <controls:FormTextBox Header="Aadhaar No" Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Son of / Daughter of / Wife of" MaxLength="4" Text="{x:Bind EditableItem.PartySalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
+                        <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
+                        <controls:FormTextBox Header="Aadhaar No" Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </controls:FluidGrid>
+                    <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
+                    <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Address 1" Text="{x:Bind EditableItem.AddressLine1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Address 2" Text="{x:Bind EditableItem.AddressLine2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FluidGrid  ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60" >
+                        <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </controls:FluidGrid>
+                    <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsPartyActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
+                        <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
+                    </CheckBox>
                 </controls:FluidGrid>
-                <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
-                <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="Address" Text="{x:Bind EditableItem.AddressLine1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FluidGrid  ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60" >
-                    <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FluidGrid Margin="0,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
+                    <StackPanel >
+                        <controls:FluidGrid  Columns="1" ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Left">
+                            <controls:FormComboBox x:Name="VendorList" Header="Copy From Vendor Master" ItemsSource="{x:Bind VendorOptions}"
+                                          SelectionChanged="VendorList_SelectionChanged"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                        </controls:FluidGrid>
+                        <Button x:Name="uploadBtn"  Style="{StaticResource AccentButtonStyle}"   Command="{x:Bind EditPictureCommand}" Margin="0 35 0 0">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE898;" Foreground="#fff" Margin="0 0 7 0"/>
+                                <TextBlock  x:Name="uploadName" Text="Upload" Foreground="#fff"/>
+                            </StackPanel>
+                        </Button>
+                        <StackPanel Margin="0 20 0 0">
+                            <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="300" >
+                                <ListView x:Name="docListView" ItemsSource="{x:Bind DocList,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" MinHeight="50" >
+                                                <!--<TextBlock Text="{Binding FileName}"  Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
+                            <TextBlock Text="{Binding Size}"  Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>-->
+                                                <TextBlock Text="{Binding FileName}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
+                       Path=ActualWidth, ConverterParameter=0.6}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
+                                                <TextBlock Text="{Binding Size}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
+                       Path=ActualWidth, ConverterParameter=0.1}" Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>
+                                                <Button x:Name="Doc_Delete" Tag="{Binding Identity}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
+                       Path=ActualWidth, ConverterParameter=0.3}" Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Doc_Delete_Click" HorizontalAlignment="Left">
+                                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74D;" Foreground="Red"  HorizontalAlignment="Left"/>
+                                                    <Button.Resources>
+                                                        <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                                    </Button.Resources>
+                                                </Button>
+                                            </StackPanel>
+
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </StackPanel>
                 </controls:FluidGrid>
-                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsPartyActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
-                    <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
-                </CheckBox>
             </controls:FluidGrid>
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="8" 
-          Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-        <Grid.ColumnDefinitions>           
-            <ColumnDefinition Width="250*"/>
-            <ColumnDefinition Width="300*"/>
-        </Grid.ColumnDefinitions>        
+    <Grid ColumnSpacing="8" Height="600" VerticalAlignment="Top"
+          Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">              
 
-        <controls:Details x:Name="details" Grid.Column="0" Margin="20,20,10,20"
+        <controls:Details x:Name="details"  Margin="20,20,10,20"
                           DetailsContent="{x:Bind ViewModel}"
                           DetailsTemplate="{StaticResource DetailsTemplate}"
                           IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"
@@ -53,44 +93,6 @@
                           DeleteCommand="{x:Bind ViewModel.DeleteCommand}"
                           SaveCommand="{x:Bind ViewModel.SaveCommand}"
                           CancelCommand="{x:Bind ViewModel.CancelCommand}" />
-        <StackPanel  Grid.Column="1">
-            <controls:FluidGrid Margin="0,70,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Left">
-                <controls:FormComboBox x:Name="VendorList" Header="Copy From Vendor Master" ItemsSource="{x:Bind ViewModel.VendorOptions}"
-                                          SelectionChanged="VendorList_SelectionChanged"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
-            </controls:FluidGrid>
-            <Button x:Name="uploadBtn"  Style="{StaticResource AccentButtonStyle}"   Command="{x:Bind ViewModel.EditPictureCommand}" Margin="0 35 0 0">
-                <StackPanel Orientation="Horizontal">
-                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE898;" Foreground="#fff" Margin="0 0 7 0"/>
-                    <TextBlock  x:Name="uploadName" Text="Upload" Foreground="#fff"/>
-                </StackPanel>
-            </Button>
-            <StackPanel Margin="0 20 0 0">
-            <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="300" >
-                <ListView x:Name="docListView" ItemsSource="{x:Bind ViewModel.DocList,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" MinHeight="50" >
-                                <!--<TextBlock Text="{Binding FileName}"  Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
-                            <TextBlock Text="{Binding Size}"  Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>-->
-                                <TextBlock Text="{Binding FileName}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.6}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
-                                <TextBlock Text="{Binding Size}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.1}" Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>
-                                <Button x:Name="Doc_Delete" Tag="{Binding Identity}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.3}" Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Doc_Delete_Click" HorizontalAlignment="Left">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74D;" Foreground="Red"  HorizontalAlignment="Left"/>
-                                    <Button.Resources>
-                                        <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
-                                    </Button.Resources>
-                                </Button>
-                            </StackPanel>
-
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </ScrollViewer>
-            </StackPanel>
-        </StackPanel>
+      
     </Grid>
 </UserControl>

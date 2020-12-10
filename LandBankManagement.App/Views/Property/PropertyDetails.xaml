@@ -13,12 +13,13 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:PropertyDetailsViewModel">
-            <controls:FluidGrid  Margin="0,30,0,0" Columns="2" ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
-                <controls:FluidGrid  Margin="0,30,0,0" Columns="2" ColumnSpacing="20" RowSpacing="12">
-
+            <controls:FluidGrid  Margin="0,0,0,20" Columns="3" MaxColumnWidth="500" ColumnWidth="400" ColumnSpacing="20" MinColumnWidth="400" RowSpacing="12" HorizontalAlignment="Center">
+               
+                <controls:FluidGrid  Margin="0,30,0,0"  ColumnSpacing="20" ColumnSpan="2"  RowSpacing="12" HorizontalAlignment="Center">
                     <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
+
                     <controls:FormComboBox  Header="Taluk" ItemsSource="{x:Bind TalukOptions}"
                                            SelectedValue="{x:Bind EditableItem.TalukId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
@@ -33,7 +34,7 @@
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Date Of Execution" Foreground="#3b81d1" Margin="0 0 0 10"/>
-                        <CalendarDatePicker  BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" MinWidth="200" Date="{x:Bind EditableItem.DateOfExecution,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
+                        <CalendarDatePicker  BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" HorizontalAlignment="Stretch" Date="{x:Bind EditableItem.DateOfExecution,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
                     </StackPanel>
                     <controls:FormTextBox Header="Document No" Text="{x:Bind EditableItem.DocumentNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormComboBox  Header="Property Type" ItemsSource="{x:Bind PropertyTypeOptions}"
@@ -44,55 +45,42 @@
                     <controls:FormTextBox Header="Google Map Link" Text="{x:Bind EditableItem.PropertyGMapLink, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
                     <StackPanel></StackPanel>
-                    <TextBlock Text="Land Area :"  Foreground="#3b81d1" FontSize="17" Margin="0 10 0 0"/>
-                    <StackPanel></StackPanel>
+                    <controls:FluidGrid  ColumnSpan="2"  Margin="0 20 0 0">
+                        <TextBlock Text="Land Area :"  Foreground="#9e6b0d" FontSize="17" Margin="0 10 0 0"  FontWeight="Medium"/>
+                    </controls:FluidGrid>                    
                     <controls:FormTextBox Header="In Acres " Text="{x:Bind EditableItem.LandAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
                     <controls:FormTextBox Header="Guntas" Text="{x:Bind EditableItem.LandAreaInputGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
-
-
-                    <controls:FormTextBox Header="In Guntas " Text="{x:Bind EditableItem.LandAreaInGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <StackPanel></StackPanel>
-                    <controls:FormTextBox Header="In sq. Mtrs" Text="{x:Bind EditableItem.LandAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <StackPanel></StackPanel>
-                    <controls:FormTextBox Header="In sft." Text="{x:Bind EditableItem.LandAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <StackPanel></StackPanel>
-
-                    <TextBlock Text="A Karab Area :"  Foreground="#3b81d1" FontSize="17"/>
-                    <StackPanel></StackPanel>
+                    <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10">
+                        <controls:FormTextBox Header="In Guntas " Text="{x:Bind EditableItem.LandAreaInGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"  IsReadOnly="True"/>
+                        <controls:FormTextBox Header="In sq. Mtrs" Text="{x:Bind EditableItem.LandAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"  IsReadOnly="True"/>
+                        <controls:FormTextBox Header="In sft." Text="{x:Bind EditableItem.LandAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"  IsReadOnly="True"/>                        
+                    </controls:FluidGrid>
+                    <controls:FluidGrid  ColumnSpan="2" Margin="0 20 0 0">
+                        <TextBlock Text="A Karab Area :"  Foreground="#9e6b0d" FontSize="17" Margin="0 10 0 0"  FontWeight="Medium"/>
+                    </controls:FluidGrid>                
                     <controls:FormTextBox Header="In Acres " Text="{x:Bind EditableItem.AKarabAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  LostFocus="Akarab_LostFocus"/>
-
                     <controls:FormTextBox Header="Guntas" Text="{x:Bind EditableItem.AKarabAreaInputGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  LostFocus="Akarab_LostFocus"/>
-                    <!--<Button x:Name="Calculation" Height="35" Margin="10 15 0 0"  Background="Transparent" Padding="10 5 10 5" Click="Calculation_Click"  HorizontalAlignment="Left">
-                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE8EF;" Foreground="#076dba"  HorizontalAlignment="Left"/>
-                        <Button.Resources>
-                            <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
-                        </Button.Resources>
-                    </Button>-->
-
-                    <controls:FormTextBox Header="In Guntas " Text="{x:Bind EditableItem.AKarabAreaInGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <StackPanel></StackPanel>
-                    <controls:FormTextBox Header="In sq. Mtrs" Text="{x:Bind EditableItem.AKarabAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <StackPanel></StackPanel>
-                    <controls:FormTextBox Header="In sft." Text="{x:Bind EditableItem.AKarabAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <StackPanel></StackPanel>
-
-                    <TextBlock Text="B Karab Area :"  Foreground="#3b81d1" FontSize="17"/>
-                    <StackPanel></StackPanel>
+                    <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10">
+                        <controls:FormTextBox Header="In Guntas " Text="{x:Bind EditableItem.AKarabAreaInGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
+                        <controls:FormTextBox Header="In sq. Mtrs" Text="{x:Bind EditableItem.AKarabAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                        <controls:FormTextBox Header="In sft." Text="{x:Bind EditableItem.AKarabAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
+                    </controls:FluidGrid>
+                    <controls:FluidGrid  ColumnSpan="2" Margin="0 20 0 0">
+                        <TextBlock Text="B Karab Area :"   Foreground="#9e6b0d" FontSize="17" Margin="0 10 0 0"  FontWeight="Medium"/>
+                    </controls:FluidGrid>                   
                     <controls:FormTextBox Header="In Acres " Text="{x:Bind EditableItem.BKarabAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
                     <controls:FormTextBox Header="Guntas" Text="{x:Bind EditableItem.BKarabAreaInputGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
-
-
-                    <controls:FormTextBox Header="In Guntas " Text="{x:Bind EditableItem.BKarabAreaInGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <StackPanel></StackPanel>
-                    <controls:FormTextBox Header="In sq. Mtrs" Text="{x:Bind EditableItem.BKarabAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <StackPanel></StackPanel>
-                    <controls:FormTextBox Header="In sft." Text="{x:Bind EditableItem.BKarabAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10">
+                        <controls:FormTextBox Header="In Guntas " Text="{x:Bind EditableItem.BKarabAreaInGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                        <controls:FormTextBox Header="In sq. Mtrs" Text="{x:Bind EditableItem.BKarabAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
+                        <controls:FormTextBox Header="In sft." Text="{x:Bind EditableItem.BKarabAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
+                    </controls:FluidGrid>                  
 
                 </controls:FluidGrid>
-                <controls:FluidGrid  Margin="0,30,0,0" Columns="1" ColumnSpacing="20" RowSpacing="12">
+                <controls:FluidGrid  Columns="1" RowSpacing="12" HorizontalAlignment="Left">
                     <StackPanel Margin="10 20 0 0">
                         <StackPanel Orientation="Horizontal">
-                            <controls:FormTextBox Header="Search Party" Text="{x:Bind PartySearchQuery, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MinWidth="200" Margin="0 10 0 10"/>
+                            <controls:FormTextBox Header="Search Party" Text="{x:Bind PartySearchQuery, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MinWidth="240" Margin="0 10 0 10"/>
                             <Button x:Name="partySearch" Height="35" Margin="10 15 0 0"  Background="Transparent" Padding="10 5 10 5"  Click="partySearch_Click" HorizontalAlignment="Left">
                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE721;" Foreground="#076dba"  HorizontalAlignment="Left"/>
                                 <Button.Resources>

@@ -170,6 +170,7 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Row="3" Height="Auto" VerticalAlignment="Top" >
+           
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Padding="5 " BorderThickness="1" BorderBrush="#adadac" Height="45" Margin="12 20 34 0">
                     <TextBlock Text="Date" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 

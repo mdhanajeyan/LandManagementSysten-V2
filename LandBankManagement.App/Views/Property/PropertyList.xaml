@@ -47,7 +47,7 @@
     </UserControl.Resources>
     <Grid>       
        
-        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100">
+        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100" >
             <views:CostDetails  ViewModel="{x:Bind ViewModel.CostDetails}" />
         </Popup>
 
