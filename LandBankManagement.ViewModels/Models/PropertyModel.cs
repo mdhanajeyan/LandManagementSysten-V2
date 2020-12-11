@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LandBankManagement.Services;
+using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace LandBankManagement.Models
@@ -42,7 +44,7 @@ namespace LandBankManagement.Models
         public decimal SaleValue2 { get; set; }
         public bool IsNew => PropertyId <= 0;
 
-
+        public ObservableCollection<ImagePickerResult> PropertyDocuments { get; set; }
         public override void Merge(ObservableObject source)
         {
             if (source is PropertyModel model)

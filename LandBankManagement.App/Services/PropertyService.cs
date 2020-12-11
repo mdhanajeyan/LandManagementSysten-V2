@@ -22,17 +22,28 @@ namespace LandBankManagement.Services
             LogService = logService;
         }
 
-        public async Task<PropertyModel> AddPropertyAsync(PropertyModel model)
+        public async Task<PropertyModel> AddPropertyAsync(PropertyModel model, ICollection<ImagePickerResult> docs)
         {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var property = new Property();
                 if (property != null)
                 {
+                    if (docs.Count > 0)
+                    {
+                        List<PropertyDocuments> docList = new List<PropertyDocuments>();
+                        foreach (var obj in docs)
+                        {
+                            var doc = new PropertyDocuments();
+                            UpdateDocumentFromModel(doc, obj);
+                            docList.Add(doc);
+                        }
+                        property.PropertyDocuments = docList;
+                    }
                     UpdatePropertyFromModel(property, model);
                     property.PropertyGuid = Guid.NewGuid();
-                    await dataService.AddPropertyAsync(property);
-                    model.Merge(await GetPropertyAsync(dataService, property.PropertyId));
+                   var propertyID=  await dataService.AddPropertyAsync(property);
+                    model.Merge(await GetPropertyAsync(dataService, propertyID));
                 }
                 return model;
             }
@@ -43,7 +54,9 @@ namespace LandBankManagement.Services
             var item = await dataService.GetPropertyAsync(id);
             if (item != null)
             {
-                return await CreatePropertyModelAsync(item, includeAllFields: true);
+                //return await CreatePropertyModelAsync(item, includeAllFields: true);
+                return await CreatePropertyModelWithDocsAsync(item);
+                
             }
             return null;
         }
@@ -85,7 +98,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<PropertyModel> UpdatePropertyAsync(PropertyModel model)
+        public async Task<PropertyModel> UpdatePropertyAsync(PropertyModel model, ICollection<ImagePickerResult> docs)
         {
             long id = model.PropertyId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -93,6 +106,17 @@ namespace LandBankManagement.Services
                 var property = id > 0 ? await dataService.GetPropertyAsync(model.PropertyId) : new Property();
                 if (property != null)
                 {
+                    if (docs != null && docs.Count > 0)
+                    {
+                        List<PropertyDocuments> docList = new List<PropertyDocuments>();
+                        foreach (var obj in docs)
+                        {
+                            var doc = new PropertyDocuments();
+                            UpdateDocumentFromModel(doc, obj);
+                            docList.Add(doc);
+                        }
+                        property.PropertyDocuments = docList;
+                    }
                     UpdatePropertyFromModel(property, model);
                     await dataService.UpdatePropertyAsync(property);
                     model.Merge(await GetPropertyAsync(dataService, property.PropertyId));
@@ -143,6 +167,17 @@ namespace LandBankManagement.Services
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 return await dataService.DeletePropertyPartyAsync(property);
+            }
+        }
+
+
+        public async Task<int> DeletePropertyDocumentAsync(ImagePickerResult documents)
+        {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var doc = new PropertyDocuments();
+                UpdateDocumentFromModel(doc, documents);
+                return await dataService.DeletePropertyDocumentAsync(doc);
             }
         }
 
@@ -283,6 +318,68 @@ namespace LandBankManagement.Services
                 SaleValue2 = source.SaleValue2,
                 CompanyID=source.CompanyID
             };
+
+            return model;
+        }
+
+        static public async Task<PropertyModel> CreatePropertyModelWithDocsAsync(Property source)
+        {
+            var model = new PropertyModel()
+            {
+                PropertyId = source.PropertyId,
+                PropertyGuid = source.PropertyGuid,
+                PropertyName = source.PropertyName,
+                PartyId = source.PartyId,
+                TalukId = source.TalukId,
+                HobliId = source.HobliId,
+                VillageId = source.VillageId,
+                DocumentTypeId = source.DocumentTypeId,
+                DateOfExecution = source.DateOfExecution,
+                DocumentNo = source.DocumentNo,
+                PropertyTypeId = source.PropertyTypeId,
+                SurveyNo = source.SurveyNo,
+                PropertyGMapLink = source.PropertyGMapLink,
+                LandAreaInputAcres = source.LandAreaInputAcres.ToString(),
+                LandAreaInputGuntas = source.LandAreaInputGuntas.ToString(),
+                LandAreaInAcres = source.LandAreaInAcres.ToString(),
+                LandAreaInGuntas = source.LandAreaInGuntas.ToString(),
+                LandAreaInSqMts = source.LandAreaInSqMts.ToString(),
+                LandAreaInSqft = source.LandAreaInSqft.ToString(),
+                AKarabAreaInputAcres = source.AKarabAreaInputAcres.ToString(),
+                AKarabAreaInputGuntas = source.AKarabAreaInputGuntas.ToString(),
+                AKarabAreaInAcres = source.AKarabAreaInAcres.ToString(),
+                AKarabAreaInGuntas = source.AKarabAreaInGuntas.ToString(),
+                AKarabAreaInSqMts = source.AKarabAreaInSqMts.ToString(),
+                AKarabAreaInSqft = source.AKarabAreaInSqft.ToString(),
+                BKarabAreaInputAcres = source.BKarabAreaInputAcres.ToString(),
+                BKarabAreaInputGuntas = source.BKarabAreaInputGuntas.ToString(),
+                BKarabAreaInAcres = source.BKarabAreaInAcres.ToString(),
+                BKarabAreaInGuntas = source.BKarabAreaInGuntas.ToString(),
+                BKarabAreaInSqMts = source.BKarabAreaInSqMts.ToString(),
+                BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
+                SaleValue1 = source.SaleValue1,
+                SaleValue2 = source.SaleValue2,
+                CompanyID = source.CompanyID
+            };
+            if (source.PropertyDocuments != null && source.PropertyDocuments.Count > 0)
+            {
+                ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
+                foreach (var doc in source.PropertyDocuments)
+                {
+                    docs.Add(new ImagePickerResult
+                    {
+                        blobId = doc.PropertyBlobId,
+                        guid = doc.PropertyGuid,
+                        FileName = doc.FileName,
+                        ImageBytes = doc.FileBlob,
+                        ContentType = doc.FileType,
+                        Size = doc.FileLenght,
+                        FileCategoryId = doc.FileCategoryId
+                    });
+                }
+                model.PropertyDocuments = docs;
+            }
+
             return model;
         }
 
@@ -322,6 +419,17 @@ namespace LandBankManagement.Services
             target.SaleValue1 = source.SaleValue1;
             target.SaleValue2 = source.SaleValue2;
             target.CompanyID = source.CompanyID;
+        }
+
+        private void UpdateDocumentFromModel(PropertyDocuments target, ImagePickerResult source)
+        {
+            target.PropertyBlobId = source.blobId;
+            target.PropertyGuid = source.guid;
+            target.FileBlob = source.ImageBytes;
+            target.FileName = source.FileName;
+            target.FileType = source.ContentType;
+            target.FileCategoryId = source.FileCategoryId;
+            target.UploadTime = DateTime.Now;
         }
     }
 }

@@ -53,6 +53,7 @@ namespace LandBankManagement.Data
         [NotMapped]
         public IList<PropPaySchedule> PropPaySchedules { get; set; }
         [NotMapped]
-        public IList<PropertyDocument> PropertyDocuments { get; set; }
+        public IList<PropertyDocuments> PropertyDocuments { get; set; }
+
     }
 }
