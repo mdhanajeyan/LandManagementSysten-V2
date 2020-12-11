@@ -109,25 +109,25 @@ namespace LandBankManagement.ViewModels
 
             if (type == "Area")
             {             
-                   Item.LandAreaInAcres = area.Acres.ToString();
-                   Item.LandAreaInGuntas = area.Guntas.ToString();
-                   Item.LandAreaInSqft = area.SqFt.ToString();
-                   Item.LandAreaInSqMts = area.SqMeters.ToString();
+                   Item.LandAreaInAcres = Math.Round(area.Acres,2).ToString();
+                   Item.LandAreaInGuntas =Math.Round( area.Guntas,2).ToString();
+                   Item.LandAreaInSqft = Math.Round(area.SqFt,2).ToString();
+                   Item.LandAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
             }
             if (type == "AKarab")
             {
-                    Item.AKarabAreaInAcres = area.Acres.ToString();
-                    Item.AKarabAreaInGuntas = area.Guntas.ToString();
-                    Item.AKarabAreaInSqft = area.SqFt.ToString();
-                    Item.AKarabAreaInSqMts = area.SqMeters.ToString();
+                    Item.AKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
+                    Item.AKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
+                    Item.AKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
+                    Item.AKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
               
             }
             if (type == "BKarab")
             {
-                    Item.BKarabAreaInAcres = area.Acres.ToString();
-                    Item.BKarabAreaInGuntas = area.Guntas.ToString();
-                    Item.BKarabAreaInSqft = area.SqFt.ToString();
-                    Item.BKarabAreaInSqMts = area.SqMeters.ToString();
+                    Item.BKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
+                    Item.BKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
+                    Item.BKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
+                    Item.BKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
             }
             var old = Item;
             Item = null;

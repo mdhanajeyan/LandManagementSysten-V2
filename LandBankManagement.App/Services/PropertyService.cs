@@ -27,9 +27,9 @@ namespace LandBankManagement.Services
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var property = new Property();
-                if (property != null)
+                if (property != null )
                 {
-                    if (docs.Count > 0)
+                    if ( docs!=null && docs.Count>0)
                     {
                         List<PropertyDocuments> docList = new List<PropertyDocuments>();
                         foreach (var obj in docs)
