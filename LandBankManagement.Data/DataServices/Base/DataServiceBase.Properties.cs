@@ -13,53 +13,96 @@ namespace LandBankManagement.Data.Services
         {
             if (model == null)
                 return 0;
-
-            var entity = new Property()
+            try
             {
-                PropertyId = model.PropertyId,
-                PropertyGuid = model.PropertyGuid,
-                PropertyName = model.PropertyName,
-                PartyId = model.PartyId,
-                TalukId = model.TalukId,
-                HobliId = model.HobliId,
-                VillageId = model.VillageId,
-                DocumentTypeId = model.DocumentTypeId,
-                DateOfExecution = model.DateOfExecution,
-                DocumentNo = model.DocumentNo,
-                PropertyTypeId = model.PropertyTypeId,
-                SurveyNo = model.SurveyNo,
-                PropertyGMapLink = model.PropertyGMapLink,
-                LandAreaInputAcres = model.LandAreaInputAcres,
-                LandAreaInputGuntas = model.LandAreaInputGuntas,
-                LandAreaInAcres = model.LandAreaInAcres,
-                LandAreaInGuntas = model.LandAreaInGuntas,
-                LandAreaInSqMts = model.LandAreaInSqMts,
-                LandAreaInSqft = model.LandAreaInSqft,
-                AKarabAreaInputAcres = model.AKarabAreaInputAcres,
-                AKarabAreaInputGuntas = model.AKarabAreaInputGuntas,
-                AKarabAreaInAcres = model.AKarabAreaInAcres,
-                AKarabAreaInGuntas = model.AKarabAreaInGuntas,
-                AKarabAreaInSqMts = model.AKarabAreaInSqMts,
-                AKarabAreaInSqft = model.AKarabAreaInSqft,
-                BKarabAreaInputAcres = model.BKarabAreaInputAcres,
-                BKarabAreaInputGuntas = model.BKarabAreaInputGuntas,
-                BKarabAreaInAcres = model.BKarabAreaInAcres,
-                BKarabAreaInGuntas = model.BKarabAreaInGuntas,
-                BKarabAreaInSqMts = model.BKarabAreaInSqMts,
-                BKarabAreaInSqft = model.BKarabAreaInSqft,
-                SaleValue1 = model.SaleValue1,
-                SaleValue2 = model.SaleValue2,
-                CompanyID=model.CompanyID
-            };
-            _dataSource.Entry(entity).State = EntityState.Added;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+                ICollection<PropertyDocuments> docs = model.PropertyDocuments;
+                var entity = new Property()
+                {
+                    PropertyGuid = model.PropertyGuid,
+                    PropertyName = model.PropertyName,
+                    PartyId = model.PartyId,
+                    TalukId = model.TalukId,
+                    HobliId = model.HobliId,
+                    VillageId = model.VillageId,
+                    DocumentTypeId = model.DocumentTypeId,
+                    DateOfExecution = model.DateOfExecution,
+                    DocumentNo = model.DocumentNo,
+                    PropertyTypeId = model.PropertyTypeId,
+                    SurveyNo = model.SurveyNo,
+                    PropertyGMapLink = model.PropertyGMapLink,
+                    LandAreaInputAcres = model.LandAreaInputAcres,
+                    LandAreaInputGuntas = model.LandAreaInputGuntas,
+                    LandAreaInAcres = model.LandAreaInAcres,
+                    LandAreaInGuntas = model.LandAreaInGuntas,
+                    LandAreaInSqMts = model.LandAreaInSqMts,
+                    LandAreaInSqft = model.LandAreaInSqft,
+                    AKarabAreaInputAcres = model.AKarabAreaInputAcres,
+                    AKarabAreaInputGuntas = model.AKarabAreaInputGuntas,
+                    AKarabAreaInAcres = model.AKarabAreaInAcres,
+                    AKarabAreaInGuntas = model.AKarabAreaInGuntas,
+                    AKarabAreaInSqMts = model.AKarabAreaInSqMts,
+                    AKarabAreaInSqft = model.AKarabAreaInSqft,
+                    BKarabAreaInputAcres = model.BKarabAreaInputAcres,
+                    BKarabAreaInputGuntas = model.BKarabAreaInputGuntas,
+                    BKarabAreaInAcres = model.BKarabAreaInAcres,
+                    BKarabAreaInGuntas = model.BKarabAreaInGuntas,
+                    BKarabAreaInSqMts = model.BKarabAreaInSqMts,
+                    BKarabAreaInSqft = model.BKarabAreaInSqft,
+                    SaleValue1 = model.SaleValue1,
+                    SaleValue2 = model.SaleValue2,
+                    CompanyID = model.CompanyID
+                };
+                _dataSource.Entry(entity).State = EntityState.Added;
+                await _dataSource.SaveChangesAsync();
+                int res = entity.PropertyId;
+
+
+                if (docs != null)
+                {
+                    foreach (var doc in docs)
+                    {
+                        if (doc.PropertyBlobId == 0)
+                        {
+                            doc.PropertyGuid = model.PropertyGuid;
+                            _dataSource.PropertyDocuments.Add(doc);
+                        }
+                    }
+                }
+                await _dataSource.SaveChangesAsync();
+
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<Property> GetPropertyAsync(long id)
         {
-            return await _dataSource.Properties.Where(r => r.PropertyId == id).FirstOrDefaultAsync();
+            var property= await _dataSource.Properties.Where(r => r.PropertyId == id).FirstOrDefaultAsync();
 
+            if (property.PropertyGuid != null)
+            {
+                var docs = GetPropertyDocumentsAsync(property.PropertyGuid);
+                if (docs.Any())
+                {
+                    property.PropertyDocuments = docs;
+                }
+
+            }
+            return property;
+        }
+
+        private List<PropertyDocuments> GetPropertyDocumentsAsync(Guid id)
+        {
+            try
+            {
+                return _dataSource.PropertyDocuments
+                    .Where(r => r.PropertyGuid == id).ToList();
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<IList<Property>> GetPropertiesAsync(DataRequest<Property> request)
@@ -164,9 +207,28 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> UpdatePropertyAsync(Property model)
         {
-            _dataSource.Entry(model).State = EntityState.Modified;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+            try
+            {
+                ICollection<PropertyDocuments> docs = model.PropertyDocuments;
+                _dataSource.Entry(model).State = EntityState.Modified;
+                int res = await _dataSource.SaveChangesAsync();
+                if (docs != null)
+                {
+                    foreach (var doc in docs)
+                    {
+                        if (doc.PropertyBlobId == 0)
+                        {
+                            doc.PropertyGuid = model.PropertyGuid;
+                            _dataSource.PropertyDocuments.Add(doc);
+                        }
+                    }
+                }
+                await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<int> DeletePropertyAsync(Property model)
@@ -284,6 +346,29 @@ namespace LandBankManagement.Data.Services
             {
                 throw ex;
             }
+        }
+
+        public async Task<int> UploadPropertyDocumentsAsync(List<PropertyDocuments> documents)
+        {
+            try
+            {
+                foreach (var doc in documents)
+                {
+                    _dataSource.Entry(doc).State = EntityState.Added;
+                }
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<int> DeletePropertyDocumentAsync(PropertyDocuments documents)
+        {
+            _dataSource.PropertyDocuments.Remove(documents);
+            return await _dataSource.SaveChangesAsync();
         }
     }
 }

@@ -126,6 +126,9 @@ namespace LandBankManagement.Data.Services
         Task<int> AddPropertyParty(List<PropertyParty> propertyParties);
         Task<int> AddPropPaySchedule(List<PropPaySchedule> schedules, decimal Sale1, decimal Sale2);
         Task<PropertyCostDetails> GetPropertyCostDetails(int propertyId);
+        Task<int> UploadPropertyDocumentsAsync(List<PropertyDocuments> model);
+        Task<int> DeletePropertyDocumentAsync(PropertyDocuments documents);
+
 
         Task<int> AddPropertyTypeAsync(PropertyType model);
         Task<PropertyType> GetPropertyTypeAsync(long id);

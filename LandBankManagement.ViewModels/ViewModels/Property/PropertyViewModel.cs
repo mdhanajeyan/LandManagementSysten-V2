@@ -77,6 +77,14 @@ namespace LandBankManagement.ViewModels
                 selected.Merge(model);
                 PropertyDetials.Item = model;
                 PropertyDetials.GetPropertyParties(model.PropertyId);
+                PropertyDetials.DocList = model.PropertyDocuments;
+                if (model.PropertyDocuments != null)
+                {
+                    for (int i = 0; i < PropertyDetials.DocList.Count; i++)
+                    {
+                        PropertyDetials.DocList[i].Identity = i + 1;
+                    }
+                }
                 SelectedPivotIndex = 1;
             }
             catch (Exception ex)

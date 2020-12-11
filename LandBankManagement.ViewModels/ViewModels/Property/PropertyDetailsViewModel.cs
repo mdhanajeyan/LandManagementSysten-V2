@@ -75,6 +75,13 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _partySearchQuery, value);
         }
 
+        private ObservableCollection<ImagePickerResult> _docList = null;
+        public ObservableCollection<ImagePickerResult> DocList
+        {
+            get => _docList;
+            set => Set(ref _docList, value);
+        }
+
         public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel villageListViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -166,7 +173,47 @@ namespace LandBankManagement.ViewModels
             else
             PartyList.Remove(model);
         }
-              
+
+        public ICommand EditPictureCommand => new RelayCommand(OnEditFile);
+        private async void OnEditFile()
+        {
+            var result = await FilePickerService.OpenImagePickerAsync();
+            if (result != null)
+            {
+                if (DocList == null)
+                    DocList = new ObservableCollection<ImagePickerResult>();
+
+                foreach (var file in result)
+                {
+                    DocList.Add(file);
+                }
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    DocList[i].Identity = i + 1;
+                }
+            }
+
+        }
+
+        public void DeleteDocument(int id)
+        {
+            if (id > 0)
+            {
+                if (DocList[id - 1].blobId > 0)
+                {
+                    PropertyService.DeletePropertyDocumentAsync(DocList[id - 1]);
+                }
+                DocList.RemoveAt(id - 1);
+                var newlist = DocList;
+                for (int i = 0; i < newlist.Count; i++)
+                {
+                    newlist[i].Identity = i + 1;
+                }
+                DocList = null;
+                DocList = newlist;
+            }
+        }
+
 
         public void Subscribe()
         {
@@ -186,9 +233,9 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Saving Property...");
 
                 if (model.PropertyId <= 0)
-                   model= await PropertyService.AddPropertyAsync(model);
+                   model= await PropertyService.AddPropertyAsync(model, DocList);
                 else
-                    await PropertyService.UpdatePropertyAsync(model);
+                    await PropertyService.UpdatePropertyAsync(model, DocList);
                
                   SaveParties(model);
                 GetPropertyParties(model.PropertyId);
@@ -206,6 +253,8 @@ namespace LandBankManagement.ViewModels
 
         private async void SaveParties(PropertyModel property) {
 
+            if (PartyList == null)
+                return;
             var parties = new List<PropertyPartyModel>();
             foreach (var model in PartyList) {
                 if (model.PropertyPartyId == 0)
@@ -234,6 +283,8 @@ namespace LandBankManagement.ViewModels
             PartySearchQuery = "";
             PartyOptions = null;
             PartyList = null;
+            if (DocList != null)
+                DocList.Clear();
         }
         protected override async Task<bool> DeleteItemAsync(PropertyModel model)
         {

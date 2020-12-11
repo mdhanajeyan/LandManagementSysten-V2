@@ -59,11 +59,11 @@
                                                 <!--<TextBlock Text="{Binding FileName}"  Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
                             <TextBlock Text="{Binding Size}"  Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>-->
                                                 <TextBlock Text="{Binding FileName}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.6}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
-                                                <TextBlock Text="{Binding Size}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.1}" Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>
+                       Path=ActualWidth, ConverterParameter=0.8}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextTrimming="CharacterEllipsis" ></TextBlock>
+                                                <!--<TextBlock Text="{Binding Size}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
+                       Path=ActualWidth, ConverterParameter=0.1}" Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>-->
                                                 <Button x:Name="Doc_Delete" Tag="{Binding Identity}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.3}" Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Doc_Delete_Click" HorizontalAlignment="Left">
+                       Path=ActualWidth, ConverterParameter=0.1}" Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Doc_Delete_Click" HorizontalAlignment="Left">
                                                     <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74D;" Foreground="Red"  HorizontalAlignment="Left"/>
                                                     <Button.Resources>
                                                         <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
