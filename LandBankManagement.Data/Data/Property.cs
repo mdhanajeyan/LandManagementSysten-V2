@@ -50,6 +50,10 @@ namespace LandBankManagement.Data
         [NotMapped]
         public string SearchTerms { get; set; }
 
+        [NotMapped]
         public IList<PropPaySchedule> PropPaySchedules { get; set; }
+        [NotMapped]
+        public IList<PropertyDocuments> PropertyDocuments { get; set; }
+
     }
 }

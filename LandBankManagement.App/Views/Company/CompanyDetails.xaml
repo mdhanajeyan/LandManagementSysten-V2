@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <x:Double x:Key="CardPictureRadius">132</x:Double>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CompanyDetailsViewModel" >
-            <controls:FluidGrid Margin="0,12,0,0" Columns="3" ColumnSpacing="40" RowSpacing="12"  HorizontalAlignment="Center">
+            <controls:FluidGrid Margin="0,12,0,0" Columns="3" ColumnSpacing="10" RowSpacing="12"  HorizontalAlignment="Center">
                 <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"   ColumnSpacing="12" RowSpacing="12" HorizontalAlignment="Center" >
                 <controls:FormTextBox Header="Company Name" MaxLength="150" Text="{x:Bind EditableItem.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
@@ -50,9 +50,9 @@
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" MinHeight="50" >                                              
                                                 <TextBlock Text="{Binding FileName}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.5}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
-                                                <TextBlock Text="{Binding Size}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.2}" Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>
+                       Path=ActualWidth, ConverterParameter=0.7}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextTrimming="CharacterEllipsis"></TextBlock>
+                                                <!--<TextBlock Text="{Binding Size}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
+                       Path=ActualWidth, ConverterParameter=0.2}" Foreground="#265fab" FontSize="16" Padding="0 15 0 0"></TextBlock>-->
                                                 <Button x:Name="Doc_Delete" Tag="{Binding Identity}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
                        Path=ActualWidth, ConverterParameter=0.1}" Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Doc_Delete_Click" HorizontalAlignment="Left">
                                                     <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74D;" Foreground="Red"  HorizontalAlignment="Left"/>

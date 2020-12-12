@@ -35,7 +35,7 @@ namespace LandBankManagement.ViewModels
             }
         };
 
-        private readonly NavigationItem TransactionItem = new NavigationItem("Transaction", 0xf1ed)
+        private readonly NavigationItem TransactionItem = new NavigationItem("Transaction", 0xf218)
         {
             Children = new ObservableCollection<NavigationItem>
             {
@@ -62,11 +62,11 @@ namespace LandBankManagement.ViewModels
             }
         };
 
-        private readonly NavigationItem PropertyItem = new NavigationItem("Property", 0xf557)
+        private readonly NavigationItem PropertyItem = new NavigationItem("Property", 0xf231)
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xE8C7, "Property", typeof(PropertyViewModel)){ Screen=NavigationScreen.Property}
+                new NavigationItem(0xf041, "Property", typeof(PropertyViewModel)){ Screen=NavigationScreen.Property}
 
             }
         };
