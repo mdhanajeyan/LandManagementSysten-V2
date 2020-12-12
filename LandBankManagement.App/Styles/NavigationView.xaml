@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
 
-    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#EBEBEB"/>
-    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#EBEBEB"/>
+    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#7CBEE0"/>
+    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#7CBEE0"/>
 
 
     <Style x:Key="BackButtonNavigationViewStyle" TargetType="muxc:NavigationView">

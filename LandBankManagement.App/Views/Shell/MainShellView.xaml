@@ -8,7 +8,7 @@
     xmlns:models="using:LandBankManagement.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
     xmlns:fa="using:FontAwesome.UWP"
-    xmlns:Windows10version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 6)"
+   xmlns:Windows10version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 6)"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -151,8 +151,8 @@
         </Grid.RowDefinitions>
 
         <muxc:NavigationView  x:Name="navigationView" 
-                        Background="#EBEBEB"
                         MenuItemsSource="{x:Bind ViewModel.Items}" 
+                        Background="{StaticResource LightBackground}"
                         MenuItemTemplate="{StaticResource NavigationViewMenuItem}"
                         SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}" 
                         SelectionChanged="OnSelectionChanged"
@@ -196,7 +196,7 @@
                 Style="{StaticResource PaneToggleButtonStyle}"/>-->
 
 
-        <Grid Grid.Row="1" Background="DarkGray">
+        <Grid Grid.Row="1" Background="{StaticResource TaskBarBackGround}">
             <Rectangle Fill="{StaticResource Error}" Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
             <TextBlock Margin="6,4" Text="{x:Bind ViewModel.Message, Mode=OneWay}" Foreground="White" FontSize="12" />
         </Grid>

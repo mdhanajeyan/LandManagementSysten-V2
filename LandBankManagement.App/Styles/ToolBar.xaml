@@ -8,7 +8,7 @@
 
     <Style x:Key="ToolBarButtonStyle" TargetType="AppBarButton">
         <Setter Property="Background" Value="{ThemeResource AppBarButtonRevealBackground}" />
-        <Setter Property="Foreground" Value="{ThemeResource AppBarButtonForeground}" />
+        <Setter Property="Foreground" Value="{StaticResource ToolBarButtonForeGround}" />
         <Setter Property="BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource AppBarButtonRevealBorderThemeThickness}" />
         <Setter Property="HorizontalAlignment" Value="Left" />

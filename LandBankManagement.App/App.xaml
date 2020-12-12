@@ -4,12 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:LandBankManagement"
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.Reports"
-    xmlns:converters="using:LandBankManagement.Converters">
+    xmlns:converters="using:LandBankManagement.Converters"
+    RequestedTheme="Light">
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="/Themes/ThemeDictionaries.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Themes/Generic.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/Styles/Buttons.xaml" />
                 <ResourceDictionary Source="/Styles/CalendarPicker.xaml" />
                 <ResourceDictionary Source="/Styles/DataGrid.xaml" />
@@ -18,6 +21,7 @@
                 <ResourceDictionary Source="/Styles/Sections.xaml" />
                 <ResourceDictionary Source="/Styles/ToolBar.xaml" />
                 <ResourceDictionary Source="/Styles/Cards.xaml" />
+                
             </ResourceDictionary.MergedDictionaries>
 
             <SolidColorBrush x:Key="DetailsViewBackgroundColor" Color="#F5F5F5" />

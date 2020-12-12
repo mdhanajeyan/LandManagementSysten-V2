@@ -44,7 +44,7 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" IsHitTestVisible="False" />
+            <Grid Grid.Row="1" Background="{ThemeResource DefaultBackground}" IsHitTestVisible="False" />
 
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
