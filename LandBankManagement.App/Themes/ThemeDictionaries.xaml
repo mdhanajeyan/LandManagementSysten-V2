@@ -12,7 +12,7 @@
             <SolidColorBrush x:Key="SectionBackGround" Color="#9E9E9E"/>
             <SolidColorBrush x:Key="TaskBarBackGround" />
             <SolidColorBrush x:Key="ToolBarButtonForeGround"/>
-            <SolidColorBrush x:Key="DetailsBackGround" ></SolidColorBrush>menu
+            <SolidColorBrush x:Key="DetailsBackGround" ></SolidColorBrush>
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
