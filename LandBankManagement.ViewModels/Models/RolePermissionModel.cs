@@ -9,6 +9,7 @@
         public int RoleInfoId { get; set; }
         public int ScreenId { get; set; }
         public bool OptionId { get; set; }
+        public bool CanView { get; set; }
 
         public bool IsNew => RolePermissionId <= 0;
         public override void Merge(ObservableObject source)
@@ -27,6 +28,7 @@
                 RoleInfoId = source.RoleInfoId;
                 ScreenId = source.ScreenId;
                 OptionId = source.OptionId;
+                CanView = source.CanView;
             }
         }
     }

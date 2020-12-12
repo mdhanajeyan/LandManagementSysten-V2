@@ -21,6 +21,7 @@ namespace LandBankManagement.Data.Services
                     RoleInfoId = model.RoleInfoId,
                     ScreenId = model.ScreenId,
                     OptionId = model.OptionId,
+                    CanView = model.CanView,
         };
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
@@ -80,6 +81,7 @@ namespace LandBankManagement.Data.Services
                     RoleInfoId = source.RoleInfoId,
                     ScreenId = source.ScreenId,
                     OptionId = source.OptionId,
+                    CanView = source.CanView,
                 })
                 .AsNoTracking()
                 .ToListAsync();

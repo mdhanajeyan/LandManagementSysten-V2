@@ -5,15 +5,15 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="DefaultBackground" Color="White" />
-            <SolidColorBrush x:Key="LightBackground" Color="#7CBEE0" />
-            <SolidColorBrush x:Key="BorderBrush" Color="#FFD3D3D3" />
-            <SolidColorBrush x:Key="ListBackGround" Color="#2F7BAD"></SolidColorBrush>
-            <SolidColorBrush x:Key="ListHeaderBackGround" Color="Beige"/>
-            <SolidColorBrush x:Key="SectionBackGround" Color="#CC4D11"/>
-            <SolidColorBrush x:Key="TaskBarBackGround" Color="#CC4D11"/>
-            <SolidColorBrush x:Key="ToolBarButtonForeGround" Color="#805BBF"/>
-            <SolidColorBrush x:Key="DetailsBackGround" Color="#EECEFF"></SolidColorBrush>
-            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#7CBEE0" />
+            <SolidColorBrush x:Key="LightBackground" Color="#424242" />
+            <SolidColorBrush x:Key="BorderBrush" Color="LawnGreen" />
+            <SolidColorBrush x:Key="ListBackGround" Color="#E0E0E0"></SolidColorBrush>
+            <SolidColorBrush x:Key="ListHeaderBackGround" Color="#9E9E9E"/>
+            <SolidColorBrush x:Key="SectionBackGround" Color="#9E9E9E"/>
+            <SolidColorBrush x:Key="TaskBarBackGround" />
+            <SolidColorBrush x:Key="ToolBarButtonForeGround"/>
+            <SolidColorBrush x:Key="DetailsBackGround" ></SolidColorBrush>menu
+            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="DefaultBackground" Color="#333" />

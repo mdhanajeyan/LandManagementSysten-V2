@@ -119,6 +119,7 @@ namespace LandBankManagement.Services
                 RoleInfoId = source.RoleInfoId,
                 ScreenId = source.ScreenId,
                 OptionId = source.OptionId,
+                CanView = source.CanView,
         };
 
             return model;
@@ -130,6 +131,7 @@ namespace LandBankManagement.Services
             target.RoleInfoId = source.RoleInfoId;
             target.ScreenId = source.ScreenId;
             target.OptionId = source.OptionId;
+            target.CanView = source.CanView;
         }
 
        

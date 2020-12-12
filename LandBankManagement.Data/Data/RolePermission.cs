@@ -13,6 +13,7 @@ namespace LandBankManagement.Data
         public int RoleInfoId { get; set; }
         public int ScreenId { get; set; }
         public bool OptionId { get; set; }
+        public bool CanView { get; set; }
 
         [NotMapped]
         public string SearchTerms { get; set; }
