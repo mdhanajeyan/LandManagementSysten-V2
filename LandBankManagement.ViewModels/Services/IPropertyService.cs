@@ -24,5 +24,6 @@ namespace LandBankManagement.Services
         Task<PropertyCostDetailsModel> GetPropertyCostDetails(int propertyId);
         Task<int> AddPropPaySchedule(List<PaymentScheduleModel> schedules, decimal Sale1, decimal Sale2);
         Task<int> DeletePropertyDocumentAsync(ImagePickerResult documents);
+        Task<ObservableCollection<PropertyModel>> GetPropertyByGroupGuidAsync(Guid guid);
     }
 }

@@ -82,6 +82,13 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _docList, value);
         }
 
+        private ObservableCollection<PropertyModel> _propertyList = null;
+        public ObservableCollection<PropertyModel> PropertyList
+        {
+            get => _propertyList;
+            set => Set(ref _propertyList, value);
+        }
+
         public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel villageListViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -164,11 +171,26 @@ namespace LandBankManagement.ViewModels
             }
         }
 
+        public async void LoadPropertyById(int id) {
+
+            var model = PropertyList.First(x => x.PropertyId == id);
+            Item = model;
+            await GetPropertyParties(id);
+            DocList = model.PropertyDocuments;
+            if (model.PropertyDocuments != null)
+            {
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    DocList[i].Identity = i + 1;
+                }
+            }
+        }
+
         public async void RemoveParty(int id) {
             var model = PartyList.First(x => x.PartyId == id);
             if (model.PropertyPartyId > 0) {
                await PropertyService.DeletePropertyPartyAsync(model);
-                GetPropertyParties(Item.PropertyId);
+               await  GetPropertyParties(Item.PropertyId);
             }
             else
             PartyList.Remove(model);
@@ -225,7 +247,24 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
+        public void CloneProperty() {
+            
+            var newItem = new PropertyModel();
+            newItem.CompanyID = Item.CompanyID;
+            newItem.TalukId = Item.TalukId;
+            newItem.HobliId = Item.HobliId;
+            newItem.VillageId = Item.VillageId;
+            newItem.GroupGuid = Item.GroupGuid;
+            newItem.DateOfExecution = DateTimeOffset.Now;
 
+            Item = null;
+            Item = newItem;
+
+            PartyList = null;
+            DocList = null;
+
+        }
+       
         protected override async Task<bool> SaveItemAsync(PropertyModel model)
         {
             try
@@ -238,7 +277,7 @@ namespace LandBankManagement.ViewModels
                     await PropertyService.UpdatePropertyAsync(model, DocList);
                
                   SaveParties(model);
-                GetPropertyParties(model.PropertyId);
+              await GetPropertyParties(model.PropertyId);
                 EndStatusMessage("Property saved");
                 LogInformation("Property", "Save", "Property saved successfully", $"Property {model.PropertyId} '{model.PropertyName}' was saved successfully.");
                 return true;
@@ -273,8 +312,9 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        public async  void GetPropertyParties(int id) {
+        public async  Task GetPropertyParties(int id) {
             PartyList =await PropertyService.GetPartiesOfProperty(id);
+            
         }
 
         protected override void ClearItem()

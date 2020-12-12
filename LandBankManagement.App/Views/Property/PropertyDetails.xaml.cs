@@ -101,5 +101,16 @@ namespace LandBankManagement.Views
             var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
             ViewModel.DeleteDocument(identity);
         }
+
+        private void AddNewPropertyBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.CloneProperty();
+        }
+
+        private void SelectedPropertyInGroup_Click(object sender, RoutedEventArgs e)
+        {
+            var id = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.LoadPropertyById(id);
+        }
     }
 }

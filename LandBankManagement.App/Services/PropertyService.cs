@@ -42,6 +42,7 @@ namespace LandBankManagement.Services
                     }
                     UpdatePropertyFromModel(property, model);
                     property.PropertyGuid = Guid.NewGuid();
+                    property.GroupGuid = (model.GroupGuid==null || model.GroupGuid == Guid.Empty) ? Guid.NewGuid() : model.GroupGuid;// For Grouping property
                    var propertyID=  await dataService.AddPropertyAsync(property);
                     model.Merge(await GetPropertyAsync(dataService, propertyID));
                 }
@@ -85,6 +86,19 @@ namespace LandBankManagement.Services
                 foreach (var item in items)
                 {
                     models.Add(await CreatePropertyModelAsync(item, includeAllFields: false));
+                }
+                return models;
+            }
+        }
+
+        public async Task<ObservableCollection<PropertyModel>> GetPropertyByGroupGuidAsync(Guid guid) {
+            var models = new ObservableCollection<PropertyModel>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var items = await dataService.GetPropertyByGroupGuidAsync(guid);
+                foreach (var item in items)
+                {
+                    models.Add(await CreatePropertyModelWithDocsAsync(item));
                 }
                 return models;
             }
@@ -286,6 +300,7 @@ namespace LandBankManagement.Services
                 PropertyId = source.PropertyId,
                 PropertyGuid = source.PropertyGuid,
                 PropertyName = source.PropertyName,
+                GroupGuid=source.GroupGuid,
                 PartyId = source.PartyId,
                 TalukId = source.TalukId,
                 HobliId = source.HobliId,
@@ -329,6 +344,7 @@ namespace LandBankManagement.Services
                 PropertyId = source.PropertyId,
                 PropertyGuid = source.PropertyGuid,
                 PropertyName = source.PropertyName,
+                GroupGuid=source.GroupGuid,
                 PartyId = source.PartyId,
                 TalukId = source.TalukId,
                 HobliId = source.HobliId,
@@ -388,6 +404,7 @@ namespace LandBankManagement.Services
             target.PropertyId = source.PropertyId;
             target.PropertyGuid = source.PropertyGuid;
             target.PropertyName = source.PropertyName;
+            target.GroupGuid = source.GroupGuid;
             target.PartyId = source.PartyId;
             target.TalukId = source.TalukId;
             target.HobliId = source.HobliId;

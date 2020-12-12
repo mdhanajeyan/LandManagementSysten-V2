@@ -16,15 +16,17 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="20*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Property Name*" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="Document No*" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="2" Text="Survey No" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="3" Text="Cost Details" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="4" Text="Document Type" Style="{StaticResource ColumnHeaderStyle}" />
             </Grid>
         </DataTemplate>
 
@@ -32,15 +34,17 @@
             <Grid Height="32">
                 <Grid Visibility="{x:Bind IsEmpty, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="25*"/>
-                        <ColumnDefinition Width="25*"/>
-                        <ColumnDefinition Width="25*"/>
-                        <ColumnDefinition Width="45*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{x:Bind PropertyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="1" Text="{x:Bind DocumentNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="2" Text="{x:Bind SurveyNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <Button x:Name="CostDetails" Grid.Column="3" Tag="{x:Bind PropertyId}" Content="Add Cost" Click="CostDetails_Click"/>
+                    <Button x:Name="DocumentType" Grid.Column="4" Tag="{x:Bind PropertyId}" Content="Add DocumentType" Click="DocumentType_Click"/>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -54,7 +58,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid  Grid.Row="0" HorizontalAlignment="Stretch" Padding="0 0 20 0" Background="#a3a0a0">
-                    <Button x:Name="Doc_Dpwnload"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Doc_Dpwnload_Click">
+                    <Button x:Name="Popup_closeBtn"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Popup_closeBtn_Click">
                         <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE8BB;" Foreground="Red" FontWeight="Medium"  HorizontalAlignment="Left"/>
                         <Button.Resources>
                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>

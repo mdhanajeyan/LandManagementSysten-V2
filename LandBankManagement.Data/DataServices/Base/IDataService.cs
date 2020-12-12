@@ -128,7 +128,7 @@ namespace LandBankManagement.Data.Services
         Task<PropertyCostDetails> GetPropertyCostDetails(int propertyId);
         Task<int> UploadPropertyDocumentsAsync(List<PropertyDocuments> model);
         Task<int> DeletePropertyDocumentAsync(PropertyDocuments documents);
-
+        Task<List<Property>> GetPropertyByGroupGuidAsync(Guid guid);
 
         Task<int> AddPropertyTypeAsync(PropertyType model);
         Task<PropertyType> GetPropertyTypeAsync(long id);

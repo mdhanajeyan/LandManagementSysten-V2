@@ -18,7 +18,7 @@ namespace LandBankManagement.ViewModels
         public PropertyViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IPropertyService propertyService) : base(commonServices)
         {
             PropertyService = propertyService;
-            PropertyList = new PropertyListViewModel(propertyService, commonServices);
+            PropertyList = new PropertyListViewModel(propertyService, commonServices,this);
             PropertyDetials = new PropertyDetailsViewModel(dropDownService, propertyService, filePickerService, commonServices, PropertyList);
         }
 
@@ -73,10 +73,14 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
-                var model = await PropertyService.GetPropertyAsync(selected.PropertyId);
-                selected.Merge(model);
+                // var model = await PropertyService.GetPropertyAsync(selected.PropertyId);
+                var modelList = await PropertyService.GetPropertyByGroupGuidAsync(selected.GroupGuid.GetValueOrDefault());
+                PropertyDetials.PropertyList = modelList;
+                var model = modelList[0];
+                //selected.Merge(model);
+               
                 PropertyDetials.Item = model;
-                PropertyDetials.GetPropertyParties(model.PropertyId);
+                await PropertyDetials.GetPropertyParties(model.PropertyId);
                 PropertyDetials.DocList = model.PropertyDocuments;
                 if (model.PropertyDocuments != null)
                 {
@@ -91,6 +95,33 @@ namespace LandBankManagement.ViewModels
             {
                 LogException("Property", "Load Details", ex);
             }
+        }
+
+        public async void LoadPropertyForNewDocumentType(int id)
+        {
+            var model = await PropertyService.GetPropertyAsync(id);
+
+            model.DocumentTypeId = 0;
+            PropertyDetials.Item = model;
+            await PropertyDetials.GetPropertyParties(model.PropertyId);
+            PropertyDetials.DocList = model.PropertyDocuments;
+            if (model.PropertyDocuments != null)
+            {
+                for (int i = 0; i < PropertyDetials.DocList.Count; i++)
+                {
+                    PropertyDetials.DocList[i].Identity = i + 1;
+                    PropertyDetials.DocList[i].blobId = 0;
+                }
+            }
+            if (PropertyDetials.PartyList != null) {
+                foreach (var party in PropertyDetials.PartyList) {
+                    party.PropertyId = 0;
+                    party.PropertyPartyId = 0;
+                }
+            }
+            PropertyDetials.Item.PropertyId=0;
+            PropertyDetials.Item.GroupGuid =null;
+            SelectedPivotIndex = 1;
         }
     }
 }

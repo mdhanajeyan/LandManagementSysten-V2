@@ -37,10 +37,12 @@ namespace LandBankManagement.ViewModels
             get => _popupOpened;
             set => Set(ref _popupOpened, value);
         }
-        public PropertyListViewModel(IPropertyService propertyService, ICommonServices commonServices) : base(commonServices)
+        public PropertyViewModel PropertyView { get; set; }
+        public PropertyListViewModel(IPropertyService propertyService, ICommonServices commonServices, PropertyViewModel propertyView) : base(commonServices)
         {
             PropertyService = propertyService;
             CostDetails = new CostDetailsViewModel(propertyService, commonServices,this);
+            PropertyView = propertyView;
         }
         public async Task LoadAsync(PropertyListArgs args)
         {
@@ -48,10 +50,7 @@ namespace LandBankManagement.ViewModels
             Query = ViewModelArgs.Query;
 
             StartStatusMessage("Loading Property...");
-            if (await RefreshAsync())
-            {
-                EndStatusMessage("Property loaded");
-            }
+            EndStatusMessage("Property loaded");            
         }
         public void Unload()
         {
@@ -88,7 +87,10 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                StartStatusMessage("Loading Property List...");
+               
                 Items = await GetItemsAsync();
+                EndStatusMessage("Property List loaded");
             }
             catch (Exception ex)
             {

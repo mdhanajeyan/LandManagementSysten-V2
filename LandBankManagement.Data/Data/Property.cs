@@ -15,6 +15,7 @@ namespace LandBankManagement.Data
         public int CompanyID { get; set; }
         public Guid PropertyGuid { get; set; }
         public string PropertyName { get; set; }
+        public Guid? GroupGuid { get; set; }
         public int PartyId { get; set; }
         public int TalukId { get; set; }
         public int HobliId { get; set; }

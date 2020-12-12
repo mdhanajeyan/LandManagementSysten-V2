@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:PaymentsDetailsViewModel">
-            <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
+            <controls:FluidGrid Margin="0,30,10,0" Columns="2" ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
                 <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />

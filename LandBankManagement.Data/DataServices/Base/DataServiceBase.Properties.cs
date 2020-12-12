@@ -20,6 +20,7 @@ namespace LandBankManagement.Data.Services
                 {
                     PropertyGuid = model.PropertyGuid,
                     PropertyName = model.PropertyName,
+                    GroupGuid=model.GroupGuid,
                     PartyId = model.PartyId,
                     TalukId = model.TalukId,
                     HobliId = model.HobliId,
@@ -93,6 +94,24 @@ namespace LandBankManagement.Data.Services
             return property;
         }
 
+        public async Task<List<Property>> GetPropertyByGroupGuidAsync(Guid guid)
+        {
+            var properties = await _dataSource.Properties.Where(r => r.GroupGuid == guid).ToListAsync();
+            if (properties != null) {
+
+                foreach (var model in properties) {
+                    var docs = GetPropertyDocumentsAsync(model.PropertyGuid);
+                    if (docs.Any())
+                    {
+                        model.PropertyDocuments = docs;
+                    }
+
+                }
+            }
+           
+            return properties;
+        }
+
         private List<PropertyDocuments> GetPropertyDocumentsAsync(Guid id)
         {
             try
@@ -149,6 +168,7 @@ namespace LandBankManagement.Data.Services
                     PropertyId = source.PropertyId,
                     PropertyGuid = source.PropertyGuid,
                     PropertyName = source.PropertyName,
+                    GroupGuid=source.GroupGuid,
                     PartyId = source.PartyId,
                     TalukId = source.TalukId,
                     HobliId = source.HobliId,

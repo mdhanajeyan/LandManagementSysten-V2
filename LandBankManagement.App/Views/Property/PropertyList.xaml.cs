@@ -23,15 +23,21 @@ namespace LandBankManagement.Views
 
         private  void CostDetails_Click(object sender, RoutedEventArgs e)
         {
-            //CostDetailsPopup.IsOpen = true;
             var propertyId = Convert.ToInt32(((Button)sender).Tag.ToString());
              ViewModel.CostDetails.LoadAsync(propertyId);
             ViewModel.PopupOpened = true;
         }
 
-        private void Doc_Dpwnload_Click(object sender, RoutedEventArgs e)
+        private void Popup_closeBtn_Click(object sender, RoutedEventArgs e)
         {
             CostDetailsPopup.IsOpen = false;
+        }
+
+        private void DocumentType_Click(object sender, RoutedEventArgs e)
+        {
+            var propertyId = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.PropertyView.LoadPropertyForNewDocumentType(propertyId);
+            
         }
     }
 }
