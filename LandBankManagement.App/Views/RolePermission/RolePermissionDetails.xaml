@@ -29,7 +29,8 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                <Grid  Grid.Row="0" HorizontalAlignment="Stretch" Height="30" Margin="0 20 0 5">
+                    <StackPanel Grid.Row="0" Background="#b0b0b0" Margin="0 20 0 0">
+                <Grid   HorizontalAlignment="Stretch" Height="30" Padding="10 5 0 0">
                         
                     <Grid.ColumnDefinitions >
                         <ColumnDefinition Width="*"/>
@@ -40,25 +41,34 @@
                         <TextBlock Grid.Column="1" Text="View" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="2" Text="Read / Write" HorizontalAlignment="Center"/>
                 </Grid>
-                    <StackPanel Grid.Row="1" Margin="0 0 0 20"  HorizontalAlignment="Stretch">
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Margin="0 0 0 20"  HorizontalAlignment="Stretch" BorderBrush="#b0b0b0" BorderThickness="1">
                         <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500" >
-                            <muxc:ItemsRepeater ItemsSource="{x:Bind RolePermissionList,Mode=TwoWay}" >
-                                <DataTemplate>
-                                    <Grid  HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding  ScreenName,Mode=TwoWay}"/>
-                                        <CheckBox x:Name="canView" Grid.Column="1" IsChecked="{Binding CanView,Mode=TwoWay}" HorizontalAlignment="Center">                                            
-                                        </CheckBox>
-                                        <CheckBox x:Name="readWrite" Grid.Column="2" IsChecked="{Binding OptionId,Mode=TwoWay}" HorizontalAlignment="Center">
-                                        </CheckBox>
-                                    </Grid>                                  
-                                </DataTemplate>
-
-                            </muxc:ItemsRepeater>
+                            <ListView ItemsSource="{x:Bind RolePermissionList,Mode=TwoWay}" >
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                                        <Setter Property="BorderBrush" Value="#b0b0b0" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />                                        
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid  HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding  ScreenName,Mode=TwoWay}"/>
+                                            <CheckBox x:Name="canView" Grid.Column="1" IsChecked="{Binding CanView,Mode=TwoWay}" HorizontalAlignment="Center">
+                                            </CheckBox>
+                                            <CheckBox x:Name="readWrite" Grid.Column="2" IsChecked="{Binding OptionId,Mode=TwoWay}" HorizontalAlignment="Center">
+                                            </CheckBox>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                             
                         </ScrollViewer>
                     </StackPanel>
