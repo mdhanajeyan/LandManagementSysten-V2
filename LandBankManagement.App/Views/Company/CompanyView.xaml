@@ -22,9 +22,6 @@
           BorderThickness="1,0,0,0">
         <controls:WindowTitle Prefix="Company" Title="{x:Bind ViewModel.CompanyList.Title, Mode=OneWay}" />
         <Pivot  SelectedIndex="{x:Bind ViewModel.SelectedPivotIndex, Mode=TwoWay}" SelectionChanged="Pivot_SelectionChanged">
-            <Pivot.Resources>
-                <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#D60258" />
-            </Pivot.Resources>
             <PivotItem >
                 <PivotItem.Header>
                     <PivotHeaderItem  >
