@@ -4,6 +4,19 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
+            <!--#region Navigation Item Menu-->
+            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground"/>
+            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground"  Color="Blue"/>
+            <SolidColorBrush x:Key="NavigationViewTopPaneBackground"/>
+            <SolidColorBrush x:Key="NavigationViewItemBackground"/>
+            <SolidColorBrush x:Key="NavigationViewAutoSuggestBackGround" Color="White"/>
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="Green"/>
+            <SolidColorBrush x:Key="NavigationViewItemForeground" Color="White"/>
+            <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="Brown"/>
+            <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="Red"/>
+            <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="Coral"/>
+            <!--#endregion-->
+            <SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="Black"/>
             <SolidColorBrush x:Key="DefaultBackground" Color="White" />
             <SolidColorBrush x:Key="LightBackground" Color="#424242" />
             <SolidColorBrush x:Key="BorderBrush" Color="LawnGreen" />
@@ -13,7 +26,7 @@
             <SolidColorBrush x:Key="TaskBarBackGround" />
             <SolidColorBrush x:Key="ToolBarButtonForeGround"/>
             <SolidColorBrush x:Key="DetailsBackGround" ></SolidColorBrush>
-            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" />
+            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="DefaultBackground" Color="#333" />

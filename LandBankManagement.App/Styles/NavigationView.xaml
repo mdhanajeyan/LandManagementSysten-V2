@@ -3,10 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
 
-  
-        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#212121"/>
-    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#212121"/>
-
 
     <Style x:Key="BackButtonNavigationViewStyle" TargetType="muxc:NavigationView">
         <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}"/>
@@ -135,11 +131,9 @@
                                         <Button x:Name="PaneAutoSuggestButton" Content="&#xE11A;" MinHeight="40" Style="{TemplateBinding PaneToggleButtonStyle}" Visibility="Collapsed" Width="{TemplateBinding CompactPaneLength}"/>
                                     </Grid>
                                     <muxc:NavigationView x:Name="MenuItemsHost" 
-                                                        MenuItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" 
-                                                        MenuItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" 
-                                                        MenuItemTemplate="{TemplateBinding MenuItemTemplate}" 
+                                                       
                                                         MenuItemsSource="{TemplateBinding MenuItemsSource}" 
-                                                        MenuItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" 
+                                                       
                                                         Margin="0,48,0,20" 
                                                         Grid.Row="3" 
                                                         SelectedItem="{TemplateBinding SelectedItem}"/>
@@ -151,14 +145,7 @@
                                     </muxc:NavigationViewItem>
                                 </Grid>
                             </SplitView.Pane>
-                            <Grid x:Name="ContentGrid">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <ContentControl x:Name="HeaderContent" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" HorizontalContentAlignment="Stretch" IsTabStop="False" MinHeight="48" VerticalContentAlignment="Stretch"/>
-                                <ContentPresenter Content="{TemplateBinding Content}" Grid.Row="1"/>
-                            </Grid>
+                           
                         </SplitView>
                     </Grid>
                 </ControlTemplate>

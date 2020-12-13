@@ -31,7 +31,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="4" />
                     </Grid.ColumnDefinitions>
-                    <Viewbox Margin="-2,9,0,9" HorizontalAlignment="Left">
+                    <Viewbox Margin="-5,9,0,9" HorizontalAlignment="Left">
                         <PersonPicture ProfilePicture="{x:Bind PictureSource, Converter={StaticResource ObjectToImageConverter}}" DisplayName="{x:Bind loginName}" />
                     </Viewbox>
                     <TextBlock Grid.Column="1" Text="{x:Bind loginName}" VerticalAlignment="Center" />
@@ -142,9 +142,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </Page.Resources>
+</Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -152,7 +152,7 @@
 
         <muxc:NavigationView  x:Name="navigationView" 
                         MenuItemsSource="{x:Bind ViewModel.Items}" 
-                        Background="{StaticResource LightBackground}"
+                        
                         MenuItemTemplate="{StaticResource NavigationViewMenuItem}"
                         SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}" 
                         SelectionChanged="OnSelectionChanged"
@@ -167,6 +167,7 @@
                          PlaceholderText="Search"
                          QueryIcon="Find"                        
                          MinWidth="200"
+                    Background="{StaticResource NavigationViewAutoSuggestBackGround}"
                          Windows10version1803:KeyboardAcceleratorPlacementMode="Hidden">
                     <AutoSuggestBox.KeyboardAccelerators>
                         <KeyboardAccelerator Modifiers="Control" Key="F" Invoked="CtrlF_Invoked" />
@@ -185,18 +186,11 @@
             </Grid>
 
             <muxc:NavigationView.PaneFooter>
-                <NavigationViewItem ContentTemplate="{StaticResource NavigationViewItemProfile}" Content="{x:Bind ViewModel.ViewModelArgs.UserInfo}" />
+                <muxc:NavigationViewItem ContentTemplate="{StaticResource NavigationViewItemProfile}" Content="{x:Bind ViewModel.ViewModelArgs.UserInfo}" />
             </muxc:NavigationView.PaneFooter>
         </muxc:NavigationView>
 
-        <!--<Button x:Name="NavigationViewBackButton"
-                IsEnabled="False"
-                Click="OnNavigationViewBackButton"
-                Content="&#xE72B;"
-                Style="{StaticResource PaneToggleButtonStyle}"/>-->
-
-
-        <Grid Grid.Row="1" Background="{StaticResource TaskBarBackGround}">
+       <Grid Grid.Row="1" Background="{StaticResource TaskBarBackGround}">
             <Rectangle Fill="{StaticResource Error}" Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
             <TextBlock Margin="6,4" Text="{x:Bind ViewModel.Message, Mode=OneWay}" Foreground="White" FontSize="12" />
         </Grid>
