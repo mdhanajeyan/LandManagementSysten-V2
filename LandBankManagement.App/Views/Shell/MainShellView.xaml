@@ -14,6 +14,7 @@
     <Page.Resources>
         <DataTemplate x:Key="NavigationViewMenuItem" x:DataType="viewmodels:NavigationItem">
             <muxc:NavigationViewItem Content="{x:Bind Label}"
+                                     BorderBrush="Green"
                                      FontWeight="{x:Bind FontWeight}"
                                      MenuItemsSource="{x:Bind Children}"
                                      SelectsOnInvoked="{x:Bind CanInvoke}">

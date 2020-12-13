@@ -19,11 +19,14 @@
             <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="#ECEFF1"/>
             <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#ECEFF1"/>
             <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="#ECEFF1"/>
+            <SolidColorBrush x:Key="SystemControlForegroundBaseHighBrush" Color="White"/>
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="White"/>
             <!--#endregion-->
             <!--#region Pivot-->
             <SolidColorBrush x:Key="PivotForegroundBaseMediumBrush" Color="Lime"/>
             <SolidColorBrush x:Key="PivotHeaderItemBackground" Color="Red"/>
             <SolidColorBrush x:Key="PivotBorderBrush" Color="Yellow"/>
+            <SolidColorBrush x:Key="PivotHeaderBackground" Color="Chocolate"/>
             <!--#endregion-->
             <SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="Black"/>
             <SolidColorBrush x:Key="DefaultBackground" Color="White" />
