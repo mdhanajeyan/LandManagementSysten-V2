@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using LandBankManagement.Data;
 using LandBankManagement.Models;
@@ -15,5 +16,8 @@ namespace LandBankManagement.Services
         Task<int> GetRolePermissionsCountAsync(DataRequest<RolePermission> request);
         Task<RolePermissionModel> UpdateRolePermissionAsync(RolePermissionModel model);
         Task<int> DeleteRolePermissionAsync(RolePermissionModel model);
+        Task<ObservableCollection<RolePermissionModel>> GetRolePermissionsByRoleIDAsync(int roleId);
+
+        Task<int> AddRolePermissionsAsync(ObservableCollection<RolePermissionModel> models);
     }
 }

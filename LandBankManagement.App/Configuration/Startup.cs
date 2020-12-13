@@ -77,6 +77,7 @@ namespace LandBankManagement
             NavigationService.Register<RoleViewModel, RoleView>();
             NavigationService.Register<UserViewModel, UserView>();
             NavigationService.Register<PropertyViewModel, PropertyView>();
+            NavigationService.Register<RolePermissionViewModel, RolePermissionView>();
         }
        
         static private async Task EnsureLogDbAsync()

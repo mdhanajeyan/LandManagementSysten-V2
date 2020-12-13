@@ -44,8 +44,8 @@ namespace LandBankManagement.Controls
             get { return (double)GetValue(MaxColumnWidthProperty); }
             set { SetValue(MaxColumnWidthProperty, value); }
         }
-
-        public static readonly DependencyProperty MaxColumnWidthProperty = DependencyProperty.Register(nameof(MaxColumnWidth), typeof(double), typeof(FluidGrid), new PropertyMetadata(360.0));
+       // public static readonly DependencyProperty MaxColumnWidthProperty = DependencyProperty.Register(nameof(MaxColumnWidth), typeof(double), typeof(FluidGrid), new PropertyMetadata(360.0));
+        public static readonly DependencyProperty MaxColumnWidthProperty = DependencyProperty.Register(nameof(MaxColumnWidth), typeof(double), typeof(FluidGrid), new PropertyMetadata(500.0));
         #endregion
 
         #region ColumnSpan

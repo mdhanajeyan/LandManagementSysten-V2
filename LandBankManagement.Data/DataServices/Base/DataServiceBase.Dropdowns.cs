@@ -83,5 +83,10 @@ namespace LandBankManagement.Data.Services
         {
             return _dataSource.PropertyTypes.Select(x => new { x.PropertyTypeId, x.PropertyTypeText }).ToDictionary(t => t.PropertyTypeId, t => t.PropertyTypeText);
         }
+
+        public Dictionary<int, string> GetRoleOptions()
+        {
+            return _dataSource.Roles.Select(x => new { x.RoleId, x.Name }).ToDictionary(t => t.RoleId, t => t.Name);
+        }
     }
 }

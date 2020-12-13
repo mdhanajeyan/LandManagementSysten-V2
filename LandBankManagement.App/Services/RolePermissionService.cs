@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,20 @@ namespace LandBankManagement.Services
                     model.Merge(await GetRolePermissionAsync(dataService, rolePermission.RolePermissionId));
                 }
                 return model;
+            }
+        }
+
+        public async Task<int> AddRolePermissionsAsync(ObservableCollection<RolePermissionModel> models) {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var rolePermissionList = new List<RolePermission>();
+                foreach (var model in models) {
+                    var rolePermission = new RolePermission();
+                    UpdateRolePermissionFromModel(rolePermission, model);
+                    rolePermissionList.Add(rolePermission);
+                    
+                }
+                return await dataService.AddRolePermissionsAsync(rolePermissionList);               
             }
         }
 
@@ -110,6 +125,19 @@ namespace LandBankManagement.Services
             }
         }
 
+        public async Task<ObservableCollection<RolePermissionModel>> GetRolePermissionsByRoleIDAsync(int roleId) {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var items =await dataService.GetRolePermissionsByRoleIDAsync(roleId);
+                var list = new ObservableCollection<RolePermissionModel>();
+                foreach (var item in items)
+                {
+                    list.Add(await CreateRolePermissionModelAsync(item, includeAllFields: false));
+                }
+                return list;
+            }
+
+        }
 
         static public async Task<RolePermissionModel> CreateRolePermissionModelAsync(RolePermission source, bool includeAllFields)
         {
@@ -120,6 +148,7 @@ namespace LandBankManagement.Services
                 ScreenId = source.ScreenId,
                 OptionId = source.OptionId,
                 CanView = source.CanView,
+                ScreenName=source.ScreenName
         };
 
             return model;
@@ -127,11 +156,12 @@ namespace LandBankManagement.Services
 
         private void UpdateRolePermissionFromModel(RolePermission target, RolePermissionModel source)
         {
-            target.RolePermissionId = source.RolePermissionId;
+            target.RolePermissionId = 0;
             target.RoleInfoId = source.RoleInfoId;
             target.ScreenId = source.ScreenId;
             target.OptionId = source.OptionId;
             target.CanView = source.CanView;
+            target.ScreenName = source.ScreenName;
         }
 
        

@@ -29,11 +29,78 @@ namespace LandBankManagement.Data.Services
            
         }
 
+        public async Task<int> AddRolePermissionsAsync(List<RolePermission> models)
+        {
+
+            if (models.Count == 0)
+                return 0;
+            var existingPermission = await _dataSource.RolePermissions.Where(x => x.RoleInfoId == models[0].RoleInfoId).ToListAsync();
+            _dataSource.RolePermissions.RemoveRange(existingPermission);
+            _dataSource.SaveChanges();
+
+            _dataSource.RolePermissions.AddRange(models);
+            int res = await _dataSource.SaveChangesAsync();
+            return res;
+
+        }
+
+
         public async Task<RolePermission> GetRolePermissionAsync(long id)
         {
             return await _dataSource.RolePermissions
                 .Where(x => x.RolePermissionId == id).FirstOrDefaultAsync();
 
+        }
+
+        public async Task<List<RolePermission>> GetRolePermissionsByRoleIDAsync(int roleId) {
+
+            try
+            {
+                var existingPermission = await _dataSource.RolePermissions.Where(x => x.RoleInfoId == roleId).ToListAsync();
+                if (existingPermission.Count > 0)
+                {
+                    var models = await (from sc in _dataSource.ScreenList
+                                        from per in _dataSource.RolePermissions.Where(x => x.RoleInfoId == roleId && x.ScreenId == sc.ScreenId).DefaultIfEmpty()
+
+                                        select (new RolePermission
+                                        {
+                                            ScreenId = sc.ScreenId,
+                                            ScreenName = sc.ScreenName,
+                                            RoleInfoId = roleId,
+                                            RolePermissionId = per == null ? 0 : per.RolePermissionId,
+                                            OptionId = per.OptionId==true?true:false,
+                                            CanView = per.CanView == true ? true : false
+                                        })).ToListAsync();
+
+                    //RoleInfoId = 0,
+                    //                        RolePermissionId = per == null ? 0 : per.RolePermissionId,
+                    //                        OptionId = per == null ? false : per.OptionId,
+                    //                        CanView = per == null ? false : per.CanView
+
+                    //var models =await (from sc in _dataSource.ScreenList
+                    //              join per in _dataSource.RolePermissions.Where(x => x.RoleInfoId == roleId) on sc.ScreenId equals per.ScreenId into roleList
+                    //              from pr in roleList.DefaultIfEmpty()
+                    //              select (new RolePermission
+                    //              {
+                    //                  ScreenId = sc.ScreenId,
+                    //                  RolePermissionId = pr.RolePermissionId,
+                    //                  RoleInfoId = pr.RoleInfoId,
+                    //                  ScreenName = sc.ScreenName,
+                    //                  OptionId = pr.OptionId,
+                    //                  CanView = pr.CanView
+                    //              })).ToListAsync();
+                    return models;
+                }
+                else
+                {
+                    var models = await _dataSource.ScreenList.Select(x => new RolePermission { ScreenId = x.ScreenId, ScreenName = x.ScreenName }).ToListAsync();
+                    return models;
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        
         }
 
         public async Task<IList<RolePermission>> GetRolePermissionsAsync(DataRequest<RolePermission> request)
