@@ -58,6 +58,7 @@ namespace LandBankManagement.ViewModels
             {
                 new NavigationItem(0xf243, "View Log", typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs},
                 new NavigationItem(0xf044, "Role", typeof(RoleViewModel)){Screen=NavigationScreen.Role},
+                  new NavigationItem(0xf044, "Role Permission", typeof(RolePermissionViewModel)){Screen=NavigationScreen.RolePermission},
                 new NavigationItem(0xf2bb, "User", typeof(UserViewModel)){Screen=NavigationScreen.UserInfo},
             }
         };
@@ -188,6 +189,9 @@ namespace LandBankManagement.ViewModels
                     break;
                 case "PropertyViewModel":
                     NavigationService.Navigate(viewModel, new PropertyListArgs());
+                    break;
+                case "RolePermissionViewModel":
+                    NavigationService.Navigate(viewModel);
                     break;
                 default:
                     throw new NotImplementedException();

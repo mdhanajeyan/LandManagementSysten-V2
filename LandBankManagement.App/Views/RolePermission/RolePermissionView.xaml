@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="LandBankManagement.Views.RolePermissionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:controls="using:LandBankManagement.Controls"
+    xmlns:views="using:LandBankManagement.Views" 
+    xmlns:viewmodels="using:LandBankManagement.ViewModels">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="ListHeaderTemplate">
+            <StackPanel Margin="6,4,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Role Permission" FontSize="18" />
+                <TextBlock Text="{Binding}" FontSize="18" Foreground="Gray" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid Background="WhiteSmoke"
+          BorderBrush="LightGray"
+          BorderThickness="1,0,0,0">
+        <controls:WindowTitle Prefix="Role" Title="Permission" />     
+           
+            <Grid Grid.Row="0" 
+                  BorderBrush="LightGray"
+                  BorderThickness="0,1,0,0">
+                <views:RolePermissionDetails ViewModel="{x:Bind ViewModel.RolePermissionDetials}"/>
+
+            </Grid>          
+       
+    </Grid>
+</Page>

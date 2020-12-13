@@ -38,6 +38,7 @@ namespace LandBankManagement.Data.Services
         DbSet<PropPaySchedule> PropPaySchedules { get; set; }
 
         DbSet<PropertyDocuments> PropertyDocuments { get; }
+        DbSet<ScreenList> ScreenList { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

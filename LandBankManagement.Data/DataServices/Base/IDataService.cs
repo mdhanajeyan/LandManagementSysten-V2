@@ -209,6 +209,8 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateRolePermissionAsync(RolePermission model);
         Task<int> DeleteRolePermissionAsync(RolePermission model);
         IList<RolePermission> GetRolePermisions(int roleId);
+        Task<List<RolePermission>> GetRolePermissionsByRoleIDAsync(int roleId);
+        Task<int> AddRolePermissionsAsync(List<RolePermission> models);
 
         Dictionary<int, string> GetExpenseHeadOptions();
         Dictionary<int, string> GetPartyOptions();
@@ -221,5 +223,6 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetGenderOptions();
         Dictionary<int, string> GetPartyOptions(string party);
         Dictionary<int, string> GetPropertyTypeOptions();
+        Dictionary<int, string> GetRoleOptions();
     }
 }

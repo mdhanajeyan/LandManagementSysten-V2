@@ -40,7 +40,7 @@ namespace LandBankManagement.Data.Services
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<PropertyParty> PropertyParty { get; set; }
         public DbSet<PropPaySchedule> PropPaySchedules { get; set; }
-
+        public DbSet<ScreenList> ScreenList { get; set; }
         public DbSet<PropertyDocuments> PropertyDocuments { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

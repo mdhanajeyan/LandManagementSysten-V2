@@ -48,6 +48,7 @@ namespace LandBankManagement
             serviceCollection.AddSingleton<IUserService, UserService>();
             serviceCollection.AddSingleton<IUserRoleService, UserRoleService>();
             serviceCollection.AddSingleton<IPropertyService, PropertyService>();
+            serviceCollection.AddSingleton<IRolePermissionService, RolePermissionService>();
 
             serviceCollection.AddScoped<IContextService, ContextService>();
             serviceCollection.AddScoped<INavigationService, NavigationService>();
@@ -96,6 +97,8 @@ namespace LandBankManagement
             serviceCollection.AddTransient<PropertyViewModel>();
             serviceCollection.AddTransient<PropertyDetailsViewModel>();
             serviceCollection.AddTransient<CostDetailsViewModel>();
+            serviceCollection.AddTransient<RolePermissionViewModel>();
+            serviceCollection.AddTransient<RolePermissionDetailsViewModel>();
 
             serviceCollection.AddTransient<AppLogsViewModel>();
 
