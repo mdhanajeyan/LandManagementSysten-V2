@@ -20,7 +20,7 @@
                 <controls:FormTextBox Header="Bank Name" Text="{x:Bind EditableItem.BankName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="Branch Name" Text="{x:Bind EditableItem.BranchName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormComboBox  Header="Type of Bank Account" ItemsSource="{x:Bind AcctTypeOptions}"
-                                           SelectedValue="{x:Bind EditableItem.AccountType, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{x:Bind EditableItem.AccountTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormTextBox Header="A/C No" Text="{x:Bind EditableItem.AccountNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>

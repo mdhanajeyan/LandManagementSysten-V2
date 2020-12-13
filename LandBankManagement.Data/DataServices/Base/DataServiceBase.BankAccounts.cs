@@ -23,7 +23,7 @@ namespace LandBankManagement.Data.Services
                     BankName = model.BankName,
                     BranchName = model.BranchName,
                     AccountNumber = model.AccountNumber,
-                    AccountType = model.AccountType,
+                    AccountTypeId = model.AccountTypeId,
                     IFSCCode = model.IFSCCode,
                     OpeningBalance = model.OpeningBalance,
                     IsBankAccountActive = model.IsBankAccountActive,
@@ -62,7 +62,7 @@ namespace LandBankManagement.Data.Services
                     BankName = source.BankName,
                     BranchName = source.BranchName,
                     AccountNumber = source.AccountNumber,
-                    AccountType = source.AccountType,
+                    AccountTypeId = source.AccountTypeId,
                     IFSCCode = source.IFSCCode,
                     OpeningBalance = source.OpeningBalance,
                     IsBankAccountActive = source.IsBankAccountActive,
@@ -80,7 +80,7 @@ namespace LandBankManagement.Data.Services
         {
             IQueryable<BankAccount> items = from bank in _dataSource.BankAccounts
                                             join c in _dataSource.Companies on bank.CompanyID equals c.CompanyID
-                                            join a in _dataSource.AccountTypes on bank.AccountType equals a.AccountTypeId
+                                            join a in _dataSource.AccountTypes on bank.AccountTypeId equals a.AccountTypeId
                                             select (new BankAccount
                                             {
                                                 BankAccountId = bank.BankAccountId,
@@ -88,7 +88,7 @@ namespace LandBankManagement.Data.Services
                                                 BankName = bank.BankName,
                                                 BranchName = bank.BranchName,
                                                 AccountNumber = bank.AccountNumber,
-                                                AccountType = bank.AccountType,
+                                                AccountTypeId = bank.AccountTypeId,
                                                 IFSCCode = bank.IFSCCode,
                                                 OpeningBalance = bank.OpeningBalance,
                                                 IsBankAccountActive = bank.IsBankAccountActive,

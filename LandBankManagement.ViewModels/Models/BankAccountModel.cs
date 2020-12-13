@@ -13,12 +13,12 @@ namespace LandBankManagement.Models
         public string BankName { get; set; }
         public string BranchName { get; set; }
         public string AccountNumber { get; set; }
-        public int AccountType { get; set; }
+        public int AccountTypeId { get; set; }
         public string IFSCCode { get; set; }
         public string OpeningBalance { get; set; }
         public bool IsBankAccountActive { get; set; }
         public int CompanyID { get; set; }
-        public string comapnyName { get; set; }
+        public string CompanyName { get; set; }
         public string AccountTypeName { get; set; }
         public bool IsNew => BankAccountId <= 0;
 
@@ -39,7 +39,7 @@ namespace LandBankManagement.Models
                 BankName = source.BankName;
                 BranchName = source.BranchName;
                 AccountNumber = source.AccountNumber;
-                AccountType = source.AccountType;
+                AccountTypeId = source.AccountTypeId;
                 IFSCCode = source.IFSCCode;
                 OpeningBalance = source.OpeningBalance;
                 IsBankAccountActive = source.IsBankAccountActive;

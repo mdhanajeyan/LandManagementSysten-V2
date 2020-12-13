@@ -134,7 +134,7 @@ namespace LandBankManagement.ViewModels
             yield return new RequiredConstraint<BankAccountModel>("Bank Name", m => m.BankName);
             yield return new RequiredConstraint<BankAccountModel>("Bank Name", m => m.BankName);
             yield return new RequiredConstraint<BankAccountModel>("Branck Name", m => m.BranchName);
-            yield return new RequiredConstraint<BankAccountModel>("Type of account", m => m.AccountType);
+            yield return new RequiredConstraint<BankAccountModel>("Type of account", m => m.AccountTypeId);
         }
 
         /*

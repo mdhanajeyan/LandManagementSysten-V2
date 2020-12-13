@@ -13,7 +13,7 @@ namespace LandBankManagement.Data
         public string BankName { get; set; }
         public string BranchName { get; set; }
         public string AccountNumber { get; set; }
-        public int AccountType { get; set; }
+        public int AccountTypeId { get; set; }
         public string IFSCCode { get; set; }
         public decimal OpeningBalance { get; set; }
         public bool IsBankAccountActive { get; set; }
