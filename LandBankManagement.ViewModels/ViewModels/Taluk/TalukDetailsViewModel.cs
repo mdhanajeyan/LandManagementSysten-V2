@@ -115,7 +115,12 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Deleting Taluk...");
                 
-                await TalukService.DeleteTalukAsync(model);
+               var result= await TalukService.DeleteTalukAsync(model);
+                if (!result.IsOk) {
+                   await DialogService.ShowAsync(result.Message,"");
+                    EndStatusMessage("Taluk is deleted");
+                    return true;
+                }
                 ClearItem();
                 await TalukListViewModel.RefreshAsync();
                 EndStatusMessage("Taluk deleted");

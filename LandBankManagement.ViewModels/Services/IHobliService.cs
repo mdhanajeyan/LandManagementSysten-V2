@@ -14,6 +14,6 @@ namespace LandBankManagement.Services
         Task<IList<HobliModel>> GetHoblisAsync(int skip, int take, DataRequest<Hobli> request);
         Task<int> GetHoblisCountAsync(DataRequest<Hobli> request);
         Task<HobliModel> UpdateHobliAsync(HobliModel model);
-        Task<int> DeleteHobliAsync(HobliModel model);       
+        Task<Result> DeleteHobliAsync(HobliModel model);       
     }
 }

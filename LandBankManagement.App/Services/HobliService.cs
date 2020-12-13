@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LandBankManagement.Data;
 using LandBankManagement.Data.Services;
 using LandBankManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LandBankManagement.Services
 {
@@ -100,12 +102,25 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> DeleteHobliAsync(HobliModel model)
+        public async Task<Result> DeleteHobliAsync(HobliModel model)
         {
             var hobli = new Hobli { HobliId = model.HobliId };
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                return await dataService.DeleteHobliAsync(hobli);
+                try
+                {
+                    await dataService.DeleteHobliAsync(hobli);
+                }
+                catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlException && (sqlException.Number == 547))
+                {
+                    return Result.Error("Hobli is already in use");
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                return Result.Ok();
             }
         }
 

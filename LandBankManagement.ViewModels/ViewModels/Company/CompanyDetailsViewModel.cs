@@ -153,7 +153,12 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Company...");
                 ShowProgressRing();
                 
-                await CompanyService.DeleteCompanyAsync(model);
+               var result= await CompanyService.DeleteCompanyAsync(model);
+                if (!result.IsOk) {
+                   await DialogService.ShowAsync(result.Message,"");
+                    EndStatusMessage(result.Message);
+                    return true;
+                }
                 HideProgressRing();
                 EndStatusMessage("Company deleted");
                 LogWarning("Company", "Delete", "Company deleted", $"Company {model.CompanyID} '{model.Name}' was deleted.");
