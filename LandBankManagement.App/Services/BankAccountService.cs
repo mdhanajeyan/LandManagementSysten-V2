@@ -120,11 +120,11 @@ namespace LandBankManagement.Services
                 BankName = source.BankName,
                 BranchName = source.BranchName,
                 AccountNumber = source.AccountNumber,
-                AccountType = source.AccountType,
+                AccountTypeId = source.AccountTypeId,
                 IFSCCode = source.IFSCCode,
                 OpeningBalance = source.OpeningBalance.ToString(),
                 IsBankAccountActive = source.IsBankAccountActive,
-                comapnyName=source.CompanyName,
+                CompanyName= source.CompanyName,
                 CompanyID=source.CompanyID,
                 AccountTypeName=source.AccountTypeName
         };
@@ -138,7 +138,7 @@ namespace LandBankManagement.Services
             target.BankName = source.BankName;
             target.BranchName = source.BranchName;
             target.AccountNumber = source.AccountNumber;
-            target.AccountType = source.AccountType;
+            target.AccountTypeId = source.AccountTypeId;
             target.IFSCCode = source.IFSCCode;
             target.OpeningBalance =Convert.ToDecimal(  string.IsNullOrEmpty(source.OpeningBalance)?"0": source.OpeningBalance);
             target.IsBankAccountActive = source.IsBankAccountActive;
