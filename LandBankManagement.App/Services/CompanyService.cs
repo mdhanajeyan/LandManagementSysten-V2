@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using IronSnappy;
 using LandBankManagement.Data;
 using LandBankManagement.Data.Services;
 using LandBankManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LandBankManagement.Services
 {
@@ -123,12 +125,25 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> DeleteCompanyAsync(CompanyModel model)
+        public async Task<Result> DeleteCompanyAsync(CompanyModel model)
         {
             var Company = new Company { CompanyID = model.CompanyID };
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                return await dataService.DeleteCompanyAsync(Company);
+                try
+                {
+                     await dataService.DeleteCompanyAsync(Company);
+                }
+                catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlException && (sqlException.Number == 547 ))
+                {
+                    return Result.Error("Company is already in use");
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+               
+                return Result.Ok();
             }
         }
 

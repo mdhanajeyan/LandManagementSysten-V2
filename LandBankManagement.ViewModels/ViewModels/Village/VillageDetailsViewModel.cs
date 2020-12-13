@@ -116,7 +116,13 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Deleting Village...");
                 
-                await VillageService.DeleteVillageAsync(model);
+                var result= await VillageService.DeleteVillageAsync(model);
+                if (!result.IsOk)
+                {
+                    await DialogService.ShowAsync(result.Message, "");
+                    EndStatusMessage(result.Message);
+                    return true;
+                }
                 ClearItem();
                  await VillageListViewModel.RefreshAsync();
                 EndStatusMessage("Village deleted");

@@ -14,6 +14,6 @@ namespace LandBankManagement.Services
         Task<IList<TalukModel>> GetTaluksAsync(int skip, int take, DataRequest<Taluk> request);
         Task<int> GetTaluksCountAsync(DataRequest<Taluk> request);
         Task<TalukModel> UpdateTalukAsync(TalukModel model);
-        Task<int> DeleteTalukAsync(TalukModel model);
+        Task<Result> DeleteTalukAsync(TalukModel model);
     }
 }

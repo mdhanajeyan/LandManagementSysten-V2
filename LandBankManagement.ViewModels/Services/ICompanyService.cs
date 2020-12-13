@@ -14,7 +14,7 @@ namespace LandBankManagement.Services
         Task<IList<CompanyModel>> GetCompaniesAsync(int skip, int take, DataRequest<Company> request);
         Task<int> GetCompaniesCountAsync(DataRequest<Company> request);
         Task<CompanyModel> UpdateCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs);
-        Task<int> DeleteCompanyAsync(CompanyModel model);
+        Task<Result> DeleteCompanyAsync(CompanyModel model);
         Task<int> DeleteCompanyRangeAsync(int index, int length, DataRequest<Company> request);
         Task<int> UploadCompanyDocumentsAsync(List<ImagePickerResult> model);
         Task<int> DeleteCompanyDocumentAsync(ImagePickerResult documents);

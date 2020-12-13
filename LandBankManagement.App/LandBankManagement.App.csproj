@@ -19,7 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>2DBB1620BF41C4A006CFB123E3E374B321C7E76B</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>88A5C16B1F179640F55BF1BE8C99918AB73BDACB</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxPackageDir>D:\AppPackages\</AppxPackageDir>
@@ -380,6 +380,15 @@
     <Compile Include="Views\Payment\PaymentView.xaml.cs">
       <DependentUpon>PaymentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PropertyCheckList\PropertyCheckListDetails.xaml.cs">
+      <DependentUpon>PropertyCheckListDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyCheckList\PropertyCheckListList.xaml.cs">
+      <DependentUpon>PropertyCheckListList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyCheckList\PropertyCheckListView.xaml.cs">
+      <DependentUpon>PropertyCheckListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PropertyType\PropertyTypeDetails.xaml.cs">
       <DependentUpon>PropertyTypeDetails.xaml</DependentUpon>
     </Compile>
@@ -409,6 +418,12 @@
     </Compile>
     <Compile Include="Views\Receipts\ReceiptsView.xaml.cs">
       <DependentUpon>ReceiptsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RolePermission\RolePermissionDetails.xaml.cs">
+      <DependentUpon>RolePermissionDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RolePermission\RolePermissionView.xaml.cs">
+      <DependentUpon>RolePermissionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Role\RoleDetails.xaml.cs">
       <DependentUpon>RoleDetails.xaml</DependentUpon>
@@ -748,6 +763,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PropertyCheckList\PropertyCheckListDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PropertyCheckList\PropertyCheckListList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PropertyCheckList\PropertyCheckListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PropertyType\PropertyTypeDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -787,6 +814,14 @@
     <Page Include="Views\Receipts\ReceiptsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RolePermission\RolePermissionDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RolePermission\RolePermissionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Role\RoleDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -942,6 +977,7 @@
   <ItemGroup>
     <None Include="LandBankManagement.App_TemporaryKey.pfx" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

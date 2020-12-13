@@ -96,7 +96,12 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Deleting Hobli...");
                 
-                await HobliService.DeleteHobliAsync(model);
+                var result=await HobliService.DeleteHobliAsync(model);
+                if (!result.IsOk) {
+                    await DialogService.ShowAsync(result.Message, "");
+                    EndStatusMessage(result.Message);
+                    return true;
+                }
                 await HobliListViewModel.RefreshAsync();
                 ClearItem();
                 EndStatusMessage("Hobli deleted");

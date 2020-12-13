@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LandBankManagement.Data;
 using LandBankManagement.Data.Services;
 using LandBankManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LandBankManagement.Services
 {
@@ -102,12 +104,25 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<int> DeleteTalukAsync(TalukModel model)
+        public async Task<Result> DeleteTalukAsync(TalukModel model)
         {
             var taluk = new Taluk { TalukId = model.TalukId };
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                return await dataService.DeleteTalukAsync(taluk);
+                try
+                {
+                    await dataService.DeleteTalukAsync(taluk);
+                }
+                catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlException && (sqlException.Number == 547))
+                {
+                    return Result.Error("Taluk is already in use");
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                return Result.Ok();
             }
         }
 
