@@ -380,6 +380,15 @@
     <Compile Include="Views\Payment\PaymentView.xaml.cs">
       <DependentUpon>PaymentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PropertyCheckList\PropertyCheckListDetails.xaml.cs">
+      <DependentUpon>PropertyCheckListDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyCheckList\PropertyCheckListList.xaml.cs">
+      <DependentUpon>PropertyCheckListList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyCheckList\PropertyCheckListView.xaml.cs">
+      <DependentUpon>PropertyCheckListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PropertyType\PropertyTypeDetails.xaml.cs">
       <DependentUpon>PropertyTypeDetails.xaml</DependentUpon>
     </Compile>
@@ -409,6 +418,12 @@
     </Compile>
     <Compile Include="Views\Receipts\ReceiptsView.xaml.cs">
       <DependentUpon>ReceiptsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RolePermission\RolePermissionDetails.xaml.cs">
+      <DependentUpon>RolePermissionDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RolePermission\RolePermissionView.xaml.cs">
+      <DependentUpon>RolePermissionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Role\RoleDetails.xaml.cs">
       <DependentUpon>RoleDetails.xaml</DependentUpon>
@@ -748,6 +763,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PropertyCheckList\PropertyCheckListDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PropertyCheckList\PropertyCheckListList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PropertyCheckList\PropertyCheckListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\PropertyType\PropertyTypeDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -785,6 +812,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Receipts\ReceiptsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RolePermission\RolePermissionDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RolePermission\RolePermissionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
