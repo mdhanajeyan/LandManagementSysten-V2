@@ -7,8 +7,8 @@
             <!--#region Navigation Item Menu-->
             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground"/>
             <LinearGradientBrush x:Key="NavigationViewExpandedPaneBackground" StartPoint="0,0" EndPoint="1,0">
-                <GradientStop Color="#263238" Offset="0.0" />
-                <GradientStop Color="#37474F" Offset="1.0" />
+                <GradientStop Color="#0277BD" Offset="0.0" />
+                <GradientStop Color="#039BE5" Offset="1.0" />
             </LinearGradientBrush>
           
             <SolidColorBrush x:Key="NavigationViewTopPaneBackground"/>
@@ -23,7 +23,7 @@
             <!--#endregion-->
             <!--#region Pivot-->
             <SolidColorBrush x:Key="PivotForegroundBaseMediumBrush" Color="White"/>
-            <SolidColorBrush x:Key="PivotHeaderItemBackground" Color="#455A64"/>
+            <SolidColorBrush x:Key="PivotHeaderItemBackground" Color="#03A9F4"/>
             <SolidColorBrush x:Key="PivotBorderBrush" Color="Yellow"/>
             <SolidColorBrush x:Key="PivotHeaderBackground" Color="Chocolate"/>
             <!--#endregion-->
@@ -31,15 +31,16 @@
             <SolidColorBrush x:Key="DefaultBackground" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="LightBackground" Color="#424242" />
             <SolidColorBrush x:Key="BorderBrush" Color="White" />
-            <SolidColorBrush x:Key="ListBackGround" Color="#90A4AE"></SolidColorBrush>
-            <SolidColorBrush x:Key="ListHeaderBackGround" Color="#546E7A"/>
+            <SolidColorBrush x:Key="ListBackGround" Color="WhiteSmoke"></SolidColorBrush>
+            <SolidColorBrush x:Key="ListHeaderBackGround" Color="#81D4FA"/>
             <SolidColorBrush x:Key="SectionBackGround" Color="#546E7A"/>
             <SolidColorBrush x:Key="TaskBarBackGround" Color="#263238"/>
             <SolidColorBrush x:Key="ToolBarButtonForeGround" Color="Black"/>
-            <LinearGradientBrush x:Key="DetailsBackGround" StartPoint="0,0" EndPoint="0,1">
+            <SolidColorBrush x:Key="DetailsBackGround" Color="White"/>
+            <!--<LinearGradientBrush x:Key="DetailsBackGround" StartPoint="0,0" EndPoint="0,1">
                 <GradientStop Color="#78909C" Offset="0.0" />
                 <GradientStop Color="#B0BEC5" Offset="1.0" />
-            </LinearGradientBrush>
+            </LinearGradientBrush>-->
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">

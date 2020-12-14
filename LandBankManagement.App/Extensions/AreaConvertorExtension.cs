@@ -7,7 +7,7 @@ namespace LandBankManagement.Extensions
 
         static public decimal AcreToGuntas(this decimal acre)
         {
-            return acre * Convert.ToDecimal(40.0087146);
+            return acre * Convert.ToDecimal(40);
         }
 
         static public decimal AcreToSqft(this decimal acre)
@@ -17,7 +17,7 @@ namespace LandBankManagement.Extensions
 
         static public decimal GuntasToSqft(this decimal acre)
         {
-            return acre * Convert.ToDecimal(1089.087d);
+            return acre * Convert.ToDecimal(1089);
         }
 
         static public decimal SqftToAcres(this decimal sqft)
@@ -27,12 +27,12 @@ namespace LandBankManagement.Extensions
 
         static public decimal SqftToGuntas(this decimal sqft)
         {
-            return sqft / Convert.ToDecimal(1089.087d);
+            return sqft / Convert.ToDecimal(1089);
         }
 
         static public decimal SqftToSqMts(this decimal sqft)
         {
-            return sqft / Convert.ToDecimal(10.7639104d);
+            return sqft / Convert.ToDecimal(10.764d);
         }
 
 
