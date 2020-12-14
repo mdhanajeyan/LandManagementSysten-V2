@@ -112,5 +112,10 @@ namespace LandBankManagement.Views
             var id = Convert.ToInt32(((Button)sender).Tag.ToString());
             ViewModel.LoadPropertyById(id);
         }
+
+        private void SurveyNoTxt_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PreparePropertyName();
+        }
     }
 }
