@@ -41,8 +41,8 @@
                     <controls:FormComboBox  Header="Property Type" ItemsSource="{x:Bind PropertyTypeOptions}"
                                            SelectedValue="{x:Bind EditableItem.PropertyTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                    <controls:FormTextBox Header="Survey No" Text="{x:Bind EditableItem.SurveyNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <controls:FormTextBox Header="Property Name" Text="{x:Bind EditableItem.PropertyName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox x:Name="SurveyNoTxt" Header="Survey No" Text="{x:Bind EditableItem.SurveyNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="SurveyNoTxt_LostFocus" />
+                    <controls:FormTextBox x:Name="PropertyNameTxt" Header="Property Name" Text="{x:Bind EditableItem.PropertyName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormTextBox Header="Google Map Link" Text="{x:Bind EditableItem.PropertyGMapLink, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
                     <StackPanel></StackPanel>

@@ -136,6 +136,9 @@ namespace LandBankManagement.ViewModels
                     Item.BKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
                     Item.BKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
             }
+            RestartItem();
+        }
+        private void RestartItem() {
             var old = Item;
             Item = null;
             Item = old;
@@ -171,6 +174,14 @@ namespace LandBankManagement.ViewModels
             }
         }
 
+        public void PreparePropertyName() {
+            if (string.IsNullOrEmpty(Item.PropertyName))
+            {
+                var village = VillageOptions.Where(x => x.Id == Item.VillageId).FirstOrDefault().Description;
+                Item.PropertyName = village + " - " + Item.SurveyNo;
+                RestartItem();
+            }
+        }
         public async void LoadPropertyById(int id) {
 
             var model = PropertyList.First(x => x.PropertyId == id);
@@ -277,7 +288,8 @@ namespace LandBankManagement.ViewModels
                     await PropertyService.UpdatePropertyAsync(model, DocList);
                
                   SaveParties(model);
-              await GetPropertyParties(model.PropertyId);
+                ReloadProperty(model.GroupGuid.Value, model.PropertyId);
+             // await GetPropertyParties(model.PropertyId);
                 EndStatusMessage("Property saved");
                 LogInformation("Property", "Save", "Property saved successfully", $"Property {model.PropertyId} '{model.PropertyName}' was saved successfully.");
                 return true;
@@ -287,6 +299,23 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error saving Property: {ex.Message}");
                 LogException("Property", "Save", ex);
                 return false;
+            }
+        }
+
+        private async void ReloadProperty(Guid guid,int propertId) {
+             PropertyList = await PropertyService.GetPropertyByGroupGuidAsync(guid);
+            
+            var model = PropertyList.Where(x=>x.PropertyId==propertId).FirstOrDefault();
+            
+            Item = model;
+            await GetPropertyParties(model.PropertyId);
+            DocList = model.PropertyDocuments;
+            if (model.PropertyDocuments != null)
+            {
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    DocList[i].Identity = i + 1;
+                }
             }
         }
 
@@ -325,6 +354,7 @@ namespace LandBankManagement.ViewModels
             PartyList = null;
             if (DocList != null)
                 DocList.Clear();
+            PropertyList = null;
         }
         protected override async Task<bool> DeleteItemAsync(PropertyModel model)
         {
@@ -354,7 +384,7 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<PropertyModel>> GetValidationConstraints(PropertyModel model)
         {
-            yield return new RequiredConstraint<PropertyModel>("Name", m => m.PropertyName);
+            yield return new RequiredConstraint<PropertyModel>("Proeprty Name", m => m.PropertyName);
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 
