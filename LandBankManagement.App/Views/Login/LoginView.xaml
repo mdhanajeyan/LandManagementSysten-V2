@@ -20,7 +20,7 @@
                 </Border>
             </Grid>
 
-            <TextBox Grid.RowSpan="2" GotFocus="OnBackgroundFocus" Opacity="0" />
+            <TextBox Grid.RowSpan="2" GotFocus="OnBackgroundFocus" Opacity="0"  Foreground="Black"/>
 
             <Grid>
                 <Grid.RowDefinitions>

@@ -14,30 +14,33 @@
             <SolidColorBrush x:Key="NavigationViewTopPaneBackground"/>
             <SolidColorBrush x:Key="NavigationViewItemBackground"/>
             <SolidColorBrush x:Key="NavigationViewAutoSuggestBackGround" Color="White"/>
-            <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="Green"/>
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="White"/>
             <SolidColorBrush x:Key="NavigationViewItemForeground" Color="White"/>
             <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="#ECEFF1"/>
             <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#ECEFF1"/>
             <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="#ECEFF1"/>
-            <SolidColorBrush x:Key="SystemControlForegroundBaseHighBrush" Color="White"/>
+            <SolidColorBrush x:Key="SystemControlForegroundBaseHighBrush" Color="Black"/>
             <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="White"/>
             <!--#endregion-->
             <!--#region Pivot-->
-            <SolidColorBrush x:Key="PivotForegroundBaseMediumBrush" Color="Lime"/>
-            <SolidColorBrush x:Key="PivotHeaderItemBackground" Color="Red"/>
+            <SolidColorBrush x:Key="PivotForegroundBaseMediumBrush" Color="White"/>
+            <SolidColorBrush x:Key="PivotHeaderItemBackground" Color="#455A64"/>
             <SolidColorBrush x:Key="PivotBorderBrush" Color="Yellow"/>
             <SolidColorBrush x:Key="PivotHeaderBackground" Color="Chocolate"/>
             <!--#endregion-->
             <SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="Black"/>
-            <SolidColorBrush x:Key="DefaultBackground" Color="White" />
+            <SolidColorBrush x:Key="DefaultBackground" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="LightBackground" Color="#424242" />
-            <SolidColorBrush x:Key="BorderBrush" Color="LawnGreen" />
+            <SolidColorBrush x:Key="BorderBrush" Color="White" />
             <SolidColorBrush x:Key="ListBackGround" Color="#90A4AE"></SolidColorBrush>
             <SolidColorBrush x:Key="ListHeaderBackGround" Color="#546E7A"/>
             <SolidColorBrush x:Key="SectionBackGround" Color="#546E7A"/>
-            <SolidColorBrush x:Key="TaskBarBackGround" />
-            <SolidColorBrush x:Key="ToolBarButtonForeGround"/>
-            <SolidColorBrush x:Key="DetailsBackGround" ></SolidColorBrush>
+            <SolidColorBrush x:Key="TaskBarBackGround" Color="#263238"/>
+            <SolidColorBrush x:Key="ToolBarButtonForeGround" Color="Black"/>
+            <LinearGradientBrush x:Key="DetailsBackGround" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#78909C" Offset="0.0" />
+                <GradientStop Color="#B0BEC5" Offset="1.0" />
+            </LinearGradientBrush>
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
