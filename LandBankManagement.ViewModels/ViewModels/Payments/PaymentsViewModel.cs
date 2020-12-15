@@ -74,6 +74,11 @@ namespace LandBankManagement.ViewModels
                 var model = await PaymentsService.GetPaymentAsync(selected.PaymentId);
                 selected.Merge(model);
                 PaymentsDetails.Item = model;
+                for (int i = 0; i < model.PaymentListModel.Count; i++)
+                {
+                    model.PaymentListModel[i].identity = i + 1;
+                }
+                PaymentsDetails.PaymentList = model.PaymentListModel;
                 PaymentsDetails.defaultSettings();
                 SelectedPivotIndex = 1;
             }

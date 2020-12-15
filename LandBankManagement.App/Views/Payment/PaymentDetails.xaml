@@ -13,22 +13,35 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:PaymentsDetailsViewModel">
-            <controls:FluidGrid Margin="0,30,10,0" Columns="2" ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+          
+            <controls:FluidGrid Grid.Row="0" Margin="0,30,10,0" Columns="2" ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
                 <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormComboBox  Header="Property Name" ItemsSource="{x:Bind PropertyOptions}"
                                            SelectedValue="{x:Bind EditableItem.PropertyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-               
-                <StackPanel  Orientation="Horizontal">
-                    <RadioButton x:Name="expenseRB" Tag="expense" Margin="10" GroupName="expenseparty" IsChecked="{Binding IsExpenseChecked,Mode=TwoWay}"  Command="{Binding ExpenseCheckedCommand}">
-                        <TextBlock Text="Expense Head"  Foreground="#3b81d1" FontSize="15"/>
-                    </RadioButton>
-                    <RadioButton  x:Name="partyRB"  Tag="party" Margin="10" GroupName="expenseparty" IsChecked="{Binding IsPartyChecked,Mode=TwoWay}" Command="{Binding ExpenseCheckedCommand}">
-                        <TextBlock Text="Party"  Foreground="#3b81d1" FontSize="15"/>
-                    </RadioButton>
-                </StackPanel>
+                <controls:FormComboBox  Header="Document Type" ItemsSource="{x:Bind DocumentTypeOptions}"
+                                           SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />            
+                    <StackPanel>
+                        <controls:FormComboBox  Header="Expense Head" ItemsSource="{x:Bind ExpenseOptions}" Visibility="{Binding Path=ExpenseVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.ExpenseHeadId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                        <controls:FormComboBox  Header="Party" ItemsSource="{x:Bind PartyOptions}" Visibility="{Binding Path=PartyVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.PartyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                    </StackPanel> 
+                <controls:FluidGrid ColumnSpan="2" Height="50">
+                    
+
+                </controls:FluidGrid>
+
                 <StackPanel  Orientation="Horizontal">
                     <RadioButton x:Name="cashRB"  Tag="cash" Margin="10" GroupName="cashbank" IsChecked="{Binding IsCashChecked,Mode=TwoWay}" Command="{Binding CashCheckedCommand}">
                         <TextBlock Text="Cash"  Foreground="#3b81d1" FontSize="15"/>
@@ -38,39 +51,102 @@
                     </RadioButton>
                 </StackPanel>
                 <StackPanel>
-                    <controls:FormComboBox  Header="Expense Head" ItemsSource="{x:Bind ExpenseOptions}" Visibility="{Binding Path=ExpenseVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.ExpenseHeadId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
-                    <controls:FormComboBox  Header="Party" ItemsSource="{x:Bind PartyOptions}" Visibility="{Binding Path=PartyVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.PartyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
-                </StackPanel>
-                <StackPanel>
                     <controls:FormComboBox x:Name="cashCombo" Header="Cash" ItemsSource="{x:Bind CashOptions}" Visibility="{Binding Path=CashVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.CashAccountId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{x:Bind CurrentPayment.CashAccountId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                     <controls:FormComboBox x:Name="bankCombo" Header="Bank" ItemsSource="{x:Bind BankOptions}" Visibility="{Binding Path=BankVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.BankAccountId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{x:Bind CurrentPayment.BankAccountId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 </StackPanel>
-                <controls:FormComboBox  Header="Document Type" ItemsSource="{x:Bind DocumentTypeOptions}"
-                                           SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+             
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Date Of Payment" Foreground="#3b81d1" Margin="0 0 0 10"/>
-                    <CalendarDatePicker MinWidth="360" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{x:Bind EditableItem.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
+                    <CalendarDatePicker MinWidth="360" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{x:Bind CurrentPayment.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
                 </StackPanel>
-                <controls:FormTextBox Header="Amount" Text="{x:Bind EditableItem.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="Cheque / ref No" Text="{x:Bind EditableItem.ChequeNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="Narration" Text="{x:Bind EditableItem.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <CheckBox x:Name="PDC" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.PDC, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
+                <controls:FormTextBox Header="Amount" Text="{x:Bind CurrentPayment.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Cheque / ref No" Text="{x:Bind CurrentPayment.ChequeNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Narration" Text="{x:Bind CurrentPayment.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox x:Name="PDC" Margin="10 20 0 0" IsChecked="{x:Bind CurrentPayment.PDC, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
                     <TextBlock Text="PDC"  Foreground="#3b81d1" FontSize="15"/>
                 </CheckBox>
+                
+               
             </controls:FluidGrid>
+            <Grid Grid.Row="1" Grid.Column="1" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                <Grid Grid.Row="0" HorizontalAlignment="Center">
+                    <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Button Content="AddPayment" x:Name="AddPayment"  Margin="10" Click="AddPayment_Click"  Width="100"/>
+                        <Button Content="ClearPayment" x:Name="ClearPayment" Margin="10" Click="ClearPayment_Click"  Width="100"/>
+                    </StackPanel>
+                </Grid>
+                    <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="10 0 10 30">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0"  HorizontalAlignment="Stretch" Background="#b0b0b0" Padding="0 0 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Date Of Payment" Foreground="#616263" FontSize="16"  Padding="5 5 0 5"  ></TextBlock>
+                            <TextBlock Grid.Column="1" Text="Bank / Cash" Foreground="#616263" FontSize="16" Padding="5 5 0 5"></TextBlock>
+                            <TextBlock Grid.Column="2" Text="Amount"  Foreground="#616263" FontSize="16" Padding="5 5 0 5"></TextBlock>
+                            <TextBlock Grid.Column="3" Text="PDC"  Foreground="#616263" FontSize="16" Padding="5 5 0 5"></TextBlock>
+                            <TextBlock Grid.Column="4" Text="Narration" Foreground="#616263" FontSize="16" Padding="5 5 0 5" TextWrapping="Wrap"></TextBlock>
+                        </Grid>
+                        <ScrollViewer Grid.Row="1" VerticalScrollMode="Enabled" MaxHeight="250" >
+                            <ListView x:Name="PaymentListView" ItemsSource="{x:Bind PaymentList,Mode=TwoWay}"  Margin="0 0 0 15"  >
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate >
+                                    <DataTemplate>
+                                            <Grid  >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding DateOfPayment, Converter={StaticResource DateTimeFormatConverter}}" Foreground="#616263" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
+                                            <TextBlock Grid.Column="1" Text="{Binding AccountName}" Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
+                                            <TextBlock Grid.Column="2" Text="{Binding Amount}"  Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
+                                            <TextBlock Grid.Column="3" Text="{Binding PDC}"  Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
+                                            <TextBlock Grid.Column="4" Text="{Binding Narration}" Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
+
+                                            <Button x:Name="Doc_Delete" Grid.Column="5" Tag="{Binding identity}"  Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Doc_Delete_Click" HorizontalAlignment="Left">
+                                                <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74D;" Foreground="Red"  HorizontalAlignment="Left"/>
+                                                <Button.Resources>
+                                                    <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                                </Button.Resources>
+                                            </Button>
+                                        </Grid>
+
+
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </ScrollViewer>                   
+                </Grid>
+            </Grid>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="6"  Height="530" VerticalAlignment="Top"
+    <Grid ColumnSpacing="6"  Height="650" VerticalAlignment="Top"
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
             

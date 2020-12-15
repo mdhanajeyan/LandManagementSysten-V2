@@ -24,15 +24,15 @@ namespace LandBankManagement.Data
         public int? BankAccountId { get; set; }
         public bool PDC { get; set; }
 
+        [NotMapped]
+        public List<PaymentList> PaymentLists { get; set; }
+
 
         [NotMapped]
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() => $"{PayeeId} {ChequeNo} ".ToLower();
         [NotMapped]
         public string AccountName { get; set; }
-
-        [NotMapped]
-        public IList<PaymentList> PaymentList { get; set; }
 
     }
 }

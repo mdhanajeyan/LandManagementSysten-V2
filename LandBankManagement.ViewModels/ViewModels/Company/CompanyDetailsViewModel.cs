@@ -120,12 +120,13 @@ namespace LandBankManagement.ViewModels
             {               
                 StartStatusMessage("Saving Company...");
                 ShowProgressRing();
-                
-              
+                              
                 if (model.CompanyID <= 0)
                     await CompanyService.AddCompanyAsync(model, DocList);
                 else
                     await CompanyService.UpdateCompanyAsync(model, DocList);
+
+                DocList = model.CompanyDocuments;
                 HideProgressRing();              
                 EndStatusMessage("Company saved");                             
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
@@ -159,6 +160,7 @@ namespace LandBankManagement.ViewModels
                     EndStatusMessage(result.Message);
                     return true;
                 }
+                ClearItem();
                 HideProgressRing();
                 EndStatusMessage("Company deleted");
                 LogWarning("Company", "Delete", "Company deleted", $"Company {model.CompanyID} '{model.Name}' was deleted.");

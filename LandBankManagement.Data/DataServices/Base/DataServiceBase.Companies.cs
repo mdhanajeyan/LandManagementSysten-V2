@@ -25,7 +25,7 @@ namespace LandBankManagement.Data.Services
             return company;
         }
 
-        private  List<CompanyDocuments> GetCompanyDocumentsAsync(Guid id)
+        public  List<CompanyDocuments> GetCompanyDocumentsAsync(Guid id)
         {
             return  _dataSource.CompanyDocuments
                 .Where(r => r.CompanyGuid == id).ToList();
@@ -153,6 +153,7 @@ namespace LandBankManagement.Data.Services
                         }
                     }
                 }
+              
                 await _dataSource.SaveChangesAsync();
                 return res;
             }

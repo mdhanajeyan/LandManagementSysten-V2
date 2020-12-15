@@ -42,6 +42,7 @@ namespace LandBankManagement.Data.Services
         public DbSet<PropPaySchedule> PropPaySchedules { get; set; }
         public DbSet<PropertyDocuments> PropertyDocuments { get; set; }
         public DbSet<ScreenList> ScreenList { get; set; }
+        public DbSet<PaymentList> paymentLists { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_connectionString);

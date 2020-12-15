@@ -1,4 +1,5 @@
 ﻿using LandBankManagement.ViewModels;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -24,6 +25,22 @@ namespace LandBankManagement.Views
         {
             details.SetFocus();
         }
-               
+
+        private void AddPayment_Click(object sender, RoutedEventArgs e)
+        {
+
+            ViewModel.AddPaymentToList();
+        }
+
+        private void ClearPayment_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ClearCurrentPayment();
+        }
+
+        private void Doc_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.DeletePaymentList(identity);
+        }
     }
 }

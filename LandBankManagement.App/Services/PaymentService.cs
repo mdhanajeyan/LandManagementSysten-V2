@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -70,13 +71,27 @@ namespace LandBankManagement.Services
             long id = model.PaymentId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var vendor =  new Payment();
-                if (vendor != null)
+                var payment =  new Payment();
+                if (payment != null)
                 {
-                    UpdatePaymentFromModel(vendor, model);
-                    vendor.PaymentGuid = Guid.NewGuid();
-                    await dataService.AddPaymentAsync(vendor);
-                    model.Merge(await GetPaymentAsync(dataService, vendor.PaymentId));
+                    UpdatePaymentFromModel(payment, model);
+                    payment.PaymentGuid = Guid.NewGuid();
+                    if (model.PaymentListModel != null && model.PaymentListModel.Count > 0) {
+                        var list = new List<PaymentList>();
+                        foreach (var obj in model.PaymentListModel) {
+                            if (obj.PaymentListId > 0)
+                                continue;
+                            var paymentlist = new PaymentList();
+                            UpdatePaymentListFromModel(paymentlist, obj);
+                            list.Add(paymentlist);
+                        }
+                        payment.PaymentLists = list;
+
+                    }
+                   var paymentId= await dataService.AddPaymentAsync(payment);
+                    model.Merge(await GetPaymentAsync(dataService, payment.PaymentId));
+                    return paymentId;
+
                 }
                 return 0;
             }
@@ -87,10 +102,25 @@ namespace LandBankManagement.Services
             long id = model.PaymentId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var vendor = new Payment();
-                UpdatePaymentFromModel(vendor, model);
-                await dataService.UpdatePaymentAsync(vendor);
-                model.Merge(await GetPaymentAsync(dataService, vendor.PaymentId));
+                var payment = new Payment();
+                UpdatePaymentFromModel(payment, model);
+                if (model.PaymentListModel != null && model.PaymentListModel.Count > 0)
+                {
+                    var list = new List<PaymentList>();
+                    foreach (var obj in model.PaymentListModel)
+                    {
+                        if (obj.PaymentListId > 0)
+                            continue;
+                        var paymentlist = new PaymentList();
+                        UpdatePaymentListFromModel(paymentlist, obj);
+                        list.Add(paymentlist);
+                    }
+                    payment.PaymentLists = list;
+
+                }
+
+                await dataService.UpdatePaymentAsync(payment);
+                model.Merge(await GetPaymentAsync(dataService, payment.PaymentId));
 
                 return 0;
             }
@@ -98,10 +128,19 @@ namespace LandBankManagement.Services
 
         public async Task<int> DeletePaymentAsync(PaymentModel model)
         {
-            var vendor = new Payment { PaymentId = model.PaymentId };
+            var payment = new Payment { PaymentId = model.PaymentId };
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                return await dataService.DeletePaymentAsync(vendor);
+                return await dataService.DeletePaymentAsync(payment);
+            }
+        }
+
+        public async Task<int> DeletePaymentListAsync(int id)
+        {
+            var payment = new PaymentList { PaymentId = id };
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                return await dataService.DeletePaymentListAsync(payment);
             }
         }
 
@@ -136,8 +175,42 @@ namespace LandBankManagement.Services
                 PDC=source.PDC,
                 AccountName=source.AccountName
         };
+            if (source.PaymentLists!=null && source.PaymentLists.Count > 0)
+            {
+                model.PaymentListModel = new ObservableCollection<PaymentListModel>();
+                foreach (var obj in source.PaymentLists)
+                {
+                    model.PaymentListModel.Add(new PaymentListModel
+                    {
+                        PaymentId = obj.PaymentId,
+                        DateOfPayment=obj.DateOfPayment,
+                        PaymentTypeId=obj.PaymentTypeId,
+                        PaymentListId=obj.PaymentListId,
+                        BankAccountId=obj.BankAccountId,
+                        CashAccountId=obj.CashAccountId,
+                        ChequeNo=obj.ChequeNo,
+                        Narration=obj.Narration,
+                        Amount=obj.Amount,
+                        PDC=obj.PDC,
+                        AccountName=obj.AccountName
+                    }) ;
+
+                }
+            }
 
             return model;
+        }
+
+        private void UpdatePaymentListFromModel(PaymentList target, PaymentListModel source) {
+            target.DateOfPayment = source.DateOfPayment.UtcDateTime;
+            target.BankAccountId = source.BankAccountId;
+            target.CashAccountId = source.CashAccountId;
+            target.ChequeNo = source.ChequeNo;
+            target.Narration = source.Narration;
+            target.PaymentId = source.PaymentId;
+            target.PaymentTypeId = source.PaymentTypeId;
+            target.Amount = source.Amount;
+            target.PDC = source.PDC;
         }
 
         private void UpdatePaymentFromModel(Payment target, PaymentModel source)

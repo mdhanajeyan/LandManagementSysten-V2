@@ -51,7 +51,7 @@ namespace LandBankManagement.Models
                 City = source.City;
                 IsActive = source.IsActive;
                 Pincode = source.Pincode;
-
+                CompanyDocuments = source.CompanyDocuments;
             }
         }
 

@@ -62,6 +62,7 @@ namespace LandBankManagement.Models
                 AddressLine2 = source.AddressLine2;
                 City = source.City;
                 PinCode = source.PinCode;
+                partyDocuments = source.partyDocuments;
             }
         }
 

@@ -39,6 +39,7 @@ namespace LandBankManagement.Data.Services
 
         DbSet<PropertyDocuments> PropertyDocuments { get; }
         DbSet<ScreenList> ScreenList { get; }
+        DbSet<PaymentList> paymentLists { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

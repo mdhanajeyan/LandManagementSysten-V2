@@ -157,7 +157,8 @@ namespace LandBankManagement.ViewModels
                     await PartyService.AddPartyAsync(model, DocList);
                 else
                     await PartyService.UpdatePartyAsync(model, DocList);
-               
+
+                DocList = model.partyDocuments;
                 EndStatusMessage("Party saved");
                 LogInformation("Party", "Save", "Party saved successfully", $"Party {model.PartyId} '{model.PartyName}' was saved successfully.");
                 return true;

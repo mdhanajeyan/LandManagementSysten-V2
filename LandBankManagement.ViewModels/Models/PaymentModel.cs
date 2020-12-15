@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace LandBankManagement.Models
@@ -24,9 +25,10 @@ namespace LandBankManagement.Models
         public int CashAccountId { get; set; }
         public int BankAccountId { get; set; }
         public bool PDC { get; set; }
-       
+        public ObservableCollection<PaymentListModel> PaymentListModel { get; set; }
         public string AccountName { get; set; }
         public bool IsNew => PaymentId <= 0;
+       
 
         public override void Merge(ObservableObject source)
         {
@@ -56,6 +58,7 @@ namespace LandBankManagement.Models
                 CashAccountId = source.CashAccountId;
                 BankAccountId = source.BankAccountId;
                 PDC = source.PDC;
+                PaymentListModel = source.PaymentListModel;
             }
         }
 

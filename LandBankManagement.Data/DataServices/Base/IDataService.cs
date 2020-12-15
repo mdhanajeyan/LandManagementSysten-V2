@@ -17,7 +17,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UploadCompanyDocumentsAsync(List<CompanyDocuments> company);
         Task<int> DeleteCompanyDocumentAsync(CompanyDocuments documents);
         Task<IList<Company>> GetCompaniesAsync();
-
+        List<CompanyDocuments> GetCompanyDocumentsAsync(Guid id);
 
         // Task<int> AddVendorAsync(Vendor model);
         Task<Vendor> GetVendorAsync(long id);
@@ -172,7 +172,7 @@ namespace LandBankManagement.Data.Services
         Task<int> GetPaymentsCountAsync(DataRequest<Payment> request);
         Task<int> UpdatePaymentAsync(Payment model);
         Task<int> DeletePaymentAsync(Payment model);
-
+        Task<int> DeletePaymentListAsync(PaymentList model);
         Task<int> AddUserRoleAsync(UserRole model);
         Task<UserRole> GetUserRoleAsync(long id);
         Task<IList<UserRole>> GetUserRolesAsync(DataRequest<UserRole> request);

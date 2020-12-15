@@ -16,5 +16,6 @@ namespace LandBankManagement.Services
         Task<int> GetPaymentsCountAsync(DataRequest<Payment> request);
         Task<int> UpdatePaymentAsync(PaymentModel model);
         Task<int> DeletePaymentAsync(PaymentModel model);
+        Task<int> DeletePaymentListAsync(int id);
     }
 }

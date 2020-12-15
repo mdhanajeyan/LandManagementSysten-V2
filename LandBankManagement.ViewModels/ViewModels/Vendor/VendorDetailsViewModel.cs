@@ -109,6 +109,7 @@ namespace LandBankManagement.ViewModels
                     await VendorService.AddVendorAsync(model,DocList);
                 else
                     await VendorService.UpdateVendorAsync(model, DocList);
+                DocList = model.VendorDocuments;
                 EndStatusMessage("Vendor saved");
                 LogInformation("Vendor", "Save", "Vendor saved successfully", $"Vendor {model.VendorId} '{model.VendorName}' was saved successfully.");
                 return true;

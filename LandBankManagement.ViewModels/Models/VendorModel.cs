@@ -62,7 +62,8 @@ namespace LandBankManagement.Models
                 PAN = source.PAN;
                 AadharNo = source.AadharNo;
                 GSTIN = source.GSTIN;
-                IsVendorActive = source.IsVendorActive;               
+                IsVendorActive = source.IsVendorActive;
+                VendorDocuments = source.VendorDocuments;
             }
         }
     }

@@ -59,6 +59,20 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _bankOptions, value);
         }
 
+        private ObservableCollection<PaymentListModel> _paymentList = null;
+        public ObservableCollection<PaymentListModel> PaymentList
+        {
+            get => _paymentList;
+            set => Set(ref _paymentList, value);
+        }
+        private PaymentListModel _currentpayment = null;
+        public PaymentListModel CurrentPayment
+        {
+            get => _currentpayment;
+            set => Set(ref _currentpayment, value);
+        }
+
+
         private bool _expenseVisibility ;
         public bool ExpenseVisibility
         {
@@ -158,9 +172,9 @@ namespace LandBankManagement.ViewModels
 
             OnExpenseRadioChecked();
             OnCashRadioChecked();
-
-           
+            CurrentPayment = new PaymentListModel { DateOfPayment = DateTimeOffset.Now };
         }
+
         private void GetDropdowns()
         {
            CompanyOptions = DropDownService.GetCompanyOptions();
@@ -201,6 +215,34 @@ namespace LandBankManagement.ViewModels
             }
         }
 
+        public void AddPaymentToList() {
+            if (PaymentList == null)
+                PaymentList = new ObservableCollection<PaymentListModel>();
+
+            if (IsCashChecked)
+            {
+                CurrentPayment.PaymentTypeId = true;
+                CurrentPayment.BankAccountId = 0;
+            }
+            else
+            {
+                CurrentPayment.PaymentTypeId = false;
+                CurrentPayment.CashAccountId = 0;
+            }
+
+            PaymentList.Add(CurrentPayment);
+            CurrentPayment = new PaymentListModel { DateOfPayment=DateTimeOffset.Now,PDC=true};
+            for (int i = 0; i < PaymentList.Count; i++) {
+                PaymentList[i].identity = i + 1;
+            }
+            var newList= PaymentList;
+            PaymentList = null;
+            PaymentList = newList;
+        }
+        public void ClearCurrentPayment() {
+            CurrentPayment = new PaymentListModel { DateOfPayment = DateTimeOffset.Now, PDC = true };
+        }
+
         public void Subscribe()
         {
             MessageService.Subscribe<PaymentsDetailsViewModel, PaymentModel>(this, OnDetailsMessage);
@@ -211,13 +253,22 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        //public ExpenseHeadDetailsArgs CreateArgs()
-        //{
-        //    return new ExpenseHeadDetailsArgs
-        //    {
-        //        ExpenseHeadId = Item?.ExpenseHeadId ?? 0
-        //    };
-        //}
+        public async void DeletePaymentList(int id) {
+
+            if (PaymentList[id-1].PaymentListId > 0) {
+
+                await PaymentsService.DeletePaymentListAsync((int)PaymentList[id - 1].PaymentListId);
+               
+            }
+            PaymentList.RemoveAt(id - 1);
+            for (int i = 0; i < PaymentList.Count; i++)
+            {
+                PaymentList[i].identity = i + 1;
+            }
+            var newList = PaymentList;
+            PaymentList = null;
+            PaymentList = newList;
+        }
 
 
         protected override async Task<bool> SaveItemAsync(PaymentModel model)
@@ -228,17 +279,21 @@ namespace LandBankManagement.ViewModels
                     model.PayeeTypeId = 1;
                 else
                     model.PayeeTypeId = 2;
-                if (IsCashChecked)
-                    model.PayeeTypeId = 1;
-                else
-                    model.PaymentTypeId = 2;
+                
+
+                model.PaymentListModel = PaymentList;
 
                 StartStatusMessage("Saving Payments...");
-                
+                int paymentId = 0;
                 if (model.PaymentId <= 0)
-                    await PaymentsService.AddPaymentAsync(model);
+                    paymentId=await PaymentsService.AddPaymentAsync(model);
                 else
                     await PaymentsService.UpdatePaymentAsync(model);
+
+                var item =await PaymentsService.GetPaymentAsync(paymentId == 0 ? model.PaymentId : paymentId);
+                Item = item;
+                PaymentList = item.PaymentListModel;
+
                 EndStatusMessage("Payments saved");
                 LogInformation("Payments", "Save", "Payments saved successfully", $"Payments {model.PaymentId}  was saved successfully.");
                 return true;
