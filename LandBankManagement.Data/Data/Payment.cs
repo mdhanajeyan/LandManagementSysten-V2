@@ -30,5 +30,9 @@ namespace LandBankManagement.Data
         public string BuildSearchTerms() => $"{PayeeId} {ChequeNo} ".ToLower();
         [NotMapped]
         public string AccountName { get; set; }
+
+        [NotMapped]
+        public IList<PaymentList> PaymentList { get; set; }
+
     }
 }
