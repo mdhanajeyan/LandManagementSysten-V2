@@ -198,6 +198,11 @@ namespace LandBankManagement.Services
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var userRole =await dataService.GetUserRolesAsync(request);
+                
+                if(!userRole.Any())
+                {
+                    throw new Exception("No role assigned to this user");
+                }
                 var roleId = userRole.FirstOrDefault().RoleId;
                 userInfoModel.UserRoleId = roleId;
                 var permissions = dataService.GetRolePermisions(roleId).ToList();

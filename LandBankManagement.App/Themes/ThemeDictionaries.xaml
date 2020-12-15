@@ -33,7 +33,7 @@
             <SolidColorBrush x:Key="BorderBrush" Color="White" />
             <SolidColorBrush x:Key="ListBackGround" Color="WhiteSmoke"></SolidColorBrush>
             <SolidColorBrush x:Key="ListHeaderBackGround" Color="#81D4FA"/>
-            <SolidColorBrush x:Key="SectionBackGround" Color="#546E7A"/>
+            <SolidColorBrush x:Key="SectionBackGround" Color="White"/>
             <SolidColorBrush x:Key="TaskBarBackGround" Color="#263238"/>
             <SolidColorBrush x:Key="ToolBarButtonForeGround" Color="Black"/>
             <SolidColorBrush x:Key="DetailsBackGround" Color="White"/>

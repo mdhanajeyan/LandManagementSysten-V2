@@ -17,9 +17,9 @@ namespace LandBankManagement.Models
         public string MobileNo { get; set; }
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime Updated { get; set; }
+        public DateTime? Updated { get; set; }
         public string UpdatedBy { get; set; }
         public List<RolePermission> Permission { get; set; }
         public object PictureSource { get; set; }
