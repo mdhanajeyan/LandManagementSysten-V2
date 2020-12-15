@@ -38,8 +38,10 @@ namespace LandBankManagement.Views
 
         private void VendorList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             var id = Convert.ToInt32(((ComboBox)sender).SelectedValue.ToString());
-            ViewModel.ClodeVendorDetails(id);
+            if (id>0)
+                ViewModel.ClodeVendorDetails(id);
         }
     }
 }

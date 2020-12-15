@@ -86,6 +86,7 @@ namespace LandBankManagement.ViewModels
             {
                 for (int i = 0; i < DocList.Count; i++)
                 {
+                    DocList[i].blobId = 0;
                     DocList[i].Identity = i + 1;
                 }
             }

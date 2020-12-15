@@ -40,23 +40,39 @@
                     <TextBlock Text="Roles"  Foreground="#3b81d1" FontSize="15" Margin="10"/>
                     <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500" >
                         <ListView x:Name="docListView" ItemsSource="{x:Bind RoleList,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" MinHeight="50" >
+                                    <!--<StackPanel Orientation="Horizontal" MinHeight="50" >
                                       
                                         <TextBlock Text="{Binding Name}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
                        Path=ActualWidth, ConverterParameter=0.8}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
 
-                                        <!--<CheckBox x:Name="isAdmin" Margin="10 20 0 0" IsChecked="{Binding IsSelected,Mode=TwoWay}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
+                                        --><!--<CheckBox x:Name="isAdmin" Margin="10 20 0 0" IsChecked="{Binding IsSelected,Mode=TwoWay}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
                        Path=ActualWidth, ConverterParameter=0.2}">
-                                        </CheckBox>-->
+                                        </CheckBox>--><!--
                                         <RadioButton    Margin="10" GroupName="role" IsChecked="{Binding IsSelected,Mode=TwoWay}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
                        Path=ActualWidth, ConverterParameter=0.2}">
                                             <TextBlock   Foreground="#3b81d1" FontSize="15"/>
                                         </RadioButton>
 
-                                    </StackPanel>
+                                    </StackPanel>-->
+                                    <Grid  HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
 
+                                        <RadioButton Grid.Column="1"   Margin="10" GroupName="role" IsChecked="{Binding IsSelected,Mode=TwoWay}" >
+                                            <TextBlock   Foreground="#3b81d1" FontSize="15"/>
+                                        </RadioButton>
+                                        
+                                    </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

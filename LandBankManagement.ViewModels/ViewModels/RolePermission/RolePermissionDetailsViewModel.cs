@@ -110,22 +110,23 @@ namespace LandBankManagement.ViewModels
         }
         protected override async Task<bool> DeleteItemAsync(RolePermissionModel model)
         {
-            try
-            {
-                StartStatusMessage("DeletingRolePermission...");
+            //try
+            //{
+            //    StartStatusMessage("DeletingRolePermission...");
 
-                await RolePermissionService.DeleteRolePermissionAsync(model);
-                ClearItem();
-                EndStatusMessage("Role deleted");
-                LogWarning("Role", "Delete", "Role deleted", $"Taluk {model.RolePermissionId}  was deleted.");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                StatusError($"Error deletingRolePermission: {ex.Message}");
-                LogException("Role", "Delete", ex);
-                return false;
-            }
+            //    await RolePermissionService.DeleteRolePermissionAsync(model);
+            //    ClearItem();
+            //    EndStatusMessage("Role deleted");
+            //    LogWarning("Role", "Delete", "Role deleted", $"Taluk {model.RolePermissionId}  was deleted.");
+            //    return true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    StatusError($"Error deletingRolePermission: {ex.Message}");
+            //    LogException("Role", "Delete", ex);
+            //    return false;
+            //}
+            return true;
         }
 
         protected override async Task<bool> ConfirmDeleteAsync()
