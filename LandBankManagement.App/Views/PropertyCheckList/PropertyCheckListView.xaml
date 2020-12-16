@@ -6,20 +6,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:LandBankManagement.Controls"
+    xmlns:syncfusion="using:Syncfusion.UI.Xaml.TreeGrid"
     mc:Ignorable="d"
     xmlns:views="using:LandBankManagement.Views"
     
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
+
     <UserControl.Resources>
         <DataTemplate x:Key="ListHeaderTemplate">
             <StackPanel Margin="6,4,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="Company" FontSize="18" />
+                <TextBlock Text="Property Check List" FontSize="18" />
                 <TextBlock Text="{Binding}" FontSize="18" Foreground="Gray" />
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
-    
+
     <Grid Background="{StaticResource DetailsBackGround}"
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
@@ -29,8 +30,8 @@
         <controls:Section Header="{x:Bind ViewModel.ViewModelList.Title, Mode=OneWay}" 
                                   HeaderTemplate="{StaticResource ListHeaderTemplate}"
                                   HeaderButtonGlyph="&#xE2B4;">
-            <views:PropertyCheckListList></views:PropertyCheckListList>
-            
+            <views:PropertyCheckListList ViewModel="{x:Bind ViewModel.ViewModelList}"></views:PropertyCheckListList>
+
         </controls:Section>
     </Grid>
 

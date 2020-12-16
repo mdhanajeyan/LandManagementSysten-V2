@@ -33,5 +33,11 @@ namespace LandBankManagement.Views
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
         }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModel.LoadAsync();
+
+        }
     }
 }

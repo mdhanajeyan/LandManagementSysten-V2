@@ -9,8 +9,40 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+   
+    <UserControl.Resources>
+        <syncfusion:TreeGridColumns x:Key="desktopView">
+            <syncfusion:TreeGridTextColumn HeaderText="Name" MappingName="Name" />
+            <syncfusion:TreeGridTextColumn HeaderText="Phone" MappingName="PhoneNo" />
+            <syncfusion:TreeGridTextColumn HeaderText="CompanyID"
+                                                       MappingName="CompanyID"
+                                                       TextAlignment="Left" />
+            <syncfusion:TreeGridTextColumn HeaderText="Email"
+                                                       MappingName="Email"
+                                                       TextAlignment="Left" />
+            <syncfusion:TreeGridTextColumn HeaderText="City"
+                                                       MappingName="City"
+                                                       TextAlignment="Left" />
+        </syncfusion:TreeGridColumns>
 
-    <Grid>
+    </UserControl.Resources>
+
+    <Grid Margin="10,5,5,5">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Screen">
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="400" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="treeGrid.Columns" Value="{StaticResource desktopView}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+
         <syncfusion:SfTreeGrid Name="treeGrid"
                                        AllowDraggingColumns="True"
                                        AutoExpandMode="AllNodesExpanded"

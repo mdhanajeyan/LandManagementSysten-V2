@@ -28,7 +28,7 @@ namespace LandBankManagement.ViewModels
         public PropertyCheckListListViewModel ViewModelList { get; set; }
         public PropertyCheckListViewModel(ICommonServices commonServices) : base(commonServices)
         {
-            
+            ViewModelList = new PropertyCheckListListViewModel(commonServices);
         }
 
         public void LoadAsync()
