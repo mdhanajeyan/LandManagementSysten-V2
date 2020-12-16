@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LandBankManagement.Models;
+using LandBankManagement.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,10 +17,16 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace LandBankManagement.Views.PropertyCheckList
+namespace LandBankManagement.Views
 {
     public sealed partial class PropertyCheckListList : UserControl
     {
+        public PropertyCheckListListViewModel ViewModel
+        {
+            get { return (PropertyCheckListListViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(PropertyCheckListListViewModel), typeof(PropertyCheckListModel), new PropertyMetadata(null));
         public PropertyCheckListList()
         {
             this.InitializeComponent();

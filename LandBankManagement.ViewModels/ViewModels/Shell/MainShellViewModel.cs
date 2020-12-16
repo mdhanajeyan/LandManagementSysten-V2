@@ -32,6 +32,7 @@ namespace LandBankManagement.ViewModels
                  new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel)){Screen=NavigationScreen.Village},
                  new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
                  new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel)){Screen=NavigationScreen.PropertyType},
+                 new NavigationItem(0xf035, "Property Check List", typeof(PropertyCheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
             }
         };
 
@@ -192,6 +193,9 @@ namespace LandBankManagement.ViewModels
                     break;
                 case "RolePermissionViewModel":
                     NavigationService.Navigate(viewModel);
+                    break;
+                case "PropertyCheckListViewModel":
+                    NavigationService.Navigate(viewModel, new PropertyCheckListArgs());
                     break;
                 default:
                     throw new NotImplementedException();

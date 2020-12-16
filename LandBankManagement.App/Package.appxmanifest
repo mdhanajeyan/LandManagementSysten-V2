@@ -9,7 +9,7 @@
   <Identity
     Name="LandBankManagement"
     Publisher="CN=DJ"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="334668a3-2eea-4b7b-9e39-7215522922a0" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
