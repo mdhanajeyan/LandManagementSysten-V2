@@ -26,7 +26,7 @@
                 <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
                 <controls:FormTextBox Header="Opening Balance" Text="{x:Bind EditableItem.OpeningBalance, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsBankAccountActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >
-                    <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
+                    <TextBlock Text="IsActive"  Foreground="Black" FontSize="15"/>
                 </CheckBox>
 
             </controls:FluidGrid>

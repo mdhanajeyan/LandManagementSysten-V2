@@ -30,9 +30,10 @@
                     <controls:FormTextBox Header="Postal Code" MaxLength="6" Text="{x:Bind EditableItem.Pincode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  />
                     <controls:FormTextBox Header="City" MaxLength="40" Text="{x:Bind EditableItem.City, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 </controls:FluidGrid>
-                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                    <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
-                </CheckBox>
+                <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
+                    <!--<TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>-->
+                        <TextBlock Text="IsActive"  Foreground="Black" FontSize="15"/>
+                    </CheckBox>
             </controls:FluidGrid>         
             <controls:FluidGrid Margin="10,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
                     <StackPanel Orientation="Vertical" BorderBrush="#b0b0b0" BorderThickness="1" Margin="0 5 10 20" MinHeight="300">

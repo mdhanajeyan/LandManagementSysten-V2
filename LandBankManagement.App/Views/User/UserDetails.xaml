@@ -23,12 +23,12 @@
 
 
                     <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
-                    <TextBlock Text="Is Active"  Foreground="#3b81d1" FontSize="15"/>
+                        <TextBlock Text="Is Active"  Foreground="Black" FontSize="15"/>
                 </CheckBox>
                 <StackPanel Orientation="Horizontal">
 
                         <CheckBox x:Name="isAdmin" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsAdmin, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
-                    <TextBlock Text="Is Admin"  Foreground="#3b81d1" FontSize="15"/>
+                            <TextBlock Text="Is Admin"  Foreground="Black" FontSize="15"/>
                 </CheckBox>
                 </StackPanel>
                     <controls:FormTextBox Header="Login Name" Text="{x:Bind EditableItem.loginName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
@@ -37,7 +37,7 @@
             </controls:FluidGrid>
               
                 <StackPanel Margin="0 20 0 0">
-                    <TextBlock Text="Roles"  Foreground="#3b81d1" FontSize="15" Margin="10"/>
+                    <TextBlock Text="Roles"  Foreground="Black" FontSize="15" Margin="10"/>
                     <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500" >
                         <ListView x:Name="docListView" ItemsSource="{x:Bind RoleList,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
                             <ListView.ItemContainerStyle>
@@ -69,7 +69,7 @@
                                         <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="#265fab" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
 
                                         <RadioButton Grid.Column="1"   Margin="10" GroupName="role" IsChecked="{Binding IsSelected,Mode=TwoWay}" >
-                                            <TextBlock   Foreground="#3b81d1" FontSize="15"/>
+                                            <TextBlock   Foreground="Black" FontSize="15"/>
                                         </RadioButton>
                                         
                                     </Grid>

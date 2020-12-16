@@ -17,7 +17,7 @@
 
                 <controls:FormTextBox Header="ExpenseHead" Text="{x:Bind EditableItem.ExpenseHeadName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox x:Name="isActive" Margin="10 20 0 0"  IsChecked="{x:Bind EditableItem.IsExpenseHeadActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >
-                    <TextBlock Text="IsActive"  Foreground="#3b81d1" FontSize="15"/>
+                    <TextBlock Text="IsActive"  Foreground="Black" FontSize="15"/>
                 </CheckBox>
             </controls:FluidGrid>
         </DataTemplate>

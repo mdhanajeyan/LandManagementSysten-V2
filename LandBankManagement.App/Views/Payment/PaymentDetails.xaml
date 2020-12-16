@@ -44,10 +44,10 @@
 
                 <StackPanel  Orientation="Horizontal">
                     <RadioButton x:Name="cashRB"  Tag="cash" Margin="10" GroupName="cashbank" IsChecked="{Binding IsCashChecked,Mode=TwoWay}" Command="{Binding CashCheckedCommand}">
-                        <TextBlock Text="Cash"  Foreground="#3b81d1" FontSize="15"/>
+                        <TextBlock Text="Cash"  Foreground="Black" FontSize="15"/>
                     </RadioButton>
                     <RadioButton  x:Name="bankRB" Tag="bank" Margin="10" GroupName="cashbank" IsChecked="{Binding IsBankChecked,Mode=TwoWay}" Command="{Binding CashCheckedCommand}">
-                        <TextBlock Text="Bank"  Foreground="#3b81d1" FontSize="15"/>
+                        <TextBlock Text="Bank"  Foreground="Black" FontSize="15"/>
                     </RadioButton>
                 </StackPanel>
                 <StackPanel>
@@ -60,14 +60,14 @@
                 </StackPanel>
              
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Date Of Payment" Foreground="#3b81d1" Margin="0 0 0 10"/>
+                    <TextBlock Text="Date Of Payment" Foreground="Black" Margin="0 0 0 10"/>
                     <CalendarDatePicker MinWidth="360" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{x:Bind CurrentPayment.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
                 </StackPanel>
                 <controls:FormTextBox Header="Amount" Text="{x:Bind CurrentPayment.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="Cheque / ref No" Text="{x:Bind CurrentPayment.ChequeNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="Narration" Text="{x:Bind CurrentPayment.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox x:Name="PDC" Margin="10 20 0 0" IsChecked="{x:Bind CurrentPayment.PDC, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
-                    <TextBlock Text="PDC"  Foreground="#3b81d1" FontSize="15"/>
+                    <TextBlock Text="PDC"  Foreground="Black" FontSize="15"/>
                 </CheckBox>
                 
                

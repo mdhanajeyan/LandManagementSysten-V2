@@ -170,11 +170,20 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter x:Name="HeaderContentPresenter"
+                        <!--<ContentPresenter x:Name="HeaderContentPresenter"
                             x:DeferLoadStrategy="Lazy"
                             Margin="0,0,0,6"
                             FlowDirection="{TemplateBinding FlowDirection}"
                             Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                            FontWeight="{ThemeResource ComboBoxHeaderThemeFontWeight}"
+                            Visibility="Collapsed"
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}" />-->
+                        <ContentPresenter x:Name="HeaderContentPresenter"
+                            x:DeferLoadStrategy="Lazy"
+                            Margin="0,0,0,6"
+                            FlowDirection="{TemplateBinding FlowDirection}"
+                            Foreground="Black"
                             FontWeight="{ThemeResource ComboBoxHeaderThemeFontWeight}"
                             Visibility="Collapsed"
                             Content="{TemplateBinding Header}"
@@ -221,7 +230,7 @@
                                 Margin="0,-1,0,-1"
                                 HorizontalAlignment="Stretch">
                                 <ScrollViewer x:Name="ScrollViewer"
-                                    Foreground="{ThemeResource ComboBoxDropDownForeground}"
+                                    Foreground="{ThemeResource ComboBoxDropDownForeground}"                                  
                                     MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownContentMinWidth}"
                                     VerticalSnapPointsType="OptionalSingle"
                                     VerticalSnapPointsAlignment="Near"
