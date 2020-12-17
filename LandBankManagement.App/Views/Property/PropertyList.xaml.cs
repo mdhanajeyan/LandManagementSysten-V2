@@ -30,7 +30,7 @@ namespace LandBankManagement.Views
 
         private void Popup_closeBtn_Click(object sender, RoutedEventArgs e)
         {
-            CostDetailsPopup.IsOpen = false;
+           // CostDetailsPopup.IsOpen = false;
         }
 
         private void DocumentType_Click(object sender, RoutedEventArgs e)
@@ -39,5 +39,6 @@ namespace LandBankManagement.Views
             ViewModel.PropertyView.LoadPropertyForNewDocumentType(propertyId);
             
         }
+       
     }
 }

@@ -8,85 +8,43 @@
      xmlns:viewmodels="using:LandBankManagement.ViewModels"
       xmlns:models="using:LandBankManagement.Models"
     xmlns:controls="using:LandBankManagement.Controls"
+     xmlns:syncfusion="using:Syncfusion.UI.Xaml.TreeGrid"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
 
 
     <UserControl.Resources>
-        <DataTemplate x:Key="HeaderTemplate">
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="20*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Property Name*" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="1" Text="Document No*" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="2" Text="Survey No" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="3" Text="Cost Details" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="4" Text="Document Type" Style="{StaticResource ColumnHeaderStyle}" />
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="ItemTemplate" x:DataType="models:PropertyModel">
-            <Grid Height="32">
-                <Grid Visibility="{x:Bind IsEmpty, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="20*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{x:Bind PropertyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="1" Text="{x:Bind DocumentNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="2" Text="{x:Bind SurveyNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <Button x:Name="CostDetails" Grid.Column="3" Tag="{x:Bind PropertyId}" Content="Add Cost" Click="CostDetails_Click"/>
-                    <Button x:Name="DocumentType" Grid.Column="4" Tag="{x:Bind PropertyId}" Content="Add DocumentType" Click="DocumentType_Click"/>
-                </Grid>
-            </Grid>
-        </DataTemplate>
+        <syncfusion:TreeGridColumns x:Key="desktopView">
+            <syncfusion:TreeGridTextColumn HeaderText="Name" MappingName="PropertyName" />
+            <syncfusion:TreeGridTextColumn HeaderText="Document No" MappingName="DocumentNo" />
+            <syncfusion:TreeGridTextColumn HeaderText="Survey No" MappingName="SurveyNo" TextAlignment="Left" />
+        </syncfusion:TreeGridColumns>
+        
     </UserControl.Resources>
-    <Grid>       
-       
-        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100" >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition  Height="40"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid  Grid.Row="0" HorizontalAlignment="Stretch" Padding="0 0 20 0" Background="#a3a0a0">
-                    <Button x:Name="Popup_closeBtn"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Popup_closeBtn_Click">
-                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE8BB;" Foreground="Red" FontWeight="Medium"  HorizontalAlignment="Left"/>
-                        <Button.Resources>
-                            <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
-                        </Button.Resources>
-                    </Button>
-                </Grid>
-                <ScrollViewer Grid.Row="1" VerticalScrollMode="Enabled" MaxHeight="700" >
-                <views:CostDetails  ViewModel="{x:Bind ViewModel.CostDetails}"  Height="1000"/>
-            </ScrollViewer>
-            </Grid>
-        </Popup>
+    <Grid Margin="10,5,5,5">        
+        
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="Screen">
+                    <VisualState>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="400" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                        <Setter Target="treeGrid.Columns" Value="{StaticResource desktopView}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        <syncfusion:SfTreeGrid Name="treeGrid" 
+                                       AllowDraggingColumns="True"
+                                       AutoExpandMode="AllNodesExpanded"
+                                       AutoGenerateColumns="False"
+                                       ChildPropertyName="Children"
+                                       ColumnSizer="Star"
+                                       ItemsSource="{x:Bind ViewModel.PropertyModelList}" />
+      
 
-        <controls:DataListWithSearch  ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"                      
-                       NewLabel="New Village"
-                       SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
-                       HeaderTemplate="{StaticResource HeaderTemplate}"
-                       ItemTemplate="{StaticResource ItemTemplate}"
-                       IsMultipleSelection="{x:Bind ViewModel.IsMultipleSelection, Mode=TwoWay}"
-                       ItemsCount="{x:Bind ViewModel.ItemsCount, Mode=OneWay}"
-                       NewCommand="{x:Bind ViewModel.NewCommand}"
-                       RefreshCommand="{x:Bind ViewModel.RefreshCommand}"
-                       Query="{x:Bind ViewModel.Query, Mode=TwoWay}"
-                       QuerySubmittedCommand="{x:Bind ViewModel.RefreshCommand}"
-                       StartSelectionCommand="{x:Bind ViewModel.StartSelectionCommand}"
-                       CancelSelectionCommand="{x:Bind ViewModel.CancelSelectionCommand}"
-                       SelectItemsCommand="{x:Bind ViewModel.SelectItemsCommand}"
-                       DeselectItemsCommand="{x:Bind ViewModel.DeselectItemsCommand}"
-                       SelectRangesCommand="{x:Bind ViewModel.SelectRangesCommand}"
-                       DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}" />
+      
+
     </Grid>
+   
 </UserControl>

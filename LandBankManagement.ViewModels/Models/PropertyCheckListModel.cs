@@ -1,21 +1,99 @@
 ﻿using LandBankManagement.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace LandBankManagement.Models
 {
     public class PropertyCheckListModel : ObservableObject
     {
-        public int CompanyID { get; set; }
-        public string Name { get; set; }
-        public string PhoneNo { get; set; }
-        public string Email { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
-        public string City { get; set; }
-        public string Pincode { get; set; }
+        static public PropertyCheckListModel CreateEmpty() => new PropertyCheckListModel { PropertyCheckListId = 0, IsEmpty = true };
+        public int PropertyCheckListId { get; set; }
 
-        public IEnumerable<PropertyCheckListModel> Children { get; set; }
+        public int CompanyID { get; set; }
+        public Guid PropertyGuid { get; set; }
+        public string PropertyName { get; set; }
+        public int TalukId { get; set; }
+        public int HobliId { get; set; }
+        public int VillageId { get; set; }
+        public int DocumentTypeId { get; set; }
+        public int PropertyTypeId { get; set; }
+        public string SurveyNo { get; set; }
+        public string PropertyGMapLink { get; set; }
+        public string LandAreaInputAcres { get; set; }
+        public string LandAreaInputGuntas { get; set; }
+        public string LandAreaInAcres { get; set; }
+        public string LandAreaInGuntas { get; set; }
+        public string LandAreaInSqMts { get; set; }
+        public string LandAreaInSqft { get; set; }
+        public string AKarabAreaInputAcres { get; set; }
+        public string AKarabAreaInputGuntas { get; set; }
+        public string AKarabAreaInAcres { get; set; }
+        public string AKarabAreaInGuntas { get; set; }
+        public string AKarabAreaInSqMts { get; set; }
+        public string AKarabAreaInSqft { get; set; }
+        public string BKarabAreaInputAcres { get; set; }
+        public string BKarabAreaInputGuntas { get; set; }
+        public string BKarabAreaInAcres { get; set; }
+
+        public string BKarabAreaInGuntas { get; set; }
+        public string BKarabAreaInSqMts { get; set; }
+        public string BKarabAreaInSqft { get; set; }
+        public bool CheckListMaster { get; set; }
+        public string PropertyDescription { get; set; }
+        public int Status { get; set; }
+        public string Remarks { get; set; }
+
+        public ObservableCollection<PropertyCheckListDocumentsModel> PropertyCheckListDocuments { get; set; }
+        public ObservableCollection<CheckListOfPropertyModel> CheckListOfProperties { get; set; }
+        public ObservableCollection<PropertyCheckListVendorModel> PropertyCheckListVendors { get; set; }
+
+        public override void Merge(ObservableObject source)
+        {
+            if (source is PropertyModel model)
+            {
+                Merge(model);
+            }
+        }
+
+        public void Merge(PropertyCheckListModel source)
+        {
+            if (source != null)
+            {
+                PropertyCheckListId = source.PropertyCheckListId;
+                PropertyGuid = source.PropertyGuid;
+                PropertyName = source.PropertyName;
+                TalukId = source.TalukId;
+                HobliId = source.HobliId;
+                VillageId = source.VillageId;
+                DocumentTypeId = source.DocumentTypeId;
+                PropertyTypeId = source.PropertyTypeId;
+                SurveyNo = source.SurveyNo;
+                PropertyGMapLink = source.PropertyGMapLink;
+                LandAreaInputAcres = source.LandAreaInputAcres;
+                LandAreaInputGuntas = source.LandAreaInputGuntas;
+                LandAreaInAcres = source.LandAreaInAcres;
+                LandAreaInGuntas = source.LandAreaInGuntas;
+                LandAreaInSqMts = source.LandAreaInSqMts;
+                LandAreaInSqft = source.LandAreaInSqft;
+                AKarabAreaInputAcres = source.AKarabAreaInputAcres;
+                AKarabAreaInputGuntas = source.AKarabAreaInputGuntas;
+                AKarabAreaInAcres = source.AKarabAreaInAcres;
+                AKarabAreaInGuntas = source.AKarabAreaInGuntas;
+                AKarabAreaInSqMts = source.AKarabAreaInSqMts;
+                AKarabAreaInSqft = source.AKarabAreaInSqft;
+                BKarabAreaInputAcres = source.BKarabAreaInputAcres;
+                BKarabAreaInputGuntas = source.BKarabAreaInputGuntas;
+                BKarabAreaInAcres = source.BKarabAreaInAcres;
+                BKarabAreaInGuntas = source.BKarabAreaInGuntas;
+                BKarabAreaInSqMts = source.BKarabAreaInSqMts;
+                BKarabAreaInSqft = source.BKarabAreaInSqft;
+                PropertyCheckListDocuments = source.PropertyCheckListDocuments;
+                CheckListOfProperties = source.CheckListOfProperties;
+                PropertyCheckListVendors = source.PropertyCheckListVendors;
+            }
+        }
+
     }
 }

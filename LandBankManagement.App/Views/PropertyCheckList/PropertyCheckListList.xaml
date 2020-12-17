@@ -9,7 +9,6 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-   
     <UserControl.Resources>
         <syncfusion:TreeGridColumns x:Key="desktopView">
             <syncfusion:TreeGridTextColumn HeaderText="Name" MappingName="Name" />
@@ -26,6 +25,8 @@
         </syncfusion:TreeGridColumns>
 
     </UserControl.Resources>
+
+
 
     <Grid Margin="10,5,5,5">
 
@@ -49,6 +50,7 @@
                                        AutoGenerateColumns="False"
                                        ChildPropertyName="Children"
                                        ColumnSizer="Star"
-                                       ItemsSource="{x:Bind ViewModel.Items}" />
+                                       ItemsSource="{x:Bind ViewModel.PropertyModelCheckList}" />
     </Grid>
+
 </UserControl>

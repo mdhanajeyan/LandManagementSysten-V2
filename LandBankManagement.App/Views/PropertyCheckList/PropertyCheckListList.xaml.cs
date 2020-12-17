@@ -31,5 +31,6 @@ namespace LandBankManagement.Views
         {
             this.InitializeComponent();
         }
+
     }
 }

@@ -26,6 +26,7 @@ namespace LandBankManagement.ViewModels
         {
             await PropertyDetials.LoadAsync();
             await PropertyList.LoadAsync(args);
+            
         }
         public void Unload()
         {

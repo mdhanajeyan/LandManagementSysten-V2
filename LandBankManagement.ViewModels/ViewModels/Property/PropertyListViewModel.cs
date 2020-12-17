@@ -3,6 +3,7 @@ using LandBankManagement.Models;
 using LandBankManagement.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -26,6 +27,15 @@ namespace LandBankManagement.ViewModels
         public Expression<Func<Data.Property, object>> OrderBy { get; set; }
         public Expression<Func<Data.Property, object>> OrderByDesc { get; set; }
     }
+    public class PropertyListModel : ObservableObject
+    {
+        public int PropertyID { get; set; }
+        public string PropertyName { get; set; }
+        public string SurveyNo { get; set; }
+        public string DocumentNo { get; set; }
+       
+        public IEnumerable<PropertyListModel> Children { get; set; }
+    }
     public class PropertyListViewModel : GenericListViewModel<PropertyModel>
     {
         public IPropertyService PropertyService { get; }
@@ -37,6 +47,15 @@ namespace LandBankManagement.ViewModels
             get => _popupOpened;
             set => Set(ref _popupOpened, value);
         }
+
+        private IList<PropertyListModel> _propertyModelList=null;
+        public IList<PropertyListModel> PropertyModelList
+        {
+            get => _propertyModelList;
+            set => Set(ref _propertyModelList, value);
+        }
+
+      
         public PropertyViewModel PropertyView { get; set; }
         public PropertyListViewModel(IPropertyService propertyService, ICommonServices commonServices, PropertyViewModel propertyView) : base(commonServices)
         {
@@ -90,6 +109,35 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Loading Property List...");
                
                 Items = await GetItemsAsync();
+
+                //var list = Items.GroupBy(x => x.GroupGuid);
+                ////List<PropertyModel> propertyModels = new List<PropertyModel>();
+                //PropertyModelList = new List<PropertyModel>();
+                //foreach (var obj in list)
+                //{
+                //    PropertyModel item = obj.First();
+                //    if (obj.Count() > 1)
+                //        item.Children = obj.Select(x => x).ToList();
+                //    PropertyModelList.Add(item);
+                //}
+                //Items = PropertyModelList;
+
+                PropertyModelList = new List<PropertyListModel>
+                {
+                    new PropertyListModel{ 
+                        PropertyID=1,
+                        PropertyName="prop1",
+                        SurveyNo="5445",
+                        DocumentNo="4545",
+                        Children=new List<PropertyListModel>{
+                            new PropertyListModel{
+                                PropertyID=2,
+                                PropertyName="prop1",
+                                SurveyNo="5445",DocumentNo="4545"
+                            }
+                        }
+                    }
+                };
                 EndStatusMessage("Property List loaded");
             }
             catch (Exception ex)
@@ -123,9 +171,6 @@ namespace LandBankManagement.ViewModels
 
         protected override async void OnNew()
         {
-
-            // await NavigationService.CreateNewViewAsync<ExpenseHeadViewModel>(new ExpenseHeadArgs());
-
             StatusReady();
         }
 

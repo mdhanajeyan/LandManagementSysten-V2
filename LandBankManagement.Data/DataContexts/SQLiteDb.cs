@@ -44,6 +44,11 @@ namespace LandBankManagement.Data.Services
         public DbSet<PropertyDocuments> PropertyDocuments { get; set; }
 
         public DbSet<PaymentList> paymentLists { get; set; }
+
+        public DbSet<PropertyCheckList> PropertyCheckList { get; set; }
+        public DbSet<PropertyCheckListDocuments> PropertyCheckListDocuments { get; set; }
+        public DbSet<PropertyCheckListVendor> PropertyCheckListVendor { get; set; }
+        public DbSet<CheckListOfProperty> CheckListOfProperty { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(_connectionString);

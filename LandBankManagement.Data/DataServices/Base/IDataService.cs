@@ -224,5 +224,15 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetPartyOptions(string party);
         Dictionary<int, string> GetPropertyTypeOptions();
         Dictionary<int, string> GetRoleOptions();
+
+        Task<int> AddPropertyCheckListAsync(PropertyCheckList model);
+        Task<PropertyCheckList> GetPropertyCheckListAsync(long id);
+        Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(DataRequest<PropertyCheckList> request);
+        Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(int skip, int take, DataRequest<PropertyCheckList> request);
+        Task<int> GetPropertyCheckListCountAsync(DataRequest<PropertyCheckList> request);
+        Task<int> UpdatePropertyCheckListAsync(PropertyCheckList model);
+        Task<int> DeletePropertyCheckListAsync(PropertyCheckList model);
+        Task<int> DeletePropertyCheckListDocumentAsync(PropertyCheckListDocuments documents);
+        
     }
 }

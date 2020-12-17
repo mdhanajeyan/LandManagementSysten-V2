@@ -13,7 +13,7 @@ namespace LandBankManagement.ViewModels
 
         public PropertyCheckListArgs()
         {
-            OrderBy = r => r.Name;
+            OrderBy = r => r.PropertyName;
         }
 
         public bool IsEmpty { get; set; }
