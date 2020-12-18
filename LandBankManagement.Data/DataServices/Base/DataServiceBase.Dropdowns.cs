@@ -88,5 +88,16 @@ namespace LandBankManagement.Data.Services
         {
             return _dataSource.Roles.Select(x => new { x.RoleId, x.Name }).ToDictionary(t => t.RoleId, t => t.Name);
         }
+
+        public Dictionary<int, string> GetVendorOptions(string party)
+        {
+            return _dataSource.Vendors.Where(x => x.VendorName.Contains(party)).Select(x => new { x.VendorId, x.VendorName }).ToDictionary(t => t.VendorId, t => t.VendorName);
+        }
+
+        public Dictionary<int, string> GetCheckListOptions()
+        {
+            return _dataSource.CheckLists.Select(x => new { x.CheckListId, x.CheckListName }).ToDictionary(t => t.CheckListId, t => t.CheckListName);
+        }
+
     }
 }

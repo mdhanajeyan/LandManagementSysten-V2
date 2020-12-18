@@ -224,6 +224,8 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetPartyOptions(string party);
         Dictionary<int, string> GetPropertyTypeOptions();
         Dictionary<int, string> GetRoleOptions();
+        Dictionary<int, string> GetVendorOptions(string party);
+        Dictionary<int, string> GetCheckListOptions();
 
         Task<int> AddPropertyCheckListAsync(PropertyCheckList model);
         Task<PropertyCheckList> GetPropertyCheckListAsync(long id);
@@ -233,6 +235,8 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdatePropertyCheckListAsync(PropertyCheckList model);
         Task<int> DeletePropertyCheckListAsync(PropertyCheckList model);
         Task<int> DeletePropertyCheckListDocumentAsync(PropertyCheckListDocuments documents);
-        
+        Task<int> DeletePropertyCheckListVendorAsync(PropertyCheckListVendor vendor);
+        List<PropertyCheckListVendor> GetPropertyCheckListVendors(int id);
+
     }
 }

@@ -53,5 +53,9 @@ namespace LandBankManagement.Data
         public IList<CheckListOfProperty> CheckListOfProperties { get; set; }
         [NotMapped]
         public IList<PropertyCheckListVendor> PropertyCheckListVendors { get; set; }
+        [NotMapped]
+        public string CompanyName { get; set; }
+        [NotMapped]
+        public string VillageName { get; set; }       
     }
 }

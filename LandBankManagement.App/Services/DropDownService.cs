@@ -336,5 +336,42 @@ namespace LandBankManagement.Services
                 return list;
             }
         }
+
+        public ObservableCollection<ComboBoxOptions> GetVendorOptions(string vendor)
+        {
+
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = dataService.GetVendorOptions(vendor);
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                return list;
+            }
+        }
+
+        public ObservableCollection<ComboBoxOptions> GetCheckListOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = dataService.GetCheckListOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                return list;
+            }
+        }
     }
 }

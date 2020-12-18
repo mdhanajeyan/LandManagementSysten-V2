@@ -1,10 +1,11 @@
-﻿using System;
+﻿using LandBankManagement.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LandBankManagement.Services
 {
-    public class ImagePickerResult
+    public class ImagePickerResult : ObservableObject
     {
         public int blobId { get; set; }
         public Guid guid { get; set; }

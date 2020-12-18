@@ -19,7 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>0D04D503766461906AF8B5C30A3796E95A492100</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>FB4D5640FF6EB582A0696B0111CD732C5F27C11A</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxPackageDir>D:\AppPackages\</AppxPackageDir>
@@ -201,6 +201,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportViewers\Company\CompanyReportViewer.cs" />
     <Compile Include="Services\CashAccountService.cs" />
+    <Compile Include="Services\PropertyCheckListService.cs" />
     <Compile Include="Services\RolePermissionService.cs" />
     <Compile Include="Services\UserRoleService.cs" />
     <Compile Include="Services\RoleService.cs" />
@@ -236,6 +237,7 @@
     <Compile Include="Services\VendorService.cs" />
     <Compile Include="Services\VillageService.cs" />
     <Compile Include="Services\VirtualCollections\AccountTypeCollection.cs" />
+    <Compile Include="Services\VirtualCollections\PropertyCheckListCollection.cs" />
     <Compile Include="Services\VirtualCollections\RolePermissionCollection.cs" />
     <Compile Include="Services\VirtualCollections\RoleCollection.cs" />
     <Compile Include="Services\VirtualCollections\UserRoleCollection.cs" />
