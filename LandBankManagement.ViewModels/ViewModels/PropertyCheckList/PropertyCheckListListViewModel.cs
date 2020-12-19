@@ -3,6 +3,7 @@ using LandBankManagement.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LandBankManagement.ViewModels
 {
@@ -21,8 +22,8 @@ namespace LandBankManagement.ViewModels
     }
     public class PropertyCheckListListViewModel : GenericListViewModel<PropertyCheckListModel>
     {
-        private IList<PropertyCheckListList> _propertyModelList = null;
-        public IList<PropertyCheckListList> PropertyModelCheckList
+        private IList<PropertyCheckListModel> _propertyModelList = null;
+        public IList<PropertyCheckListModel> PropertyModelCheckList
         {
             get => _propertyModelList;
             set => Set(ref _propertyModelList, value);
@@ -46,31 +47,20 @@ namespace LandBankManagement.ViewModels
 
         }
 
-        public void LoadData()
+        public async Task LoadData()
         {
-            var items = new List<PropertyCheckListList>
+            var items = new List<PropertyCheckListModel>
             {
-                new PropertyCheckListList
+                new PropertyCheckListModel
                 {
-                    Name="Property CheckList 1",
-                    Email="test@test.com",
-                    PhoneNo="9087654400",
+                    PropertyName="Property CheckList 1",
+                    PropertyDescription="test@test.com",
+                    LandAreaInSqft="9087654400",
                     CompanyID=1,
-                    City="CBE",
-                    Children=new List<PropertyCheckListList>
-                    {
-                    new PropertyCheckListList
-                   {
-                    Name="Child Property CheckList 1",
-                    Email="cild_test@test.com",
-                    PhoneNo="9087654400",
-                    CompanyID=2,
-                    City="CBE Child"
-                        }
-                    }
+                    AKarabAreaInAcres="CBE"
                 }
             };
-            PropertyModelCheckList = items;
+            Items = items;
         }
 
     }

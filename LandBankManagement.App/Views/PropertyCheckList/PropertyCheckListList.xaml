@@ -11,16 +11,16 @@
     d:DesignWidth="400">
     <UserControl.Resources>
         <syncfusion:TreeGridColumns x:Key="desktopView">
-            <syncfusion:TreeGridTextColumn HeaderText="Name" MappingName="Name" />
-            <syncfusion:TreeGridTextColumn HeaderText="Phone" MappingName="PhoneNo" />
+            <syncfusion:TreeGridTextColumn HeaderText="Name" MappingName="PropertyName" />
+            <syncfusion:TreeGridTextColumn HeaderText="PropertyDescription" MappingName="PropertyDescription" />
             <syncfusion:TreeGridTextColumn HeaderText="CompanyID"
                                                        MappingName="CompanyID"
                                                        TextAlignment="Left" />
-            <syncfusion:TreeGridTextColumn HeaderText="Email"
-                                                       MappingName="Email"
+            <syncfusion:TreeGridTextColumn HeaderText="LandAreaInSqft"
+                                                       MappingName="LandAreaInSqft"
                                                        TextAlignment="Left" />
-            <syncfusion:TreeGridTextColumn HeaderText="City"
-                                                       MappingName="City"
+            <syncfusion:TreeGridTextColumn HeaderText="AKarabAreaInAcres"
+                                                       MappingName="AKarabAreaInAcres"
                                                        TextAlignment="Left" />
         </syncfusion:TreeGridColumns>
 
@@ -50,7 +50,7 @@
                                        AutoGenerateColumns="False"
                                        ChildPropertyName="Children"
                                        ColumnSizer="Star"
-                                       ItemsSource="{x:Bind ViewModel.PropertyModelCheckList}" />
+                                       ItemsSource="{x:Bind ViewModel.Items}" />
     </Grid>
 
 </UserControl>

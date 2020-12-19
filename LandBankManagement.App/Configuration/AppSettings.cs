@@ -68,7 +68,7 @@ namespace LandBankManagement
 
         public string SQLServerConnectionString
         {
-            get => GetSettingsValue("SQLServerConnectionString", @"Data Source=SQL5097.site4now.net;Initial Catalog=DB_A637E6_LandBank;User Id=DB_A637E6_LandBank_admin;Password=Matrix@291;Pooling=False");
+            get => GetSettingsValue("SQLServerConnectionString", @"Data Source=SQL5053.site4now.net;Initial Catalog=DB_A637E6_LmsDev;User Id=DB_A637E6_LmsDev_admin;Password=Matrix@291;Pooling=False");
             set => SetSettingsValue("SQLServerConnectionString", value);
         }
 

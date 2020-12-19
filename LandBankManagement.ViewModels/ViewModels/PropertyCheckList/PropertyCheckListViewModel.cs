@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LandBankManagement.ViewModels
 {
@@ -31,9 +32,9 @@ namespace LandBankManagement.ViewModels
             ViewModelList = new PropertyCheckListListViewModel(commonServices);
         }
 
-        public void LoadAsync()
+        public async Task LoadAsync()
         {
-            ViewModelList.LoadData();
+          await  ViewModelList.LoadData();
         }
     }
 }

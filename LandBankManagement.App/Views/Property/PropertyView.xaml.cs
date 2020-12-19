@@ -28,9 +28,9 @@ namespace LandBankManagement.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.LoadAsync(e.Parameter as PropertyListArgs);
             progressRing.IsActive = false;
             progressRing.Visibility = Visibility.Collapsed;
+            await ViewModel.PropertyList.RefreshAsync();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -59,12 +59,7 @@ namespace LandBankManagement.Views
 
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var index = ((Pivot)sender).SelectedIndex;
-            if (index == 0)
-            {
-                await ViewModel.PropertyList.LoadAsync(new PropertyListArgs { IsEmpty = false });
-                await ViewModel.PropertyList.RefreshAsync();
-            }
+
         }
     }
 }

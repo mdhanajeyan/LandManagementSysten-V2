@@ -69,6 +69,7 @@ namespace LandBankManagement.ViewModels
             Query = ViewModelArgs.Query;
 
             StartStatusMessage("Loading Property...");
+            await RefreshAsync();
             EndStatusMessage("Property loaded");            
         }
         public void Unload()
@@ -153,13 +154,15 @@ namespace LandBankManagement.ViewModels
             {
                 // SelectedItem = Items.FirstOrDefault(); // Note : Avoid Auto selection
             }
-            NotifyPropertyChanged(nameof(Title));
+            NotifyChanges();
+            //NotifyPropertyChanged(nameof(Title));
 
             return isOk;
         }
 
         private async Task<IList<PropertyModel>> GetItemsAsync()
         {
+            ViewModelArgs = new PropertyListArgs { IsEmpty = false };
             if (!ViewModelArgs.IsEmpty)
             {
                 DataRequest<Data.Property> request = BuildDataRequest();

@@ -36,7 +36,7 @@ namespace LandBankManagement.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.LoadAsync();
+          await  ViewModel.LoadAsync();
 
         }
     }
