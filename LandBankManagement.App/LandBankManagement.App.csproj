@@ -311,6 +311,9 @@
     <Compile Include="Views\Company\CompanyDetails.xaml.cs">
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Company\CompanyReportView.xaml.cs">
+      <DependentUpon>CompanyReportView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Company\CompanyView.xaml.cs">
       <DependentUpon>CompanyView.xaml</DependentUpon>
     </Compile>
@@ -712,6 +715,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Company\CompanyReportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Company\CompanyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -950,6 +957,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="BoldReports.UWP">
+      <Version>2.4.19</Version>
+    </PackageReference>
     <PackageReference Include="FontAwesome.UWP">
       <Version>4.7.0.9</Version>
     </PackageReference>

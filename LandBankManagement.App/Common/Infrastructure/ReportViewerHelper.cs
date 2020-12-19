@@ -1,12 +1,7 @@
-﻿using Syncfusion.UI.Xaml.Reports;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using BoldReports.UI.Xaml;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LandBankManagement.Infrastructure
 {
@@ -42,9 +37,9 @@ namespace LandBankManagement.Infrastructure
 
         #endregion
 
-        #region SfReportViewerHelper Members
+        #region Bold ReportViewerHelper Members
 
-        public SfReportViewer ReportViewer
+        public ReportViewer ReportViewer
         {
             get;
             set;
