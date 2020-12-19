@@ -9,19 +9,18 @@
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
 
     <UserControl.Resources>
-        <syncfusion:TreeGridColumns x:Key="desktopView">
-            <syncfusion:TreeGridTextColumn HeaderText="Name" MappingName="PropertyName" />
-            <syncfusion:TreeGridTextColumn HeaderText="PropertyDescription" MappingName="PropertyDescription" />
-            <syncfusion:TreeGridTextColumn HeaderText="CompanyID"
-                                                       MappingName="CompanyID"
-                                                       TextAlignment="Left" />
-            <syncfusion:TreeGridTextColumn HeaderText="LandAreaInSqft"
-                                                       MappingName="LandAreaInSqft"
-                                                       TextAlignment="Left" />
-            <syncfusion:TreeGridTextColumn HeaderText="AKarabAreaInAcres"
-                                                       MappingName="AKarabAreaInAcres"
-                                                       TextAlignment="Left" />
-        </syncfusion:TreeGridColumns>
+        <DataTemplate x:Key="HeaderTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="40*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Company Name" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="1" Text="VIllage Name" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="2" Text="Property Name" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="3" Text="Survey No" Style="{StaticResource ColumnHeaderStyle}" />
 
             </Grid>
         </DataTemplate>
@@ -46,29 +45,21 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Margin="10,5,5,5">
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="Screen">
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="400" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="treeGrid.Columns" Value="{StaticResource desktopView}" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-
-        <syncfusion:SfTreeGrid Name="treeGrid"
-                                       AllowDraggingColumns="True"
-                                       AutoExpandMode="AllNodesExpanded"
-                                       AutoGenerateColumns="False"
-                                       ChildPropertyName="Children"
-                                       ColumnSizer="Star"
-                                       ItemsSource="{x:Bind ViewModel.Items}" />
-    </Grid>
-
+    <controls:DataListWithSearch ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"                      
+                       NewLabel="New Village"
+                       SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
+                       HeaderTemplate="{StaticResource HeaderTemplate}"
+                       ItemTemplate="{StaticResource ItemTemplate}"
+                       IsMultipleSelection="{x:Bind ViewModel.IsMultipleSelection, Mode=TwoWay}"
+                       ItemsCount="{x:Bind ViewModel.ItemsCount, Mode=OneWay}"
+                       NewCommand="{x:Bind ViewModel.NewCommand}"
+                       RefreshCommand="{x:Bind ViewModel.RefreshCommand}"
+                       Query="{x:Bind ViewModel.Query, Mode=TwoWay}"
+                       QuerySubmittedCommand="{x:Bind ViewModel.RefreshCommand}"
+                       StartSelectionCommand="{x:Bind ViewModel.StartSelectionCommand}"
+                       CancelSelectionCommand="{x:Bind ViewModel.CancelSelectionCommand}"
+                       SelectItemsCommand="{x:Bind ViewModel.SelectItemsCommand}"
+                       DeselectItemsCommand="{x:Bind ViewModel.DeselectItemsCommand}"
+                       SelectRangesCommand="{x:Bind ViewModel.SelectRangesCommand}"
+                       DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}" />
 </UserControl>

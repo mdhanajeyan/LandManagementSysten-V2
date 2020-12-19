@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 using LandBankManagement.Models;
 using LandBankManagement.Services;
-using System.Threading.Tasks;
 
 namespace LandBankManagement.ViewModels
 {
@@ -56,9 +55,17 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        public async Task LoadAsync()
+        private async void OnItemSelected()
         {
-          await  ViewModelList.LoadData();
+
+            var selected = ViewModelList.SelectedItem;
+            if (!ViewModelList.IsMultipleSelection)
+            {
+                if (selected != null && !selected.IsEmpty)
+                {
+                    await PopulateDetails(selected);
+                }
+            }
         }
 
         private async Task PopulateDetails(PropertyCheckListModel selected)

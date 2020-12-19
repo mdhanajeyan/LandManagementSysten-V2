@@ -8,7 +8,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Threading.Tasks;
 
 namespace LandBankManagement.ViewModels
 {
@@ -31,8 +30,11 @@ namespace LandBankManagement.ViewModels
     
     public class PropertyCheckListListViewModel : GenericListViewModel<PropertyCheckListModel>
     {
-        private IList<PropertyCheckListModel> _propertyModelList = null;
-        public IList<PropertyCheckListModel> PropertyModelCheckList
+        public IPropertyCheckListService PropertyCheckListService { get; }
+        public PropertyCheckListListArgs ViewModelArgs { get; private set; }       
+
+        private IList<PropertyListModel> _propertyModelList = null;
+        public IList<PropertyListModel> PropertyModelList
         {
             get => _propertyModelList;
             set => Set(ref _propertyModelList, value);
@@ -126,21 +128,70 @@ namespace LandBankManagement.ViewModels
             StatusReady();
         }
 
-        public async Task LoadData()
+        protected override async void OnRefresh()
         {
-            var items = new List<PropertyCheckListModel>
+            StartStatusMessage("Loading Property...");
             if (await RefreshAsync())
             {
-                new PropertyCheckListModel
-                {
-                    PropertyName="Property CheckList 1",
-                    PropertyDescription="test@test.com",
-                    LandAreaInSqft="9087654400",
-                    CompanyID=1,
-                    AKarabAreaInAcres="CBE"
-                }
+                EndStatusMessage("Property loaded");
+            }
+        }
+
+        protected override async void OnDeleteSelection()
+        {
+            //StatusReady();
+            //if (await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete selected Property?", "Ok", "Cancel"))
+            //{
+            //    int count = 0;
+            //    try
+            //    {
+            //        if (SelectedIndexRanges != null)
+            //        {
+            //            count = SelectedIndexRanges.Sum(r => r.Length);
+            //            StartStatusMessage($"Deleting {count} Property...");
+            //            // await DeleteRangesAsync(SelectedIndexRanges);
+            //            MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
+            //        }
+            //        else if (SelectedItems != null)
+            //        {
+            //            count = SelectedItems.Count();
+            //            StartStatusMessage($"Deleting {count} Property...");
+            //            await DeleteItemsAsync(SelectedItems);
+            //            MessageService.Send(this, "ItemsDeleted", SelectedItems);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        StatusError($"Error deleting {count} Property: {ex.Message}");
+            //        LogException("Propertys", "Delete", ex);
+            //        count = 0;
+            //    }
+            //    await RefreshAsync();
+            //    SelectedIndexRanges = null;
+            //    SelectedItems = null;
+            //    if (count > 0)
+            //    {
+            //        EndStatusMessage($"{count} Property deleted");
+            //    }
+            //}
+        }
+
+        private async Task DeleteItemsAsync(IEnumerable<PropertyModel> models)
+        {
+            //foreach (var model in models)
+            //{
+            //    await PropertyService.DeletePropertyAsync(model);
+            //}
+        }
+
+        private DataRequest<Data.PropertyCheckList> BuildDataRequest()
+        {
+            return new DataRequest<Data.PropertyCheckList>()
+            {
+                Query = Query,
+                OrderBy = ViewModelArgs.OrderBy,
+                OrderByDesc = ViewModelArgs.OrderByDesc
             };
-            Items = items;
         }
 
         private async void OnMessage(ViewModelBase sender, string message, object args)

@@ -29,7 +29,16 @@ namespace LandBankManagement.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-          await  ViewModel.LoadAsync();
+            ViewModel.Subscribe();
+            ViewModel.LoadAsync(e.Parameter as PropertyCheckListListArgs);
+            progressRing.IsActive = false;
+            progressRing.Visibility = Visibility.Collapsed;
+        }
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            ViewModel.Unload();
+            ViewModel.Unsubscribe();
+        }
 
         private async void OpenInNewView(object sender, RoutedEventArgs e)
         {

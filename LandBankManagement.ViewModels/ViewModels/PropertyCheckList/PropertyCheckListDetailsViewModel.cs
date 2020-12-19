@@ -121,11 +121,14 @@ namespace LandBankManagement.ViewModels
         }
 
         public async void LoadPropertyCheckList(int id) {
+            ShowProgressRing();
             var model = await PropertyCheckListService.GetPropertyCheckListAsync(id);
+            HideProgressRing();
             Item = model;           
             VendorList = model.PropertyCheckListVendors;
             DocList = model.PropertyCheckListDocuments;
             PrepareCheckList();
+           
         }
        public void loadAcres(Area area,string type) {
 
@@ -321,10 +324,12 @@ namespace LandBankManagement.ViewModels
                 else
                    model= await PropertyCheckListService.UpdatePropertyCheckListAsync(model);
 
-                DocList = model.PropertyCheckListDocuments;
-                VendorList = model.PropertyCheckListVendors;
-                PrepareCheckList();
-               
+                ClearItem();
+
+                //DocList = model.PropertyCheckListDocuments;
+                //VendorList = model.PropertyCheckListVendors;
+                //PrepareCheckList();
+
                 EndStatusMessage("Property CheckList saved");
                 LogInformation("Property", "Save", "Property CheckList saved successfully", $"Property {model.PropertyCheckListId} '{model.PropertyName}' was saved successfully.");
                 return true;
