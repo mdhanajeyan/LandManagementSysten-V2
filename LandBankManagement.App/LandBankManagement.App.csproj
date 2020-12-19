@@ -2,6 +2,7 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <Use64Bitcompiler>true</Use64Bitcompiler>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{C7B434E0-C84E-4B67-9DF9-9C1F845E3119}</ProjectGuid>
@@ -309,9 +310,6 @@
     </Compile>
     <Compile Include="Views\Company\CompanyDetails.xaml.cs">
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Company\CompanyReportView.xaml.cs">
-      <DependentUpon>CompanyReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Company\CompanyView.xaml.cs">
       <DependentUpon>CompanyView.xaml</DependentUpon>
@@ -711,10 +709,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Company\CompanyDetails.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Company\CompanyReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
