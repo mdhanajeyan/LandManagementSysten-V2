@@ -57,7 +57,7 @@ namespace LandBankManagement.ViewModels
         public ICommand ShowLoginWithPasswordCommand => new RelayCommand(ShowLoginWithPassword);
         public ICommand LoginWithPasswordCommand => new RelayCommand(LoginWithPassword);
         public ICommand LoginWithWindowHelloCommand => new RelayCommand(LoginWithWindowHello);
-
+        private bool loginProcessStarted = false;
         public Task LoadAsync(ShellArgs args)
         {
             ViewModelArgs = args;
@@ -91,7 +91,12 @@ namespace LandBankManagement.ViewModels
 
         public async void LoginWithPassword()
         {
+            if (loginProcessStarted)
+                return;
+
+             loginProcessStarted = true;
             IsBusy = true;
+           
             var result = ValidateInput();
             if (result.IsOk)
             {
@@ -99,10 +104,12 @@ namespace LandBankManagement.ViewModels
                 if (result.IsOk)
                 {
                     EnterApplication();
+                    loginProcessStarted = false;
                     return;
                 }
 
             }
+            loginProcessStarted = false;
             await DialogService.ShowAsync(result.Message, result.Description);
             IsBusy = false;
         }

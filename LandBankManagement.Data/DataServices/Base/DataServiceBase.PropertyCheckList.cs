@@ -72,8 +72,9 @@ namespace LandBankManagement.Data.Services
                 if (vendors != null) {
                     foreach (var vendor in vendors)
                     {
-                        if (vendor.CehckListVendorId == 0)
+                        if (vendor.CheckListVendorId == 0)
                         {
+                            vendor.PropertyCheckListId = res;
                             _dataSource.PropertyCheckListVendor.Add(vendor);
                         }
                     }
@@ -112,7 +113,7 @@ namespace LandBankManagement.Data.Services
                 {
                     property.PropertyCheckListDocuments = docs;
                 }
-                var vendors = GetPropertyCheckListVendor(property.PropertyCheckListId);
+                var vendors = GetPropertyCheckListVendors(property.PropertyCheckListId);
                 if (vendors.Any()) {
                     property.PropertyCheckListVendors = vendors;
                 }
@@ -138,12 +139,19 @@ namespace LandBankManagement.Data.Services
             }
         }
 
-        private List<PropertyCheckListVendor> GetPropertyCheckListVendor(int id)
+        public List<PropertyCheckListVendor> GetPropertyCheckListVendors(int id)
         {
             try
             {
-                return _dataSource.PropertyCheckListVendor
-                    .Where(r => r.PropertyCheckListId == id).ToList();
+
+             var list=   (from pv in _dataSource.PropertyCheckListVendor join
+                 v in _dataSource.Vendors on pv.VendorId equals v.VendorId
+                 where(pv.VendorId== v.VendorId && pv.PropertyCheckListId==id)
+                select(  new PropertyCheckListVendor { PropertyCheckListId=pv.PropertyCheckListId,
+                CheckListVendorId=pv.CheckListVendorId,
+                VendorId=pv.VendorId,
+                VendorName=v.VendorName})).ToList();
+                return list;
             }
             catch (Exception ex)
             {
@@ -202,43 +210,48 @@ namespace LandBankManagement.Data.Services
         public async Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(int skip, int take, DataRequest<PropertyCheckList> request)
         {
             IQueryable<PropertyCheckList> items = GetPropertyCheckList(request);
-            var records = await items.Skip(skip).Take(take)
-                .Select(source => new PropertyCheckList
-                {                  
-                    PropertyGuid = source.PropertyGuid,
-                    PropertyName = source.PropertyName,                   
-                    TalukId = source.TalukId,
-                    HobliId = source.HobliId,
-                    VillageId = source.VillageId,
-                    DocumentTypeId = source.DocumentTypeId,                  
-                    PropertyTypeId = source.PropertyTypeId,
-                    SurveyNo = source.SurveyNo,
-                    PropertyGMapLink = source.PropertyGMapLink,
-                    LandAreaInputAcres = source.LandAreaInputAcres,
-                    LandAreaInputGuntas = source.LandAreaInputGuntas,
-                    LandAreaInAcres = source.LandAreaInAcres,
-                    LandAreaInGuntas = source.LandAreaInGuntas,
-                    LandAreaInSqMts = source.LandAreaInSqMts,
-                    LandAreaInSqft = source.LandAreaInSqft,
-                    AKarabAreaInputAcres = source.AKarabAreaInputAcres,
-                    AKarabAreaInputGuntas = source.AKarabAreaInputGuntas,
-                    AKarabAreaInAcres = source.AKarabAreaInAcres,
-                    AKarabAreaInGuntas = source.AKarabAreaInGuntas,
-                    AKarabAreaInSqMts = source.AKarabAreaInSqMts,
-                    AKarabAreaInSqft = source.AKarabAreaInSqft,
-                    BKarabAreaInputAcres = source.BKarabAreaInputAcres,
-                    BKarabAreaInputGuntas = source.BKarabAreaInputGuntas,
-                    BKarabAreaInAcres = source.BKarabAreaInAcres,
-                    BKarabAreaInGuntas = source.BKarabAreaInGuntas,
-                    BKarabAreaInSqMts = source.BKarabAreaInSqMts,
-                    BKarabAreaInSqft = source.BKarabAreaInSqft,
-                    CheckListMaster=source.CheckListMaster,
-                    PropertyDescription=source.PropertyDescription                    
-                })
-                .AsNoTracking()
-                .ToListAsync();
+            var records = await items.Skip(skip).Take(take).ToListAsync();               
 
-            return records;
+            var finalResult = (from r in records
+                               from c in _dataSource.Companies.Where(x => x.CompanyID == r.CompanyID).DefaultIfEmpty()
+                               from v in _dataSource.Villages.Where(x => x.VillageId == r.VillageId).DefaultIfEmpty()
+                               select new PropertyCheckList
+                               {
+                                   PropertyCheckListId = r.PropertyCheckListId,
+                                   PropertyGuid = r.PropertyGuid,
+                                   PropertyName = r.PropertyName,
+                                   TalukId = r.TalukId,
+                                   HobliId = r.HobliId,
+                                   VillageId = r.VillageId,
+                                   DocumentTypeId = r.DocumentTypeId,
+                                   PropertyTypeId = r.PropertyTypeId,
+                                   SurveyNo = r.SurveyNo,
+                                   PropertyGMapLink = r.PropertyGMapLink,
+                                   LandAreaInputAcres = r.LandAreaInputAcres,
+                                   LandAreaInputGuntas = r.LandAreaInputGuntas,
+                                   LandAreaInAcres = r.LandAreaInAcres,
+                                   LandAreaInGuntas = r.LandAreaInGuntas,
+                                   LandAreaInSqMts = r.LandAreaInSqMts,
+                                   LandAreaInSqft = r.LandAreaInSqft,
+                                   AKarabAreaInputAcres = r.AKarabAreaInputAcres,
+                                   AKarabAreaInputGuntas = r.AKarabAreaInputGuntas,
+                                   AKarabAreaInAcres = r.AKarabAreaInAcres,
+                                   AKarabAreaInGuntas = r.AKarabAreaInGuntas,
+                                   AKarabAreaInSqMts = r.AKarabAreaInSqMts,
+                                   AKarabAreaInSqft = r.AKarabAreaInSqft,
+                                   BKarabAreaInputAcres = r.BKarabAreaInputAcres,
+                                   BKarabAreaInputGuntas = r.BKarabAreaInputGuntas,
+                                   BKarabAreaInAcres = r.BKarabAreaInAcres,
+                                   BKarabAreaInGuntas = r.BKarabAreaInGuntas,
+                                   BKarabAreaInSqMts = r.BKarabAreaInSqMts,
+                                   BKarabAreaInSqft = r.BKarabAreaInSqft,
+                                   CheckListMaster = r.CheckListMaster,
+                                   PropertyDescription = r.PropertyDescription,
+                                   CompanyName = c.Name,
+                                   VillageName = v.VillageName
+                               }).ToList();
+
+            return finalResult;
         }
 
         public async Task<int> GetPropertyCheckListCountAsync(DataRequest<PropertyCheckList> request)
@@ -285,7 +298,7 @@ namespace LandBankManagement.Data.Services
                 {
                     foreach (var vendor in vendors)
                     {
-                        if (vendor.CehckListVendorId == 0)
+                        if (vendor.CheckListVendorId == 0)
                         {
                             _dataSource.PropertyCheckListVendor.Add(vendor);
                         }
@@ -324,6 +337,12 @@ namespace LandBankManagement.Data.Services
         public async Task<int> DeletePropertyCheckListDocumentAsync(PropertyCheckListDocuments documents)
         {
             _dataSource.PropertyCheckListDocuments.Remove(documents);
+            return await _dataSource.SaveChangesAsync();
+        }
+
+        public async Task<int> DeletePropertyCheckListVendorAsync(PropertyCheckListVendor vendor)
+        {
+            _dataSource.PropertyCheckListVendor.Remove(vendor);
             return await _dataSource.SaveChangesAsync();
         }
     }

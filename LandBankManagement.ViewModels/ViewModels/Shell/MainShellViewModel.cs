@@ -195,7 +195,7 @@ namespace LandBankManagement.ViewModels
                     NavigationService.Navigate(viewModel);
                     break;
                 case "PropertyCheckListViewModel":
-                    NavigationService.Navigate(viewModel, new PropertyCheckListArgs());
+                    NavigationService.Navigate(viewModel, new PropertyCheckListListArgs());
                     break;
                 default:
                     throw new NotImplementedException();

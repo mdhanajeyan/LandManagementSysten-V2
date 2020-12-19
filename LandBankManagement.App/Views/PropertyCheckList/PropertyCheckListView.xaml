@@ -25,14 +25,50 @@
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
         <controls:WindowTitle Prefix="PropertyCheckList" Title="{x:Bind ViewModel.ViewModelList.Title, Mode=OneWay}" />
+        <Pivot  SelectedIndex="{x:Bind ViewModel.SelectedPivotIndex, Mode=TwoWay}" SelectionChanged="Pivot_SelectionChanged" >
+            <Pivot.Resources>
+                <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#D60258" />
+            </Pivot.Resources>
 
-
-        <controls:Section Header="{x:Bind ViewModel.ViewModelList.Title, Mode=OneWay}" 
+            <PivotItem >
+                <PivotItem.Header>
+                    <PivotHeaderItem  >
+                        <TextBlock Text="Property CheckList" FontWeight="Bold" FontSize="17" ></TextBlock>
+                    </PivotHeaderItem>
+                </PivotItem.Header>
+                <Grid >
+                    <controls:Section Header="{x:Bind ViewModel.ViewModelList.Title, Mode=OneWay}" 
                                   HeaderTemplate="{StaticResource ListHeaderTemplate}"
                                   HeaderButtonGlyph="&#xE2B4;">
-            <views:PropertyCheckListList ViewModel="{x:Bind ViewModel.ViewModelList}"></views:PropertyCheckListList>
+                        <views:PropertyCheckListList ViewModel="{x:Bind ViewModel.ViewModelList}"></views:PropertyCheckListList>
 
-        </controls:Section>
+                    </controls:Section>
+                </Grid>
+            </PivotItem>
+            <PivotItem >
+                <PivotItem.Header>
+                    <PivotHeaderItem  >
+                        <TextBlock Text="Property CHeckList Details" FontWeight="Bold"  FontSize="17"></TextBlock>
+                    </PivotHeaderItem>
+                </PivotItem.Header>
+                <Grid>
+                    <views:PropertyCheckListDetails  ViewModel="{x:Bind ViewModel.PropertyCheckListDetials}"/>
+
+                </Grid>
+            </PivotItem>
+        </Pivot>
+
+        <ProgressRing x:Name="progressRing"
+                      Height="40"
+                      Width="40"
+                      IsActive="True"
+                      Foreground="Black"
+                      Canvas.Left="650"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Canvas.Top="550" />
+
+        
     </Grid>
 
 </Page>

@@ -44,7 +44,10 @@ namespace LandBankManagement.Models
         public string PropertyDescription { get; set; }
         public int Status { get; set; }
         public string Remarks { get; set; }
+        public string CompanyName { get; set; }
+        public string VillageName { get; set; }
 
+        public bool IsNew => PropertyCheckListId <= 0;
         public ObservableCollection<PropertyCheckListDocumentsModel> PropertyCheckListDocuments { get; set; }
         public ObservableCollection<CheckListOfPropertyModel> CheckListOfProperties { get; set; }
         public ObservableCollection<PropertyCheckListVendorModel> PropertyCheckListVendors { get; set; }
@@ -92,6 +95,8 @@ namespace LandBankManagement.Models
                 PropertyCheckListDocuments = source.PropertyCheckListDocuments;
                 CheckListOfProperties = source.CheckListOfProperties;
                 PropertyCheckListVendors = source.PropertyCheckListVendors;
+                CompanyName = source.CompanyName;
+                VillageName = source.VillageName;
             }
         }
 

@@ -8,7 +8,7 @@ namespace LandBankManagement.Data
     public class PropertyCheckListVendor
     {
         [Key]
-        public int CehckListVendorId { get; set; }
+        public int CheckListVendorId { get; set; }
         public int VendorId { get; set; }
         public int PropertyCheckListId { get; set; }
         [NotMapped]

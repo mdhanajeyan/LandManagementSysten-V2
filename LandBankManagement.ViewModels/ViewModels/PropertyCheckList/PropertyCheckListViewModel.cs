@@ -1,40 +1,83 @@
-﻿using LandBankManagement.Models;
+﻿using System;
+using System.Threading.Tasks;
+
+using LandBankManagement.Models;
 using LandBankManagement.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LandBankManagement.ViewModels
 {
-    public class PropertyCheckListArgs
-    {
-        static public PropertyTypeListArgs CreateEmpty() => new PropertyTypeListArgs { IsEmpty = true };
-
-        public PropertyCheckListArgs()
-        {
-            OrderBy = r => r.PropertyName;
-        }
-
-        public bool IsEmpty { get; set; }
-
-        public string Query { get; set; }
-
-        public Expression<Func<Data.PropertyCheckList, object>> OrderBy { get; set; }
-        public Expression<Func<Data.PropertyCheckList, object>> OrderByDesc { get; set; }
-    }
+    
     public class PropertyCheckListViewModel : ViewModelBase
     {
+        IPropertyService PropertyService { get; }
+        IPropertyCheckListService PropertyCheckListService { get; }
         public PropertyCheckListListViewModel ViewModelList { get; set; }
-        public PropertyCheckListViewModel(ICommonServices commonServices) : base(commonServices)
+        public PropertyCheckListDetailsViewModel PropertyCheckListDetials { get; set; }
+        public PropertyCheckListViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IPropertyService propertyService, IPropertyCheckListService propertyCheckListService) : base(commonServices)
         {
-            ViewModelList = new PropertyCheckListListViewModel(commonServices);
+            PropertyService = propertyService;
+            PropertyCheckListService = propertyCheckListService;
+            ViewModelList = new PropertyCheckListListViewModel(PropertyCheckListService,commonServices);
+            PropertyCheckListDetials = new PropertyCheckListDetailsViewModel(dropDownService, PropertyCheckListService, propertyService, filePickerService, commonServices, ViewModelList);
+        }
+
+        public async void LoadAsync(PropertyCheckListListArgs args)
+        {
+           await PropertyCheckListDetials.LoadAsync();
+           await ViewModelList.LoadAsync(args);
+        }
+
+        public void Unload()
+        {
+            ViewModelList.Unload();
+        }
+
+        public void Subscribe()
+        {
+            MessageService.Subscribe<PropertyCheckListListViewModel>(this, OnMessage);
+            ViewModelList.Subscribe();
+        }
+
+        public void Unsubscribe()
+        {
+            MessageService.Unsubscribe(this);
+            ViewModelList.Unsubscribe();
+
+        }
+        private async void OnMessage(PropertyCheckListListViewModel viewModel, string message, object args)
+        {
+            if (viewModel == ViewModelList && message == "ItemSelected")
+            {
+                await ContextService.RunAsync(() =>
+                {
+                    OnItemSelected();
+                });
+            }
         }
 
         public async Task LoadAsync()
         {
           await  ViewModelList.LoadData();
         }
+
+        private async Task PopulateDetails(PropertyCheckListModel selected)
+        {
+            try
+            {
+              
+               // selected.Merge(model);
+                PropertyCheckListDetials.LoadPropertyCheckList(selected.PropertyCheckListId);
+                SelectedPivotIndex = 1;
+            }
+            catch (Exception ex)
+            {
+                LogException("Payments", "Load Details", ex);
+            }
+        }
+
+
+
+
     }
 }

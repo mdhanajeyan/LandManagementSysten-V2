@@ -25,5 +25,7 @@ namespace LandBankManagement.Services
         ObservableCollection<ComboBoxOptions> GetPartyOptions(string party);
         ObservableCollection<ComboBoxOptions> GetPropertyTypeOptions();
         ObservableCollection<ComboBoxOptions> GetRoleOptions();
+        ObservableCollection<ComboBoxOptions> GetVendorOptions(string vendor);
+        ObservableCollection<ComboBoxOptions> GetCheckListOptions();
     }
 }
