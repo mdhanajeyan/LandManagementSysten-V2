@@ -248,7 +248,9 @@ namespace LandBankManagement.Data.Services
                                    CheckListMaster = r.CheckListMaster,
                                    PropertyDescription = r.PropertyDescription,
                                    CompanyName = c.Name,
-                                   VillageName = v.VillageName
+                                   VillageName = v.VillageName,
+                                   Status=r.Status,
+                                   Remarks=r.Remarks
                                }).ToList();
 
             return finalResult;
@@ -325,6 +327,18 @@ namespace LandBankManagement.Data.Services
             {
                 throw ex;
             }
+        }
+        public async Task<int> UpdatePropertyCheckListStatusAsync(int id, int status, string remarks) {
+            var model = _dataSource.PropertyCheckList.FirstOrDefault(x => x.PropertyCheckListId == id);
+            if (model != null)
+            {
+                model.Status = status;
+                model.Remarks = remarks;
+                _dataSource.PropertyCheckList.Update(model);
+                await _dataSource.SaveChangesAsync();
+                return 0;
+            }
+            return -1;
         }
 
         public async Task<int> DeletePropertyCheckListAsync(PropertyCheckList model)

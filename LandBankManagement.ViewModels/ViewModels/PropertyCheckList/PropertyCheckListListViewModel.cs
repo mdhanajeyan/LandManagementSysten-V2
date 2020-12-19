@@ -43,6 +43,7 @@ namespace LandBankManagement.ViewModels
         public PropertyCheckListListViewModel(IPropertyCheckListService propertyService, ICommonServices commonServices) : base(commonServices)
         {
             PropertyCheckListService = propertyService;
+            
         }
         public async Task LoadAsync(PropertyCheckListListArgs args)
         {
@@ -62,6 +63,13 @@ namespace LandBankManagement.ViewModels
             MessageService.Subscribe<PropertyListViewModel>(this, OnMessage);
 
         }
+
+        public async void SaveStatusAndRemarks(int id) {
+            var modal = Items.Where(x => x.PropertyCheckListId == id).FirstOrDefault();
+            await PropertyCheckListService.UpdatePropertyCheckListStatusAsync(modal.PropertyCheckListId, modal.Status, modal.Remarks);
+            await RefreshAsync();
+        }
+
         public void Unsubscribe()
         {
             MessageService.Unsubscribe(this);
@@ -88,9 +96,19 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Loading PropertyCheckList  List...");
+                var StatusList = new ObservableCollection<ComboBoxOptions>();
+                StatusList.Add(new ComboBoxOptions { Id = 0, Description = "" });
+                StatusList.Add(new ComboBoxOptions { Id = 1, Description = "Pending" });
+                StatusList.Add(new ComboBoxOptions { Id = 2, Description = "Dropped" });
+                StatusList.Add(new ComboBoxOptions { Id = 3, Description = "Procured" });
 
-                Items = await GetItemsAsync();           
+                var modals = await GetItemsAsync();             
 
+                foreach (var obj in modals) {
+                    obj.StatusOption = StatusList;
+                }
+
+                Items = modals;
 
                 EndStatusMessage("PropertyCheckList List loaded");
             }

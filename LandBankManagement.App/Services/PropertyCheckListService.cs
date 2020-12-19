@@ -101,6 +101,12 @@ namespace LandBankManagement.Services
                 return model;
             }
         }
+        public async Task<int> UpdatePropertyCheckListStatusAsync(int id, int status, string remarks) {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {                
+                 return   await dataService.UpdatePropertyCheckListStatusAsync(id,status,remarks);
+            }
+        }
 
         public async Task<int> DeletePropertyCheckListAsync(PropertyCheckListModel model)
         {
@@ -189,7 +195,9 @@ namespace LandBankManagement.Services
                 CompanyName = source.CompanyName,
                 VillageName = source.VillageName,
                 PropertyDescription =source.PropertyDescription,
-                CheckListMaster=source.CheckListMaster
+                CheckListMaster=source.CheckListMaster,
+                Remarks=source.Remarks,
+                Status=source.Status
             };
 
            

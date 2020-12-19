@@ -52,6 +52,8 @@ namespace LandBankManagement.Models
         public ObservableCollection<CheckListOfPropertyModel> CheckListOfProperties { get; set; }
         public ObservableCollection<PropertyCheckListVendorModel> PropertyCheckListVendors { get; set; }
 
+        public ObservableCollection<ComboBoxOptions> StatusOption { get; set; }
+
         public override void Merge(ObservableObject source)
         {
             if (source is PropertyModel model)
@@ -97,6 +99,8 @@ namespace LandBankManagement.Models
                 PropertyCheckListVendors = source.PropertyCheckListVendors;
                 CompanyName = source.CompanyName;
                 VillageName = source.VillageName;
+                Remarks = source.Remarks;
+                Status = source.Status;
             }
         }
 

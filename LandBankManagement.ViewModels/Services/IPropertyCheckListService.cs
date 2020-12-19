@@ -21,5 +21,6 @@ namespace LandBankManagement.Services
         Task<int> DeletePropertyVendorAsync(int propertyVenderId);
         Task<int> DeletePropertyDocumentAsync(PropertyCheckListDocumentsModel documents);
         List<PropertyCheckListVendorModel> GetPropertyCheckListVendors(int id);
+        Task<int> UpdatePropertyCheckListStatusAsync(int id, int status, string remarks);
     }
 }

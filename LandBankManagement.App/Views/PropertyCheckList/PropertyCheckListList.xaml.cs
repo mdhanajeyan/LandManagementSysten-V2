@@ -32,5 +32,11 @@ namespace LandBankManagement.Views
             this.InitializeComponent();
         }
 
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.SaveStatusAndRemarks(identity);
+           
+        }
     }
 }

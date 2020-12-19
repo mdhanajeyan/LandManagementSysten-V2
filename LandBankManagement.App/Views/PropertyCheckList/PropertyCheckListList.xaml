@@ -12,16 +12,21 @@
         <DataTemplate x:Key="HeaderTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Company Name" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="VIllage Name" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="2" Text="Property Name" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="3" Text="Survey No" Style="{StaticResource ColumnHeaderStyle}" />
-
+                <TextBlock Grid.Column="4" Text="Status" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="5" Text="Remarks" Style="{StaticResource ColumnHeaderStyle}" />
+                
             </Grid>
         </DataTemplate>
 
@@ -29,17 +34,28 @@
             <Grid Height="32">
                 <Grid Visibility="{x:Bind IsEmpty, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="40*"/>
-                        
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{x:Bind CompanyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="1" Text="{x:Bind VillageName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="2" Text="{x:Bind PropertyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="3" Text="{x:Bind SurveyNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-
+                    <TextBlock Grid.Column="0" Text="{x:Bind CompanyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" HorizontalAlignment="Stretch" Margin="3 0 3 0"/>
+                    <TextBlock Grid.Column="1" Text="{x:Bind VillageName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" HorizontalAlignment="Stretch" Margin="3 0 3 0"/>
+                    <TextBlock Grid.Column="2" Text="{x:Bind PropertyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" HorizontalAlignment="Stretch" Margin="3 0 3 0"/>
+                    <TextBlock Grid.Column="3" Text="{x:Bind SurveyNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}"  HorizontalAlignment="Stretch" Margin="3 0 3 0" />
+                    <ComboBox Grid.Column="4"  ItemsSource="{Binding StatusOption,Mode=TwoWay}" HorizontalAlignment="Stretch" Margin="5 0 5 0"
+                                           SelectedValue="{Binding Status, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description"/>
+                    <TextBox Grid.Column="5" Text="{x:Bind Remarks, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button x:Name="SaveBtn" Tag="{Binding PropertyCheckListId}" Grid.Column="6" Height="35"  Background="Transparent" Padding="10 5 10 5"  Click="SaveBtn_Click" HorizontalAlignment="Right">
+                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74E;" Foreground="#138af2"  HorizontalAlignment="Right"/>
+                        <Button.Resources>
+                            <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                        </Button.Resources>
+                    </Button>
                 </Grid>
             </Grid>
         </DataTemplate>
