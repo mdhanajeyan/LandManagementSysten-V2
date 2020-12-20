@@ -32,14 +32,7 @@ namespace LandBankManagement.ViewModels
     {
         public IPropertyCheckListService PropertyCheckListService { get; }
         public PropertyCheckListListArgs ViewModelArgs { get; private set; }       
-
-        private IList<PropertyListModel> _propertyModelList = null;
-        public IList<PropertyListModel> PropertyModelList
-        {
-            get => _propertyModelList;
-            set => Set(ref _propertyModelList, value);
-        }
-
+               
         public PropertyCheckListListViewModel(IPropertyCheckListService propertyService, ICommonServices commonServices) : base(commonServices)
         {
             PropertyCheckListService = propertyService;

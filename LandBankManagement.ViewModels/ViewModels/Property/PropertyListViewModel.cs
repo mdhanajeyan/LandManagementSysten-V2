@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+
 namespace LandBankManagement.ViewModels
 {
     public class PropertyListArgs
@@ -27,15 +28,7 @@ namespace LandBankManagement.ViewModels
         public Expression<Func<Data.Property, object>> OrderBy { get; set; }
         public Expression<Func<Data.Property, object>> OrderByDesc { get; set; }
     }
-    public class PropertyListModel : ObservableObject
-    {
-        public int PropertyID { get; set; }
-        public string PropertyName { get; set; }
-        public string SurveyNo { get; set; }
-        public string DocumentNo { get; set; }
-       
-        public IEnumerable<PropertyListModel> Children { get; set; }
-    }
+   
     public class PropertyListViewModel : GenericListViewModel<PropertyModel>
     {
         public IPropertyService PropertyService { get; }
@@ -47,15 +40,14 @@ namespace LandBankManagement.ViewModels
             get => _popupOpened;
             set => Set(ref _popupOpened, value);
         }
-
-        private IList<PropertyListModel> _propertyModelList=null;
-        public IList<PropertyListModel> PropertyModelList
+        
+        private IList<PropertyModel> _selectedProperty = null;
+        public IList<PropertyModel> SelectedProperty
         {
-            get => _propertyModelList;
-            set => Set(ref _propertyModelList, value);
+            get => _selectedProperty;
+            set => Set(ref _selectedProperty, value);
         }
 
-      
         public PropertyViewModel PropertyView { get; set; }
         public PropertyListViewModel(IPropertyService propertyService, ICommonServices commonServices, PropertyViewModel propertyView) : base(commonServices)
         {
@@ -68,9 +60,9 @@ namespace LandBankManagement.ViewModels
             ViewModelArgs = args ?? PropertyListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading Property...");
-            await RefreshAsync();
-            EndStatusMessage("Property loaded");            
+            //StartStatusMessage("Loading Property...");
+            //await RefreshAsync();
+            //EndStatusMessage("Property loaded");            
         }
         public void Unload()
         {
@@ -108,37 +100,27 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Loading Property List...");
-               
-                Items = await GetItemsAsync();
-
-                //var list = Items.GroupBy(x => x.GroupGuid);
-                ////List<PropertyModel> propertyModels = new List<PropertyModel>();
-                //PropertyModelList = new List<PropertyModel>();
-                //foreach (var obj in list)
-                //{
-                //    PropertyModel item = obj.First();
-                //    if (obj.Count() > 1)
-                //        item.Children = obj.Select(x => x).ToList();
-                //    PropertyModelList.Add(item);
-                //}
-                //Items = PropertyModelList;
-
-                PropertyModelList = new List<PropertyListModel>
+                ShowProgressRing();
+                var ItemsList = await GetItemsAsync();
+                HideProgressRing();
+                var list = ItemsList.GroupBy(x => x.GroupGuid).Select(x => x);
+                List<PropertyModel> propertyModels = new List<PropertyModel>();
+                foreach (var obj in list)
                 {
-                    new PropertyListModel{ 
-                        PropertyID=1,
-                        PropertyName="prop1",
-                        SurveyNo="5445",
-                        DocumentNo="4545",
-                        Children=new List<PropertyListModel>{
-                            new PropertyListModel{
-                                PropertyID=2,
-                                PropertyName="prop1",
-                                SurveyNo="5445",DocumentNo="4545"
-                            }
-                        }
+                    var item = new PropertyModel();
+                    if (obj.Count() > 1)
+                    {
+                        item = obj.First();
+                        item.Children = obj.Skip(1);
                     }
-                };
+                    else
+                        item = obj.First();
+
+                    propertyModels.Add(item);
+                }
+                Items = propertyModels;
+
+                
                 EndStatusMessage("Property List loaded");
             }
             catch (Exception ex)
@@ -171,6 +153,9 @@ namespace LandBankManagement.ViewModels
             return new List<PropertyModel>();
         }
 
+        public async void PopulateProperty(PropertyModel model) {
+            await PropertyView.PopulateDetails(model);
+        }
 
         protected override async void OnNew()
         {
