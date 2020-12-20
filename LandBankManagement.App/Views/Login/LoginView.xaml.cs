@@ -21,6 +21,18 @@ namespace LandBankManagement.Views
             ViewModel = ServiceLocator.Current.GetService<LoginViewModel>();
             InitializeContext();
             InitializeComponent();
+            this.Loaded += LoginView_Loaded;
+
+        }
+
+        private void LoginView_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Loaded += Frame_Loaded;
+        }
+
+        private void Frame_Loaded(object sender, RoutedEventArgs e)
+        {
+            passwordView.Focus();
         }
 
         public LoginViewModel ViewModel { get; }
@@ -49,7 +61,7 @@ namespace LandBankManagement.Views
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 DoEffectOut();
-                
+
                 ViewModel.Login();
             }
             base.OnKeyDown(e);
@@ -57,7 +69,7 @@ namespace LandBankManagement.Views
 
         private async void OnShowLoginWithPassword(object sender, RoutedEventArgs e)
         {
-            
+
             passwordView.Focus();
         }
 

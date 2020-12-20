@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Windows.UI.Xaml;
@@ -46,6 +48,8 @@ namespace LandBankManagement.Views
         public void Focus()
         {
             userName.Focus(FocusState.Programmatic);
+          
         }
+
     }
 }

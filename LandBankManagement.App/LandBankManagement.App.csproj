@@ -1005,9 +1005,6 @@
     <PackageReference Include="Syncfusion.SfGrid.UWP">
       <Version>18.3.0.53</Version>
     </PackageReference>
-    <PackageReference Include="Syncfusion.SfReportViewer.UWP">
-      <Version>18.3.0.51</Version>
-    </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>
     </PackageReference>
