@@ -72,7 +72,7 @@ namespace LandBankManagement.ViewModels
 
         public void Login()
         {
-            ShowProgressRing();
+            
             if (IsLoginWithPassword)
             {
                 LoginWithPassword();
@@ -112,6 +112,7 @@ namespace LandBankManagement.ViewModels
             loginProcessStarted = false;
             await DialogService.ShowAsync(result.Message, result.Description);
             IsBusy = false;
+            HideProgressRing();
         }
 
         public async void LoginWithWindowHello()

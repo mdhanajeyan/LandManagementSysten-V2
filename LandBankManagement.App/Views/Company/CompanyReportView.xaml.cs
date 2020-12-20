@@ -1,7 +1,7 @@
 ﻿using LandBankManagement.ReportViewers;
 using LandBankManagement.Services;
 using LandBankManagement.ViewModels;
-using Syncfusion.UI.Xaml.Reports;
+using BoldReports.UI.Xaml;
 using System;
 using System.Collections;
 using Windows.UI.Core;

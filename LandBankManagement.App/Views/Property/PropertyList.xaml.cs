@@ -3,7 +3,9 @@ using Windows.UI.Xaml.Controls;
 
 using LandBankManagement.ViewModels;
 using System;
-
+using Syncfusion.UI.Xaml.TreeGrid;
+using System.Collections.Generic;
+using LandBankManagement.Models;
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace LandBankManagement.Views
@@ -30,7 +32,7 @@ namespace LandBankManagement.Views
 
         private void Popup_closeBtn_Click(object sender, RoutedEventArgs e)
         {
-           // CostDetailsPopup.IsOpen = false;
+            CostDetailsPopup.IsOpen = false;
         }
 
         private void DocumentType_Click(object sender, RoutedEventArgs e)
@@ -39,6 +41,11 @@ namespace LandBankManagement.Views
             ViewModel.PropertyView.LoadPropertyForNewDocumentType(propertyId);
             
         }
-       
+               
+        private void treeGrid_SelectionChanged(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
+        {
+            var item = (PropertyModel)treeGrid.SelectedItem;
+            ViewModel.PopulateProperty(item);
+        }
     }
 }

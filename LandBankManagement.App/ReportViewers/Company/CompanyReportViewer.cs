@@ -1,16 +1,13 @@
-﻿using LandBankManagement.Infrastructure;
-using LandBankManagement.Models;
-using LandBankManagement.Services;
+﻿using BoldReports.UI.Xaml;
+using LandBankManagement.Infrastructure;
 using LandBankManagement.ViewModels;
-using Syncfusion.UI.Xaml.Reports;
-using System.Collections.Generic;
 
 namespace LandBankManagement.ReportViewers
 {
     public class CompanyReportViewer : ReportViewerHelper
     {
         private readonly CompanyReportViewModel ViewModel;
-        public CompanyReportViewer(SfReportViewer reportViewerControl, CompanyReportViewModel viewModel)
+        public CompanyReportViewer(ReportViewer reportViewerControl, CompanyReportViewModel viewModel)
         {
             ReportViewer = reportViewerControl;
             ReportName = "CompanyReport";

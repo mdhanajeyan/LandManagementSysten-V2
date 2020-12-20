@@ -24,7 +24,7 @@
         <controls:WindowTitle Prefix="Users" Title="{x:Bind ViewModel.UserList.Title, Mode=OneWay}" />
         <Pivot  SelectedIndex="{x:Bind ViewModel.SelectedPivotIndex, Mode=TwoWay}" SelectionChanged="Pivot_SelectionChanged" >
             <Pivot.Resources>
-                <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#D60258" />
+                <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#2377a6" />
             </Pivot.Resources>
            
             <PivotItem >
