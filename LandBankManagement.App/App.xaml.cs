@@ -27,9 +27,9 @@ namespace LandBankManagement
             assembliesToInclude.Add(typeof(SfDataGrid).GetTypeInfo().Assembly);
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NjY1NUAzMTM4MmUzMzJlMzBQcDlLM3d2N0Ywd1liN29jdWdJWDFaMnduc0ZaVTMrK3JCSXc3RUVRdnBBPQ==");
+            Bold.Licensing.BoldLicenseProvider.RegisterLicense("M3uZkZffANauHRYN/PTFrvJgrSOFLAfr6wdwEyf/CkI=");
 
             InitializeComponent();
-
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.PreferredLaunchViewSize = new Size(1280, 840);
