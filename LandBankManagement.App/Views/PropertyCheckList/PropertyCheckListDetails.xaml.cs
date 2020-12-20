@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System;
 using LandBankManagement.Converters;
+using LandBankManagement.Services;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -10,8 +11,10 @@ namespace LandBankManagement.Views
 {
     public sealed partial class PropertyCheckListDetails : UserControl
     {
+        public INavigationService NavigationService { get; }
         public PropertyCheckListDetails()
         {
+            NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
         }
         #region ViewModel
@@ -116,6 +119,11 @@ namespace LandBankManagement.Views
         {
             var isCheck = (bool)((CheckBox)sender).IsChecked;
             ViewModel.SelectAllCheckList(isCheck);
+        }
+
+        private void Add_vendor_Click(object sender, RoutedEventArgs e)
+        {
+             NavigationService.Navigate(typeof(VendorViewModel));
         }
     }
 }

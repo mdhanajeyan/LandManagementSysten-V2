@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System;
 using LandBankManagement.Converters;
+using LandBankManagement.Services;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -10,8 +11,10 @@ namespace LandBankManagement.Views
 {
     public sealed partial class PropertyDetails : UserControl
     {
+        public INavigationService NavigationService { get; }
         public PropertyDetails()
         {
+            NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
         }
         #region ViewModel
@@ -116,6 +119,11 @@ namespace LandBankManagement.Views
         private void SurveyNoTxt_LostFocus(object sender, RoutedEventArgs e)
         {
             ViewModel.PreparePropertyName();
+        }
+
+        private void Add_NewParty_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(typeof(PartyViewModel));
         }
     }
 }

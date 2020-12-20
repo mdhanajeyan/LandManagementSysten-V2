@@ -81,6 +81,14 @@
                 </controls:FluidGrid>
                 <controls:FluidGrid  Columns="1" RowSpacing="12" HorizontalAlignment="Left">
                     <StackPanel Margin="10 35 0 0">
+                            <StackPanel HorizontalAlignment="Stretch">
+                                <Button x:Name="Add_vendor"  Click="Add_vendor_Click" HorizontalAlignment="Right" Margin="0 0 10 5" Background="#15a5ed">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="New Vendor" Margin="0 0 5 0" Foreground="#fff" FontWeight="Medium"/>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Left"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                         <StackPanel Orientation="Vertical" BorderBrush="#b0b0b0" BorderThickness="1"  Margin="0 0 10 20">
                             <Grid Background="#b0b0b0">
                                 <Grid.ColumnDefinitions>
