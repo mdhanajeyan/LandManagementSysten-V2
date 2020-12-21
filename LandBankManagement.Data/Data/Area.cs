@@ -9,6 +9,7 @@ namespace LandBankManagement.Data.Data
         public decimal Acres { get; set; }
         public decimal PartGunta { get; set; }
         public decimal Guntas { get; set; }
+        public decimal Anas { get; set; }
         public decimal SqMeters { get; set; }
         public decimal SqFt { get; set; }
     }

@@ -136,6 +136,7 @@ namespace LandBankManagement.ViewModels
             {             
                    Item.LandAreaInAcres = Math.Round(area.Acres,2).ToString();
                    Item.LandAreaInGuntas =Math.Round( area.Guntas,2).ToString();
+                Item.LandAreaInputAanas = Math.Round(area.Anas, 2).ToString();
                    Item.LandAreaInSqft = Math.Round(area.SqFt,2).ToString();
                    Item.LandAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
             }
@@ -143,6 +144,7 @@ namespace LandBankManagement.ViewModels
             {
                     Item.AKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
                     Item.AKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
+                Item.AKarabAreaInputAanas = Math.Round(area.Anas, 2).ToString();
                     Item.AKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
                     Item.AKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
               
@@ -151,6 +153,7 @@ namespace LandBankManagement.ViewModels
             {
                     Item.BKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
                     Item.BKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
+                Item.BKarabAreaInputAanas = Math.Round(area.Anas, 2).ToString();
                     Item.BKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
                     Item.BKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
             }

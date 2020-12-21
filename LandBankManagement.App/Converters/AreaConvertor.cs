@@ -15,6 +15,7 @@ namespace LandBankManagement.Converters
                 Acres = totalSqFt.SqftToAcres(),
                 Guntas = totalSqFt.SqftToGuntas(),
                 SqMeters = totalSqFt.SqftToSqMts(),
+                Anas=aanas,
                 SqFt = totalSqFt
             };
             return area;

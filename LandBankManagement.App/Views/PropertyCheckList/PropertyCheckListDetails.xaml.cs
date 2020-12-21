@@ -69,8 +69,8 @@ namespace LandBankManagement.Views
                 {
                     var area = Convert.ToDecimal(ViewModel.EditableItem.LandAreaInputAcres);
                     var guntas = Convert.ToDecimal(ViewModel.EditableItem.LandAreaInputGuntas);
-
-                    var result = AreaConvertor.ConvertArea(area, guntas);
+                    var anas= Convert.ToDecimal(ViewModel.EditableItem.LandAreaInputAanas);
+                    var result = AreaConvertor.ConvertArea(area, guntas,anas);
                     ViewModel.loadAcres(result, "Area");
                 }
 
@@ -81,8 +81,8 @@ namespace LandBankManagement.Views
                 {
                     var area = Convert.ToDecimal(ViewModel.EditableItem.AKarabAreaInputAcres);
                     var guntas = Convert.ToDecimal(ViewModel.EditableItem.AKarabAreaInputGuntas);
-
-                    var result = AreaConvertor.ConvertArea(area, guntas);
+                    var anas = Convert.ToDecimal(ViewModel.EditableItem.AKarabAreaInputAanas);
+                    var result = AreaConvertor.ConvertArea(area, guntas,anas);
                     ViewModel.loadAcres(result, "AKarab");
                 }
             }
@@ -92,8 +92,8 @@ namespace LandBankManagement.Views
                 {
                     var area = Convert.ToDecimal(ViewModel.EditableItem.BKarabAreaInputAcres);
                     var guntas = Convert.ToDecimal(ViewModel.EditableItem.BKarabAreaInputGuntas);
-
-                    var result = AreaConvertor.ConvertArea(area, guntas);
+                    var anas = Convert.ToDecimal(ViewModel.EditableItem.BKarabAreaInputAanas);
+                    var result = AreaConvertor.ConvertArea(area, guntas,anas);
                     ViewModel.loadAcres(result, "BKarab");
                 }
             }

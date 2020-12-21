@@ -212,54 +212,60 @@ namespace LandBankManagement.Data.Services
 
         public async Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(int skip, int take, DataRequest<PropertyCheckList> request)
         {
-            IQueryable<PropertyCheckList> items = GetPropertyCheckList(request);
-            var records = await items.Skip(skip).Take(take).ToListAsync();               
+            try
+            {
+                IQueryable<PropertyCheckList> items = GetPropertyCheckList(request);
+                var records = await items.Skip(skip).Take(take).ToListAsync();
 
-            var finalResult = (from r in records
-                               from c in _dataSource.Companies.Where(x => x.CompanyID == r.CompanyID).DefaultIfEmpty()
-                               from v in _dataSource.Villages.Where(x => x.VillageId == r.VillageId).DefaultIfEmpty()
-                               select new PropertyCheckList
-                               {
-                                   PropertyCheckListId = r.PropertyCheckListId,
-                                   PropertyGuid = r.PropertyGuid,
-                                   PropertyName = r.PropertyName,
-                                   TalukId = r.TalukId,
-                                   HobliId = r.HobliId,
-                                   VillageId = r.VillageId,
-                                   DocumentTypeId = r.DocumentTypeId,
-                                   PropertyTypeId = r.PropertyTypeId,
-                                   SurveyNo = r.SurveyNo,
-                                   PropertyGMapLink = r.PropertyGMapLink,
-                                   LandAreaInputAcres = r.LandAreaInputAcres,
-                                   LandAreaInputGuntas = r.LandAreaInputGuntas,
-                                   LandAreaInputAanas = r.LandAreaInputAanas,
-                                   LandAreaInAcres = r.LandAreaInAcres,
-                                   LandAreaInGuntas = r.LandAreaInGuntas,
-                                   LandAreaInSqMts = r.LandAreaInSqMts,
-                                   LandAreaInSqft = r.LandAreaInSqft,
-                                   AKarabAreaInputAcres = r.AKarabAreaInputAcres,
-                                   AKarabAreaInputGuntas = r.AKarabAreaInputGuntas,
-                                   AKarabAreaInputAanas = r.AKarabAreaInputAanas,
-                                   AKarabAreaInAcres = r.AKarabAreaInAcres,
-                                   AKarabAreaInGuntas = r.AKarabAreaInGuntas,
-                                   AKarabAreaInSqMts = r.AKarabAreaInSqMts,
-                                   AKarabAreaInSqft = r.AKarabAreaInSqft,
-                                   BKarabAreaInputAcres = r.BKarabAreaInputAcres,
-                                   BKarabAreaInputGuntas = r.BKarabAreaInputGuntas,
-                                   BKarabAreaInputAanas = r.BKarabAreaInputAanas,
-                                   BKarabAreaInAcres = r.BKarabAreaInAcres,
-                                   BKarabAreaInGuntas = r.BKarabAreaInGuntas,
-                                   BKarabAreaInSqMts = r.BKarabAreaInSqMts,
-                                   BKarabAreaInSqft = r.BKarabAreaInSqft,
-                                   CheckListMaster = r.CheckListMaster,
-                                   PropertyDescription = r.PropertyDescription,
-                                   CompanyName = c.Name,
-                                   VillageName = v.VillageName,
-                                   Status=r.Status,
-                                   Remarks=r.Remarks
-                               }).ToList();
+                var finalResult = (from r in records
+                                   from c in _dataSource.Companies.Where(x => x.CompanyID == r.CompanyID).DefaultIfEmpty()
+                                   from v in _dataSource.Villages.Where(x => x.VillageId == r.VillageId).DefaultIfEmpty()
+                                   select new PropertyCheckList
+                                   {
+                                       PropertyCheckListId = r.PropertyCheckListId,
+                                       PropertyGuid = r.PropertyGuid,
+                                       PropertyName = r.PropertyName,
+                                       TalukId = r.TalukId,
+                                       HobliId = r.HobliId,
+                                       VillageId = r.VillageId,
+                                       DocumentTypeId = r.DocumentTypeId,
+                                       PropertyTypeId = r.PropertyTypeId,
+                                       SurveyNo = r.SurveyNo,
+                                       PropertyGMapLink = r.PropertyGMapLink,
+                                       LandAreaInputAcres = r.LandAreaInputAcres,
+                                       LandAreaInputGuntas = r.LandAreaInputGuntas,
+                                       LandAreaInputAanas = r.LandAreaInputAanas,
+                                       LandAreaInAcres = r.LandAreaInAcres,
+                                       LandAreaInGuntas = r.LandAreaInGuntas,
+                                       LandAreaInSqMts = r.LandAreaInSqMts,
+                                       LandAreaInSqft = r.LandAreaInSqft,
+                                       AKarabAreaInputAcres = r.AKarabAreaInputAcres,
+                                       AKarabAreaInputGuntas = r.AKarabAreaInputGuntas,
+                                       AKarabAreaInputAanas = r.AKarabAreaInputAanas,
+                                       AKarabAreaInAcres = r.AKarabAreaInAcres,
+                                       AKarabAreaInGuntas = r.AKarabAreaInGuntas,
+                                       AKarabAreaInSqMts = r.AKarabAreaInSqMts,
+                                       AKarabAreaInSqft = r.AKarabAreaInSqft,
+                                       BKarabAreaInputAcres = r.BKarabAreaInputAcres,
+                                       BKarabAreaInputGuntas = r.BKarabAreaInputGuntas,
+                                       BKarabAreaInputAanas = r.BKarabAreaInputAanas,
+                                       BKarabAreaInAcres = r.BKarabAreaInAcres,
+                                       BKarabAreaInGuntas = r.BKarabAreaInGuntas,
+                                       BKarabAreaInSqMts = r.BKarabAreaInSqMts,
+                                       BKarabAreaInSqft = r.BKarabAreaInSqft,
+                                       CheckListMaster = r.CheckListMaster,
+                                       PropertyDescription = r.PropertyDescription,
+                                       CompanyName = c.Name,
+                                       VillageName = v.VillageName,
+                                       Status = r.Status,
+                                       Remarks = r.Remarks
+                                   }).ToList();
 
-            return finalResult;
+                return finalResult;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<int> GetPropertyCheckListCountAsync(DataRequest<PropertyCheckList> request)
