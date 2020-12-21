@@ -20,6 +20,16 @@ namespace LandBankManagement.Extensions
             return acre * Convert.ToDecimal(1089);
         }
 
+        static public decimal AanasToSqft(this decimal aana)
+        {
+            return aana * Convert.ToDecimal(342.25);
+        }
+
+        static public decimal AanasToGunta(this decimal aana)
+        {
+            return aana / Convert.ToDecimal(16);
+        }
+
         static public decimal SqftToAcres(this decimal sqft)
         {
             return sqft / Convert.ToDecimal(43560d);

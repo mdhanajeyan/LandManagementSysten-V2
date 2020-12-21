@@ -23,8 +23,10 @@ namespace LandBankManagement.Models
         public string PropertyGMapLink { get; set; }
         public string LandAreaInputAcres { get; set; }
         public string LandAreaInputGuntas { get; set; }
+        public string LandAreaInputAanas { get; set; }
         public string LandAreaInAcres { get; set; }
         public string LandAreaInGuntas { get; set; }
+        public string AKarabAreaInputAanas { get; set; }
         public string LandAreaInSqMts { get; set; }
         public string LandAreaInSqft { get; set; }
         public string AKarabAreaInputAcres { get; set; }
@@ -35,6 +37,7 @@ namespace LandBankManagement.Models
         public string AKarabAreaInSqft { get; set; }
         public string BKarabAreaInputAcres { get; set; }
         public string BKarabAreaInputGuntas { get; set; }
+        public string BKarabAreaInputAanas { get; set; }
         public string BKarabAreaInAcres { get; set; }
 
         public string BKarabAreaInGuntas { get; set; }
@@ -78,18 +81,21 @@ namespace LandBankManagement.Models
                 PropertyGMapLink = source.PropertyGMapLink;
                 LandAreaInputAcres = source.LandAreaInputAcres;
                 LandAreaInputGuntas = source.LandAreaInputGuntas;
+                LandAreaInputAanas = source.LandAreaInputAanas;
                 LandAreaInAcres = source.LandAreaInAcres;
                 LandAreaInGuntas = source.LandAreaInGuntas;
                 LandAreaInSqMts = source.LandAreaInSqMts;
                 LandAreaInSqft = source.LandAreaInSqft;
                 AKarabAreaInputAcres = source.AKarabAreaInputAcres;
                 AKarabAreaInputGuntas = source.AKarabAreaInputGuntas;
+                AKarabAreaInputAanas = source.AKarabAreaInputAanas;
                 AKarabAreaInAcres = source.AKarabAreaInAcres;
                 AKarabAreaInGuntas = source.AKarabAreaInGuntas;
                 AKarabAreaInSqMts = source.AKarabAreaInSqMts;
                 AKarabAreaInSqft = source.AKarabAreaInSqft;
                 BKarabAreaInputAcres = source.BKarabAreaInputAcres;
                 BKarabAreaInputGuntas = source.BKarabAreaInputGuntas;
+                BKarabAreaInputAanas = source.BKarabAreaInputAanas;
                 BKarabAreaInAcres = source.BKarabAreaInAcres;
                 BKarabAreaInGuntas = source.BKarabAreaInGuntas;
                 BKarabAreaInSqMts = source.BKarabAreaInSqMts;

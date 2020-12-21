@@ -5,9 +5,10 @@ namespace LandBankManagement.Converters
 {
     public class AreaConvertor
     {
-        public static Area ConvertArea(decimal acres, decimal guntas)
+        public static Area ConvertArea(decimal acres, decimal guntas, decimal aanas)
         {
-            var totalGuntas = acres.AcreToGuntas() + guntas;
+            var totalGuntas = acres.AcreToGuntas() + guntas + aanas.AanasToGunta();
+           
             var totalSqFt = totalGuntas.GuntasToSqft();
             var area = new Area()
             {
