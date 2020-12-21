@@ -18,7 +18,7 @@ namespace LandBankManagement.ViewModels
         {
             OrderBy = r => r.VendorName;
         }
-
+        public int SelectedPageIndex { get; set; } = 0;
         public bool IsEmpty { get; set; }
 
         public string Query { get; set; }
@@ -52,6 +52,7 @@ namespace LandBankManagement.ViewModels
         }
         public void Unload()
         {
+            if(ViewModelArgs!=null)
             ViewModelArgs.Query = Query;
         }
 

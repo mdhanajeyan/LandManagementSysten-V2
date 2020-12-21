@@ -30,7 +30,7 @@ namespace LandBankManagement.Views
             ViewModel.Subscribe();
             progressRing.IsActive = false;
             progressRing.Visibility = Visibility.Collapsed;
-            await ViewModel.LoadAsync(e.Parameter as PropertyListArgs);
+            await ViewModel.LoadAsync (e.Parameter as PropertyListArgs);
            // await ViewModel.PropertyList.RefreshAsync();
         }
 
