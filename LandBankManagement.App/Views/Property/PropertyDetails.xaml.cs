@@ -123,7 +123,7 @@ namespace LandBankManagement.Views
 
         private void Add_NewParty_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(typeof(PartyViewModel));
+            NavigationService.Navigate(typeof(PartyViewModel), new PartyListArgs{ SelectedPageIndex=1});
         }
     }
 }

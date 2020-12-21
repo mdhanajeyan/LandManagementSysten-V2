@@ -123,7 +123,7 @@ namespace LandBankManagement.Views
 
         private void Add_vendor_Click(object sender, RoutedEventArgs e)
         {
-             NavigationService.Navigate(typeof(VendorViewModel));
+             NavigationService.Navigate(typeof(VendorViewModel) ,new VendorListArgs { SelectedPageIndex=1});
         }
     }
 }

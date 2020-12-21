@@ -27,6 +27,8 @@ namespace LandBankManagement.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
+            var arg = (e.Parameter as PartyListArgs);
+            ViewModel.SelectedPivotIndex = arg.SelectedPageIndex;
             await ViewModel.PartyDetails.LoadAsync();        
            
         }
