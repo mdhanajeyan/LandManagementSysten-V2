@@ -153,7 +153,7 @@ namespace LandBankManagement.ViewModels
                 {
                     MessageService.Send(this, "ItemChanged", Item);
                 }
-                IsEditMode = false;
+                IsEditMode =true;
 
                 NotifyPropertyChanged(nameof(ItemIsNew));
             }
