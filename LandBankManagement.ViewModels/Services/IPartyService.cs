@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using LandBankManagement.Data;
 using LandBankManagement.Models;
@@ -15,5 +17,8 @@ namespace LandBankManagement.Services
         Task<int> UpdatePartyAsync(PartyModel model, ICollection<ImagePickerResult> doc);
         Task<int> DeletePartyAsync(PartyModel model);
         Task<int> DeletePartyDocumentAsync(ImagePickerResult documents);
+        Task<int> UploadPartyDocumentsAsync(List<ImagePickerResult> model, Guid guid);
+        Task<ObservableCollection<ImagePickerResult>> GetDocuments(Guid guid);
+
     }
 }

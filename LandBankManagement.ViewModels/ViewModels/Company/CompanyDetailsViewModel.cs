@@ -79,11 +79,38 @@ namespace LandBankManagement.ViewModels
            
         }
 
+        public ICommand SavePictureCommand => new RelayCommand(OnSaveFile);
+        private async void OnSaveFile()
+        {
+            if (Item.CompanyID > 0)
+            {
+
+                List<ImagePickerResult> docs = new List<ImagePickerResult>();
+                foreach (var doc in DocList)
+                {
+                    if (doc.blobId == 0)
+                    {
+                        docs.Add(doc);
+                    }
+                }
+
+                if (docs.Count > 0)
+                {
+                    StartStatusMessage("Saving Company Documents...");
+                    await CompanyService.UploadCompanyDocumentsAsync(docs, Item.CompanyGuid);
+                    DocList = await CompanyService.GetDocuments(Item.CompanyGuid);
+                    EndStatusMessage(" Company Document saved");
+                }
+            }
+
+        }
+
         public void DeleteDocument(int id) {
             try
             {
                 if (id > 0)
                 {
+                    StartStatusMessage("Deleting  Company Documents...");
                     if (DocList[id - 1].blobId > 0)
                     {
                         ShowProgressRing();
@@ -98,6 +125,7 @@ namespace LandBankManagement.ViewModels
                     }
                     DocList = null;
                     DocList = newlist;
+                    EndStatusMessage(" Company Document delted");
                 }
             }
             catch (Exception ) {

@@ -122,6 +122,46 @@ namespace LandBankManagement.Services
             }
         }
 
+        public async Task<int> UploadVendorDocumentsAsync(List<ImagePickerResult> models, Guid guid)
+        {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                List<VendorDocuments> docList = new List<VendorDocuments>();
+                foreach (var model in models)
+                {
+                    var doc = new VendorDocuments();
+
+                    UpdateDocumentFromModel(doc, model);
+                    doc.VendorGuid = guid;
+                    docList.Add(doc);
+                }
+                return await dataService.UploadVendorDocumentsAsync(docList);
+            }
+        }
+
+        public async Task<ObservableCollection<ImagePickerResult>> GetDocuments(Guid guid)
+        {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
+                var items = await dataService.GetVendorDocumentsAsync(guid);
+                foreach (var doc in items)
+                {
+                    docs.Add(new ImagePickerResult
+                    {
+                        blobId = doc.VendorBlobId,
+                        guid = doc.VendorGuid,
+                        FileName = doc.FileName,
+                        ImageBytes = doc.FileBlob,
+                        ContentType = doc.FileType,
+                        Size = doc.FileLength,
+                        FileCategoryId = doc.FileCategoryId
+                    });
+                }
+
+                return docs;
+            }
+        }
         public async Task<int> DeleteVendorAsync(VendorModel model)
         {
             var vendor = new Vendor { VendorId = model.VendorId };

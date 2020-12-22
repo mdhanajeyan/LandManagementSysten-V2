@@ -84,7 +84,7 @@ namespace LandBankManagement.Data.Services
             var party =await _dataSource.Parties.Where(r => r.PartyId == id).FirstOrDefaultAsync();
             if (party.PartyGuid != null)
             {
-                var docs = GetPartyDocumentsAsync(party.PartyGuid);
+                var docs =await GetPartyDocumentsAsync(party.PartyGuid);
                 if (docs.Any())
                 {
                     party.PartyDocuments = docs;
@@ -93,10 +93,10 @@ namespace LandBankManagement.Data.Services
             }
             return party;
         }
-        private List<PartyDocuments> GetPartyDocumentsAsync(Guid id)
+        public async Task<List<PartyDocuments>> GetPartyDocumentsAsync(Guid id)
         {
-            return _dataSource.PartyDocuments
-                .Where(r => r.PartyGuid == id).ToList();
+            return await _dataSource.PartyDocuments
+                .Where(r => r.PartyGuid == id).ToListAsync();
         }
         public async Task<IList<Party>> GetPartiesAsync(int skip, int take, DataRequest<Party> request)
         {

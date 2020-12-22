@@ -129,13 +129,39 @@ namespace LandBankManagement.ViewModels
 
         }
 
-        public void DeleteDocument(int id)
+        public ICommand SavePictureCommand => new RelayCommand(OnSaveFile);
+        private async void OnSaveFile()
+        {
+            if (Item.PartyId > 0)
+            {
+
+                List<ImagePickerResult> docs = new List<ImagePickerResult>();
+                foreach (var doc in DocList)
+                {
+                    if (doc.blobId == 0)
+                    {
+                        docs.Add(doc);
+                    }
+                }
+
+                if (docs.Count > 0)
+                {
+                    StartStatusMessage("Saving Party Documents...");
+                    await PartyService.UploadPartyDocumentsAsync(docs, Item.PartyGuid);
+                    DocList = await PartyService.GetDocuments(Item.PartyGuid);
+                    EndStatusMessage(" Party Document saved");
+                }
+            }
+
+        }
+        public async void DeleteDocument(int id)
         {
             if (id > 0)
             {
+                StartStatusMessage("Deleting Party Documents...");
                 if (DocList[id - 1].blobId > 0)
                 {
-                    PartyService.DeletePartyDocumentAsync(DocList[id - 1]);
+                   await PartyService.DeletePartyDocumentAsync(DocList[id - 1]);
                 }
                 DocList.RemoveAt(id - 1);
                 var newlist = DocList;
@@ -145,6 +171,7 @@ namespace LandBankManagement.ViewModels
                 }
                 DocList = null;
                 DocList = newlist;
+                EndStatusMessage(" Party Document deleted");
             }
         }
 

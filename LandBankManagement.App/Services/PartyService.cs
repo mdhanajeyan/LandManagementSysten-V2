@@ -122,6 +122,47 @@ namespace LandBankManagement.Services
             }
         }
 
+        public async Task<int> UploadPartyDocumentsAsync(List<ImagePickerResult> models, Guid guid)
+        {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                List<PartyDocuments> docList = new List<PartyDocuments>();
+                foreach (var model in models)
+                {
+                    var doc = new PartyDocuments();
+
+                    UpdateDocumentFromModel(doc, model);
+                    doc.PartyGuid = guid;
+                    docList.Add(doc);
+                }
+                return await dataService.UploadPartyDocumentsAsync(docList);
+            }
+        }
+
+        public async Task<ObservableCollection<ImagePickerResult>> GetDocuments(Guid guid)
+        {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
+                var items = await dataService.GetPartyDocumentsAsync(guid);
+                foreach (var doc in items)
+                {
+                    docs.Add(new ImagePickerResult
+                    {
+                        blobId = doc.PartyBlobId,
+                        guid = doc.PartyGuid,
+                        FileName = doc.FileName,
+                        ImageBytes = doc.FileBlob,
+                        ContentType = doc.FileType,
+                        Size = doc.FileLength,
+                        FileCategoryId = doc.FileCategoryId
+                    });
+                }
+
+                return docs;
+            }
+        }
+
         public async Task<int> DeletePartyAsync(PartyModel model)
         {
             var party = new Party { PartyId = model.PartyId };

@@ -14,7 +14,7 @@ namespace LandBankManagement.Data.Services
             var company = await _dataSource.Companies.Where(r => r.CompanyID == id).FirstOrDefaultAsync();
             if (company.CompanyGuid != null)
             {
-                var companyDocs = GetCompanyDocumentsAsync(company.CompanyGuid);
+                var companyDocs =await GetCompanyDocumentsAsync(company.CompanyGuid);
                 if (companyDocs.Any())
                 {
                     company.CompanyDocuments = companyDocs;
@@ -25,10 +25,10 @@ namespace LandBankManagement.Data.Services
             return company;
         }
 
-        public  List<CompanyDocuments> GetCompanyDocumentsAsync(Guid id)
+        public async Task<List<CompanyDocuments>> GetCompanyDocumentsAsync(Guid id)
         {
-            return  _dataSource.CompanyDocuments
-                .Where(r => r.CompanyGuid == id).ToList();
+            return await  _dataSource.CompanyDocuments
+                .Where(r => r.CompanyGuid == id).ToListAsync();
         }
 
         public async Task<IList<Company>> GetCompaniesAsync(int skip, int take, DataRequest<Company> request)

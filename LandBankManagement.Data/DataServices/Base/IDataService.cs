@@ -17,7 +17,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UploadCompanyDocumentsAsync(List<CompanyDocuments> company);
         Task<int> DeleteCompanyDocumentAsync(CompanyDocuments documents);
         Task<IList<Company>> GetCompaniesAsync();
-        List<CompanyDocuments> GetCompanyDocumentsAsync(Guid id);
+        Task<List<CompanyDocuments>> GetCompanyDocumentsAsync(Guid id);       
 
         // Task<int> AddVendorAsync(Vendor model);
         Task<Vendor> GetVendorAsync(long id);
@@ -28,6 +28,7 @@ namespace LandBankManagement.Data.Services
         Task<int> DeleteVendorAsync(Vendor model);
         Task<int> UploadVendorDocumentsAsync(List<VendorDocuments> company);
         Task<int> DeleteVendorDocumentAsync(VendorDocuments documents);
+        Task<List<VendorDocuments>> GetVendorDocumentsAsync(Guid id);
 
         //  Task<int> AddPartyAsync(Party model);
         Task<Party> GetPartyAsync(long id);
@@ -38,6 +39,7 @@ namespace LandBankManagement.Data.Services
         Task<int> DeletePartyAsync(Party model);
         Task<int> UploadPartyDocumentsAsync(List<PartyDocuments> company);
         Task<int> DeletePartyDocumentAsync(PartyDocuments documents);
+        Task<List<PartyDocuments>> GetPartyDocumentsAsync(Guid id);
 
         Task<int> AddExpenseHeadAsync(ExpenseHead model);
         Task<ExpenseHead> GetExpenseHeadAsync(long id);

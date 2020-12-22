@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using LandBankManagement.Data;
 using LandBankManagement.Models;
@@ -16,7 +18,8 @@ namespace LandBankManagement.Services
         Task<CompanyModel> UpdateCompanyAsync(CompanyModel model, ICollection<ImagePickerResult> docs);
         Task<Result> DeleteCompanyAsync(CompanyModel model);
         Task<int> DeleteCompanyRangeAsync(int index, int length, DataRequest<Company> request);
-        Task<int> UploadCompanyDocumentsAsync(List<ImagePickerResult> model);
+        Task<int> UploadCompanyDocumentsAsync(List<ImagePickerResult> model, Guid guid);
         Task<int> DeleteCompanyDocumentAsync(ImagePickerResult documents);
+        Task<ObservableCollection<ImagePickerResult>> GetDocuments(Guid guid);
     }
 }

@@ -91,7 +91,7 @@ namespace LandBankManagement.Data.Services
                 var vendor= await _dataSource.Vendors.Where(x => x.VendorId == id).FirstOrDefaultAsync();
                 if (vendor.VendorGuid != null)
                 {
-                    var docs = GetVendorDocumentsAsync(vendor.VendorGuid);
+                    var docs =await GetVendorDocumentsAsync(vendor.VendorGuid);
                     if (docs.Any())
                     {
                         vendor.VendorDocuments = docs;
@@ -101,10 +101,10 @@ namespace LandBankManagement.Data.Services
                 return vendor;
            
         }
-        private List<VendorDocuments> GetVendorDocumentsAsync(Guid id)
+        public async Task<List<VendorDocuments>> GetVendorDocumentsAsync(Guid id)
         {
-            return _dataSource.VendorDocuments
-                .Where(r => r.VendorGuid == id).ToList();
+            return await _dataSource.VendorDocuments
+                .Where(r => r.VendorGuid == id).ToListAsync();
         }
         public async Task<IList<Vendor>> GetVendorsAsync(int skip, int take, DataRequest<Vendor> request)
         {

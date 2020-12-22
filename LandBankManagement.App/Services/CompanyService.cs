@@ -155,7 +155,7 @@ namespace LandBankManagement.Services
                 return await dataService.DeleteCompanyAsync(items.ToArray());
             }
         }
-        public async Task<int> UploadCompanyDocumentsAsync(List<ImagePickerResult> models) {
+        public async Task<int> UploadCompanyDocumentsAsync(List<ImagePickerResult> models,Guid guid) {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 List<CompanyDocuments> docList = new List<CompanyDocuments>();
@@ -163,9 +163,34 @@ namespace LandBankManagement.Services
                 { var doc = new CompanyDocuments();
                     
                     UpdateDocumentFromModel(doc, model);
+                    doc.CompanyGuid = guid;
                     docList.Add(doc);
                 }
                 return await dataService.UploadCompanyDocumentsAsync(docList);
+            }
+        }
+
+        public async Task<ObservableCollection<ImagePickerResult>> GetDocuments(Guid guid)
+        {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
+                var items = await dataService.GetCompanyDocumentsAsync(guid);
+                foreach (var doc in items)
+                {
+                    docs.Add(new ImagePickerResult
+                    {
+                        blobId = doc.CompanyBlobId,
+                        guid = doc.CompanyGuid,
+                        FileName = doc.FileName,
+                        ImageBytes = doc.FileBlob,
+                        ContentType = doc.FileType,
+                        Size = doc.FileLength,
+                        FileCategoryId = doc.FileCategoryId
+                    });
+                }
+
+                return docs;
             }
         }
 
