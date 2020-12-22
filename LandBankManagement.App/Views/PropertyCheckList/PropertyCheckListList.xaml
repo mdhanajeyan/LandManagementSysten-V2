@@ -31,7 +31,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ItemTemplate" x:DataType="models:PropertyCheckListModel">
-            <Grid Height="32">
+            <Grid Height="32" Margin="1">
                 <Grid Visibility="{x:Bind IsEmpty, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="15*"/>
@@ -46,10 +46,10 @@
                     <TextBlock Grid.Column="1" Text="{x:Bind VillageName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" HorizontalAlignment="Stretch" Margin="3 0 3 0"/>
                     <TextBlock Grid.Column="2" Text="{x:Bind PropertyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" HorizontalAlignment="Stretch" Margin="3 0 3 0"/>
                     <TextBlock Grid.Column="3" Text="{x:Bind SurveyNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}"  HorizontalAlignment="Stretch" Margin="3 0 3 0" />
-                    <ComboBox Grid.Column="4"  ItemsSource="{Binding StatusOption,Mode=TwoWay}" HorizontalAlignment="Stretch" Margin="5 0 5 0"
+                    <ComboBox Grid.Column="4"  ItemsSource="{Binding StatusOption,Mode=TwoWay}" HorizontalAlignment="Stretch" Margin="5 0 5 0" Height="30" 
                                            SelectedValue="{Binding Status, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description"/>
-                    <TextBox Grid.Column="5" Text="{x:Bind Remarks, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Column="5" Text="{x:Bind Remarks, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <Button x:Name="SaveBtn" Tag="{Binding PropertyCheckListId}" Grid.Column="6" Height="35"  Background="Transparent" Padding="10 5 10 5"  Click="SaveBtn_Click" HorizontalAlignment="Right">
                         <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74E;" Foreground="#138af2"  HorizontalAlignment="Right"/>
                         <Button.Resources>

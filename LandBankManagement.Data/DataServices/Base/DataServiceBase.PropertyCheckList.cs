@@ -295,7 +295,8 @@ namespace LandBankManagement.Data.Services
                 ICollection<PropertyCheckListVendor> vendors = model.PropertyCheckListVendors;
                 ICollection<CheckListOfProperty> checklist = model.CheckListOfProperties;
                 _dataSource.Entry(model).State = EntityState.Modified;
-                int res = await _dataSource.SaveChangesAsync();
+                 await _dataSource.SaveChangesAsync();
+                int res = model.PropertyCheckListId;
                 if (docs != null)
                 {
                     foreach (var doc in docs)

@@ -120,7 +120,8 @@ namespace LandBankManagement.ViewModels
             PrepareCheckList();
         }
 
-        public async void LoadPropertyCheckList(int id) {
+        public async Task LoadPropertyCheckList(int id) {
+            StartStatusMessage("Loading Property Checklist...");
             ShowProgressRing();
             var model = await PropertyCheckListService.GetPropertyCheckListAsync(id);
             HideProgressRing();
@@ -128,7 +129,8 @@ namespace LandBankManagement.ViewModels
             VendorList = model.PropertyCheckListVendors;
             DocList = model.PropertyCheckListDocuments;
             PrepareCheckList();
-           
+            RestartItem();
+            StartStatusMessage("Property Checklist is loaded");
         }
        public void loadAcres(Area area,string type) {
 
@@ -321,19 +323,22 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Saving Property Checklist...");
 
                 PreparePRoeprtyCheckListModel(model);
-
+                int id = 0;
                 if (model.PropertyCheckListId <= 0)
-                    model = await PropertyCheckListService.AddPropertyCheckListAsync(model);
+                    id = await PropertyCheckListService.AddPropertyCheckListAsync(model);
                 else
-                   model= await PropertyCheckListService.UpdatePropertyCheckListAsync(model);
-
+                    id = await PropertyCheckListService.UpdatePropertyCheckListAsync(model);
+                model = new PropertyCheckListModel() { PropertyCheckListId = -1, PropertyTypeId = 0, CompanyID = 0, TalukId = 0, HobliId = 0, VillageId = 0, DocumentTypeId = 0 };
+                EndStatusMessage("Property CheckList saved");
                 ClearItem();
+               await LoadPropertyCheckList(id);
+               
 
                 //DocList = model.PropertyCheckListDocuments;
                 //VendorList = model.PropertyCheckListVendors;
                 //PrepareCheckList();
 
-                EndStatusMessage("Property CheckList saved");
+               
                 LogInformation("Property", "Save", "Property CheckList saved successfully", $"Property {model.PropertyCheckListId} '{model.PropertyName}' was saved successfully.");
                 return true;
             }

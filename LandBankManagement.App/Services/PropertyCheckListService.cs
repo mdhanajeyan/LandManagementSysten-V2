@@ -21,7 +21,7 @@ namespace LandBankManagement.Services
             LogService = logService;
         }
 
-        public async Task<PropertyCheckListModel> AddPropertyCheckListAsync(PropertyCheckListModel model)
+        public async Task<int> AddPropertyCheckListAsync(PropertyCheckListModel model)
         {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
@@ -31,9 +31,10 @@ namespace LandBankManagement.Services
                     UpdatePropertyCheckListFromModel(property, model);
                     property.PropertyGuid = Guid.NewGuid();
                     var propertyID = await dataService.AddPropertyCheckListAsync(property);
-                    model.Merge(await GetPropertyCheckListAsync(dataService, propertyID));
+                    // model.Merge(await GetPropertyCheckListAsync(dataService, propertyID));
+                    return propertyID;
                 }
-                return model;
+                return 0;
             }
         }
 
@@ -86,7 +87,7 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<PropertyCheckListModel> UpdatePropertyCheckListAsync(PropertyCheckListModel model)
+        public async Task<int> UpdatePropertyCheckListAsync(PropertyCheckListModel model)
         {
             long id = model.PropertyCheckListId;
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -96,9 +97,9 @@ namespace LandBankManagement.Services
                 {    
                     UpdatePropertyCheckListFromModel(property, model);
                     await dataService.UpdatePropertyCheckListAsync(property);
-                    model.Merge(await GetPropertyCheckListAsync(dataService, property.PropertyCheckListId));
+                    //model.Merge(await GetPropertyCheckListAsync(dataService, property.PropertyCheckListId));
                 }
-                return model;
+                return model.PropertyCheckListId;
             }
         }
         public async Task<int> UpdatePropertyCheckListStatusAsync(int id, int status, string remarks) {
@@ -322,21 +323,21 @@ namespace LandBankManagement.Services
             target.PropertyGMapLink = source.PropertyGMapLink;
             target.LandAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
             target.LandAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputGuntas) ? "0" : source.LandAreaInputGuntas);
-            target.LandAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAanas) ? "0" : source.LandAreaInputGuntas);
+            target.LandAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAanas) ? "0" : source.LandAreaInputAanas);
             target.LandAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInAcres) ? "0" : source.LandAreaInAcres);
             target.LandAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInGuntas) ? "0" : source.LandAreaInGuntas);
             target.LandAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInSqMts) ? "0" : source.LandAreaInSqMts);
             target.LandAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInSqft) ? "0" : source.LandAreaInSqft);
             target.AKarabAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputAcres) ? "0" : source.AKarabAreaInputAcres);
             target.AKarabAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputGuntas) ? "0" : source.AKarabAreaInputGuntas);
-            target.AKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputAanas) ? "0" : source.AKarabAreaInputGuntas);
+            target.AKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputAanas) ? "0" : source.AKarabAreaInputAanas);
             target.AKarabAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInAcres) ? "0" : source.AKarabAreaInAcres);
             target.AKarabAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInGuntas) ? "0" : source.AKarabAreaInGuntas);
             target.AKarabAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInSqft) ? "0" : source.AKarabAreaInSqft);
             target.AKarabAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
             target.BKarabAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAcres) ? "0" : source.BKarabAreaInputAcres);
             target.BKarabAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputGuntas) ? "0" : source.BKarabAreaInputGuntas);
-            target.BKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAanas) ? "0" : source.BKarabAreaInputGuntas);
+            target.BKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAanas) ? "0" : source.BKarabAreaInputAanas);
             target.BKarabAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInAcres) ? "0" : source.BKarabAreaInAcres);
             target.BKarabAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInGuntas) ? "0" : source.BKarabAreaInGuntas);
             target.BKarabAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInSqMts) ? "0" : source.BKarabAreaInSqMts);

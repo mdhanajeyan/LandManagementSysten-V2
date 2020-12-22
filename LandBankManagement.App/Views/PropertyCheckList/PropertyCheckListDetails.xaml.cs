@@ -61,41 +61,34 @@ namespace LandBankManagement.Views
             ConvertArea("BKarab");
         }
 
+        private string IsNullOrEnpty(string val) {
+            return string.IsNullOrEmpty(val) ? "0" : val;
+        }
         public void ConvertArea(string type)
         {
             if (type == "Area")
-            {
-                if (!string.IsNullOrEmpty(ViewModel.EditableItem.LandAreaInputAcres) && !string.IsNullOrEmpty(ViewModel.EditableItem.LandAreaInputGuntas))
-                {
-                    var area = Convert.ToDecimal(ViewModel.EditableItem.LandAreaInputAcres);
-                    var guntas = Convert.ToDecimal(ViewModel.EditableItem.LandAreaInputGuntas);
-                    var anas= Convert.ToDecimal(ViewModel.EditableItem.LandAreaInputAanas);
+            {               
+                    var area = Convert.ToDecimal(IsNullOrEnpty( ViewModel.EditableItem.LandAreaInputAcres));
+                    var guntas = Convert.ToDecimal(IsNullOrEnpty( ViewModel.EditableItem.LandAreaInputGuntas));
+                    var anas= Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.LandAreaInputAanas));
                     var result = AreaConvertor.ConvertArea(area, guntas,anas);
-                    ViewModel.loadAcres(result, "Area");
-                }
-
+                    ViewModel.loadAcres(result, "Area");            
             }
             if (type == "AKarab")
-            {
-                if (!string.IsNullOrEmpty(ViewModel.EditableItem.AKarabAreaInputAcres) && !string.IsNullOrEmpty(ViewModel.EditableItem.AKarabAreaInputGuntas))
-                {
-                    var area = Convert.ToDecimal(ViewModel.EditableItem.AKarabAreaInputAcres);
-                    var guntas = Convert.ToDecimal(ViewModel.EditableItem.AKarabAreaInputGuntas);
-                    var anas = Convert.ToDecimal(ViewModel.EditableItem.AKarabAreaInputAanas);
+            {                
+                    var area = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.AKarabAreaInputAcres));
+                    var guntas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.AKarabAreaInputGuntas));
+                    var anas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.AKarabAreaInputAanas));
                     var result = AreaConvertor.ConvertArea(area, guntas,anas);
-                    ViewModel.loadAcres(result, "AKarab");
-                }
+                    ViewModel.loadAcres(result, "AKarab");               
             }
             if (type == "BKarab")
-            {
-                if (!string.IsNullOrEmpty(ViewModel.EditableItem.BKarabAreaInputAcres) && !string.IsNullOrEmpty(ViewModel.EditableItem.BKarabAreaInputGuntas))
-                {
-                    var area = Convert.ToDecimal(ViewModel.EditableItem.BKarabAreaInputAcres);
-                    var guntas = Convert.ToDecimal(ViewModel.EditableItem.BKarabAreaInputGuntas);
-                    var anas = Convert.ToDecimal(ViewModel.EditableItem.BKarabAreaInputAanas);
+            {               
+                    var area = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.BKarabAreaInputAcres));
+                    var guntas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.BKarabAreaInputGuntas));
+                    var anas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.BKarabAreaInputAanas));
                     var result = AreaConvertor.ConvertArea(area, guntas,anas);
-                    ViewModel.loadAcres(result, "BKarab");
-                }
+                    ViewModel.loadAcres(result, "BKarab");               
             }
         }
 
