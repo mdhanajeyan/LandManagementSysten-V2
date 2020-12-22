@@ -111,7 +111,7 @@ namespace LandBankManagement.Data.Services
 
             if (property.PropertyGuid != null)
             {
-                var docs = GetPropertyCheckListDocumentsAsync(property.PropertyGuid);
+                var docs =await GetPropertyCheckListDocumentsAsync(property.PropertyGuid);
                 if (docs.Any())
                 {
                     property.PropertyCheckListDocuments = docs;
@@ -129,12 +129,29 @@ namespace LandBankManagement.Data.Services
         }
                 
 
-        private IList<PropertyCheckListDocuments> GetPropertyCheckListDocumentsAsync(Guid id)
+        public async  Task<IList<PropertyCheckListDocuments>> GetPropertyCheckListDocumentsAsync(Guid id)
         {
             try
             {
-                return _dataSource.PropertyCheckListDocuments
-                    .Where(r => r.PropertyGuid == id).ToList();
+                return await _dataSource.PropertyCheckListDocuments
+                    .Where(r => r.PropertyGuid == id).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<int> UploadPropertyCheckListDocumentsAsync(List<PropertyCheckListDocuments> documents)
+        {
+            try
+            {
+                foreach (var doc in documents)
+                {
+                    _dataSource.Entry(doc).State = EntityState.Added;
+                }
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
             }
             catch (Exception ex)
             {

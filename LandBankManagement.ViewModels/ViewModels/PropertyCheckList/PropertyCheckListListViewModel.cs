@@ -94,14 +94,15 @@ namespace LandBankManagement.ViewModels
                 StatusList.Add(new ComboBoxOptions { Id = 1, Description = "Pending" });
                 StatusList.Add(new ComboBoxOptions { Id = 2, Description = "Dropped" });
                 StatusList.Add(new ComboBoxOptions { Id = 3, Description = "Procured" });
-
-                var modals = await GetItemsAsync();             
-
+                ShowProgressRing();
+                var modals = await GetItemsAsync();
+                HideProgressRing();
                 foreach (var obj in modals) {
                     obj.StatusOption = StatusList;
                 }
 
                 Items = modals;
+              
 
                 EndStatusMessage("PropertyCheckList List loaded");
             }

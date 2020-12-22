@@ -74,6 +74,8 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (selected == null)
+                    return;
                 // var model = await PropertyService.GetPropertyAsync(selected.PropertyId);
                 var modelList = await PropertyService.GetPropertyByGroupGuidAsync(selected.GroupGuid.GetValueOrDefault());
                 PropertyDetials.PropertyList = modelList;

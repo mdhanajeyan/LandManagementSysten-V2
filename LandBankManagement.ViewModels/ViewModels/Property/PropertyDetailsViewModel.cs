@@ -231,10 +231,34 @@ namespace LandBankManagement.ViewModels
 
         }
 
+        public ICommand SavePictureCommand => new RelayCommand(OnSaveFile);
+        private async void OnSaveFile()
+        {
+            if (Item.PropertyId > 0) {
+
+                List<ImagePickerResult> docs = new List<ImagePickerResult>();
+                foreach (var doc in DocList) {
+                    if (doc.blobId == 0) {
+                        docs.Add(doc);
+                    }
+                }
+
+                if (docs.Count > 0)
+                {
+                    StartStatusMessage("Saving Property Documents...");
+                    await PropertyService.SaveDocuments(docs,Item.PropertyGuid);
+                    DocList = await PropertyService.GetProeprtyDocuments(Item.PropertyGuid);
+                    EndStatusMessage("Property Documents saved");
+                }
+            }
+
+        }
+
         public void DeleteDocument(int id)
         {
             if (id > 0)
             {
+                StartStatusMessage("Deleteing Property Documents...");
                 if (DocList[id - 1].blobId > 0)
                 {
                     PropertyService.DeletePropertyDocumentAsync(DocList[id - 1]);
@@ -247,6 +271,7 @@ namespace LandBankManagement.ViewModels
                 }
                 DocList = null;
                 DocList = newlist;
+                EndStatusMessage("Property Documents deleted");
             }
         }
 
@@ -380,6 +405,9 @@ namespace LandBankManagement.ViewModels
             }
         }
 
+        public async Task ValidationMeassge(string message) {
+             await DialogService.ShowAsync("Validation Error", message, "Ok");
+        }
         protected override async Task<bool> ConfirmDeleteAsync()
         {
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Property?", "Ok", "Cancel");

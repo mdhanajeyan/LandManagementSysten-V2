@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LandBankManagement.ViewModels
 {
@@ -52,7 +53,7 @@ namespace LandBankManagement.ViewModels
 
         virtual public string Title => String.Empty;
 
-        public void ShowProgressRing() {
+        public async void ShowProgressRing() {
             ProgressRingActive = true;
             ProgressRingVisibility = true;
         }

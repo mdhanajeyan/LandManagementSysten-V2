@@ -4,6 +4,7 @@ using Windows.UI.Xaml.Controls;
 using System;
 using LandBankManagement.Converters;
 using LandBankManagement.Services;
+using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -64,38 +65,80 @@ namespace LandBankManagement.Views
         private string IsNullOrEnpty(string val) {
             return string.IsNullOrEmpty(val) ? "0" : val;
         }
-        public void ConvertArea(string type)
+        private bool IsAnyContentDialogOpen()
+        {
+            return VisualTreeHelper.GetOpenPopups(Window.Current).Count > 0;
+        }
+        public async void ConvertArea(string type)
         {
             if (type == "Area")
-            {               
-                    var area = Convert.ToDecimal(IsNullOrEnpty( ViewModel.EditableItem.LandAreaInputAcres));
-                    var guntas = Convert.ToDecimal(IsNullOrEnpty( ViewModel.EditableItem.LandAreaInputGuntas));
-                    var anas= Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.LandAreaInputAanas));
-                    var result = AreaConvertor.ConvertArea(area, guntas,anas);
-                    ViewModel.loadAcres(result, "Area");            
+            {
+                var area = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.LandAreaInputAcres));
+                var guntas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.LandAreaInputGuntas));
+                var anas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.LandAreaInputAanas));
+
+                if (guntas > 40 && !IsAnyContentDialogOpen())
+                {
+                    await ViewModel.ValidationMeassge("Land Area Gundas Shoud not be greater than 40");
+                    ViewModel.EditableItem.LandAreaInputGuntas = "0";
+                    return;
+                }
+                if (anas > 16 && !IsAnyContentDialogOpen())
+                {
+                    await ViewModel.ValidationMeassge("Land Area Anas Shoud not be greater than 16");
+                    ViewModel.EditableItem.LandAreaInputAanas = "0";
+                    return;
+                }
+                var result = AreaConvertor.ConvertArea(area, guntas, anas);
+                ViewModel.loadAcres(result, "Area");
             }
             if (type == "AKarab")
-            {                
-                    var area = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.AKarabAreaInputAcres));
-                    var guntas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.AKarabAreaInputGuntas));
-                    var anas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.AKarabAreaInputAanas));
-                    var result = AreaConvertor.ConvertArea(area, guntas,anas);
-                    ViewModel.loadAcres(result, "AKarab");               
+            {
+                var area = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.AKarabAreaInputAcres));
+                var guntas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.AKarabAreaInputGuntas));
+                var anas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.AKarabAreaInputAanas));
+
+                if (guntas > 40 && !IsAnyContentDialogOpen())
+                {
+                    await ViewModel.ValidationMeassge("Akarab Gundas Shoud not be greater than 40");
+                    ViewModel.EditableItem.AKarabAreaInputGuntas = "0";
+                    return;
+                }
+                if (anas > 16 && !IsAnyContentDialogOpen())
+                {
+                    await ViewModel.ValidationMeassge("Akarab Anas Shoud not be greater than 16");
+                    ViewModel.EditableItem.AKarabAreaInputAanas = "0";
+                    return;
+                }
+                var result = AreaConvertor.ConvertArea(area, guntas, anas);
+                ViewModel.loadAcres(result, "AKarab");
             }
             if (type == "BKarab")
-            {               
-                    var area = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.BKarabAreaInputAcres));
-                    var guntas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.BKarabAreaInputGuntas));
-                    var anas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.BKarabAreaInputAanas));
-                    var result = AreaConvertor.ConvertArea(area, guntas,anas);
-                    ViewModel.loadAcres(result, "BKarab");               
+            {
+                var area = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.BKarabAreaInputAcres));
+                var guntas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.BKarabAreaInputGuntas));
+                var anas = Convert.ToDecimal(IsNullOrEnpty(ViewModel.EditableItem.BKarabAreaInputAanas));
+                if (guntas > 40 && !IsAnyContentDialogOpen())
+                {
+                    await ViewModel.ValidationMeassge("Bkarab Gundas Shoud not be greater than 40");
+                    ViewModel.EditableItem.BKarabAreaInputGuntas = "0";
+                    return;
+                }
+                if (anas > 16 && !IsAnyContentDialogOpen())
+                {
+                    await ViewModel.ValidationMeassge("Bkarab Anas Shoud not be greater than 16");
+                    ViewModel.EditableItem.BKarabAreaInputAanas = "0";
+                    return;
+                }
+                var result = AreaConvertor.ConvertArea(area, guntas, anas);
+                ViewModel.loadAcres(result, "BKarab");
             }
         }
 
-        private void Doc_Delete_Click(object sender, RoutedEventArgs e)
+        private async void Doc_Delete_Click(object sender, RoutedEventArgs e)
         {
             var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
-            ViewModel.DeleteDocument(identity);
+            await ViewModel.DeleteDocument(identity);
         }
 
         private void SurveyNoTxt_LostFocus(object sender, RoutedEventArgs e)

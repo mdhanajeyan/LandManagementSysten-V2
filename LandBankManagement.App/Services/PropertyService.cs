@@ -50,6 +50,7 @@ namespace LandBankManagement.Services
             }
         }
 
+
         static private async Task<PropertyModel> GetPropertyAsync(IDataService dataService, long id)
         {
             var item = await dataService.GetPropertyAsync(id);
@@ -60,6 +61,47 @@ namespace LandBankManagement.Services
                 
             }
             return null;
+        }
+        public async Task<int> SaveDocuments(ICollection<ImagePickerResult> docs,Guid propertyGuid) {
+            if (docs != null && docs.Count > 0)
+            {
+                using (var dataService = DataServiceFactory.CreateDataService())
+                {
+                    List<PropertyDocuments> docList = new List<PropertyDocuments>();
+                    foreach (var obj in docs)
+                    {
+                        var doc = new PropertyDocuments();
+                        UpdateDocumentFromModel(doc, obj);
+                        doc.PropertyGuid = propertyGuid;
+                        docList.Add(doc);
+                    }
+                    return await dataService.UploadPropertyDocumentsAsync(docList);
+                }
+            }
+            return 0;
+        }
+
+        public async Task<ObservableCollection<ImagePickerResult>> GetProeprtyDocuments(Guid propertyGuid) {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
+                var items = await dataService.GetPropertyDocumentsAsync(propertyGuid);
+                foreach (var doc in items)
+                {
+                    docs.Add(new ImagePickerResult
+                    {
+                        blobId = doc.PropertyBlobId,
+                        guid = doc.PropertyGuid,
+                        FileName = doc.FileName,
+                        ImageBytes = doc.FileBlob,
+                        ContentType = doc.FileType,
+                        Size = doc.FileLenght,
+                        FileCategoryId = doc.FileCategoryId
+                    });
+                }
+               
+                return docs;
+            }
         }
 
         public async Task<PropertyModel> GetPropertyAsync(long id)
@@ -423,21 +465,21 @@ namespace LandBankManagement.Services
             target.PropertyGMapLink = source.PropertyGMapLink;
             target.LandAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
             target.LandAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputGuntas) ? "0" : source.LandAreaInputGuntas);
-            target.LandAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAanas) ? "0" : source.LandAreaInputGuntas);
+            target.LandAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAanas) ? "0" : source.LandAreaInputAanas);
             target.LandAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInAcres) ? "0" : source.LandAreaInAcres);
             target.LandAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInGuntas) ? "0" : source.LandAreaInGuntas);
             target.LandAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInSqMts) ? "0" : source.LandAreaInSqMts);
             target.LandAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInSqft) ? "0" : source.LandAreaInSqft);
             target.AKarabAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputAcres) ? "0" : source.AKarabAreaInputAcres);
             target.AKarabAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputGuntas) ? "0" : source.AKarabAreaInputGuntas);
-            target.AKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputAanas) ? "0" : source.AKarabAreaInputGuntas);
+            target.AKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputAanas) ? "0" : source.AKarabAreaInputAanas);
             target.AKarabAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInAcres) ? "0" : source.AKarabAreaInAcres);
             target.AKarabAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInGuntas) ? "0" : source.AKarabAreaInGuntas);
             target.AKarabAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInSqft) ? "0" : source.AKarabAreaInSqft);
             target.AKarabAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
             target.BKarabAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAcres) ? "0" : source.BKarabAreaInputAcres);
             target.BKarabAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputGuntas) ? "0" : source.BKarabAreaInputGuntas);
-            target.BKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAanas) ? "0" : source.BKarabAreaInputGuntas);
+            target.BKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAanas) ? "0" : source.BKarabAreaInputAanas);
             target.BKarabAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInAcres) ? "0" : source.BKarabAreaInAcres);
             target.BKarabAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInGuntas) ? "0" : source.BKarabAreaInGuntas);
             target.BKarabAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInSqMts) ? "0" : source.BKarabAreaInSqMts);

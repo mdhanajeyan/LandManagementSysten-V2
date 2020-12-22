@@ -87,7 +87,7 @@ namespace LandBankManagement.Data.Services
 
             if (property.PropertyGuid != null)
             {
-                var docs = GetPropertyDocumentsAsync(property.PropertyGuid);
+                var docs =await GetPropertyDocumentsAsync(property.PropertyGuid);
                 if (docs.Any())
                 {
                     property.PropertyDocuments = docs;
@@ -103,7 +103,7 @@ namespace LandBankManagement.Data.Services
             if (properties != null) {
 
                 foreach (var model in properties) {
-                    var docs = GetPropertyDocumentsAsync(model.PropertyGuid);
+                    var docs =await GetPropertyDocumentsAsync(model.PropertyGuid);
                     if (docs.Any())
                     {
                         model.PropertyDocuments = docs;
@@ -115,12 +115,12 @@ namespace LandBankManagement.Data.Services
             return properties;
         }
 
-        private List<PropertyDocuments> GetPropertyDocumentsAsync(Guid id)
+        public async Task<List<PropertyDocuments>> GetPropertyDocumentsAsync(Guid id)
         {
             try
             {
-                return _dataSource.PropertyDocuments
-                    .Where(r => r.PropertyGuid == id).ToList();
+                return await _dataSource.PropertyDocuments
+                    .Where(r => r.PropertyGuid == id).ToListAsync();
             }
             catch (Exception ex) {
                 throw ex;

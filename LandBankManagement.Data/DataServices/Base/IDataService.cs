@@ -129,6 +129,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UploadPropertyDocumentsAsync(List<PropertyDocuments> model);
         Task<int> DeletePropertyDocumentAsync(PropertyDocuments documents);
         Task<List<Property>> GetPropertyByGroupGuidAsync(Guid guid);
+        Task<List<PropertyDocuments>> GetPropertyDocumentsAsync(Guid id);
 
         Task<int> AddPropertyTypeAsync(PropertyType model);
         Task<PropertyType> GetPropertyTypeAsync(long id);
@@ -239,6 +240,8 @@ namespace LandBankManagement.Data.Services
         List<PropertyCheckListVendor> GetPropertyCheckListVendors(int id);
 
         Task<int> UpdatePropertyCheckListStatusAsync(int id,int status,string remarks);
+        Task<IList<PropertyCheckListDocuments>> GetPropertyCheckListDocumentsAsync(Guid id);
+        Task<int> UploadPropertyCheckListDocumentsAsync(List<PropertyCheckListDocuments> documents);
 
     }
 }

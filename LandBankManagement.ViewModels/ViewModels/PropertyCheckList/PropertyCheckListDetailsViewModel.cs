@@ -127,6 +127,13 @@ namespace LandBankManagement.ViewModels
             HideProgressRing();
             Item = model;           
             VendorList = model.PropertyCheckListVendors;
+            if (model.PropertyCheckListDocuments != null)
+            {
+                for (int i = 0; i < model.PropertyCheckListDocuments.Count; i++)
+                {
+                    model.PropertyCheckListDocuments[i].Identity = i + 1;
+                }
+            }
             DocList = model.PropertyCheckListDocuments;
             PrepareCheckList();
             RestartItem();
@@ -286,13 +293,44 @@ namespace LandBankManagement.ViewModels
 
         }
 
-        public void DeleteDocument(int id)
+        public ICommand SavePictureCommand => new RelayCommand(OnSaveFile);
+        private async void OnSaveFile()
+        {
+            if (Item.PropertyCheckListId > 0)
+            {
+
+                List<PropertyCheckListDocumentsModel> docs = new List<PropertyCheckListDocumentsModel>();
+                foreach (var doc in DocList)
+                {
+                    if (doc.PropertyCheckListBlobId == 0)
+                    {
+                        docs.Add(doc);
+                    }
+                }
+
+                if (docs.Count > 0)
+                {
+                    StartStatusMessage("Saving Property Documents...");
+                    await PropertyCheckListService.SaveDocuments(docs, Item.PropertyGuid);
+                    DocList = await PropertyCheckListService.GetDocuments(Item.PropertyGuid);
+                    for (int i = 0; i < DocList.Count; i++)
+                    {
+                        DocList[i].Identity = i + 1;
+                    }
+                    EndStatusMessage("Property Documents saved");
+                }
+            }
+
+        }
+
+        public async Task DeleteDocument(int id)
         {
             if (id > 0)
             {
-                if (DocList[id - 1].blobId > 0)
+                StartStatusMessage("Deleting Property Documents...");
+                if (DocList[id - 1].PropertyCheckListBlobId > 0)
                 {
-                    PropertyCheckListService.DeletePropertyDocumentAsync(DocList[id - 1]);
+                   await PropertyCheckListService.DeletePropertyDocumentAsync(DocList[id - 1]);
                 }
                 DocList.RemoveAt(id - 1);
                 var newlist = DocList;
@@ -302,6 +340,7 @@ namespace LandBankManagement.ViewModels
                 }
                 DocList = null;
                 DocList = newlist;
+                EndStatusMessage("Property Documents deleted");
             }
         }
 
@@ -428,7 +467,10 @@ namespace LandBankManagement.ViewModels
         {
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Property?", "Ok", "Cancel");
         }
-
+        public async Task ValidationMeassge(string message)
+        {
+            await DialogService.ShowAsync("Validation Error", message, "Ok");
+        }
         override protected IEnumerable<IValidationConstraint<PropertyCheckListModel>> GetValidationConstraints(PropertyCheckListModel model)
         {
            yield return new RequiredConstraint<PropertyCheckListModel>("Proeprty Name", m => m.PropertyName);

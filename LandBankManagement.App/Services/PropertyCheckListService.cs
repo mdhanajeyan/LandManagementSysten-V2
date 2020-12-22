@@ -160,6 +160,54 @@ namespace LandBankManagement.Services
             }
         }
 
+        public async Task<int> SaveDocuments(ICollection<PropertyCheckListDocumentsModel> docs, Guid propertyGuid)
+        {
+            if (docs != null && docs.Count > 0)
+            {
+                using (var dataService = DataServiceFactory.CreateDataService())
+                {
+                    List<PropertyCheckListDocuments> docList = new List<PropertyCheckListDocuments>();
+                    foreach (var obj in docs)
+                    {
+                        var doc = new PropertyCheckListDocuments();
+                        UpdateDocumentFromModel(doc, obj);
+                        doc.PropertyGuid = propertyGuid;
+                        docList.Add(doc);
+                    }
+                    return await dataService.UploadPropertyCheckListDocumentsAsync(docList);
+                }
+            }
+            return 0;
+        }
+
+        public async Task<ObservableCollection<PropertyCheckListDocumentsModel>> GetDocuments(Guid propertyGuid)
+        {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                ObservableCollection<PropertyCheckListDocumentsModel> docList = new ObservableCollection<PropertyCheckListDocumentsModel>();
+                var items = await dataService.GetPropertyCheckListDocumentsAsync(propertyGuid);
+                foreach (var obj in items)
+                {
+                    docList.Add(new PropertyCheckListDocumentsModel
+                    {
+                        PropertyCheckListBlobId = obj.PropertyCheckListBlobId,
+                        guid = obj.PropertyGuid,
+                        ImageBytes = obj.FileBlob,
+                        FileName = obj.FileName,
+                        ContentType = obj.FileType,
+                        FileCategoryId = obj.FileCategoryId,
+                        UploadTime = obj.UploadTime,
+                        DueDate = obj.DueDate,
+                        ActualCompletionDate = obj.ActualCompletionDate,
+                        Remarks = obj.Remarks
+                    });
+                }
+
+                return docList;
+            }
+        }
+
+
         static public async Task<PropertyCheckListModel> CreatePropertyCheckListModelAsync(PropertyCheckList source, bool includeAllFields)
         {
             var model = new PropertyCheckListModel()
@@ -384,7 +432,7 @@ namespace LandBankManagement.Services
 
         private void UpdateDocumentFromModel(PropertyCheckListDocuments target, PropertyCheckListDocumentsModel source)
         {
-            target.PropertyCheckListBlobId = source.blobId;
+            target.PropertyCheckListBlobId = source.PropertyCheckListBlobId;
             target.PropertyGuid = source.guid;
             target.FileBlob = source.ImageBytes;
             target.FileName = source.FileName;
