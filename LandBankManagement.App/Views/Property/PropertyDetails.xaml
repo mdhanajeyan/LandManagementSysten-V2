@@ -203,7 +203,7 @@
                                     </Button.Resources>
                                 </Button>
                                     <Button x:Name="SaveDocBtn"   Height="35" Margin="10 0 0 0"  Background="Transparent" Padding="5"  Command="{x:Bind SavePictureCommand}" HorizontalAlignment="Right">
-                                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74E;" Foreground="#2b79e0"  HorizontalAlignment="Left"/>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74E;" Foreground="#039BE5"  HorizontalAlignment="Left"/>
                                         <Button.Resources>
                                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                         </Button.Resources>
@@ -271,7 +271,7 @@
                                 <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="300" >
                                     <muxc:ItemsRepeater ItemsSource="{x:Bind PropertyList,Mode=TwoWay}" >
                                         <DataTemplate>
-                                            <Button x:Name="SelectedPropertyInGroup" Tag="{Binding PropertyId}" Grid.Column="1" Height="35" Margin="2"   Background="#BCEB3F" Padding="10 5 10 5"  Click="SelectedPropertyInGroup_Click" HorizontalAlignment="Stretch">
+                                            <Button x:Name="SelectedPropertyInGroup" Tag="{Binding PropertyId}" Grid.Column="1" Height="35" Margin="2"   Background="#B3E5FC" Padding="10 5 10 5"  Click="SelectedPropertyInGroup_Click" HorizontalAlignment="Stretch">
                                                 <TextBlock x:Name="PropertyName" Text="{Binding PropertyName}" TextTrimming="CharacterEllipsis"  ></TextBlock>
                                                 <Button.Resources>
                                                     <Style TargetType="Button">
