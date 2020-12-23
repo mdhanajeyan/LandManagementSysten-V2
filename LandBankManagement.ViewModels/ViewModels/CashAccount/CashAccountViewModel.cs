@@ -13,18 +13,42 @@ namespace LandBankManagement.ViewModels
         public CashAccountListViewModel CashAccountList { get; set; }
 
         public CashAccountDetailsViewModel CashAccountDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
 
         public CashAccountViewModel(ICommonServices commonServices, IFilePickerService filePickerService, ICashAccountService cashAccountService, IDropDownService dropDownService) : base(commonServices)
         {
             CashAccountService = cashAccountService;
-            CashAccountList = new CashAccountListViewModel(cashAccountService, commonServices);
-            CashAccountDetials = new CashAccountDetailsViewModel(cashAccountService, filePickerService, commonServices, dropDownService, CashAccountList);
+            CashAccountList = new CashAccountListViewModel(cashAccountService, commonServices,this);
+            CashAccountDetials = new CashAccountDetailsViewModel(cashAccountService, filePickerService, commonServices, dropDownService, CashAccountList,this);
         }
 
         public async Task LoadAsync(CashAccountListArgs args)
         {
             CashAccountDetials.Load();
                await CashAccountList.LoadAsync(args);
+        }
+
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
         }
         public void Unload()
         {
@@ -72,9 +96,11 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await CashAccountService.GetCashAccountAsync(selected.CashAccountId);
                 selected.Merge(model);
                 CashAccountDetials.Item = model;
+                HideProgressRing();
             }
             catch (Exception ex)
             {

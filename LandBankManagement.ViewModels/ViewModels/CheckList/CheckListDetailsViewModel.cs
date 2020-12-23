@@ -14,11 +14,14 @@ namespace LandBankManagement.ViewModels
         public ICheckListService CheckListService { get; }
         public IFilePickerService FilePickerService { get; }
         public CheckListListViewModel CheckListListViewModel { get; }
-        public CheckListDetailsViewModel(ICheckListService checkListService, IFilePickerService filePickerService, ICommonServices commonServices, CheckListListViewModel checkListListViewModel) : base(commonServices)
+        private CheckListViewModel CheckListViewModel { get; set; }
+
+        public CheckListDetailsViewModel(ICheckListService checkListService, IFilePickerService filePickerService, ICommonServices commonServices, CheckListListViewModel checkListListViewModel, CheckListViewModel checkListViewModel) : base(commonServices)
         {
             CheckListService = checkListService;
             FilePickerService = filePickerService;
             CheckListListViewModel = checkListListViewModel;
+            CheckListViewModel = checkListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New CheckList" : TitleEdit;
@@ -81,7 +84,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving CheckList...");
-                
+                CheckListViewModel.ShowProgressRing();
                 if (model.CheckListId <= 0)
                     await CheckListService.AddCheckListAsync(model);
                 else
@@ -98,6 +101,9 @@ namespace LandBankManagement.ViewModels
                 LogException("CheckList", "Save", ex);
                 return false;
             }
+            finally {
+                CheckListViewModel.HideProgressRing();
+            }
         }
 
         protected override void ClearItem()
@@ -109,7 +115,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting CheckList...");
-                
+                CheckListViewModel.ShowProgressRing();
                 await CheckListService.DeleteCheckListAsync(model);
                 await CheckListListViewModel.RefreshAsync();
                 ClearItem();
@@ -122,6 +128,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting CheckList: {ex.Message}");
                 LogException("CheckList", "Delete", ex);
                 return false;
+            }
+            finally {
+                CheckListViewModel.HideProgressRing();
             }
         }
 

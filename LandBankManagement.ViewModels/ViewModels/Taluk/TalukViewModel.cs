@@ -12,12 +12,24 @@ namespace LandBankManagement.ViewModels
         public TalukListViewModel TalukList { get; set; }
 
         public TalukDetailsViewModel TalukDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
 
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public TalukViewModel(ICommonServices commonServices, IFilePickerService filePickerService, ITalukService talukService) : base(commonServices)
         {
             TalukService = talukService;
-            TalukList = new TalukListViewModel(talukService, commonServices);
-            TalukDetials = new TalukDetailsViewModel(talukService, filePickerService, commonServices, TalukList);
+            TalukList = new TalukListViewModel(talukService, commonServices,this);
+            TalukDetials = new TalukDetailsViewModel(talukService, filePickerService, commonServices, TalukList,this);
         }
 
         public async Task LoadAsync(TalukListArgs args)
@@ -29,7 +41,16 @@ namespace LandBankManagement.ViewModels
         {
             TalukList.Unload();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<TalukListViewModel>(this, OnMessage);
@@ -71,6 +92,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await TalukService.GetTalukAsync(selected.TalukId);
                 selected.Merge(model);
                 TalukDetials.Item = model;
@@ -79,6 +101,7 @@ namespace LandBankManagement.ViewModels
             {
                 LogException("Taluk", "Load Details", ex);
             }
+            HideProgressRing();
         }
     }
 }

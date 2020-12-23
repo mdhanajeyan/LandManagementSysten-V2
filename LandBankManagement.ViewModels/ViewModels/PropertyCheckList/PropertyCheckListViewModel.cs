@@ -13,12 +13,25 @@ namespace LandBankManagement.ViewModels
         IPropertyCheckListService PropertyCheckListService { get; }
         public PropertyCheckListListViewModel ViewModelList { get; set; }
         public PropertyCheckListDetailsViewModel PropertyCheckListDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public PropertyCheckListViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IPropertyService propertyService, IPropertyCheckListService propertyCheckListService) : base(commonServices)
         {
             PropertyService = propertyService;
             PropertyCheckListService = propertyCheckListService;
-            ViewModelList = new PropertyCheckListListViewModel(PropertyCheckListService,commonServices);
-            PropertyCheckListDetials = new PropertyCheckListDetailsViewModel(dropDownService, PropertyCheckListService, propertyService, filePickerService, commonServices, ViewModelList);
+            ViewModelList = new PropertyCheckListListViewModel(PropertyCheckListService,commonServices,this);
+            PropertyCheckListDetials = new PropertyCheckListDetailsViewModel(dropDownService, PropertyCheckListService, propertyService, filePickerService, commonServices, ViewModelList,this);
         }
 
         public async void LoadAsync(PropertyCheckListListArgs args)
@@ -26,7 +39,16 @@ namespace LandBankManagement.ViewModels
            await PropertyCheckListDetials.LoadAsync();
            await ViewModelList.LoadAsync(args);
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Unload()
         {
             ViewModelList.Unload();
@@ -72,14 +94,17 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
-              
-               // selected.Merge(model);
-                PropertyCheckListDetials.LoadPropertyCheckList(selected.PropertyCheckListId);
+                ShowProgressRing();
+                // selected.Merge(model);
+                await PropertyCheckListDetials.LoadPropertyCheckList(selected.PropertyCheckListId);
                 SelectedPivotIndex = 1;
             }
             catch (Exception ex)
             {
                 LogException("Payments", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
 

@@ -18,12 +18,24 @@ namespace LandBankManagement.ViewModels
         public ExpenseHeadListViewModel ExpenseHeadList { get; set; }
 
         public ExpenseHeadDetailsViewModel ExpenseHeadDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
 
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public ExpenseHeadViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IExpenseHeadService expenseHeadService) : base(commonServices)
         {
             ExpenseHeadService = expenseHeadService;
-            ExpenseHeadList = new ExpenseHeadListViewModel(expenseHeadService, commonServices);
-            ExpenseHeadDetials = new ExpenseHeadDetailsViewModel(expenseHeadService, filePickerService, commonServices, ExpenseHeadList);
+            ExpenseHeadList = new ExpenseHeadListViewModel(expenseHeadService, commonServices,this);
+            ExpenseHeadDetials = new ExpenseHeadDetailsViewModel(expenseHeadService, filePickerService, commonServices, ExpenseHeadList,this);
         }
 
         public async Task LoadAsync(ExpenseHeadListArgs args)
@@ -35,7 +47,16 @@ namespace LandBankManagement.ViewModels
         {
             ExpenseHeadList.Unload();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<ExpenseHeadListViewModel>(this, OnMessage);
@@ -77,6 +98,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await ExpenseHeadService.GetExpenseHeadAsync(selected.ExpenseHeadId);
                 selected.Merge(model);
                 ExpenseHeadDetials.Item = model;
@@ -84,6 +106,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("ExpenseHead", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
     }

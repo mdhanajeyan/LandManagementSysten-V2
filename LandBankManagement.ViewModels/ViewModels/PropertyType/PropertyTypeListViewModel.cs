@@ -31,9 +31,11 @@ namespace LandBankManagement.ViewModels
         public IPropertyTypeService PropertyTypeService { get; }
         public PropertyTypeListArgs ViewModelArgs { get; private set; }
 
-        public PropertyTypeListViewModel(IPropertyTypeService propertyTypeService, ICommonServices commonServices) : base(commonServices)
+        private PropertyTypeViewModel PropertyTypeViewModel { get; set; }
+        public PropertyTypeListViewModel(IPropertyTypeService propertyTypeService, ICommonServices commonServices, PropertyTypeViewModel propertyTypeViewModel) : base(commonServices)
         {
             PropertyTypeService = propertyTypeService;
+            PropertyTypeViewModel = propertyTypeViewModel;
         }
         public async Task LoadAsync(PropertyTypeListArgs args)
         {
@@ -81,6 +83,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                PropertyTypeViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -90,6 +93,7 @@ namespace LandBankManagement.ViewModels
                 LogException("PropertyType", "Refresh", ex);
                 isOk = false;
             }
+            finally { PropertyTypeViewModel.HideProgressRing(); }
 
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)

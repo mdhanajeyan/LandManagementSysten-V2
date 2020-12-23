@@ -12,12 +12,25 @@ namespace LandBankManagement.ViewModels
 
         public PartyListViewModel PartyList { get; set; }
         public PartyDetailsViewModel PartyDetails { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public PartyViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IPartyService partyService,IVendorService vendorService,IDropDownService dropDownService) : base(commonServices)
         {
 
             PartyService = partyService;
-            PartyList = new PartyListViewModel(partyService, commonServices);
-            PartyDetails = new PartyDetailsViewModel(partyService, filePickerService, commonServices, PartyList, dropDownService, vendorService);
+            PartyList = new PartyListViewModel(partyService, commonServices,this);
+            PartyDetails = new PartyDetailsViewModel(partyService, filePickerService, commonServices, PartyList, dropDownService, vendorService,this);
         }
 
         public async Task LoadAsync(PartyListArgs args)
@@ -40,7 +53,16 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
             PartyList.Unsubscribe();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         private async void OnMessage(PartyListViewModel viewModel, string message, object args)
         {
             if (viewModel == PartyList && message == "ItemSelected")
@@ -84,6 +106,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await PartyService.GetPartyAsync(selected.PartyId);
                 selected.Merge(model);
                 PartyDetails.Item = model;
@@ -100,6 +123,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("Partys", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
 

@@ -31,9 +31,11 @@ namespace LandBankManagement.ViewModels
         public ICheckListService CheckListService { get; }
         public CheckListListArgs ViewModelArgs { get; private set; }
 
-        public CheckListListViewModel(ICheckListService checkListService, ICommonServices commonServices) : base(commonServices)
+        private CheckListViewModel CheckListViewModel { get; set; }
+        public CheckListListViewModel(ICheckListService checkListService, ICommonServices commonServices, CheckListViewModel checkListViewModel) : base(commonServices)
         {
             CheckListService = checkListService;
+            CheckListViewModel = checkListViewModel;
         }
         public async Task LoadAsync(CheckListListArgs args)
         {
@@ -81,6 +83,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                CheckListViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -90,7 +93,9 @@ namespace LandBankManagement.ViewModels
                 LogException("CheckList", "Refresh", ex);
                 isOk = false;
             }
-
+            finally {
+                CheckListViewModel.HideProgressRing();
+            }
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {

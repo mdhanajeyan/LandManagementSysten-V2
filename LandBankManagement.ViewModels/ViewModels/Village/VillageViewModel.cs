@@ -14,12 +14,24 @@ namespace LandBankManagement.ViewModels
         public VillageListViewModel VillageList { get; set; }
 
         public VillageDetailsViewModel VillageDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
 
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public VillageViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IVillageService villageService) : base(commonServices)
         {
             VillageService = villageService;
-            VillageList = new VillageListViewModel(villageService, commonServices);
-            VillageDetials = new VillageDetailsViewModel(dropDownService, villageService, filePickerService, commonServices, VillageList);
+            VillageList = new VillageListViewModel(villageService, commonServices,this);
+            VillageDetials = new VillageDetailsViewModel(dropDownService, villageService, filePickerService, commonServices, VillageList,this);
         }
 
         public async Task LoadAsync(VillageListArgs args)
@@ -37,7 +49,16 @@ namespace LandBankManagement.ViewModels
             MessageService.Subscribe<VillageListViewModel>(this, OnMessage);
             VillageList.Subscribe();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Unsubscribe()
         {
             MessageService.Unsubscribe(this);
@@ -73,6 +94,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await VillageService.GetVillageAsync(selected.VillageId);
                 selected.Merge(model);
                 VillageDetials.Item = model;
@@ -80,6 +102,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("Village", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
     }

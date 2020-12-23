@@ -30,10 +30,11 @@ namespace LandBankManagement.ViewModels
     {
         public IUserService UserService { get; }
         public UserListArgs ViewModelArgs { get; private set; }
-
-        public UserListViewModel(IUserService receiptService, ICommonServices commonServices) : base(commonServices)
+        private UserViewModel UserViewModel { get; set; }
+        public UserListViewModel(IUserService receiptService, ICommonServices commonServices, UserViewModel userViewModel) : base(commonServices)
         {
             UserService = receiptService;
+            UserViewModel= userViewModel;
         }
         public async Task LoadAsync(UserListArgs args)
         {
@@ -81,6 +82,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                UserViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -89,6 +91,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error loading User: {ex.Message}");
                 LogException("User", "Refresh", ex);
                 isOk = false;
+            }
+            finally {
+                UserViewModel.HideProgressRing();
             }
 
             ItemsCount = Items.Count;

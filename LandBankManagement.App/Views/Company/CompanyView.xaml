@@ -54,13 +54,14 @@
         <ProgressRing x:Name="progressRing"
                       Height="40"
                       Width="40"
-                      IsActive="{x:Bind ViewModel.ProgressRingActive,Mode=TwoWay}"
+                      IsActive="{x:Bind ViewModel.NewProgressRingActive,Mode=TwoWay}"
                       Foreground="Black"
                       Canvas.Left="650"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      Canvas.Top="550"  Visibility="{Binding Path=ProgressRingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
+                      Canvas.Top="550"  Visibility="{Binding Path=NewProgressRingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
 />
+       
         <!--<Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

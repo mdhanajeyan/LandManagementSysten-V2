@@ -33,6 +33,7 @@ namespace LandBankManagement.Data.Services
                     BankAccountId = model.BankAccountId,
                     CashAccountId = model.CashAccountId
                 };
+                entity.Amount = model.PaymentLists.Sum(x => x.Amount);
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
 
@@ -110,7 +111,10 @@ namespace LandBankManagement.Data.Services
                     PDC = source.PDC,
                     BankAccountId = source.BankAccountId,
                     CashAccountId = source.CashAccountId,
-                    AccountName=source.AccountName
+                    AccountName=source.AccountName,
+                    CompanyName=source.CompanyName,
+                   PropertyName=source.PropertyName,
+                   DocumentTypeName=source.DocumentTypeName
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -121,8 +125,11 @@ namespace LandBankManagement.Data.Services
         private IQueryable<Payment> GetPayments(DataRequest<Payment> request)
         {
             IQueryable<Payment> items = from pay in _dataSource.Payments
-                                        from c in _dataSource.CashAccounts.Where(c=>c.CashAccountId==pay.CashAccountId).DefaultIfEmpty()
-                                          from b in _dataSource.BankAccounts.Where(b=>b.BankAccountId== pay.BankAccountId).DefaultIfEmpty()
+                                        from c in _dataSource.Companies.Where(x=>x.CompanyID==pay.PayeeId).DefaultIfEmpty()
+                                        from p in _dataSource.Parties.Where(x => x.PartyId == pay.PartyId).DefaultIfEmpty()
+                                        from e in _dataSource.ExpenseHeads.Where(x => x.ExpenseHeadId == pay.ExpenseHeadId).DefaultIfEmpty()
+                                        from py in _dataSource.Properties.Where(x => x.PropertyId == pay.PropertyId).DefaultIfEmpty()
+                                        from d in _dataSource.DocumentTypes.Where(x => x.DocumentTypeId == pay.DocumentTypeId).DefaultIfEmpty()
                                         select new Payment
                                         {
                                             PaymentId = pay.PaymentId,
@@ -141,7 +148,10 @@ namespace LandBankManagement.Data.Services
                                             PDC = pay.PDC,
                                             BankAccountId = pay.BankAccountId,
                                             CashAccountId = pay.CashAccountId,
-                                             AccountName=(pay.PayeeTypeId==1)?c.CashAccountName:b.BankName
+                                            AccountName = (pay.PartyId > 0) ? p.PartyFirstName : e.ExpenseHeadName,
+                                            CompanyName=c.Name,
+                                            DocumentTypeName=d.DocumentTypeName,
+                                            PropertyName=py.PropertyName
                                         };
             //  IQueryable<Payment> items =  _dataSource.Payments;
             // Query
@@ -189,6 +199,7 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> UpdatePaymentAsync(Payment model)
         {
+            model.Amount = model.PaymentLists.Sum(x => x.Amount);
             _dataSource.Entry(model).State = EntityState.Modified;
             int res = await _dataSource.SaveChangesAsync();
 

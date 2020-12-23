@@ -12,12 +12,24 @@ namespace LandBankManagement.ViewModels
         public DocumentTypeListViewModel DocumentTypeList { get; set; }
 
         public DocumentTypeDetailsViewModel DocumentTypeDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
 
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public DocumentTypeViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IDocumentTypeService documentTypeService) : base(commonServices)
         {
             DocumentTypeService = documentTypeService;
-            DocumentTypeList = new DocumentTypeListViewModel(documentTypeService, commonServices);
-            DocumentTypeDetials = new DocumentTypeDetailsViewModel(documentTypeService, filePickerService, commonServices, DocumentTypeList);
+            DocumentTypeList = new DocumentTypeListViewModel(documentTypeService, commonServices,this);
+            DocumentTypeDetials = new DocumentTypeDetailsViewModel(documentTypeService, filePickerService, commonServices, DocumentTypeList,this);
         }
 
         public async Task LoadAsync(DocumentTypeListArgs args)
@@ -28,7 +40,16 @@ namespace LandBankManagement.ViewModels
         {
             DocumentTypeList.Unload();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<DocumentTypeListViewModel>(this, OnMessage);
@@ -70,9 +91,11 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await DocumentTypeService.GetDocumentTypeAsync(selected.DocumentTypeId);
                 selected.Merge(model);
                 DocumentTypeDetials.Item = model;
+                HideProgressRing();
             }
             catch (Exception ex)
             {

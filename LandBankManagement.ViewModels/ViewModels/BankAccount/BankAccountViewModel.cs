@@ -12,18 +12,41 @@ namespace LandBankManagement.ViewModels
         public BankAccountListViewModel BankAccountList { get; set; }
 
         public BankAccountDetailsViewModel BankAccountDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
 
         public BankAccountViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IBankAccountService bankAccountService, IDropDownService dropDownService) : base(commonServices)
         {
             BankAccountService = bankAccountService;
-            BankAccountList = new BankAccountListViewModel(bankAccountService, commonServices);
-            BankAccountDetials = new BankAccountDetailsViewModel(bankAccountService, filePickerService, commonServices, dropDownService, BankAccountList);
+            BankAccountList = new BankAccountListViewModel(bankAccountService, commonServices,this);
+            BankAccountDetials = new BankAccountDetailsViewModel(bankAccountService, filePickerService, commonServices, dropDownService, BankAccountList,this);
         }
 
         public async Task LoadAsync(BankAccountListArgs args)
         {
             BankAccountDetials.Load();
             await BankAccountList.LoadAsync(args);
+        }
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
         }
         public void Unload()
         {
@@ -71,9 +94,11 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await BankAccountService.GetBankAccountAsync(selected.BankAccountId);
                 selected.Merge(model);
                 BankAccountDetials.Item = model;
+                HideProgressRing();
             }
             catch (Exception ex)
             {

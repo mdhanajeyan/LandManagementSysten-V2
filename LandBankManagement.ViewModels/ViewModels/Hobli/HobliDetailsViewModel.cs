@@ -22,12 +22,14 @@ namespace LandBankManagement.ViewModels
         public IFilePickerService FilePickerService { get; }
       public IDropDownService DropDownService { get; }
         public HobliListViewModel HobliListViewModel { get; }
-        public HobliDetailsViewModel(IHobliService hobliService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService,HobliListViewModel hobliListViewModel) : base(commonServices)
+        private HobliViewModel HobliViewModel { get; set; }
+        public HobliDetailsViewModel(IHobliService hobliService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService,HobliListViewModel hobliListViewModel, HobliViewModel hobliViewModel) : base(commonServices)
         {
             HobliService = hobliService;
             FilePickerService = filePickerService;
             DropDownService = dropDownService;
             HobliListViewModel = hobliListViewModel;
+            HobliViewModel = hobliViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Hobli" : TitleEdit;
@@ -66,7 +68,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Hobli...");
-                
+                HobliViewModel.ShowProgressRing();
                 if (model.HobliId <= 0)
                 {
                     await HobliService.AddHobliAsync(model);
@@ -85,6 +87,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Hobli", "Save", ex);
                 return false;
             }
+            finally {
+                HobliViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -95,9 +100,10 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Hobli...");
-                
-                var result=await HobliService.DeleteHobliAsync(model);
-                if (!result.IsOk) {
+                HobliViewModel.ShowProgressRing();
+                var result = await HobliService.DeleteHobliAsync(model);
+                if (!result.IsOk)
+                {
                     await DialogService.ShowAsync(result.Message, "");
                     EndStatusMessage(result.Message);
                     return true;
@@ -114,6 +120,7 @@ namespace LandBankManagement.ViewModels
                 LogException("Hobli", "Delete", ex);
                 return false;
             }
+            finally { HobliViewModel.HideProgressRing(); }
         }
 
         protected override async Task<bool> ConfirmDeleteAsync()

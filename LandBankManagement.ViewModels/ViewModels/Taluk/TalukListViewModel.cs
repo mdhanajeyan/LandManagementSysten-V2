@@ -31,9 +31,11 @@ namespace LandBankManagement.ViewModels
         public ITalukService TalukService { get; }
         public TalukListArgs ViewModelArgs { get; private set; }
 
-        public TalukListViewModel(ITalukService talukService, ICommonServices commonServices) : base(commonServices)
+        private TalukViewModel TalukViewModel { get; set; }
+        public TalukListViewModel(ITalukService talukService, ICommonServices commonServices, TalukViewModel talukViewModel) : base(commonServices)
         {
             TalukService = talukService;
+            TalukViewModel = talukViewModel;
         }
         public async Task LoadAsync(TalukListArgs args)
         {
@@ -81,6 +83,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                TalukViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -90,7 +93,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Taluk", "Refresh", ex);
                 isOk = false;
             }
-
+            finally {
+                TalukViewModel.HideProgressRing();
+            }
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {

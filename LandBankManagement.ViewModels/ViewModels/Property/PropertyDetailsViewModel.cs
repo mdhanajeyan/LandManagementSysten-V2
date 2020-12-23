@@ -88,13 +88,14 @@ namespace LandBankManagement.ViewModels
             get => _propertyList;
             set => Set(ref _propertyList, value);
         }
-
-        public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel villageListViewModel) : base(commonServices)
+        public PropertyViewModel PropertyView { get; set; }
+        public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel propertyListViewModel, PropertyViewModel propertyView) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             PropertyService = propertyService;
-            PropertyListViewModel = villageListViewModel;
+            PropertyListViewModel = propertyListViewModel;
+            PropertyView = propertyView;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Property" : TitleEdit;
@@ -148,17 +149,20 @@ namespace LandBankManagement.ViewModels
         }
         private void GetDropdowns()
         {
+            PropertyView.ShowProgressRing();
             CompanyOptions = DropDownService.GetCompanyOptions();
             HobliOptions = DropDownService.GetHobliOptions();
             TalukOptions = DropDownService.GetTalukOptions();
             VillageOptions = DropDownService.GetVillageOptions();
             DocumentTypeOptions = DropDownService.GetDocumentTypeOptions();
             PropertyTypeOptions = DropDownService.GetPropertyTypeOptions();
+            PropertyView.HideProgressRing();
         }
 
         public void GetParties() {
-
+            PropertyView.ShowProgressRing();
             PartyOptions = DropDownService.GetPartyOptions(PartySearchQuery);
+            PropertyView.HideProgressRing();
         }
 
         public void PreparePartyList() {
@@ -189,7 +193,9 @@ namespace LandBankManagement.ViewModels
 
             var model = PropertyList.First(x => x.PropertyId == id);
             Item = model;
+            PropertyView.ShowProgressRing();
             await GetPropertyParties(id);
+            PropertyView.HideProgressRing();
             DocList = model.PropertyDocuments;
             if (model.PropertyDocuments != null)
             {
@@ -203,8 +209,10 @@ namespace LandBankManagement.ViewModels
         public async void RemoveParty(int id) {
             var model = PartyList.First(x => x.PartyId == id);
             if (model.PropertyPartyId > 0) {
+                PropertyView.ShowProgressRing();
                await PropertyService.DeletePropertyPartyAsync(model);
                await  GetPropertyParties(Item.PropertyId);
+                PropertyView.HideProgressRing();
             }
             else
             PartyList.Remove(model);
@@ -246,8 +254,14 @@ namespace LandBankManagement.ViewModels
                 if (docs.Count > 0)
                 {
                     StartStatusMessage("Saving Property Documents...");
+                    PropertyView.ShowProgressRing();
                     await PropertyService.SaveDocuments(docs,Item.PropertyGuid);
                     DocList = await PropertyService.GetProeprtyDocuments(Item.PropertyGuid);
+                    for (int i = 0; i < DocList.Count; i++)
+                    {
+                        DocList[i].Identity = i + 1;
+                    }
+                    PropertyView.HideProgressRing();
                     EndStatusMessage("Property Documents saved");
                 }
             }
@@ -261,6 +275,7 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleteing Property Documents...");
                 if (DocList[id - 1].blobId > 0)
                 {
+                    PropertyView.ShowProgressRing();
                     PropertyService.DeletePropertyDocumentAsync(DocList[id - 1]);
                 }
                 DocList.RemoveAt(id - 1);
@@ -271,6 +286,7 @@ namespace LandBankManagement.ViewModels
                 }
                 DocList = null;
                 DocList = newlist;
+                PropertyView.HideProgressRing();
                 EndStatusMessage("Property Documents deleted");
             }
         }
@@ -309,15 +325,15 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Property...");
-
+                PropertyView.ShowProgressRing();
                 if (model.PropertyId <= 0)
-                   model= await PropertyService.AddPropertyAsync(model, DocList);
+                    model = await PropertyService.AddPropertyAsync(model, DocList);
                 else
                     await PropertyService.UpdatePropertyAsync(model, DocList);
-               
-                  SaveParties(model);
+
+                SaveParties(model);
                 ReloadProperty(model.GroupGuid.Value, model.PropertyId);
-             // await GetPropertyParties(model.PropertyId);
+                // await GetPropertyParties(model.PropertyId);
                 EndStatusMessage("Property saved");
                 LogInformation("Property", "Save", "Property saved successfully", $"Property {model.PropertyId} '{model.PropertyName}' was saved successfully.");
                 return true;
@@ -328,9 +344,13 @@ namespace LandBankManagement.ViewModels
                 LogException("Property", "Save", ex);
                 return false;
             }
+            finally {
+                PropertyView.HideProgressRing();
+            }
         }
 
         private async void ReloadProperty(Guid guid,int propertId) {
+            PropertyView.ShowProgressRing();
              PropertyList = await PropertyService.GetPropertyByGroupGuidAsync(guid);
             
             var model = PropertyList.Where(x=>x.PropertyId==propertId).FirstOrDefault();
@@ -345,6 +365,7 @@ namespace LandBankManagement.ViewModels
                     DocList[i].Identity = i + 1;
                 }
             }
+            PropertyView.HideProgressRing();
         }
 
         private async void SaveParties(PropertyModel property) {
@@ -365,13 +386,18 @@ namespace LandBankManagement.ViewModels
                 }
             }
             if (parties.Count > 0) {
+                PropertyView.ShowProgressRing();
                await PropertyService.AddPropertyPartyAsync(parties);
+                PropertyView.HideProgressRing();
             }
         }
 
         public async  Task GetPropertyParties(int id) {
+            PropertyView.ShowProgressRing();
             PartyList =await PropertyService.GetPartiesOfProperty(id);
-            
+            PropertyView.HideProgressRing();
+
+
         }
 
         protected override void ClearItem()
@@ -389,7 +415,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Property...");
-
+                PropertyView.ShowProgressRing();
                 await PropertyService.DeletePropertyAsync(model);
                 ClearItem();
                 await PropertyListViewModel.RefreshAsync();
@@ -402,6 +428,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting Property: {ex.Message}");
                 LogException("Property", "Delete", ex);
                 return false;
+            }
+            finally {
+                PropertyView.HideProgressRing();
             }
         }
 

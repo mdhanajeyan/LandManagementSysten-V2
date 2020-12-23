@@ -28,8 +28,9 @@ namespace LandBankManagement.Models
         public ObservableCollection<PaymentListModel> PaymentListModel { get; set; }
         public string AccountName { get; set; }
         public bool IsNew => PaymentId <= 0;
-       
-
+        public string CompanyName { get; set; }
+        public string PropertyName { get; set; }
+        public string DocumentTypeName { get; set; }
         public override void Merge(ObservableObject source)
         {
             if (source is PaymentModel model)

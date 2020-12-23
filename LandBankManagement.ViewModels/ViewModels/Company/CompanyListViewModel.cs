@@ -31,17 +31,16 @@ namespace LandBankManagement.ViewModels
 
         public ICompanyService CompanyService { get; }
         public CompanyListArgs ViewModelArgs { get; private set; }
-
-        public CompanyListViewModel(ICompanyService companyService, ICommonServices commonServices) : base(commonServices)
+        public CompanyViewModel CompanyViewModel { get; set; }
+        public CompanyListViewModel(ICompanyService companyService, ICommonServices commonServices, CompanyViewModel companyViewModel) : base(commonServices)
         {
             CompanyService = companyService;
+            CompanyViewModel = companyViewModel;
         }
         public async Task LoadAsync(CompanyListArgs args)
         {
-            ShowProgressRing();
             ViewModelArgs = args ?? CompanyListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
-            HideProgressRing();
         }
         public void Unload()
         {
@@ -75,20 +74,24 @@ namespace LandBankManagement.ViewModels
             SelectedItem = null;
             try
             {
-                ShowProgressRing();
-                
+                CompanyViewModel.ShowProgressRing();
+                //  ShowProgressRing();
+
                 StartStatusMessage("Loading Company...");
-               
+
                 Items = await GetItemsAsync();
-                HideProgressRing();
+                // HideProgressRing();
                 EndStatusMessage("Company loaded");
+               
             }
             catch (Exception ex)
             {
-                HideProgressRing();
                 Items = new List<CompanyModel>();
                 StatusError($"Error loading Company: {ex.Message}");
-                LogException("Company", "Refresh", ex);              
+                LogException("Company", "Refresh", ex);
+            }
+            finally {
+                CompanyViewModel.HideProgressRing();
             }
 
             ItemsCount = Items.Count;

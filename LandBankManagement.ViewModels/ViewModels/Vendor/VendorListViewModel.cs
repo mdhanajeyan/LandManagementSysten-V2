@@ -29,10 +29,11 @@ namespace LandBankManagement.ViewModels
 
     public class VendorListViewModel : GenericListViewModel<VendorModel>
     {
-
-        public VendorListViewModel( IVendorService vendorService, ICommonServices commonServices) : base(commonServices)
+        private VendorViewModel VendorViewModel { get; set; }
+        public VendorListViewModel( IVendorService vendorService, ICommonServices commonServices, VendorViewModel vendorViewModel) : base(commonServices)
         {
             VendorService = vendorService;
+            VendorViewModel = vendorViewModel;
         }
 
         public IVendorService VendorService { get; }
@@ -86,6 +87,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                VendorViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -95,7 +97,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Vendors", "Refresh", ex);
                 isOk = false;
             }
-
+            finally {
+                VendorViewModel.HideProgressRing();
+            }
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {

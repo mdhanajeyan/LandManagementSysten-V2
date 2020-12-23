@@ -100,9 +100,9 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Loading Property List...");
-                ShowProgressRing();
+                PropertyView.ShowProgressRing();
                 var ItemsList = await GetItemsAsync();
-                HideProgressRing();
+              
                 var list = ItemsList.GroupBy(x => x.GroupGuid).Select(x => x);
                 List<PropertyModel> propertyModels = new List<PropertyModel>();
                 foreach (var obj in list)
@@ -120,7 +120,7 @@ namespace LandBankManagement.ViewModels
                 }
                 Items = propertyModels;
 
-                
+
                 EndStatusMessage("Property List loaded");
             }
             catch (Exception ex)
@@ -130,7 +130,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Property", "Refresh", ex);
                 isOk = false;
             }
-
+            finally {
+                PropertyView.HideProgressRing();
+            }
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace LandBankManagement.Data.Data
+namespace LandBankManagement.Data
 {
 	public class PropertyMerge
     {
@@ -17,5 +18,12 @@ namespace LandBankManagement.Data.Data
         public decimal MergedBalancePayable1 { get; set; }
         public decimal MergedBalancePayable2 { get; set; }
         public bool ForProposal { get; set; }
-	}
+        [NotMapped]
+        public List<PropertyMergeList> propertyMergeLists { get; set; }
+
+        [NotMapped]
+        public string SearchTerms { get; set; }
+
+        public string BuildSearchTerms() => $"{PropertyMergeDealName}".ToLower();
+    }
 }

@@ -30,10 +30,11 @@ namespace LandBankManagement.ViewModels
     {
         public IVillageService VillageService { get; }
         public VillageListArgs ViewModelArgs { get; private set; }
-
-        public VillageListViewModel(IVillageService villageService, ICommonServices commonServices) : base(commonServices)
+        private VillageViewModel VillageViewModel { get; set; }
+        public VillageListViewModel(IVillageService villageService, ICommonServices commonServices, VillageViewModel villageViewModel) : base(commonServices)
         {
             VillageService = villageService;
+            VillageViewModel = villageViewModel;
         }
         public async Task LoadAsync(VillageListArgs args)
         {
@@ -81,6 +82,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                VillageViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -90,6 +92,7 @@ namespace LandBankManagement.ViewModels
                 LogException("Village", "Refresh", ex);
                 isOk = false;
             }
+            finally { VillageViewModel.HideProgressRing(); }
 
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)

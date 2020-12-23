@@ -9,7 +9,19 @@ namespace LandBankManagement.ViewModels
     public class RolePermissionViewModel : ViewModelBase
     {
         IRolePermissionService RolePermissionService { get; }
-        
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
 
         public RolePermissionDetailsViewModel RolePermissionDetials { get; set; }
 
@@ -17,7 +29,7 @@ namespace LandBankManagement.ViewModels
         {
             RolePermissionService = rolePermissionService;
 
-            RolePermissionDetials = new RolePermissionDetailsViewModel(dropDownService, rolePermissionService, filePickerService, commonServices);
+            RolePermissionDetials = new RolePermissionDetailsViewModel(dropDownService, rolePermissionService, filePickerService, commonServices,this);
         }
 
         public async Task LoadAsync()
@@ -29,7 +41,16 @@ namespace LandBankManagement.ViewModels
         {
             
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Subscribe()
         {
             //MessageService.Subscribe<RoleListViewModel>(this, OnMessage);           

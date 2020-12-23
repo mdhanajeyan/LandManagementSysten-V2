@@ -17,21 +17,7 @@ namespace LandBankManagement.ViewModels
             get => _selectedPivotIndex;
             set => Set(ref _selectedPivotIndex, value);
         }
-
-        private bool _progressRingVisibility;
-        public bool ProgressRingVisibility
-        {
-            get => _progressRingVisibility;
-            set => Set(ref _progressRingVisibility, value);
-        }
-
-        private bool _progressRingActive;
-        public bool ProgressRingActive
-        {
-            get => _progressRingActive;
-            set => Set(ref _progressRingActive, value);
-        }
-
+               
         private Stopwatch _stopwatch = new Stopwatch();
 
         public ViewModelBase(ICommonServices commonServices)
@@ -52,16 +38,7 @@ namespace LandBankManagement.ViewModels
         public bool IsMainView => ContextService.IsMainView;
 
         virtual public string Title => String.Empty;
-
-        public async void ShowProgressRing() {
-            ProgressRingActive = true;
-            ProgressRingVisibility = true;
-        }
-        public void HideProgressRing()
-        {
-            ProgressRingActive = false;
-            ProgressRingVisibility = false;
-        }
+    
 
         public async void LogInformation(string source, string action, string message, string description)
         {

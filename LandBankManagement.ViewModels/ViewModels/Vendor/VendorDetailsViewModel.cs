@@ -21,10 +21,12 @@ namespace LandBankManagement.ViewModels
         }
         public IVendorService VendorService { get; }
         public IFilePickerService FilePickerService { get; }
-        public VendorDetailsViewModel(IVendorService vendorService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        private VendorViewModel VendorViewModel { get; set; }
+        public VendorDetailsViewModel(IVendorService vendorService, IFilePickerService filePickerService, ICommonServices commonServices, VendorViewModel vendorViewModel) : base(commonServices)
         {
             VendorService = vendorService;
             FilePickerService = filePickerService;
+            VendorViewModel = vendorViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Vendor" : TitleEdit;
@@ -97,8 +99,14 @@ namespace LandBankManagement.ViewModels
                 if (docs.Count > 0)
                 {
                     StartStatusMessage("Saving Vendor Documents...");
+                    VendorViewModel.ShowProgressRing();
                     await VendorService.UploadVendorDocumentsAsync(docs, Item.VendorGuid);
                     DocList = await VendorService.GetDocuments(Item.VendorGuid);
+                    for (int i = 0; i < DocList.Count; i++)
+                    {
+                        DocList[i].Identity = i + 1;
+                    }
+                    VendorViewModel.HideProgressRing();
                     EndStatusMessage(" Vendor Document saved");
                 }
             }
@@ -112,7 +120,8 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Vendor Documents...");
                 if (DocList[id - 1].blobId > 0)
                 {
-                   await VendorService.DeleteVendorDocumentAsync(DocList[id - 1]);
+                    VendorViewModel.ShowProgressRing();
+                      await VendorService.DeleteVendorDocumentAsync(DocList[id - 1]);
                 }
                 DocList.RemoveAt(id - 1);
                 var newlist = DocList;
@@ -122,6 +131,7 @@ namespace LandBankManagement.ViewModels
                 }
                 DocList = null;
                 DocList = newlist;
+                VendorViewModel.HideProgressRing();
                 EndStatusMessage(" Vendor Document deleted");
             }
         }
@@ -131,9 +141,9 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Vendor...");
-                
+                VendorViewModel.ShowProgressRing();
                 if (model.VendorId <= 0)
-                    await VendorService.AddVendorAsync(model,DocList);
+                    await VendorService.AddVendorAsync(model, DocList);
                 else
                     await VendorService.UpdateVendorAsync(model, DocList);
                 DocList = model.VendorDocuments;
@@ -147,6 +157,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Vendor", "Save", ex);
                 return false;
             }
+            finally {
+                VendorViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -159,7 +172,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Vendor...");
-                
+                VendorViewModel.ShowProgressRing();
                 await VendorService.DeleteVendorAsync(model);
                 ClearItem();
                 EndStatusMessage("Vendor deleted");
@@ -171,6 +184,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting Vendor: {ex.Message}");
                 LogException("Vendor", "Delete", ex);
                 return false;
+            }
+            finally {
+                VendorViewModel.HideProgressRing();
             }
         }
 

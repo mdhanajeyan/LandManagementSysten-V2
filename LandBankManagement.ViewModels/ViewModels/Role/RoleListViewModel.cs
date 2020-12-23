@@ -32,9 +32,11 @@ namespace LandBankManagement.ViewModels
         public IRoleService RoleService { get; }
         public RoleListArgs ViewModelArgs { get; private set; }
 
-        public RoleListViewModel(IRoleService receiptService, ICommonServices commonServices) : base(commonServices)
+        private RoleViewModel RoleViewModel { get; set; }
+        public RoleListViewModel(IRoleService receiptService, ICommonServices commonServices, RoleViewModel roleViewModel) : base(commonServices)
         {
             RoleService = receiptService;
+            RoleViewModel = roleViewModel;
         }
         public async Task LoadAsync(RoleListArgs args)
         {
@@ -82,6 +84,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                RoleViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -90,6 +93,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error loading Role: {ex.Message}");
                 LogException("Role", "Refresh", ex);
                 isOk = false;
+            }
+            finally {
+                RoleViewModel.HideProgressRing();
             }
 
             ItemsCount = Items.Count;

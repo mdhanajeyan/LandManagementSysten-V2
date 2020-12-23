@@ -28,12 +28,15 @@ namespace LandBankManagement.ViewModels
             get => _hobliOptions;
             set => Set(ref _hobliOptions, value);
         }
-        public VillageDetailsViewModel(IDropDownService dropDownService, IVillageService villageService,IFilePickerService filePickerService, ICommonServices commonServices, VillageListViewModel villageListViewModel) : base(commonServices)
+
+        private VillageViewModel VillageViewModel { get; set; }
+        public VillageDetailsViewModel(IDropDownService dropDownService, IVillageService villageService,IFilePickerService filePickerService, ICommonServices commonServices, VillageListViewModel villageListViewModel, VillageViewModel villageViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             VillageService = villageService;
             VillageListViewModel = villageListViewModel;
+            VillageViewModel = villageViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Village" : TitleEdit;
@@ -48,8 +51,10 @@ namespace LandBankManagement.ViewModels
             Item = new VillageModel();
             Item.VillageIsActive = true;
             IsEditMode = true;
+            VillageViewModel.ShowProgressRing();
             GetTaluks();
             GetHobli();
+            VillageViewModel.ShowProgressRing();
         }
         private void GetTaluks()
         {
@@ -88,7 +93,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Village...");
-                
+                VillageViewModel.ShowProgressRing();
                 if (model.VillageId <= 0)
                     await VillageService.AddVillageAsync(model);
                 else
@@ -105,6 +110,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Village", "Save", ex);
                 return false;
             }
+            finally {
+                VillageViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -115,8 +123,8 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Village...");
-                
-                var result= await VillageService.DeleteVillageAsync(model);
+                VillageViewModel.ShowProgressRing();
+                var result = await VillageService.DeleteVillageAsync(model);
                 if (!result.IsOk)
                 {
                     await DialogService.ShowAsync(result.Message, "");
@@ -124,7 +132,7 @@ namespace LandBankManagement.ViewModels
                     return true;
                 }
                 ClearItem();
-                 await VillageListViewModel.RefreshAsync();
+                await VillageListViewModel.RefreshAsync();
                 EndStatusMessage("Village deleted");
                 LogWarning("Village", "Delete", "Village deleted", $"Taluk {model.VillageId} '{model.VillageName}' was deleted.");
                 return true;
@@ -134,6 +142,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting Village: {ex.Message}");
                 LogException("Village", "Delete", ex);
                 return false;
+            }
+            finally {
+                VillageViewModel.HideProgressRing();
             }
         }
 

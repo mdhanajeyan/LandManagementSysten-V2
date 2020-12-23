@@ -31,10 +31,12 @@ namespace LandBankManagement.ViewModels
     {
         public IDocumentTypeService DocumentTypeService { get; }
         public DocumentTypeListArgs ViewModelArgs { get; private set; }
+        public DocumentTypeViewModel DocumentTypeViewModel { get; set; }
 
-        public DocumentTypeListViewModel(IDocumentTypeService documentTypeService, ICommonServices commonServices) : base(commonServices)
+        public DocumentTypeListViewModel(IDocumentTypeService documentTypeService, ICommonServices commonServices, DocumentTypeViewModel documentTypeViewModel) : base(commonServices)
         {
             DocumentTypeService = documentTypeService;
+            DocumentTypeViewModel = documentTypeViewModel;
         }
         public async Task LoadAsync(DocumentTypeListArgs args)
         {
@@ -82,6 +84,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                DocumentTypeViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -90,6 +93,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error loading Document Type: {ex.Message}");
                 LogException("Document Type", "Refresh", ex);
                 isOk = false;
+            }
+            finally {
+                DocumentTypeViewModel.HideProgressRing();
             }
 
             ItemsCount = Items.Count;

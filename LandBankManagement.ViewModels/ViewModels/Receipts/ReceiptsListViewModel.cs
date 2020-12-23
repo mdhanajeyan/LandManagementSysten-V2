@@ -32,9 +32,11 @@ namespace LandBankManagement.ViewModels
         public IReceiptService ReceiptsService { get; }
         public ReceiptsListArgs ViewModelArgs { get; private set; }
 
-        public ReceiptsListViewModel(IReceiptService receiptService, ICommonServices commonServices) : base(commonServices)
+        private ReceiptsViewModel ReceiptsViewModel { get; set; }
+        public ReceiptsListViewModel(IReceiptService receiptService, ICommonServices commonServices, ReceiptsViewModel receiptsViewModel) : base(commonServices)
         {
             ReceiptsService = receiptService;
+            ReceiptsViewModel = receiptsViewModel;
         }
         public async Task LoadAsync(ReceiptsListArgs args)
         {
@@ -82,6 +84,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                ReceiptsViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -91,7 +94,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Receipts", "Refresh", ex);
                 isOk = false;
             }
-
+            finally {
+                ReceiptsViewModel.HideProgressRing();
+            }
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {

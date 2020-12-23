@@ -9,7 +9,7 @@ namespace LandBankManagement.Models
         public int PaymentListId { get; set; }
         public int PaymentId { get; set; }
         public DateTimeOffset DateOfPayment { get; set; }
-        public decimal Amount { get; set; }
+        public string Amount { get; set; }
         public string ChequeNo { get; set; }
         public string Narration { get; set; }
         public bool PDC { get; set; }

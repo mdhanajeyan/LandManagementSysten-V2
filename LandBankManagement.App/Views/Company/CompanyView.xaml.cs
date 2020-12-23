@@ -31,9 +31,7 @@ namespace LandBankManagement.Views
         {
             ViewModel.Subscribe();
             await ViewModel.CompanyDetials.LoadAsync();
-            await ViewModel.LoadAsync(e.Parameter as CompanyListArgs);
-            //progressRing.IsActive = false;
-            //progressRing.Visibility = Visibility.Collapsed;
+            await ViewModel.LoadAsync(e.Parameter as CompanyListArgs);            
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

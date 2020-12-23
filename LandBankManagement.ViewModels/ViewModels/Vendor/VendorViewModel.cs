@@ -12,11 +12,25 @@ namespace LandBankManagement.ViewModels
 
         public VendorListViewModel VendorList { get; set; }
         public VendorDetailsViewModel VendorDetails { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
+
         public VendorViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IVendorService vendorService) : base(commonServices) {
 
             VendorService = vendorService;
-            VendorList = new VendorListViewModel(vendorService, commonServices);
-            VendorDetails = new VendorDetailsViewModel(vendorService, filePickerService, commonServices);
+            VendorList = new VendorListViewModel(vendorService, commonServices,this);
+            VendorDetails = new VendorDetailsViewModel(vendorService, filePickerService, commonServices,this);
         }
 
         public async Task LoadAsync(VendorListArgs args)
@@ -33,7 +47,16 @@ namespace LandBankManagement.ViewModels
             MessageService.Subscribe<VendorListViewModel>(this, OnMessage);
             VendorList.Subscribe();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Unsubscribe()
         {
             MessageService.Unsubscribe(this);
@@ -83,6 +106,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await VendorService.GetVendorAsync(selected.VendorId);
                 selected.Merge(model);
                 VendorDetails.Item = model;
@@ -99,6 +123,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("Vendors", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
 

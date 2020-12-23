@@ -12,6 +12,20 @@ namespace LandBankManagement.ViewModels
    public class CheckListViewModel : ViewModelBase
     {
         ICheckListService CheckListService { get; }
+
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public CheckListListViewModel CheckListList { get; set; }
 
         public CheckListDetailsViewModel CheckListDetials { get; set; }
@@ -19,13 +33,23 @@ namespace LandBankManagement.ViewModels
         public CheckListViewModel(ICommonServices commonServices, IFilePickerService filePickerService, ICheckListService checkListService) : base(commonServices)
         {
             CheckListService = checkListService;
-            CheckListList = new CheckListListViewModel(checkListService, commonServices);
-            CheckListDetials = new CheckListDetailsViewModel(checkListService, filePickerService, commonServices, CheckListList);
+            CheckListList = new CheckListListViewModel(checkListService, commonServices,this);
+            CheckListDetials = new CheckListDetailsViewModel(checkListService, filePickerService, commonServices, CheckListList,this);
         }
 
         public async Task LoadAsync(CheckListListArgs args)
         {
             await CheckListList.LoadAsync(args);
+        }
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
         }
         public void Unload()
         {
@@ -73,9 +97,11 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await CheckListService.GetCheckListAsync(selected.CheckListId);
                 selected.Merge(model);
                 CheckListDetials.Item = model;
+                HideProgressRing();
             }
             catch (Exception ex)
             {

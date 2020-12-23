@@ -32,12 +32,14 @@ namespace LandBankManagement.ViewModels
         public IFilePickerService FilePickerService { get; }
         public IDropDownService DropDownService { get; }
         public BankAccountListViewModel BankAccountListViewModel { get; }
-        public BankAccountDetailsViewModel(IBankAccountService cashAccountService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService, BankAccountListViewModel cashAccountListViewModel) : base(commonServices)
+        private BankAccountViewModel BankAccountViewModel { get; set; }
+        public BankAccountDetailsViewModel(IBankAccountService cashAccountService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService, BankAccountListViewModel bankAccountListViewModel, BankAccountViewModel bankAccountViewModel) : base(commonServices)
         {
             BankAccountService = cashAccountService;
             FilePickerService = filePickerService;
             DropDownService = dropDownService;
-            BankAccountListViewModel = cashAccountListViewModel;
+            BankAccountListViewModel = bankAccountListViewModel;
+            BankAccountViewModel = bankAccountViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New BankAccount" : TitleEdit;
@@ -77,7 +79,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving BankAccount...");
-                
+                BankAccountViewModel.ShowProgressRing();
                 if (model.BankAccountId <= 0)
                 {
                     model.BankAccountId = 1;
@@ -86,6 +88,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await BankAccountService.UpdateBankAccountAsync(model);
                 ClearItem();
+                BankAccountViewModel.HideProgressRing();
                 await BankAccountListViewModel.RefreshAsync();
                 EndStatusMessage("BankAccount saved");
                 LogInformation("BankAccount", "Save", "BankAccount saved successfully", $"BankAccount {model.BankAccountId} '{model.AccountNumber}' was saved successfully.");
@@ -107,9 +110,10 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting BankAccount...");
-                
+                BankAccountViewModel.ShowProgressRing();
                 await BankAccountService.DeleteBankAccountAsync(model);
                 ClearItem();
+                BankAccountViewModel.HideProgressRing();
                 await BankAccountListViewModel.RefreshAsync();
                 EndStatusMessage("BankAccount deleted");
                 LogWarning("BankAccount", "Delete", "BankAccount deleted", $"BankAccount {model.BankAccountId} '{model.AccountNumber}' was deleted.");

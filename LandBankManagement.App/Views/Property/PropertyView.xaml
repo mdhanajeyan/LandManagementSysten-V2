@@ -61,11 +61,12 @@
         <ProgressRing x:Name="progressRing"
                       Height="40"
                       Width="40"
-                      IsActive="True"
+                      IsActive="{x:Bind ViewModel.ProgressRingActive,Mode=TwoWay}"
                       Foreground="Black"
                       Canvas.Left="650"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      Canvas.Top="550" />
+                      Canvas.Top="550"  Visibility="{Binding Path=ProgressRingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
+/>
     </Grid>
 </Page>

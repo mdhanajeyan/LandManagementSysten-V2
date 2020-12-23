@@ -24,13 +24,16 @@ namespace LandBankManagement.ViewModels
             get => _roleList;
             set => Set(ref _roleList, value);
         }
-        public UserDetailsViewModel(IDropDownService dropDownService, IUserService roleService, IFilePickerService filePickerService, ICommonServices commonServices, UserListViewModel userListViewModel, IUserRoleService userRoleService) : base(commonServices)
+
+        private UserViewModel UserViewModel { get; set; }
+        public UserDetailsViewModel(IDropDownService dropDownService, IUserService roleService, IFilePickerService filePickerService, ICommonServices commonServices, UserListViewModel userListViewModel, IUserRoleService userRoleService, UserViewModel userViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             UserService = roleService;
             UserListViewModel = userListViewModel;
             UserRoleService = userRoleService;
+            UserViewModel = userViewModel;
         }
 
         override public string Title => (Item?.IsActive ?? true) ? "New User" : TitleEdit;
@@ -75,12 +78,13 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving User...");
+                UserViewModel.ShowProgressRing();
                 var userID = 0;
                 if (model.UserInfoId <= 0)
-                    userID= await UserService.AddUserAsync(model);
+                    userID = await UserService.AddUserAsync(model);
                 else
                     await UserService.UpdateUserAsync(model);
-                await UserRoleService.AddUserRoleForUserAsync(RoleList.ToList(), model.UserInfoId==0?userID: model.UserInfoId);
+                await UserRoleService.AddUserRoleForUserAsync(RoleList.ToList(), model.UserInfoId == 0 ? userID : model.UserInfoId);
 
                 reloadUser(model.UserInfoId == 0 ? userID : model.UserInfoId);
                 EndStatusMessage("User saved");
@@ -93,11 +97,16 @@ namespace LandBankManagement.ViewModels
                 LogException("User", "Save", ex);
                 return false;
             }
+            finally {
+                UserViewModel.HideProgressRing();
+            }
         }
 
         private async void reloadUser( int id) {
+            UserViewModel.ShowProgressRing();
            Item = await UserService.GetUserAsync(id);            
            getUserRoles();
+            UserViewModel.HideProgressRing();
         }
         protected override void ClearItem()
         {
@@ -109,7 +118,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting User...");
-
+                UserViewModel.ShowProgressRing();
                 await UserService.DeleteUserInfoAsync(model);
                 ClearItem();
                 await UserListViewModel.RefreshAsync();
@@ -122,6 +131,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting User: {ex.Message}");
                 LogException("User", "Delete", ex);
                 return false;
+            }
+            finally {
+                UserViewModel.HideProgressRing();
             }
         }
 

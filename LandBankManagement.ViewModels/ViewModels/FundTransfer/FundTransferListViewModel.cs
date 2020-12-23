@@ -30,10 +30,11 @@ namespace LandBankManagement.ViewModels
     {
         public IFundTransferService FundTransferService { get; }
         public FundTransferListArgs ViewModelArgs { get; private set; }
-
-        public FundTransferListViewModel(IFundTransferService fundTransferService, ICommonServices commonServices) : base(commonServices)
+        private FundTransferViewModel FundTransferViewModel { get; set; }
+        public FundTransferListViewModel(IFundTransferService fundTransferService, ICommonServices commonServices, FundTransferViewModel fundTransferViewModel) : base(commonServices)
         {
             FundTransferService = fundTransferService;
+            FundTransferViewModel = fundTransferViewModel;
         }
         public async Task LoadAsync(FundTransferListArgs args)
         {
@@ -76,6 +77,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                FundTransferViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -84,6 +86,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error loading FundTransfer: {ex.Message}");
                 LogException("FundTransfer", "Refresh", ex);
                 isOk = false;
+            }
+            finally {
+                FundTransferViewModel.HideProgressRing();
             }
 
             ItemsCount = Items.Count;

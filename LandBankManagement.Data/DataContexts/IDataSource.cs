@@ -45,6 +45,9 @@ namespace LandBankManagement.Data.Services
         DbSet<PropertyCheckListVendor> PropertyCheckListVendor { get; }
         DbSet<CheckListOfProperty> CheckListOfProperty { get; }
 
+        DbSet<PropertyMerge> PropertyMerge { get; }
+        DbSet<PropertyMergeList> PropertyMergeList { get; }
+
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
         int SaveChanges();

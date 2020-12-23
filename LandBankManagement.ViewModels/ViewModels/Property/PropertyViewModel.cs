@@ -14,12 +14,24 @@ namespace LandBankManagement.ViewModels
         public PropertyListViewModel PropertyList { get; set; }
 
         public PropertyDetailsViewModel PropertyDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
 
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public PropertyViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IPropertyService propertyService) : base(commonServices)
         {
             PropertyService = propertyService;
             PropertyList = new PropertyListViewModel(propertyService, commonServices,this);
-            PropertyDetials = new PropertyDetailsViewModel(dropDownService, propertyService, filePickerService, commonServices, PropertyList);
+            PropertyDetials = new PropertyDetailsViewModel(dropDownService, propertyService, filePickerService, commonServices, PropertyList,this);
         }
 
         public async Task LoadAsync(PropertyListArgs args)
@@ -32,7 +44,16 @@ namespace LandBankManagement.ViewModels
         {
             PropertyList.Unload();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<PropertyListViewModel>(this, OnMessage);
@@ -76,12 +97,13 @@ namespace LandBankManagement.ViewModels
             {
                 if (selected == null)
                     return;
+                ShowProgressRing();
                 // var model = await PropertyService.GetPropertyAsync(selected.PropertyId);
                 var modelList = await PropertyService.GetPropertyByGroupGuidAsync(selected.GroupGuid.GetValueOrDefault());
                 PropertyDetials.PropertyList = modelList;
                 var model = modelList[0];
                 //selected.Merge(model);
-               
+
                 PropertyDetials.Item = model;
                 await PropertyDetials.GetPropertyParties(model.PropertyId);
                 PropertyDetials.DocList = model.PropertyDocuments;
@@ -98,12 +120,16 @@ namespace LandBankManagement.ViewModels
             {
                 LogException("Property", "Load Details", ex);
             }
+            finally {
+                HideProgressRing();
+            }
         }
 
         public async void LoadPropertyForNewDocumentType(int id)
         {
+            ShowProgressRing();
             var model = await PropertyService.GetPropertyAsync(id);
-
+            HideProgressRing();
             model.DocumentTypeId = 0;
             PropertyDetials.Item = model;
             await PropertyDetials.GetPropertyParties(model.PropertyId);

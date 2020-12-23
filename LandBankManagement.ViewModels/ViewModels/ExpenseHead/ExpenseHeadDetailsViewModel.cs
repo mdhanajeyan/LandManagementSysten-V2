@@ -14,11 +14,13 @@ namespace LandBankManagement.ViewModels
         public IExpenseHeadService ExpenseHeadService { get; }
         public IFilePickerService FilePickerService { get; }
         public ExpenseHeadListViewModel ExpenseHeadListViewModel { get; }
-        public ExpenseHeadDetailsViewModel(IExpenseHeadService documentTypeService, IFilePickerService filePickerService, ICommonServices commonServices, ExpenseHeadListViewModel documentTypeListViewModel) : base(commonServices)
+        private ExpenseHeadViewModel ExpenseHeadViewModel { get; set; }
+        public ExpenseHeadDetailsViewModel(IExpenseHeadService documentTypeService, IFilePickerService filePickerService, ICommonServices commonServices, ExpenseHeadListViewModel documentTypeListViewModel, ExpenseHeadViewModel expenseHeadViewModel) : base(commonServices)
         {
             ExpenseHeadService = documentTypeService;
             FilePickerService = filePickerService;
             ExpenseHeadListViewModel = documentTypeListViewModel;
+            ExpenseHeadViewModel = expenseHeadViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New ExpenseHead" : TitleEdit;
@@ -80,7 +82,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving ExpenseHead...");
-                
+                ExpenseHeadViewModel.ShowProgressRing();
                 if (model.ExpenseHeadId <= 0)
                     await ExpenseHeadService.AddExpenseHeadAsync(model);
                 else
@@ -98,6 +100,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Party", "Save", ex);
                 return false;
             }
+            finally {
+                ExpenseHeadViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -108,7 +113,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting ExpenseHead...");
-                
+                ExpenseHeadViewModel.ShowProgressRing();
                 await ExpenseHeadService.DeleteExpenseHeadAsync(model);
                 ClearItem();
                 await ExpenseHeadListViewModel.RefreshAsync();
@@ -121,6 +126,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting ExpenseHead: {ex.Message}");
                 LogException("ExpenseHead", "Delete", ex);
                 return false;
+            }
+            finally {
+                ExpenseHeadViewModel.HideProgressRing();
             }
         }
 

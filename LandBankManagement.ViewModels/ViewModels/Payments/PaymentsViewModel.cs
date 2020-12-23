@@ -12,12 +12,24 @@ namespace LandBankManagement.ViewModels
         public PaymentsListViewModel PaymentsList { get; set; }
 
         public PaymentsDetailsViewModel PaymentsDetails { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
 
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public PaymentsViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IPaymentService paymentsService) : base(commonServices)
         {
             PaymentsService = paymentsService;
-            PaymentsList = new PaymentsListViewModel(PaymentsService, commonServices);
-            PaymentsDetails = new PaymentsDetailsViewModel(dropDownService, PaymentsService, filePickerService, commonServices);
+            PaymentsList = new PaymentsListViewModel(PaymentsService, commonServices,this);
+            PaymentsDetails = new PaymentsDetailsViewModel(dropDownService, PaymentsService, filePickerService, commonServices,this);
         }
 
         public async Task LoadAsync(PaymentsListArgs args)
@@ -29,7 +41,16 @@ namespace LandBankManagement.ViewModels
         {
             PaymentsList.Unload();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<PaymentsListViewModel>(this, OnMessage);
@@ -71,6 +92,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await PaymentsService.GetPaymentAsync(selected.PaymentId);
                 selected.Merge(model);
                 PaymentsDetails.Item = model;
@@ -85,6 +107,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("Payments", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
     }

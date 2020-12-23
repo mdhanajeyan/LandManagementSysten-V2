@@ -20,16 +20,12 @@ namespace LandBankManagement.Views
             ViewModel = ServiceLocator.Current.GetService<PropertyViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
-            progressRing.IsActive = true;
-            progressRing.Visibility = Visibility.Visible;
             ViewModel.PropertyDetials.IsEditMode = true;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            progressRing.IsActive = false;
-            progressRing.Visibility = Visibility.Collapsed;
             await ViewModel.LoadAsync (e.Parameter as PropertyListArgs);
            // await ViewModel.PropertyList.RefreshAsync();
         }

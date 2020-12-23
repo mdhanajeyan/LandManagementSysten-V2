@@ -32,11 +32,11 @@ namespace LandBankManagement.ViewModels
     {
         public IPropertyCheckListService PropertyCheckListService { get; }
         public PropertyCheckListListArgs ViewModelArgs { get; private set; }       
-               
-        public PropertyCheckListListViewModel(IPropertyCheckListService propertyService, ICommonServices commonServices) : base(commonServices)
+            private PropertyCheckListViewModel PropertyCheckListViewModel { get; set; }
+        public PropertyCheckListListViewModel(IPropertyCheckListService propertyService, ICommonServices commonServices, PropertyCheckListViewModel propertyCheckListViewModel) : base(commonServices)
         {
             PropertyCheckListService = propertyService;
-            
+            PropertyCheckListViewModel = propertyCheckListViewModel;
         }
         public async Task LoadAsync(PropertyCheckListListArgs args)
         {
@@ -94,15 +94,16 @@ namespace LandBankManagement.ViewModels
                 StatusList.Add(new ComboBoxOptions { Id = 1, Description = "Pending" });
                 StatusList.Add(new ComboBoxOptions { Id = 2, Description = "Dropped" });
                 StatusList.Add(new ComboBoxOptions { Id = 3, Description = "Procured" });
-                ShowProgressRing();
+                PropertyCheckListViewModel.ShowProgressRing();
                 var modals = await GetItemsAsync();
-                HideProgressRing();
-                foreach (var obj in modals) {
+
+                foreach (var obj in modals)
+                {
                     obj.StatusOption = StatusList;
                 }
 
                 Items = modals;
-              
+
 
                 EndStatusMessage("PropertyCheckList List loaded");
             }
@@ -113,7 +114,9 @@ namespace LandBankManagement.ViewModels
                 LogException("PropertyCheckList", "Refresh", ex);
                 isOk = false;
             }
-
+            finally {
+                PropertyCheckListViewModel.HideProgressRing();
+            }
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {

@@ -29,11 +29,13 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _rolePermissionList, value);
         }
 
-        public RolePermissionDetailsViewModel(IDropDownService dropDownService, IRolePermissionService rolePermissionService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        private RolePermissionViewModel RolePermissionViewModel { get; set; }
+        public RolePermissionDetailsViewModel(IDropDownService dropDownService, IRolePermissionService rolePermissionService, IFilePickerService filePickerService, ICommonServices commonServices, RolePermissionViewModel rolePermissionViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             RolePermissionService = rolePermissionService;
+            RolePermissionViewModel = rolePermissionViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New RoleP ermission" : TitleEdit;
@@ -50,12 +52,16 @@ namespace LandBankManagement.ViewModels
         }
 
         private void GetDropdowns() {
+            RolePermissionViewModel.ShowProgressRing();
             RoleOptions = DropDownService.GetRoleOptions();
+            RolePermissionViewModel.HideProgressRing();
         }
 
         public async void GetRolePermissionForRole(int id) {
+            RolePermissionViewModel.ShowProgressRing();
             var list =await RolePermissionService.GetRolePermissionsByRoleIDAsync(id);
             RolePermissionList = list;
+            RolePermissionViewModel.HideProgressRing();
         }
 
         public void Subscribe()
@@ -83,15 +89,17 @@ namespace LandBankManagement.ViewModels
             {
                 if (RolePermissionList == null || RolePermissionList.Count == 0)
                     return false;
-
-                if (RolePermissionList[0].RoleInfoId == 0) {
-                    foreach (var rolePerm in RolePermissionList) {
+                RolePermissionViewModel.ShowProgressRing();
+                if (RolePermissionList[0].RoleInfoId == 0)
+                {
+                    foreach (var rolePerm in RolePermissionList)
+                    {
                         rolePerm.RoleInfoId = EditableItem.RoleInfoId;
                     }
                 }
-                StartStatusMessage("Saving Role Permission...");              
-                    await RolePermissionService.AddRolePermissionsAsync(RolePermissionList);
-              
+                StartStatusMessage("Saving Role Permission...");
+                await RolePermissionService.AddRolePermissionsAsync(RolePermissionList);
+
                 EndStatusMessage("Role Permission saved");
                 GetRolePermissionForRole(EditableItem.RoleInfoId);
                 LogInformation("Role", "Save", "Role saved successfully", $"Role {model.RolePermissionId}  was saved successfully.");
@@ -102,6 +110,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error saving RolePermission: {ex.Message}");
                 LogException("Role", "Save", ex);
                 return false;
+            }
+            finally {
+                RolePermissionViewModel.HideProgressRing();
             }
         }
         protected override void ClearItem()

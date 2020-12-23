@@ -15,12 +15,24 @@ namespace LandBankManagement.ViewModels
         public PropertyTypeListViewModel PropertyTypeList { get; set; }
 
         public PropertyTypeDetailsViewModel PropertyTypeDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
 
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public PropertyTypeViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IPropertyTypeService propertyTypeService) : base(commonServices)
         {
             PropertyTypeService = propertyTypeService;
-            PropertyTypeList = new PropertyTypeListViewModel(propertyTypeService, commonServices);
-            PropertyTypeDetials = new PropertyTypeDetailsViewModel(propertyTypeService, filePickerService, commonServices, PropertyTypeList);
+            PropertyTypeList = new PropertyTypeListViewModel(propertyTypeService, commonServices,this);
+            PropertyTypeDetials = new PropertyTypeDetailsViewModel(propertyTypeService, filePickerService, commonServices, PropertyTypeList,this);
         }
 
         public async Task LoadAsync(PropertyTypeListArgs args)
@@ -32,7 +44,16 @@ namespace LandBankManagement.ViewModels
         {
             PropertyTypeList.Unload();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<PropertyTypeListViewModel>(this, OnMessage);
@@ -74,6 +95,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await PropertyTypeService.GetPropertyTypeAsync(selected.PropertyTypeId);
                 selected.Merge(model);
                 PropertyTypeDetials.Item = model;
@@ -81,6 +103,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("PropertyType", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
 

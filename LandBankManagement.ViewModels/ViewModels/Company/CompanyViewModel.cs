@@ -17,11 +17,25 @@ namespace LandBankManagement.ViewModels
 
         public CompanyDetailsViewModel CompanyDetials { get; set; }
 
+        private bool _progressRingVisibility;
+        public bool NewProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool NewProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
+
         public CompanyViewModel(ICommonServices commonServices, IFilePickerService filePickerService, ICompanyService companyService) : base(commonServices)
         {
             CompanyService = companyService;
-            CompanyList = new CompanyListViewModel(companyService, commonServices);
-            CompanyDetials = new CompanyDetailsViewModel(companyService, filePickerService, commonServices);
+            CompanyList = new CompanyListViewModel(companyService, commonServices,this);
+            CompanyDetials = new CompanyDetailsViewModel(companyService, filePickerService, commonServices,this);
         }
 
         public async Task LoadAsync(CompanyListArgs args)
@@ -33,6 +47,17 @@ namespace LandBankManagement.ViewModels
         public void Unload()
         {
             CompanyList.Unload();
+        }
+
+        public void ShowProgressRing()
+        {
+            NewProgressRingActive = true;
+            NewProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            NewProgressRingActive = false;
+            NewProgressRingVisibility = false;
         }
 
         public void Subscribe()
@@ -78,9 +103,9 @@ namespace LandBankManagement.ViewModels
             {
                 ShowProgressRing();
                 var model = await CompanyService.GetCompanyAsync(selected.CompanyID);
-                HideProgressRing();
+
                 selected.Merge(model);
-                CompanyDetials.Item=CompanyModel.CreateEmpty();
+                CompanyDetials.Item = CompanyModel.CreateEmpty();
                 CompanyDetials.Item = model;
                 if (model.CompanyDocuments != null)
                 {
@@ -95,6 +120,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("Company", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
     }

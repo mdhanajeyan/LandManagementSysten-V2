@@ -30,14 +30,16 @@ namespace LandBankManagement.ViewModels
         public IDropDownService DropDownService { get; }
         public IFilePickerService FilePickerService { get; }
         public PartyListViewModel PartyListViewModel { get; }
+        private PartyViewModel PartyViewModel { get; set; }
         public IVendorService VendorService { get; }
-        public PartyDetailsViewModel(IPartyService partyService, IFilePickerService filePickerService, ICommonServices commonServices, PartyListViewModel partyListViewModel,IDropDownService dropDownService,IVendorService vendorService) : base(commonServices)
+        public PartyDetailsViewModel(IPartyService partyService, IFilePickerService filePickerService, ICommonServices commonServices, PartyListViewModel partyListViewModel,IDropDownService dropDownService,IVendorService vendorService, PartyViewModel partyViewModel) : base(commonServices)
         {
             PartyService = partyService;
             PartyListViewModel = partyListViewModel;
             FilePickerService = filePickerService;
             DropDownService = dropDownService;
             VendorService = vendorService;
+            PartyViewModel = partyViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Party" : TitleEdit;
@@ -54,7 +56,9 @@ namespace LandBankManagement.ViewModels
         }
 
         private void getVendors() {
+            PartyViewModel.ShowProgressRing();
             VendorOptions = DropDownService.GetVendorOptions();
+            PartyViewModel.HideProgressRing();
         }
         public void Unload()
         {
@@ -62,7 +66,9 @@ namespace LandBankManagement.ViewModels
 
         public async void ClodeVendorDetails(int id) {
 
+            PartyViewModel.ShowProgressRing();
             var model =await VendorService.GetVendorAsync(id);
+            PartyViewModel.HideProgressRing();
             Item = new PartyModel
             {
                 PartyName = model.VendorName,
@@ -147,8 +153,14 @@ namespace LandBankManagement.ViewModels
                 if (docs.Count > 0)
                 {
                     StartStatusMessage("Saving Party Documents...");
+                    PartyViewModel.ShowProgressRing();
                     await PartyService.UploadPartyDocumentsAsync(docs, Item.PartyGuid);
                     DocList = await PartyService.GetDocuments(Item.PartyGuid);
+                    for (int i = 0; i < DocList.Count; i++)
+                    {
+                        DocList[i].Identity = i + 1;
+                    }
+                    PartyViewModel.HideProgressRing();
                     EndStatusMessage(" Party Document saved");
                 }
             }
@@ -161,7 +173,9 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Party Documents...");
                 if (DocList[id - 1].blobId > 0)
                 {
+                    PartyViewModel.ShowProgressRing();
                    await PartyService.DeletePartyDocumentAsync(DocList[id - 1]);
+                    PartyViewModel.HideProgressRing();
                 }
                 DocList.RemoveAt(id - 1);
                 var newlist = DocList;
@@ -180,7 +194,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Party...");
-                
+                PartyViewModel.ShowProgressRing();
                 if (model.PartyId <= 0)
                     await PartyService.AddPartyAsync(model, DocList);
                 else
@@ -197,6 +211,7 @@ namespace LandBankManagement.ViewModels
                 LogException("Party", "Save", ex);
                 return false;
             }
+            finally { PartyViewModel.HideProgressRing(); }
         }
         protected override void ClearItem()
         {
@@ -209,10 +224,10 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Party...");
-                
+                PartyViewModel.ShowProgressRing();
                 await PartyService.DeletePartyAsync(model);
                 EndStatusMessage("Party deleted");
-                ClearItem();                
+                ClearItem();
                 LogWarning("Party", "Delete", "Party deleted", $"Party {model.PartyId} '{model.PartyName}' was deleted.");
                 return true;
             }
@@ -221,6 +236,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting Party: {ex.Message}");
                 LogException("Party", "Delete", ex);
                 return false;
+            }
+            finally {
+                PartyViewModel.HideProgressRing();
             }
         }
 

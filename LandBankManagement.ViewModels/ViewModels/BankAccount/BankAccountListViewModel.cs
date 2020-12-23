@@ -30,10 +30,11 @@ namespace LandBankManagement.ViewModels
     {
         public IBankAccountService BankAccountService { get; }
         public BankAccountListArgs ViewModelArgs { get; private set; }
-
-        public BankAccountListViewModel(IBankAccountService bankAccountService, ICommonServices commonServices) : base(commonServices)
+        private BankAccountViewModel  BankAccountViewModel{get;set;}
+        public BankAccountListViewModel(IBankAccountService bankAccountService, ICommonServices commonServices, BankAccountViewModel bankAccountViewModel) : base(commonServices)
         {
             BankAccountService = bankAccountService;
+            BankAccountViewModel = bankAccountViewModel;
         }
         public async Task LoadAsync(BankAccountListArgs args)
         {
@@ -81,6 +82,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                BankAccountViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -89,6 +91,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error loading BankAccount: {ex.Message}");
                 LogException("BankAccount", "Refresh", ex);
                 isOk = false;
+            }
+            finally {
+                BankAccountViewModel.HideProgressRing();
             }
 
             ItemsCount = Items.Count;

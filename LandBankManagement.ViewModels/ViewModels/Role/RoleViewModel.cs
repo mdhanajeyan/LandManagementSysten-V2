@@ -14,12 +14,24 @@ namespace LandBankManagement.ViewModels
         public RoleListViewModel RoleList { get; set; }
 
         public RoleDetailsViewModel RoleDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
 
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public RoleViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IRoleService roleService) : base(commonServices)
         {
             RoleService = roleService;
-            RoleList = new RoleListViewModel(roleService, commonServices);
-            RoleDetials = new RoleDetailsViewModel(dropDownService, roleService, filePickerService, commonServices, RoleList);
+            RoleList = new RoleListViewModel(roleService, commonServices,this);
+            RoleDetials = new RoleDetailsViewModel(dropDownService, roleService, filePickerService, commonServices, RoleList,this);
         }
 
         public async Task LoadAsync(RoleListArgs args)
@@ -31,7 +43,16 @@ namespace LandBankManagement.ViewModels
         {
             RoleList.Unload();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<RoleListViewModel>(this, OnMessage);
@@ -73,6 +94,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await RoleService.GetRoleAsync(selected.RoleId);
                 selected.Merge(model);
                 RoleDetials.Item = model;
@@ -80,6 +102,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("Role", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
     }

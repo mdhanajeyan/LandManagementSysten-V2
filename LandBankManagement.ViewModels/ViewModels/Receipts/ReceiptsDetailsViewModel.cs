@@ -41,12 +41,14 @@ namespace LandBankManagement.ViewModels
             get => _partyOptions;
             set => Set(ref _partyOptions, value);
         }
-        public ReceiptsDetailsViewModel(IDropDownService dropDownService, IReceiptService receiptService, IFilePickerService filePickerService, ICommonServices commonServices, ReceiptsListViewModel villageListViewModel) : base(commonServices)
+        private ReceiptsViewModel ReceiptsViewModel { get; set; }
+        public ReceiptsDetailsViewModel(IDropDownService dropDownService, IReceiptService receiptService, IFilePickerService filePickerService, ICommonServices commonServices, ReceiptsListViewModel villageListViewModel, ReceiptsViewModel receiptsViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             ReceiptsService = receiptService;
             ReceiptsListViewModel = villageListViewModel;
+            ReceiptsViewModel = receiptsViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Receipts" : TitleEdit;
@@ -64,9 +66,11 @@ namespace LandBankManagement.ViewModels
         }
         private void GetDropdowns()
         {
-             PartyOptions = DropDownService.GetPartyOptions();
+            ReceiptsViewModel.ShowProgressRing();
+                PartyOptions = DropDownService.GetPartyOptions();
             BankOptions = DropDownService.GetBankOptions();
             CompanyOptions = DropDownService.GetCompanyOptions();
+            ReceiptsViewModel.HideProgressRing();
            // DealOptions = DropDownService.GetDealOptions();
         }
        
@@ -95,7 +99,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Receipts...");
-
+                ReceiptsViewModel.ShowProgressRing();
                 if (model.ReceiptId <= 0)
                     await ReceiptsService.AddReceiptAsync(model);
                 else
@@ -111,6 +115,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Receipts", "Save", ex);
                 return false;
             }
+            finally {
+                ReceiptsViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -121,7 +128,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Receipts...");
-
+                ReceiptsViewModel.ShowProgressRing();
                 await ReceiptsService.DeleteReceiptAsync(model);
                 ClearItem();
                 await ReceiptsListViewModel.RefreshAsync();
@@ -134,6 +141,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting Receipts: {ex.Message}");
                 LogException("Receipts", "Delete", ex);
                 return false;
+            }
+            finally {
+                ReceiptsViewModel.HideProgressRing();
             }
         }
 

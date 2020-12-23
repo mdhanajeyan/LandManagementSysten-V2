@@ -20,7 +20,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>6FED17E073AB3D09A75A865EF83FAFED92F03EF5</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>18F9C1FC6226718BC03B51F91A464CDEF850B031</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxPackageDir>D:\AppPackages\</AppxPackageDir>
@@ -203,6 +203,7 @@
     <Compile Include="ReportViewers\Company\CompanyReportViewer.cs" />
     <Compile Include="Services\CashAccountService.cs" />
     <Compile Include="Services\PropertyCheckListService.cs" />
+    <Compile Include="Services\PropertyMergeService.cs" />
     <Compile Include="Services\RolePermissionService.cs" />
     <Compile Include="Services\UserRoleService.cs" />
     <Compile Include="Services\RoleService.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Services\VillageService.cs" />
     <Compile Include="Services\VirtualCollections\AccountTypeCollection.cs" />
     <Compile Include="Services\VirtualCollections\PropertyCheckListCollection.cs" />
+    <Compile Include="Services\VirtualCollections\PropertyMergeCollection.cs" />
     <Compile Include="Services\VirtualCollections\RolePermissionCollection.cs" />
     <Compile Include="Services\VirtualCollections\RoleCollection.cs" />
     <Compile Include="Services\VirtualCollections\UserRoleCollection.cs" />
@@ -391,6 +393,15 @@
     </Compile>
     <Compile Include="Views\PropertyCheckList\PropertyCheckListView.xaml.cs">
       <DependentUpon>PropertyCheckListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyMerge\PropertyMergeDetails.xaml.cs">
+      <DependentUpon>PropertyMergeDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyMerge\PropertyMergeList.xaml.cs">
+      <DependentUpon>PropertyMergeList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyMerge\PropertyMergeView.xaml.cs">
+      <DependentUpon>PropertyMergeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PropertyType\PropertyTypeDetails.xaml.cs">
       <DependentUpon>PropertyTypeDetails.xaml</DependentUpon>
@@ -822,6 +833,18 @@
     <Page Include="Views\PropertyCheckList\PropertyCheckListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PropertyMerge\PropertyMergeDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PropertyMerge\PropertyMergeList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PropertyMerge\PropertyMergeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PropertyType\PropertyTypeDetails.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -17,10 +17,10 @@
                     <ColumnDefinition Width="20*"/>
                     <ColumnDefinition Width="40*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Bank/Cash" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="1" Text="Amount" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="2" Text="PDC" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="3" Text="Narration" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="0" Text="Company" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="1" Text="Party/Expense" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="2" Text="Property Nmae" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="3" Text="Document Type" Style="{StaticResource ColumnHeaderStyle}" />
 
             </Grid>
         </DataTemplate>
@@ -35,10 +35,10 @@
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{x:Bind AccountName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="1" Text="{x:Bind Amount, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <CheckBox Grid.Column="2" x:Name="isActive" IsEnabled="False"  IsChecked="{x:Bind PDC, Mode=TwoWay}"/>
-                    <TextBlock Grid.Column="3" Text="{x:Bind Narration, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="0" Text="{x:Bind CompanyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="1" Text="{x:Bind AccountName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="2" Text="{x:Bind PropertyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="3" Text="{x:Bind DocumentTypeName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
 
                 </Grid>
             </Grid>

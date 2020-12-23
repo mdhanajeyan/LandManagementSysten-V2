@@ -24,12 +24,14 @@ namespace LandBankManagement.ViewModels
         public IFilePickerService FilePickerService { get; }
         public IDropDownService DropDownService { get; }
         public CashAccountListViewModel CashAccountListViewModel { get; }
-        public CashAccountDetailsViewModel(ICashAccountService cashAccountService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService, CashAccountListViewModel cashAccountListViewModel) : base(commonServices)
+        private CashAccountViewModel CashAccountViewModel { get; set; }
+        public CashAccountDetailsViewModel(ICashAccountService cashAccountService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService, CashAccountListViewModel cashAccountListViewModel, CashAccountViewModel cashAccountViewModel) : base(commonServices)
         {
             CashAccountService = cashAccountService;
             FilePickerService = filePickerService;
             DropDownService = dropDownService;
             CashAccountListViewModel = cashAccountListViewModel;
+            CashAccountViewModel = cashAccountViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New CashAccount" : TitleEdit;
@@ -46,7 +48,9 @@ namespace LandBankManagement.ViewModels
         }
 
         private void GetCompanyOption() {
+            CashAccountViewModel.ShowProgressRing();
             CompanyOptions = DropDownService.GetCompanyOptions();
+            CashAccountViewModel.HideProgressRing();
         }
         public void Subscribe()
         {
@@ -63,7 +67,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving CashAccount...");
-                
+                CashAccountViewModel.ShowProgressRing();
                 if (model.CashAccountId <= 0)
                 {
                     model.CashAccountId = 1;
@@ -72,6 +76,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await CashAccountService.UpdateCashAccountAsync(model);
                 ClearItem();
+                CashAccountViewModel.HideProgressRing();
                 await CashAccountListViewModel.RefreshAsync();
                 EndStatusMessage("CashAccount saved");
                 LogInformation("CashAccount", "Save", "CashAccount saved successfully", $"CashAccount {model.CashAccountName} '{model.CashAccountName}' was saved successfully.");
@@ -83,6 +88,9 @@ namespace LandBankManagement.ViewModels
                 LogException("CashAccount", "Save", ex);
                 return false;
             }
+            finally {
+                CashAccountViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -93,7 +101,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting CashAccount...");
-                
+                CashAccountViewModel.ShowProgressRing();
                 await CashAccountService.DeleteCashAccountAsync(model);
                 ClearItem();
                 await CashAccountListViewModel.RefreshAsync();
@@ -106,6 +114,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting CashAccount: {ex.Message}");
                 LogException("CashAccount", "Delete", ex);
                 return false;
+            }
+            finally {
+                CashAccountViewModel.HideProgressRing();
             }
         }
 

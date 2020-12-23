@@ -97,14 +97,15 @@ namespace LandBankManagement.ViewModels
             get => _docList;
             set => Set(ref _docList, value);
         }
-
-        public PropertyCheckListDetailsViewModel(IDropDownService dropDownService, IPropertyCheckListService propertyCheckListService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyCheckListListViewModel propertyCheckListListViewModel) : base(commonServices)
+        private PropertyCheckListViewModel PropertyCheckListViewModel { get; set; }
+        public PropertyCheckListDetailsViewModel(IDropDownService dropDownService, IPropertyCheckListService propertyCheckListService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyCheckListListViewModel propertyCheckListListViewModel, PropertyCheckListViewModel propertyCheckListViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             PropertyService = propertyService;
             PropertyCheckListService = propertyCheckListService;
             PropertyCheckListListViewModel = propertyCheckListListViewModel;
+            PropertyCheckListViewModel = propertyCheckListViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Property" : TitleEdit;
@@ -122,9 +123,9 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadPropertyCheckList(int id) {
             StartStatusMessage("Loading Property Checklist...");
-            ShowProgressRing();
+            PropertyCheckListViewModel.ShowProgressRing();
             var model = await PropertyCheckListService.GetPropertyCheckListAsync(id);
-            HideProgressRing();
+           
             Item = model;           
             VendorList = model.PropertyCheckListVendors;
             if (model.PropertyCheckListDocuments != null)
@@ -137,6 +138,7 @@ namespace LandBankManagement.ViewModels
             DocList = model.PropertyCheckListDocuments;
             PrepareCheckList();
             RestartItem();
+            PropertyCheckListViewModel.HideProgressRing();
             StartStatusMessage("Property Checklist is loaded");
         }
        public void loadAcres(Area area,string type) {
@@ -175,6 +177,7 @@ namespace LandBankManagement.ViewModels
         }
         private void GetDropdowns()
         {
+            PropertyCheckListViewModel.ShowProgressRing();
             CompanyOptions = DropDownService.GetCompanyOptions();
             HobliOptions = DropDownService.GetHobliOptions();
             TalukOptions = DropDownService.GetTalukOptions();
@@ -182,6 +185,7 @@ namespace LandBankManagement.ViewModels
             DocumentTypeOptions = DropDownService.GetDocumentTypeOptions();
             PropertyTypeOptions = DropDownService.GetPropertyTypeOptions();
             CheckListOptions = DropDownService.GetCheckListOptions();
+            PropertyCheckListViewModel.HideProgressRing();
         }
         public void PrepareCheckList() {
             ResetCheckList();
@@ -224,8 +228,9 @@ namespace LandBankManagement.ViewModels
         }
 
         public void GetVendors() {
-
+            PropertyCheckListViewModel.ShowProgressRing();
             VendorOptions = DropDownService.GetVendorOptions(VendorSearchQuery);
+            PropertyCheckListViewModel.HideProgressRing();
         }
 
         public void PrepareVendorList() {
@@ -257,8 +262,10 @@ namespace LandBankManagement.ViewModels
         public async void RemoveVendor(int id) {
             var model = VendorList.First(x => x.VendorId == id);
             if (model.PropertyCheckListId > 0) {
+                PropertyCheckListViewModel.ShowProgressRing();
                await PropertyCheckListService.DeletePropertyVendorAsync(model.CheckListVendorId);
                 GetPropertyVendors(Item.PropertyCheckListId);
+                PropertyCheckListViewModel.HideProgressRing();
             }
             else
             VendorList.Remove(model);
@@ -311,12 +318,14 @@ namespace LandBankManagement.ViewModels
                 if (docs.Count > 0)
                 {
                     StartStatusMessage("Saving Property Documents...");
+                    PropertyCheckListViewModel.ShowProgressRing();
                     await PropertyCheckListService.SaveDocuments(docs, Item.PropertyGuid);
                     DocList = await PropertyCheckListService.GetDocuments(Item.PropertyGuid);
                     for (int i = 0; i < DocList.Count; i++)
                     {
                         DocList[i].Identity = i + 1;
                     }
+                    PropertyCheckListViewModel.HideProgressRing();
                     EndStatusMessage("Property Documents saved");
                 }
             }
@@ -330,7 +339,9 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Property Documents...");
                 if (DocList[id - 1].PropertyCheckListBlobId > 0)
                 {
-                   await PropertyCheckListService.DeletePropertyDocumentAsync(DocList[id - 1]);
+                    PropertyCheckListViewModel.ShowProgressRing();
+                      await PropertyCheckListService.DeletePropertyDocumentAsync(DocList[id - 1]);
+                    PropertyCheckListViewModel.HideProgressRing();
                 }
                 DocList.RemoveAt(id - 1);
                 var newlist = DocList;
@@ -360,7 +371,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Property Checklist...");
-
+                PropertyCheckListViewModel.ShowProgressRing();
                 PreparePRoeprtyCheckListModel(model);
                 int id = 0;
                 if (model.PropertyCheckListId <= 0)
@@ -370,14 +381,14 @@ namespace LandBankManagement.ViewModels
                 model = new PropertyCheckListModel() { PropertyCheckListId = -1, PropertyTypeId = 0, CompanyID = 0, TalukId = 0, HobliId = 0, VillageId = 0, DocumentTypeId = 0 };
                 EndStatusMessage("Property CheckList saved");
                 ClearItem();
-               await LoadPropertyCheckList(id);
-               
+                await LoadPropertyCheckList(id);
+
 
                 //DocList = model.PropertyCheckListDocuments;
                 //VendorList = model.PropertyCheckListVendors;
                 //PrepareCheckList();
 
-               
+
                 LogInformation("Property", "Save", "Property CheckList saved successfully", $"Property {model.PropertyCheckListId} '{model.PropertyName}' was saved successfully.");
                 return true;
             }
@@ -386,6 +397,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error saving Property CheckList: {ex.Message}");
                 LogException("Property CheckList", "Save", ex);
                 return false;
+            }
+            finally {
+                PropertyCheckListViewModel.HideProgressRing();
             }
         }
         private void PreparePRoeprtyCheckListModel(PropertyCheckListModel model) {
@@ -428,7 +442,9 @@ namespace LandBankManagement.ViewModels
 
 
         public void GetPropertyVendors(int id) {
+            PropertyCheckListViewModel.ShowProgressRing();
             var items= PropertyCheckListService.GetPropertyCheckListVendors(id);
+            PropertyCheckListViewModel.HideProgressRing();
             VendorList = new ObservableCollection<PropertyCheckListVendorModel>(items);            
         }
 
@@ -447,7 +463,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Property checklist...");
-
+                PropertyCheckListViewModel.ShowProgressRing();
                 await PropertyCheckListService.DeletePropertyCheckListAsync(model);
                 ClearItem();
                 //await PropertyCheckListListViewModel.RefreshAsync();
@@ -460,6 +476,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting Property checklist: {ex.Message}");
                 LogException("Property checklist", "Delete", ex);
                 return false;
+            }
+            finally {
+                PropertyCheckListViewModel.HideProgressRing();
             }
         }
 

@@ -32,10 +32,11 @@ namespace LandBankManagement.ViewModels
 
     public class PartyListViewModel : GenericListViewModel<PartyModel>
     {
-
-        public PartyListViewModel(IPartyService partyService, ICommonServices commonServices) : base(commonServices)
+        private PartyViewModel PartyViewModel { get; set; }
+        public PartyListViewModel(IPartyService partyService, ICommonServices commonServices, PartyViewModel partyViewModel) : base(commonServices)
         {
             PartyService = partyService;
+            PartyViewModel = partyViewModel;
         }
 
         public IPartyService PartyService { get; }
@@ -89,6 +90,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                PartyViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -97,6 +99,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error loading Partys: {ex.Message}");
                 LogException("Partys", "Refresh", ex);
                 isOk = false;
+            }
+            finally {
+                PartyViewModel.HideProgressRing();
             }
 
             ItemsCount = Items.Count;

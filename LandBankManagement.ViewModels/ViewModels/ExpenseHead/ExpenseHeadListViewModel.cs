@@ -31,10 +31,11 @@ namespace LandBankManagement.ViewModels
     {
         public IExpenseHeadService ExpenseHeadService { get; }
         public ExpenseHeadListArgs ViewModelArgs { get; private set; }
-
-        public ExpenseHeadListViewModel(IExpenseHeadService expenseHeadService, ICommonServices commonServices) : base(commonServices)
+        private ExpenseHeadViewModel ExpenseHeadViewModel { get; set; }
+        public ExpenseHeadListViewModel(IExpenseHeadService expenseHeadService, ICommonServices commonServices, ExpenseHeadViewModel expenseHeadViewModel) : base(commonServices)
         {
             ExpenseHeadService = expenseHeadService;
+            ExpenseHeadViewModel = expenseHeadViewModel;
         }
         public async Task LoadAsync(ExpenseHeadListArgs args)
         {
@@ -82,6 +83,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                ExpenseHeadViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -90,6 +92,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error loading Expense Head: {ex.Message}");
                 LogException("Document Type", "Refresh", ex);
                 isOk = false;
+            }
+            finally {
+                ExpenseHeadViewModel.HideProgressRing();
             }
 
             ItemsCount = Items.Count;

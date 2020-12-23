@@ -8,6 +8,19 @@ namespace LandBankManagement.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public LoginViewModel(ILoginService loginService, ISettingsService settingsService, ICommonServices commonServices) : base(commonServices)
         {
             LoginService = loginService;
@@ -54,6 +67,17 @@ namespace LandBankManagement.ViewModels
             set { Set(ref _password, value); }
         }
 
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
+
         public ICommand ShowLoginWithPasswordCommand => new RelayCommand(ShowLoginWithPassword);
         public ICommand LoginWithPasswordCommand => new RelayCommand(LoginWithPassword);
         public ICommand LoginWithWindowHelloCommand => new RelayCommand(LoginWithWindowHello);
@@ -91,9 +115,10 @@ namespace LandBankManagement.ViewModels
 
         public async void LoginWithPassword()
         {
+
             if (loginProcessStarted)
                 return;
-
+            ShowProgressRing();
              loginProcessStarted = true;
             IsBusy = true;
            
@@ -118,6 +143,7 @@ namespace LandBankManagement.ViewModels
         public async void LoginWithWindowHello()
         {
             IsBusy = true;
+            ShowProgressRing();
             var result = await LoginService.SignInWithWindowsHelloAsync();
             if (result.IsOk)
             {
@@ -126,6 +152,7 @@ namespace LandBankManagement.ViewModels
             }
             await DialogService.ShowAsync(result.Message, result.Description);
             IsBusy = false;
+            HideProgressRing();
         }
 
         private void EnterApplication()

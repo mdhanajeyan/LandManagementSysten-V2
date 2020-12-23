@@ -20,10 +20,12 @@ namespace LandBankManagement.ViewModels
 
         public ICompanyService CompanyService { get; }
         public IFilePickerService FilePickerService { get; }
-        public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        public CompanyViewModel CompanyViewModel { get; set; }
+        public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices, CompanyViewModel companyViewModel) : base(commonServices)
         {
             CompanyService = companyService;
             FilePickerService = filePickerService;
+            CompanyViewModel = companyViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Company" : TitleEdit;
@@ -97,15 +99,21 @@ namespace LandBankManagement.ViewModels
                 if (docs.Count > 0)
                 {
                     StartStatusMessage("Saving Company Documents...");
+                    CompanyViewModel.ShowProgressRing();
                     await CompanyService.UploadCompanyDocumentsAsync(docs, Item.CompanyGuid);
                     DocList = await CompanyService.GetDocuments(Item.CompanyGuid);
+                    for (int i = 0; i < DocList.Count; i++)
+                    {
+                        DocList[i].Identity = i + 1;
+                    }
+                    CompanyViewModel.HideProgressRing();
                     EndStatusMessage(" Company Document saved");
                 }
             }
 
         }
 
-        public void DeleteDocument(int id) {
+        public async void DeleteDocument(int id) {
             try
             {
                 if (id > 0)
@@ -113,9 +121,9 @@ namespace LandBankManagement.ViewModels
                     StartStatusMessage("Deleting  Company Documents...");
                     if (DocList[id - 1].blobId > 0)
                     {
-                        ShowProgressRing();
-                        CompanyService.DeleteCompanyDocumentAsync(DocList[id - 1]);
-                        HideProgressRing();
+                        CompanyViewModel.ShowProgressRing();
+                        await CompanyService.DeleteCompanyDocumentAsync(DocList[id - 1]);
+                        CompanyViewModel.HideProgressRing();
                     }
                     DocList.RemoveAt(id - 1);
                     var newlist = DocList;
@@ -129,7 +137,7 @@ namespace LandBankManagement.ViewModels
                 }
             }
             catch (Exception ) {
-                HideProgressRing();
+                CompanyViewModel.HideProgressRing();
             }
         }
 
@@ -147,25 +155,26 @@ namespace LandBankManagement.ViewModels
             try
             {               
                 StartStatusMessage("Saving Company...");
-                ShowProgressRing();
-                              
+                CompanyViewModel.ShowProgressRing();
+
                 if (model.CompanyID <= 0)
                     await CompanyService.AddCompanyAsync(model, DocList);
                 else
                     await CompanyService.UpdateCompanyAsync(model, DocList);
 
                 DocList = model.CompanyDocuments;
-                HideProgressRing();              
                 EndStatusMessage("Company saved");                             
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
-            {
-                HideProgressRing();
+            {              
                 StatusError($"Error saving Company: {ex.Message}");
                 LogException("Company", "Save", ex);
                 return false;
+            }
+            finally{
+                CompanyViewModel.HideProgressRing();
             }
         }
 
@@ -180,26 +189,28 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Company...");
-                ShowProgressRing();
-                
-               var result= await CompanyService.DeleteCompanyAsync(model);
-                if (!result.IsOk) {
-                   await DialogService.ShowAsync(result.Message,"");
+                CompanyViewModel.ShowProgressRing();
+
+                var result = await CompanyService.DeleteCompanyAsync(model);
+                if (!result.IsOk)
+                {
+                    await DialogService.ShowAsync(result.Message, "");
                     EndStatusMessage(result.Message);
                     return true;
                 }
-                ClearItem();
-                HideProgressRing();
+                ClearItem();              
                 EndStatusMessage("Company deleted");
                 LogWarning("Company", "Delete", "Company deleted", $"Company {model.CompanyID} '{model.Name}' was deleted.");
                 return true;
             }
             catch (Exception ex)
-            {
-                HideProgressRing();
+            {               
                 StatusError($"Error deleting Company: {ex.Message}");
                 LogException("Company", "Delete", ex);
                 return false;
+            }
+            finally {
+                CompanyViewModel.HideProgressRing();
             }
         }
 

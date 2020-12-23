@@ -28,7 +28,16 @@
                   BorderThickness="0,1,0,0">
                 <views:RolePermissionDetails ViewModel="{x:Bind ViewModel.RolePermissionDetials}"/>
 
-            </Grid>          
-       
+            </Grid>
+        <ProgressRing x:Name="progressRing"
+                      Height="40"
+                      Width="40"
+                      IsActive="{x:Bind ViewModel.ProgressRingActive,Mode=TwoWay}"
+                      Foreground="Black"
+                      Canvas.Left="650"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Canvas.Top="550"  Visibility="{Binding Path=ProgressRingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
+/>
     </Grid>
 </Page>

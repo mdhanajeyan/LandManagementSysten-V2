@@ -69,7 +69,8 @@ namespace LandBankManagement.ViewModels
             Children = new ObservableCollection<NavigationItem>
             {
                 new NavigationItem(0xf041, "Property", typeof(PropertyViewModel)){ Screen=NavigationScreen.Property},
-                new NavigationItem(0xf035, "Property Check List", typeof(PropertyCheckListViewModel)){Screen=NavigationScreen.PropertyCheckList}
+                new NavigationItem(0xf035, "Property Check List", typeof(PropertyCheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
+                new NavigationItem(0xf035, "Property Merge", typeof(PropertyMergeViewModel)){Screen=NavigationScreen.MergeProperties}
 
             }
         };
@@ -116,7 +117,7 @@ namespace LandBankManagement.ViewModels
             await base.LoadAsync(args);
             _userInfo = args.UserInfo;
             SetMenuPermissions();
-            HideProgressRing();
+           // HideProgressRing();
         }
 
 
@@ -197,6 +198,9 @@ namespace LandBankManagement.ViewModels
                     break;
                 case "PropertyCheckListViewModel":
                     NavigationService.Navigate(viewModel, new PropertyCheckListListArgs());
+                    break;
+                case "PropertyMergeViewModel":
+                    NavigationService.Navigate(viewModel, new PropertyMergeListArgs());
                     break;
                 default:
                     throw new NotImplementedException();

@@ -15,11 +15,13 @@ namespace LandBankManagement.ViewModels
         public IDocumentTypeService DocumentTypeService { get; }
         public IFilePickerService FilePickerService { get; }
         public DocumentTypeListViewModel DocumentTypeListViewModel {get;}
-        public DocumentTypeDetailsViewModel(IDocumentTypeService documentTypeService, IFilePickerService filePickerService, ICommonServices commonServices, DocumentTypeListViewModel documentTypeListViewModel) : base(commonServices)
+        public DocumentTypeViewModel DocumentTypeViewModel { get; set; }
+        public DocumentTypeDetailsViewModel(IDocumentTypeService documentTypeService, IFilePickerService filePickerService, ICommonServices commonServices, DocumentTypeListViewModel documentTypeListViewModel, DocumentTypeViewModel documentTypeViewModel) : base(commonServices)
         {
             DocumentTypeService = documentTypeService;
             FilePickerService = filePickerService;
             DocumentTypeListViewModel = documentTypeListViewModel;
+            DocumentTypeViewModel = documentTypeViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New DocumentType" : TitleEdit;
@@ -81,7 +83,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving DocumentType...");
-                
+                DocumentTypeViewModel.ShowProgressRing();
                 if (model.DocumentTypeId <= 0)
                     await DocumentTypeService.AddDocumentTypeAsync(model);
                 else
@@ -99,6 +101,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Party", "Save", ex);
                 return false;
             }
+            finally {
+                DocumentTypeViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -109,7 +114,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting DocumentType...");
-                
+                DocumentTypeViewModel.ShowProgressRing();
                 await DocumentTypeService.DeleteDocumentTypeAsync(model);
                 ClearItem();
                 await DocumentTypeListViewModel.RefreshAsync();
@@ -122,6 +127,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting DocumentType: {ex.Message}");
                 LogException("DocumentType", "Delete", ex);
                 return false;
+            }
+            finally {
+                DocumentTypeViewModel.HideProgressRing();
             }
         }
 

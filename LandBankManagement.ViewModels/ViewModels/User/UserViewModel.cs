@@ -12,14 +12,27 @@ namespace LandBankManagement.ViewModels
 
         IUserService UserService { get; }
         public UserListViewModel UserList { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
+
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
 
         public UserDetailsViewModel UserDetails { get; set; }
 
         public UserViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IUserService userService,IUserRoleService userRoleService) : base(commonServices)
         {
             UserService = userService;
-            UserList = new UserListViewModel(userService, commonServices);
-            UserDetails = new UserDetailsViewModel(dropDownService, userService, filePickerService, commonServices, UserList, userRoleService);
+            UserList = new UserListViewModel(userService, commonServices,this);
+            UserDetails = new UserDetailsViewModel(dropDownService, userService, filePickerService, commonServices, UserList, userRoleService,this);
         }
 
         public async Task LoadAsync(UserListArgs args)
@@ -37,7 +50,16 @@ namespace LandBankManagement.ViewModels
             MessageService.Subscribe<UserListViewModel>(this, OnMessage);
             UserList.Subscribe();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Unsubscribe()
         {
             MessageService.Unsubscribe(this);
@@ -73,6 +95,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await UserService.GetUserAsync(selected.UserInfoId);
                 selected.Merge(model);
                 UserDetails.Item = model;
@@ -82,6 +105,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("User", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
     }

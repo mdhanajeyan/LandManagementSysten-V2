@@ -173,7 +173,10 @@ namespace LandBankManagement.Services
                 BankAccountId=source.BankAccountId??0,
                 CashAccountId=source.CashAccountId??0,
                 PDC=source.PDC,
-                AccountName=source.AccountName
+                AccountName=source.AccountName,
+                CompanyName=source.CompanyName,
+                DocumentTypeName=source.DocumentTypeName,
+                PropertyName=source.PropertyName
         };
             if (source.PaymentLists!=null && source.PaymentLists.Count > 0)
             {
@@ -190,7 +193,7 @@ namespace LandBankManagement.Services
                         CashAccountId=obj.CashAccountId,
                         ChequeNo=obj.ChequeNo,
                         Narration=obj.Narration,
-                        Amount=obj.Amount,
+                        Amount=obj.Amount.ToString(),
                         PDC=obj.PDC,
                         AccountName=obj.AccountName
                     }) ;
@@ -209,7 +212,7 @@ namespace LandBankManagement.Services
             target.Narration = source.Narration;
             target.PaymentId = source.PaymentId;
             target.PaymentTypeId = source.PaymentTypeId;
-            target.Amount = source.Amount;
+            target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.PDC = source.PDC;
         }
 

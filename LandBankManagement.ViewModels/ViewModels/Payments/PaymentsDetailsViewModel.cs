@@ -125,13 +125,14 @@ namespace LandBankManagement.ViewModels
             get => _isBankChecked;
             set => Set(ref _isBankChecked, value);
         }
-
-        public PaymentsDetailsViewModel(IDropDownService dropDownService, IPaymentService villageService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+         
+        private PaymentsViewModel PaymentsViewModel { get; set; }
+        public PaymentsDetailsViewModel(IDropDownService dropDownService, IPaymentService villageService, IFilePickerService filePickerService, ICommonServices commonServices, PaymentsViewModel paymentsViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             PaymentsService = villageService;
-          
+            PaymentsViewModel = paymentsViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Payments" : TitleEdit;
@@ -177,6 +178,7 @@ namespace LandBankManagement.ViewModels
 
         private void GetDropdowns()
         {
+            PaymentsViewModel.ShowProgressRing();
            CompanyOptions = DropDownService.GetCompanyOptions();
             ExpenseOptions = DropDownService.GetExpenseHeadOptions();
             PartyOptions= DropDownService.GetPartyOptions();
@@ -184,6 +186,7 @@ namespace LandBankManagement.ViewModels
             DocumentTypeOptions = DropDownService.GetDocumentTypeOptions();
             CashOptions = DropDownService.GetCashOptions();
             BankOptions = DropDownService.GetBankOptions();
+            PaymentsViewModel.HideProgressRing();
         }
         
 
@@ -256,9 +259,9 @@ namespace LandBankManagement.ViewModels
         public async void DeletePaymentList(int id) {
 
             if (PaymentList[id-1].PaymentListId > 0) {
-
+                PaymentsViewModel.ShowProgressRing();
                 await PaymentsService.DeletePaymentListAsync((int)PaymentList[id - 1].PaymentListId);
-               
+                PaymentsViewModel.HideProgressRing();
             }
             PaymentList.RemoveAt(id - 1);
             for (int i = 0; i < PaymentList.Count; i++)
@@ -279,18 +282,21 @@ namespace LandBankManagement.ViewModels
                     model.PayeeTypeId = 1;
                 else
                     model.PayeeTypeId = 2;
-                
+
+                if (!ValidatePayments())
+                    return false;
 
                 model.PaymentListModel = PaymentList;
 
                 StartStatusMessage("Saving Payments...");
+                PaymentsViewModel.ShowProgressRing();
                 int paymentId = 0;
                 if (model.PaymentId <= 0)
-                    paymentId=await PaymentsService.AddPaymentAsync(model);
+                    paymentId = await PaymentsService.AddPaymentAsync(model);
                 else
                     await PaymentsService.UpdatePaymentAsync(model);
 
-                var item =await PaymentsService.GetPaymentAsync(paymentId == 0 ? model.PaymentId : paymentId);
+                var item = await PaymentsService.GetPaymentAsync(paymentId == 0 ? model.PaymentId : paymentId);
                 Item = item;
                 PaymentList = item.PaymentListModel;
 
@@ -304,10 +310,47 @@ namespace LandBankManagement.ViewModels
                 LogException("Payments", "Save", ex);
                 return false;
             }
+            finally { PaymentsViewModel.HideProgressRing(); }
         }
+
+        private bool ValidatePayments() {
+
+            if (PaymentList != null && PaymentList.Count > 0)
+                return true;
+
+            if (CurrentPayment.CashAccountId <= 0 && CurrentPayment.BankAccountId <= 0) {
+                DialogService.ShowAsync("Validation Error", "Please select either Cash OR Bank account", "Ok");
+                return false;
+            }
+            if (string.IsNullOrEmpty(CurrentPayment.Amount) || Convert.ToDecimal(CurrentPayment.Amount) <= 0) {
+                DialogService.ShowAsync("Validation Error", "Please enter the amount", "Ok");
+                return false;
+            }
+            if ( string.IsNullOrEmpty( CurrentPayment.ChequeNo))
+            {
+                DialogService.ShowAsync("Validation Error", "Please enter the Cheque / Ref.No", "Ok");
+                return false;
+            }
+            if (PaymentList == null) {
+                PaymentList = new ObservableCollection<PaymentListModel>();
+            }
+            PaymentList.Add(CurrentPayment);
+            CurrentPayment = new PaymentListModel { DateOfPayment = DateTimeOffset.Now, PDC = true };
+            for (int i = 0; i < PaymentList.Count; i++)
+            {
+                PaymentList[i].identity = i + 1;
+            }
+            var newList = PaymentList;
+            PaymentList = null;
+            PaymentList = newList;
+
+            return true;
+        }
+
         protected override void ClearItem()
         {
             Item = new PaymentModel() { PayeeTypeId = 1, PaymentTypeId = 1,DateOfPayment=DateTimeOffset.Now };
+            PaymentList = new ObservableCollection<PaymentListModel>();
             defaultSettings();
         }
         protected override async Task<bool> DeleteItemAsync(PaymentModel model)
@@ -315,7 +358,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Payments...");
-                
+                PaymentsViewModel.ShowProgressRing();
                 await PaymentsService.DeletePaymentAsync(model);
                 ClearItem();
                 EndStatusMessage("Payments deleted");
@@ -328,6 +371,7 @@ namespace LandBankManagement.ViewModels
                 LogException("Payments", "Delete", ex);
                 return false;
             }
+            finally { PaymentsViewModel.HideProgressRing(); }
         }
 
         protected override async Task<bool> ConfirmDeleteAsync()
@@ -341,10 +385,10 @@ namespace LandBankManagement.ViewModels
             yield return new ValidationConstraint<PaymentModel>("Expense head Or Party Not to be empty", x => ValidateExpenseHeadAndParty(x));
             yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Property Name", m => m.PropertyId);
             yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Document Type", m => m.DocumentTypeId);
-            yield return new ValidationConstraint<PaymentModel>("Cash Or Bank Account Not to be empty", x => ValidateCashAndBank(x));
-            yield return new ValidationConstraint<PaymentModel>("Amount Not to be empty", x => ValidateAmount(x));
-            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Amount", m => m.Amount);
-            yield return new RequiredConstraint<PaymentModel>("Cheque / Ref No", m => m.ChequeNo);
+           // yield return new ValidationConstraint<PaymentModel>("Cash Or Bank Account Not to be empty", x => ValidateCashAndBank(x));
+           // yield return new ValidationConstraint<PaymentModel>("Amount Not to be empty", x => ValidateAmount(x));
+           // yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Amount", m => m.Amount);
+           // yield return new RequiredConstraint<PaymentModel>("Cheque / Ref No", m => m.ChequeNo);
         }
 
         private bool ValidateExpenseHeadAndParty(PaymentModel model) {

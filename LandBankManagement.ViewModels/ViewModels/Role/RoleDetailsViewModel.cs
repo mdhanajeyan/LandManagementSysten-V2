@@ -15,13 +15,14 @@ namespace LandBankManagement.ViewModels
         public IRoleService RoleService { get; }
         public IFilePickerService FilePickerService { get; }
         public RoleListViewModel RoleListViewModel { get; }
-      
-        public RoleDetailsViewModel(IDropDownService dropDownService, IRoleService roleService, IFilePickerService filePickerService, ICommonServices commonServices, RoleListViewModel villageListViewModel) : base(commonServices)
+        private RoleViewModel RoleViewModel { get; set; }
+        public RoleDetailsViewModel(IDropDownService dropDownService, IRoleService roleService, IFilePickerService filePickerService, ICommonServices commonServices, RoleListViewModel villageListViewModel, RoleViewModel roleViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             RoleService = roleService;
             RoleListViewModel = villageListViewModel;
+            RoleViewModel = roleViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Role" : TitleEdit;
@@ -62,7 +63,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Role...");
-
+                RoleViewModel.ShowProgressRing();
                 if (model.RoleId <= 0)
                     await RoleService.AddRoleAsync(model);
                 else
@@ -79,6 +80,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Role", "Save", ex);
                 return false;
             }
+            finally {
+                RoleViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -89,7 +93,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Role...");
-
+                RoleViewModel.ShowProgressRing();
                 await RoleService.DeleteRoleAsync(model);
                 ClearItem();
                 await RoleListViewModel.RefreshAsync();
@@ -102,6 +106,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting Role: {ex.Message}");
                 LogException("Role", "Delete", ex);
                 return false;
+            }
+            finally {
+                RoleViewModel.HideProgressRing();
             }
         }
 

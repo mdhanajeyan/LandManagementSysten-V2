@@ -74,12 +74,13 @@ namespace LandBankManagement.ViewModels
             get => _isFromBankChecked;
             set => Set(ref _isFromBankChecked, value);
         }
-
-        public FundTransferDetailsViewModel(IDropDownService dropDownService, IFundTransferService fundTransferService, IFilePickerService filePickerService, ICommonServices commonServices) : base(commonServices)
+        private FundTransferViewModel FundTransferViewModel { get; set; }
+        public FundTransferDetailsViewModel(IDropDownService dropDownService, IFundTransferService fundTransferService, IFilePickerService filePickerService, ICommonServices commonServices, FundTransferViewModel fundTransferViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
-            FundTransferService = fundTransferService;          
+            FundTransferService = fundTransferService;
+            FundTransferViewModel = fundTransferViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New FundTransfer" : TitleEdit;
@@ -122,8 +123,10 @@ namespace LandBankManagement.ViewModels
         }
         private void GetDropdowns()
         {
-            CompanyOptions = DropDownService.GetCompanyOptions();           
+            FundTransferViewModel.ShowProgressRing();
+               CompanyOptions = DropDownService.GetCompanyOptions();           
             BankOptions = DropDownService.GetBankOptions();
+            FundTransferViewModel.HideProgressRing();
         }              
       
 
@@ -141,7 +144,8 @@ namespace LandBankManagement.ViewModels
         protected override async Task<bool> SaveItemAsync(FundTransferModel model)
         {
             try
-            {               
+            {
+                FundTransferViewModel.ShowProgressRing();
                 if (IsFromCashChecked)
                     model.PayeePaymentType = 1;
                 else
@@ -153,7 +157,7 @@ namespace LandBankManagement.ViewModels
                     model.ReceiverPaymentType = 2;
 
                 StartStatusMessage("Saving FundTransfer...");
-                
+
                 if (model.FundTransferId <= 0)
                     await FundTransferService.AddFundTransferAsync(model);
                 else
@@ -168,6 +172,9 @@ namespace LandBankManagement.ViewModels
                 LogException("FundTransfer", "Save", ex);
                 return false;
             }
+            finally {
+                FundTransferViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -179,7 +186,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting FundTransfer...");
-                
+                FundTransferViewModel.ShowProgressRing();
                 await FundTransferService.DeleteFundTransferAsync(model);
                 ClearItem();
                 EndStatusMessage("FundTransfer deleted");
@@ -191,6 +198,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting FundTransfer: {ex.Message}");
                 LogException("FundTransfer", "Delete", ex);
                 return false;
+            }
+            finally {
+                FundTransferViewModel.HideProgressRing();
             }
         }
 

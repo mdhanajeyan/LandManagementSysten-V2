@@ -30,10 +30,12 @@ namespace LandBankManagement.ViewModels
     {
         public ICashAccountService CashAccountService { get; }
         public CashAccountListArgs ViewModelArgs { get; private set; }
+        private CashAccountViewModel CashAccountViewModel { get; set; }
 
-        public CashAccountListViewModel(ICashAccountService cashAccountService, ICommonServices commonServices) : base(commonServices)
+        public CashAccountListViewModel(ICashAccountService cashAccountService, ICommonServices commonServices, CashAccountViewModel cashAccountViewModel) : base(commonServices)
         {
             CashAccountService = cashAccountService;
+            CashAccountViewModel = cashAccountViewModel;
         }
         public async Task LoadAsync(CashAccountListArgs args)
         {
@@ -81,6 +83,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                CashAccountViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -89,6 +92,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error loading CashAccount: {ex.Message}");
                 LogException("CashAccount", "Refresh", ex);
                 isOk = false;
+            }
+            finally {
+                CashAccountViewModel.HideProgressRing();
             }
 
             ItemsCount = Items.Count;

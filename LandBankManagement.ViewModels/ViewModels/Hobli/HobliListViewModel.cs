@@ -31,9 +31,11 @@ namespace LandBankManagement.ViewModels
         public IHobliService HobliService { get; }
         public HobliListArgs ViewModelArgs { get; private set; }
 
-        public HobliListViewModel(IHobliService hobliService, ICommonServices commonServices) : base(commonServices)
+        private HobliViewModel HobliViewModel { get; set; }
+        public HobliListViewModel(IHobliService hobliService, ICommonServices commonServices, HobliViewModel hobliViewModel) : base(commonServices)
         {
             HobliService = hobliService;
+            HobliViewModel = hobliViewModel;
         }
         public async Task LoadAsync(HobliListArgs args)
         {
@@ -81,6 +83,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                HobliViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -90,6 +93,7 @@ namespace LandBankManagement.ViewModels
                 LogException("Hobli", "Refresh", ex);
                 isOk = false;
             }
+            finally { HobliViewModel.HideProgressRing(); }
 
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)

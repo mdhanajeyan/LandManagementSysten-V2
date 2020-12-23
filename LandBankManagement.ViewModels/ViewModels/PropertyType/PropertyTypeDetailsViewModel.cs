@@ -14,11 +14,13 @@ namespace LandBankManagement.ViewModels
         public IPropertyTypeService PropertyTypeService { get; }
         public IFilePickerService FilePickerService { get; }
         public PropertyTypeListViewModel PropertyTypeList { get;  }
-        public PropertyTypeDetailsViewModel(IPropertyTypeService propertyTypeService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyTypeListViewModel propertyTypeList) : base(commonServices)
+        private PropertyTypeViewModel PropertyTypeViewModel { get; set; }
+        public PropertyTypeDetailsViewModel(IPropertyTypeService propertyTypeService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyTypeListViewModel propertyTypeList, PropertyTypeViewModel propertyTypeViewModel) : base(commonServices)
         {
             PropertyTypeService = propertyTypeService;
             FilePickerService = filePickerService;
             PropertyTypeList = propertyTypeList;
+            PropertyTypeViewModel = propertyTypeViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New PropertyType" : TitleEdit;
@@ -81,7 +83,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving PropertyType...");
-                
+                PropertyTypeViewModel.ShowProgressRing();
                 if (model.PropertyTypeId <= 0)
                     await PropertyTypeService.AddPropertyTypeAsync(model);
                 else
@@ -98,6 +100,9 @@ namespace LandBankManagement.ViewModels
                 LogException("PropertyType", "Save", ex);
                 return false;
             }
+            finally {
+                PropertyTypeViewModel.HideProgressRing();
+            }
         }
 
         protected override void ClearItem()
@@ -109,7 +114,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting PropertyType...");
-                
+                PropertyTypeViewModel.ShowProgressRing();
                 await PropertyTypeService.DeletePropertyTypeAsync(model);
                 await PropertyTypeList.RefreshAsync();
                 ClearItem();
@@ -122,6 +127,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting PropertyType: {ex.Message}");
                 LogException("PropertyType", "Delete", ex);
                 return false;
+            }
+            finally {
+                PropertyTypeViewModel.HideProgressRing();
             }
         }
 

@@ -31,9 +31,11 @@ namespace LandBankManagement.ViewModels
         public IPaymentService PaymentsService { get; }
         public PaymentsListArgs ViewModelArgs { get; private set; }
 
-        public PaymentsListViewModel(IPaymentService villageService, ICommonServices commonServices) : base(commonServices)
+        private PaymentsViewModel PaymentsViewModel { get; set; }
+        public PaymentsListViewModel(IPaymentService villageService, ICommonServices commonServices, PaymentsViewModel paymentsViewModel) : base(commonServices)
         {
             PaymentsService = villageService;
+            PaymentsViewModel = paymentsViewModel;
         }
         public async Task LoadAsync(PaymentsListArgs args)
         {
@@ -81,6 +83,7 @@ namespace LandBankManagement.ViewModels
 
             try
             {
+                PaymentsViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
             }
             catch (Exception ex)
@@ -90,7 +93,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Payments", "Refresh", ex);
                 isOk = false;
             }
-
+            finally {
+                PaymentsViewModel.HideProgressRing();
+            }
             ItemsCount = Items.Count;
             if (!IsMultipleSelection)
             {

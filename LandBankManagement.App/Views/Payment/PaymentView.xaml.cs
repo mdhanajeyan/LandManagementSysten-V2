@@ -18,9 +18,7 @@ namespace LandBankManagement.Views
             ViewModel = ServiceLocator.Current.GetService<PaymentsViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
-            progressRing.IsActive = true;
-            progressRing.Visibility = Visibility.Visible;
-            ViewModel.PaymentsDetails.IsEditMode = true;
+           
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

@@ -15,11 +15,13 @@ namespace LandBankManagement.ViewModels
         public ITalukService TalukService { get; }
         public IFilePickerService FilePickerService { get; }
         public TalukListViewModel TalukListViewModel { get; }
-        public TalukDetailsViewModel(ITalukService talukService, IFilePickerService filePickerService, ICommonServices commonServices, TalukListViewModel talukListViewModel) : base(commonServices)
+        private TalukViewModel TalukViewModel { get; set; }
+        public TalukDetailsViewModel(ITalukService talukService, IFilePickerService filePickerService, ICommonServices commonServices, TalukListViewModel talukListViewModel, TalukViewModel talukViewModel) : base(commonServices)
         {
             TalukService = talukService;
             FilePickerService = filePickerService;
             TalukListViewModel = talukListViewModel;
+            TalukViewModel = talukViewModel;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Taluk" : TitleEdit;
@@ -87,7 +89,7 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Saving Taluk...");
-                
+                TalukViewModel.ShowProgressRing();
                 if (model.TalukId <= 0)
                     await TalukService.AddTalukAsync(model);
                 else
@@ -104,6 +106,9 @@ namespace LandBankManagement.ViewModels
                 LogException("Taluk", "Save", ex);
                 return false;
             }
+            finally {
+                TalukViewModel.HideProgressRing();
+            }
         }
         protected override void ClearItem()
         {
@@ -114,10 +119,11 @@ namespace LandBankManagement.ViewModels
             try
             {
                 StartStatusMessage("Deleting Taluk...");
-                
-               var result= await TalukService.DeleteTalukAsync(model);
-                if (!result.IsOk) {
-                   await DialogService.ShowAsync(result.Message,"");
+                TalukViewModel.ShowProgressRing();
+                var result = await TalukService.DeleteTalukAsync(model);
+                if (!result.IsOk)
+                {
+                    await DialogService.ShowAsync(result.Message, "");
                     EndStatusMessage("Taluk is deleted");
                     return true;
                 }
@@ -132,6 +138,9 @@ namespace LandBankManagement.ViewModels
                 StatusError($"Error deleting Taluk: {ex.Message}");
                 LogException("Taluk", "Delete", ex);
                 return false;
+            }
+            finally {
+                TalukViewModel.HideProgressRing();
             }
         }
 

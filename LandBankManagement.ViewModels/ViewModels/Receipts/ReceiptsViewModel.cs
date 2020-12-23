@@ -14,12 +14,24 @@ namespace LandBankManagement.ViewModels
         public ReceiptsListViewModel ReceiptsList { get; set; }
 
         public ReceiptsDetailsViewModel ReceiptsDetials { get; set; }
+        private bool _progressRingVisibility;
+        public bool ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set => Set(ref _progressRingVisibility, value);
+        }
 
+        private bool _progressRingActive;
+        public bool ProgressRingActive
+        {
+            get => _progressRingActive;
+            set => Set(ref _progressRingActive, value);
+        }
         public ReceiptsViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IReceiptService receiptService) : base(commonServices)
         {
             ReceiptsService = receiptService;
-            ReceiptsList = new ReceiptsListViewModel(receiptService, commonServices);
-            ReceiptsDetials = new ReceiptsDetailsViewModel(dropDownService, receiptService, filePickerService, commonServices, ReceiptsList);
+            ReceiptsList = new ReceiptsListViewModel(receiptService, commonServices,this);
+            ReceiptsDetials = new ReceiptsDetailsViewModel(dropDownService, receiptService, filePickerService, commonServices, ReceiptsList,this);
         }
 
         public async Task LoadAsync(ReceiptsListArgs args)
@@ -31,7 +43,16 @@ namespace LandBankManagement.ViewModels
         {
             ReceiptsList.Unload();
         }
-
+        public void ShowProgressRing()
+        {
+            ProgressRingActive = true;
+            ProgressRingVisibility = true;
+        }
+        public void HideProgressRing()
+        {
+            ProgressRingActive = false;
+            ProgressRingVisibility = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<ReceiptsListViewModel>(this, OnMessage);
@@ -73,6 +94,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                ShowProgressRing();
                 var model = await ReceiptsService.GetReceiptAsync(selected.ReceiptId);
                 selected.Merge(model);
                 ReceiptsDetials.Item = model;
@@ -80,6 +102,9 @@ namespace LandBankManagement.ViewModels
             catch (Exception ex)
             {
                 LogException("Receipts", "Load Details", ex);
+            }
+            finally {
+                HideProgressRing();
             }
         }
     }
