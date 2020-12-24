@@ -29,7 +29,12 @@
                                            SelectedValue="{x:Bind selectedProperty, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                         <StackPanel>
-                        <Button Content="Search" x:Name="Search" Margin="10 25 0 0" Click="Search_Click"  Width="100"/>
+                            <Button  x:Name="Search" Margin="10 25 0 0" Click="Search_Click" Background="#03A9F4" Foreground="#fff"  Width="120">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Search"   />
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE721;"  Margin="10 0 0 0"  HorizontalAlignment="Left"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10" Margin="0 20 0 0">
@@ -63,32 +68,34 @@
                     </CheckBox>
                     <controls:FluidGrid  ColumnSpan="2" Columns="1" ColumnSpacing="10" Margin="0 20 0 0" HorizontalAlignment="Center">
                         <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" >
-                            <Button Content="Add" x:Name="AddProperty" Margin="10" Click="AddProperty_Click"  Width="100"/>
+                            <Button Content="Add" x:Name="AddProperty" Margin="10" Click="AddProperty_Click" Background="#03A9F4" Foreground="#fff" Width="100">
+                                
+                            </Button>
                         </StackPanel>
                     </controls:FluidGrid>
 
                 </controls:FluidGrid>
                 <Grid Grid.Row="1" Grid.Column="1" >
-                   
-                    <Grid  HorizontalAlignment="Stretch" Margin="10 0 10 30">
+
+                    <Grid  HorizontalAlignment="Stretch" Margin="10 0 10 30" BorderBrush="#B3E5FC" BorderThickness="2">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0"  HorizontalAlignment="Stretch" Background="#b0b0b0" Padding="0 0 0 0">
+                        <Grid Grid.Row="0"  HorizontalAlignment="Stretch" Background="#B3E5FC" Padding="0 0 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="45"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Property Name" Foreground="#616263" FontSize="16"  Padding="5 5 0 5"  ></TextBlock>
+                            <TextBlock Grid.Column="0" Text="Property Name" Foreground="#616263" FontSize="16"  Padding="5 5 0 5" TextWrapping="Wrap" ></TextBlock>
                             <TextBlock Grid.Column="1" Text="Party" Foreground="#616263" FontSize="16" Padding="5 5 0 5"></TextBlock>
                             <TextBlock Grid.Column="2" Text="Village"  Foreground="#616263" FontSize="16" Padding="5 5 0 5"></TextBlock>
                             <TextBlock Grid.Column="3" Text="Sy.No"  Foreground="#616263" FontSize="16" Padding="5 5 0 5"></TextBlock>
@@ -107,18 +114,18 @@
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate >
                                     <DataTemplate>
-                                        <Grid  >
+                                        <Grid >
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="45"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="40"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="{Binding PropertyName}" Foreground="#616263" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
                                             <TextBlock Grid.Column="1" Text="{Binding Party}" Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>

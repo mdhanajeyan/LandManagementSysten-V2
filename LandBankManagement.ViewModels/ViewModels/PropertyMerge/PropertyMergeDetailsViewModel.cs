@@ -105,7 +105,7 @@ namespace LandBankManagement.ViewModels
             if (PropertyList == null)
                 PropertyList = new ObservableCollection<PropertyMergeListModel>();
 
-            if (CurrentProperty.PropertyGuid == Guid.Empty)
+            if (CurrentProperty==null || CurrentProperty.PropertyGuid == Guid.Empty)
                 return;
 
             var isExist = PropertyList.Where(x => x.PropertyGuid == CurrentProperty.PropertyGuid).Count();
@@ -114,6 +114,8 @@ namespace LandBankManagement.ViewModels
 
             PropertyList.Add(CurrentProperty);
             CurrentProperty = new PropertyMergeListModel();
+            selectedProperty = 0;
+            selectedCompany = 0;
         }
 
         public void Subscribe()
@@ -150,6 +152,12 @@ namespace LandBankManagement.ViewModels
             {               
 
                 model.propertyMergeLists = PropertyList;
+                foreach (var obj in model.propertyMergeLists) {
+                    model.MergedSaleValue1 = model.MergedSaleValue1 + Convert.ToDecimal(string.IsNullOrEmpty( obj.SaleValue1)?"0" : obj.SaleValue1);
+                    model.MergedSaleValue2 = model.MergedSaleValue2 + Convert.ToDecimal(string.IsNullOrEmpty( obj.SaleValue2)?"0" : obj.SaleValue2);
+                    model.MergedAmountPaid1 = model.MergedAmountPaid1 + Convert.ToDecimal(string.IsNullOrEmpty( obj.Amount1)?"0" : obj.Amount1);
+                    model.MergedAmountPaid2 = model.MergedAmountPaid2 + Convert.ToDecimal(string.IsNullOrEmpty( obj.Amount2)?"0" : obj.Amount2);
+                }
 
                 StartStatusMessage("Saving PropertyMerges...");
                 PropertyMergesViewModel.ShowProgressRing();
