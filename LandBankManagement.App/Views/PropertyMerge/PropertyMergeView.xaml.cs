@@ -26,9 +26,7 @@ namespace LandBankManagement.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.LoadAsync(e.Parameter as PropertyMergeListArgs);
-            progressRing.IsActive = false;
-            progressRing.Visibility = Visibility.Collapsed;
+            await ViewModel.LoadAsync(e.Parameter as PropertyMergeListArgs);            
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

@@ -25,8 +25,6 @@ namespace LandBankManagement.Views
         {
             ViewModel.Subscribe();
             await ViewModel.LoadAsync(e.Parameter as PaymentsListArgs);
-            progressRing.IsActive = false;
-            progressRing.Visibility = Visibility.Collapsed;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

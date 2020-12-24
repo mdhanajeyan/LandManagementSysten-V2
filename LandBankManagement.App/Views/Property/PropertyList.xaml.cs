@@ -6,6 +6,7 @@ using System;
 using Syncfusion.UI.Xaml.TreeGrid;
 using System.Collections.Generic;
 using LandBankManagement.Models;
+using System.Linq;
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace LandBankManagement.Views
@@ -44,8 +45,15 @@ namespace LandBankManagement.Views
                
         private void treeGrid_SelectionChanged(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
         {
-            var item = (PropertyModel)treeGrid.SelectedItem;
-            ViewModel.PopulateProperty(item);
+            //var item = (PropertyModel)treeGrid.SelectedItem;
+            //ViewModel.PopulateProperty(item);
+        }
+
+        private void EditProperty_Click(object sender, RoutedEventArgs e)
+        {
+            var propertyId = Convert.ToInt32(((Button)sender).Tag.ToString());
+            var selectedItem = ViewModel.Items.Where(x => x.PropertyId == propertyId).FirstOrDefault();
+            ViewModel.PopulateProperty(selectedItem);
         }
     }
 }

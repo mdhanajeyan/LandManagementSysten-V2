@@ -21,8 +21,6 @@ namespace LandBankManagement.Views
             ViewModel = ServiceLocator.Current.GetService<ReceiptsViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             this.InitializeComponent();
-            progressRing.IsActive = true;
-            progressRing.Visibility = Visibility.Visible;
             ViewModel.ReceiptsDetials.IsEditMode = true;
         }
 
@@ -30,8 +28,6 @@ namespace LandBankManagement.Views
         {
             ViewModel.Subscribe();
             await ViewModel.LoadAsync(e.Parameter as ReceiptsListArgs);
-            progressRing.IsActive = false;
-            progressRing.Visibility = Visibility.Collapsed;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

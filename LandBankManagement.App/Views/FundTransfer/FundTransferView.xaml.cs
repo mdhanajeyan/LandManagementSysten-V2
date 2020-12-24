@@ -20,18 +20,14 @@ namespace LandBankManagement.Views
         {
             ViewModel = ServiceLocator.Current.GetService<FundTransferViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
-            this.InitializeComponent();
-            progressRing.IsActive = true;
-            progressRing.Visibility = Visibility.Visible;
+            this.InitializeComponent();           
             ViewModel.FundTransferDetails.IsEditMode = true;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Subscribe();
-            await ViewModel.LoadAsync(e.Parameter as FundTransferListArgs);
-            progressRing.IsActive = false;
-            progressRing.Visibility = Visibility.Collapsed;
+            await ViewModel.LoadAsync(e.Parameter as FundTransferListArgs);           
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
