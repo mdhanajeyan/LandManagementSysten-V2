@@ -47,6 +47,9 @@ namespace LandBankManagement.Data.Services
 
         DbSet<PropertyMerge> PropertyMerge { get; }
         DbSet<PropertyMergeList> PropertyMergeList { get; }
+        DbSet<Deal> Deal { get; }
+        DbSet<DealParties> DealParties { get; }
+        DbSet<DealPaySchedule> DealPaySchedule { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

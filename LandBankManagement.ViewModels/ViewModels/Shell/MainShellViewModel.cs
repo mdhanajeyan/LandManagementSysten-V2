@@ -41,7 +41,8 @@ namespace LandBankManagement.ViewModels
             Children = new ObservableCollection<NavigationItem>
             {
                 new NavigationItem(0xf1ed, "Payments", typeof(PaymentsViewModel)){Screen=NavigationScreen.Payments},
-                 new NavigationItem(0xf101, "Fund Transfer", typeof(FundTransferViewModel)){Screen=NavigationScreen.FundTransfer},
+                new NavigationItem(0xf101, "Fund Transfer", typeof(FundTransferViewModel)){Screen=NavigationScreen.FundTransfer},
+               
             }
         };
 
@@ -70,7 +71,9 @@ namespace LandBankManagement.ViewModels
             {
                 new NavigationItem(0xf041, "Property", typeof(PropertyViewModel)){ Screen=NavigationScreen.Property},
                 new NavigationItem(0xf035, "Property Check List", typeof(PropertyCheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
-                new NavigationItem(0xf035, "Property Merge", typeof(PropertyMergeViewModel)){Screen=NavigationScreen.MergeProperties}
+                new NavigationItem(0xf035, "Property Merge", typeof(PropertyMergeViewModel)){Screen=NavigationScreen.MergeProperties},
+                 new NavigationItem(0xf035, "Property Deal", typeof(DealViewModel)){Screen=NavigationScreen.PropertyDeals}
+
 
             }
         };
@@ -201,6 +204,9 @@ namespace LandBankManagement.ViewModels
                     break;
                 case "PropertyMergeViewModel":
                     NavigationService.Navigate(viewModel, new PropertyMergeListArgs());
+                    break;
+                case "DealViewModel":
+                    NavigationService.Navigate(viewModel, new DealListArgs());
                     break;
                 default:
                     throw new NotImplementedException();

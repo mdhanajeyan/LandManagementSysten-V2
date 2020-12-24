@@ -50,6 +50,9 @@ namespace LandBankManagement.Data.Services
         public DbSet<CheckListOfProperty> CheckListOfProperty { get; set; }
         public DbSet<PropertyMerge> PropertyMerge { get; set; }
         public DbSet<PropertyMergeList> PropertyMergeList { get; set; }
+        public DbSet<Deal> Deal { get; set; }
+        public DbSet<DealParties> DealParties { get; set; }
+        public DbSet<DealPaySchedule> DealPaySchedule { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_connectionString);

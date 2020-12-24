@@ -54,6 +54,7 @@ namespace LandBankManagement
             serviceCollection.AddScoped<INavigationService, NavigationService>();
             serviceCollection.AddScoped<ICommonServices, CommonServices>();
             serviceCollection.AddScoped<IPropertyMergeService, PropertyMergeService>();
+            serviceCollection.AddScoped<IDealService, DealService>();
 
             serviceCollection.AddTransient<LoginViewModel>();
             serviceCollection.AddTransient<ShellViewModel>();
@@ -106,6 +107,8 @@ namespace LandBankManagement
             serviceCollection.AddTransient<AppLogsViewModel>();
             serviceCollection.AddTransient<PropertyMergeViewModel>();
             serviceCollection.AddTransient<PropertyMergeDetailsViewModel>();
+            serviceCollection.AddTransient<DealViewModel>();
+            serviceCollection.AddTransient<DealDetailsViewModel>();
 
             serviceCollection.AddTransient<SettingsViewModel>();
             serviceCollection.AddTransient<ValidateConnectionViewModel>();

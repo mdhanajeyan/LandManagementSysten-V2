@@ -229,7 +229,7 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetRoleOptions();
         Dictionary<int, string> GetVendorOptions(string party);
         Dictionary<int, string> GetCheckListOptions();
-
+        Dictionary<int, string> GetPropertyMergeOptions();
         Task<int> AddPropertyCheckListAsync(PropertyCheckList model);
         Task<PropertyCheckList> GetPropertyCheckListAsync(long id);
         Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(DataRequest<PropertyCheckList> request);
@@ -256,5 +256,15 @@ namespace LandBankManagement.Data.Services
         Task<int> DeletePropertyMergeItemAsync(int id);
         Task<PropertyMergeList> GetPropertyListItemForProeprty(int id);
 
+        Task<int> AddDealAsync(Deal model);
+        Task<Deal> GetDealAsync(long id);
+        Task<IList<Deal>> GetDealsAsync(DataRequest<Deal> request);
+        Task<IList<Deal>> GetDealsAsync(int skip, int take, DataRequest<Deal> request);
+        Task<int> GetDealsCountAsync(DataRequest<Deal> request);
+        Task<int> UpdateDealAsync(Deal model);
+        Task<int> DeleteDealAsync(Deal model);
+        Task<List<DealParties>> GetDealParties(int dealId);
+        Task<int> DeleteDealPartiesAsync(int id);
+        Task<int> DeleteDealPayScheduleAsync(int id);
     }
 }

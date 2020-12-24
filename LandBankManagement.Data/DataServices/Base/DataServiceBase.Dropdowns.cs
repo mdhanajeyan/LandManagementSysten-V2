@@ -99,5 +99,11 @@ namespace LandBankManagement.Data.Services
             return _dataSource.CheckLists.Select(x => new { x.CheckListId, x.CheckListName }).ToDictionary(t => t.CheckListId, t => t.CheckListName);
         }
 
+        public Dictionary<int, string> GetPropertyMergeOptions()
+        {
+            return _dataSource.PropertyMerge.Where(x=>x.ForProposal==false).Select(x => new { x.PropertyMergeId, x.PropertyMergeDealName }).ToDictionary(t => t.PropertyMergeId, t => t.PropertyMergeDealName);
+        }
+              
+
     }
 }

@@ -202,6 +202,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportViewers\Company\CompanyReportViewer.cs" />
     <Compile Include="Services\CashAccountService.cs" />
+    <Compile Include="Services\DealService.cs" />
     <Compile Include="Services\PropertyCheckListService.cs" />
     <Compile Include="Services\PropertyMergeService.cs" />
     <Compile Include="Services\RolePermissionService.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Services\VendorService.cs" />
     <Compile Include="Services\VillageService.cs" />
     <Compile Include="Services\VirtualCollections\AccountTypeCollection.cs" />
+    <Compile Include="Services\VirtualCollections\DealCollection.cs" />
     <Compile Include="Services\VirtualCollections\PropertyCheckListCollection.cs" />
     <Compile Include="Services\VirtualCollections\PropertyMergeCollection.cs" />
     <Compile Include="Services\VirtualCollections\RolePermissionCollection.cs" />
@@ -321,6 +323,15 @@
     </Compile>
     <Compile Include="Views\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Deal\DealDetails.xaml.cs">
+      <DependentUpon>DealDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Deal\DealList.xaml.cs">
+      <DependentUpon>DealList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Deal\DealView.xaml.cs">
+      <DependentUpon>DealView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DocumentType\DocumentTypeDetails.xaml.cs">
       <DependentUpon>DocumentTypeDetails.xaml</DependentUpon>
@@ -737,6 +748,18 @@
     <Page Include="Views\Dashboard\DashboardView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Deal\DealDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Deal\DealList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Deal\DealView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DocumentType\DocumentTypeDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
