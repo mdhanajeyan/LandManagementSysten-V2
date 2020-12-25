@@ -132,6 +132,10 @@ namespace LandBankManagement
             try
             {
                 RegistryKey reg = Registry.LocalMachine.OpenSubKey(REGPATH, false);
+                if (reg == null)
+                {
+                    return regVal;
+                }
 
                 regVal = reg.GetValue(key).ToString();
             }
