@@ -3,6 +3,7 @@ using LandBankManagement.Services;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
+using System.Data.SqlClient;
 using System.IO;
 using System.Reflection;
 using Windows.ApplicationModel;
@@ -115,13 +116,18 @@ namespace LandBankManagement
             string Catalog = GetRegValue("DBCatalog", "DB_A637E6_LmsDev");
             string Username = GetRegValue("DBUsername", "DB_A637E6_LmsDev_admin");
             string Password = GetRegValue("DBPassword", "Matrix@291");
+            string Trusted_Connection = GetRegValue("Trusted_Connection", "False");
+            string Integrated_Security = GetRegValue("Integrated_Security", "False");
 
-            string connectionString = "Data Source=" + Datasource + ";Initial Catalog=" + Catalog + ";User ID=" + Username + ";Password=" + Password + ";Trusted_Connection=false";
+            string connectionString = "Data Source=" + Datasource + ";Initial Catalog=" + Catalog + ";User ID=" +
+                                      Username + ";Password=" + Password + ";Trusted_Connection=" + Trusted_Connection + ";Integrated Security=" + Integrated_Security + ";Pooling=False"; 
             return connectionString;
         }
 
         private string GetRegValue(string key, string defaultValue = "")
         {
+            var logService = ServiceLocator.Current.GetService<ILogService>();
+            
             string regVal = defaultValue;
             try
             {
@@ -131,11 +137,13 @@ namespace LandBankManagement
             }
             catch (Exception ex)
             {
-                var logService = ServiceLocator.Current.GetService<ILogService>();
+
                 logService.WriteAsync(Data.LogType.Error, this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
             }
-
-            return regVal;
+            
+                return regVal;
+            
+            
         }
     }
 }
