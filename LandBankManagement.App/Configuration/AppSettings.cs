@@ -116,7 +116,7 @@ namespace LandBankManagement
             string Username = GetRegValue("DBUsername", "DB_A637E6_LmsDev_admin");
             string Password = GetRegValue("DBPassword", "Matrix@291");
 
-            string connectionString = "Data Source=" + Datasource + ";Initial Catalog=" + Catalog + ";User ID=" + Username + ";Password=" + Password;
+            string connectionString = "Data Source=" + Datasource + ";Initial Catalog=" + Catalog + ";User ID=" + Username + ";Password=" + Password + ";Trusted_Connection=false";
             return connectionString;
         }
 
