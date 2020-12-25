@@ -1,9 +1,10 @@
 ﻿using LandBankManagement.Models;
 using LandBankManagement.Services;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-
+using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -28,6 +29,8 @@ namespace LandBankManagement
         static public readonly string DatabaseName = "";
 
         public readonly string AppLogConnectionString = $"Data Source={AppLogFileName}";
+
+        private const string REGPATH = @"SOFTWARE\LeanSys\EminentLMS\Data";
 
         public readonly string DbVersion = $"1.0.0";
         public DataProviderType DataProvider = DataProviderType.SQLServer;
@@ -58,7 +61,8 @@ namespace LandBankManagement
 
         public UserInfoModel UserInfo
         {
-            get {
+            get
+            {
                 var jsonstring = GetSettingsValue("UserInfo", default(string));
                 var model = JsonConvert.DeserializeObject<UserInfoModel>(jsonstring);
                 return model;
@@ -68,7 +72,7 @@ namespace LandBankManagement
 
         public string SQLServerConnectionString
         {
-            get => GetSettingsValue("SQLServerConnectionString", @"Data Source=SQL5053.site4now.net;Initial Catalog=DB_A637E6_LmsDev;User Id=DB_A637E6_LmsDev_admin;Password=Matrix@291;Pooling=False");
+            get => GetSettingsValue("SQLServerConnectionString", GetConnectionString());
             set => SetSettingsValue("SQLServerConnectionString", value);
         }
 
@@ -103,6 +107,35 @@ namespace LandBankManagement
         private void SetSettingsValue(string name, object value)
         {
             LocalSettings.Values[name] = value;
+        }
+
+        private string GetConnectionString()
+        {
+            string Datasource = GetRegValue("DBServer","");
+            string Catalog = GetRegValue("DBCatalog", "");
+            string Username = GetRegValue("DBUsername", "");
+            string Password = GetRegValue("DBPassword", "");
+
+            string connectionString = "Data Source=" + Datasource + ";Initial Catalog=" + Catalog + ";User ID=" + Username + ";Password=" + Password;
+            return connectionString;
+        }
+
+        private string GetRegValue(string key, string defaultValue = "")
+        {
+            string regVal = defaultValue;
+            try
+            {
+                RegistryKey reg = Registry.LocalMachine.OpenSubKey(REGPATH, false);
+
+                regVal = reg.GetValue(key).ToString();
+            }
+            catch (Exception ex)
+            {
+                var logService = ServiceLocator.Current.GetService<ILogService>();
+                logService.WriteAsync(Data.LogType.Error, this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+            }
+
+            return regVal;
         }
     }
 }
