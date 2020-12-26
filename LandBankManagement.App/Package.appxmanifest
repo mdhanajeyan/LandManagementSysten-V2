@@ -8,7 +8,7 @@
 
   <Identity
     Name="EminentLMS"
-    Publisher="CN=LeanSys"
+    Publisher="CN=&quot;LeanSys Pvt. Ltd. &quot;"
     Version="0.8.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="334668a3-2eea-4b7b-9e39-7215522922a0" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
