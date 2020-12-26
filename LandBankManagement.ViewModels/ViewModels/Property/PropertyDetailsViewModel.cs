@@ -147,21 +147,21 @@ namespace LandBankManagement.ViewModels
             Item = null;
             Item = old;
         }
-        private void GetDropdowns()
+        private async void GetDropdowns()
         {
             PropertyView.ShowProgressRing();
-            CompanyOptions = DropDownService.GetCompanyOptions();
-            HobliOptions = DropDownService.GetHobliOptions();
-            TalukOptions = DropDownService.GetTalukOptions();
-            VillageOptions = DropDownService.GetVillageOptions();
-            DocumentTypeOptions = DropDownService.GetDocumentTypeOptions();
-            PropertyTypeOptions = DropDownService.GetPropertyTypeOptions();
+            CompanyOptions = await DropDownService.GetCompanyOptions();
+            HobliOptions = await DropDownService.GetHobliOptions();
+            TalukOptions = await DropDownService.GetTalukOptions();
+            VillageOptions = await DropDownService.GetVillageOptions();
+            DocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();
+            PropertyTypeOptions = await DropDownService.GetPropertyTypeOptions();
             PropertyView.HideProgressRing();
         }
 
-        public void GetParties() {
+        public async void GetParties() {
             PropertyView.ShowProgressRing();
-            PartyOptions = DropDownService.GetPartyOptions(PartySearchQuery);
+            PartyOptions =await DropDownService.GetPartyOptions(PartySearchQuery);
             PropertyView.HideProgressRing();
         }
 
@@ -291,6 +291,19 @@ namespace LandBankManagement.ViewModels
             }
         }
 
+
+        public async void DownloadDocument(int id)
+        {
+            if (id > 0)
+            {
+                StartStatusMessage("Start downloading...");
+                var result = await FilePickerService.DownloadFile(DocList[id - 1].FileName, DocList[id - 1].ImageBytes, DocList[id - 1].ContentType);
+                if (result)
+                    StartStatusMessage("File downloaded...");
+                else
+                    EndStatusMessage("Download failed");
+            }
+        }
 
         public void Subscribe()
         {

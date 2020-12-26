@@ -16,7 +16,6 @@ namespace LandBankManagement.Data.Services
 
             var entity = new Receipt()
             {
-                ReceiptId = model.ReceiptId,
                 ReceiptGuid = model.ReceiptGuid,
                 PayeeId = model.PayeeId,
                 DealId = model.DealId,
@@ -58,6 +57,7 @@ namespace LandBankManagement.Data.Services
                     DepositBankId = source.DepositBankId,
                     DateOfPayment = source.DateOfPayment,
                     Amount = source.Amount,
+                    BankName=source.BankName,
                     Narration = source.Narration,
                 })
                 .AsNoTracking()
@@ -68,7 +68,23 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<Receipt> GetReceipts(DataRequest<Receipt> request)
         {
-            IQueryable<Receipt> items = _dataSource.Receipts;
+
+            IQueryable<Receipt> items = from r in _dataSource.Receipts join 
+                                     b in _dataSource.BankAccounts on r.DepositBankId equals b.BankAccountId
+                                     select (new Receipt
+                                     {
+                                         ReceiptId=r.ReceiptId,
+                                         ReceiptGuid=r.ReceiptGuid,
+                                         DealId = r.DealId,
+                                        PayeeId=r.PayeeId,
+                                        PaymentTypeId=r.PaymentTypeId,
+                                        DateOfPayment=r.DateOfPayment,
+                                        Amount=r.Amount,
+                                        Narration=r.Narration,
+                                         DepositBankId = r.DepositBankId,                                        
+                                         BankName = b.BankName
+                                     });
+           // IQueryable<Receipt> items = _dataSource.Receipts;
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))

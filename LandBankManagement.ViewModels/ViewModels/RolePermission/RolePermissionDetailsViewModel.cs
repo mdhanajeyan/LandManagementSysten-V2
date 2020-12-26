@@ -51,9 +51,9 @@ namespace LandBankManagement.ViewModels
             GetDropdowns();
         }
 
-        private void GetDropdowns() {
+        private async void GetDropdowns() {
             RolePermissionViewModel.ShowProgressRing();
-            RoleOptions = DropDownService.GetRoleOptions();
+            RoleOptions = await DropDownService.GetRoleOptions();
             RolePermissionViewModel.HideProgressRing();
         }
 

@@ -128,8 +128,9 @@ namespace LandBankManagement.Services
                 PaymentTypeId = source.PaymentTypeId,
                 DepositBankId = source.DepositBankId,
                 DateOfPayment = source.DateOfPayment,
-                Amount = source.Amount,
+                Amount = source.Amount.ToString(),
                 Narration = source.Narration,
+                BankName=source.BankName
             };
 
             return model;
@@ -144,8 +145,8 @@ namespace LandBankManagement.Services
             target.PartyId = source.PartyId;
             target.PaymentTypeId = source.PaymentTypeId;
             target.DepositBankId = source.DepositBankId;
-            target.DateOfPayment = source.DateOfPayment;
-            target.Amount = source.Amount;
+            target.DateOfPayment = source.DateOfPayment.UtcDateTime;
+            target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.Narration = source.Narration;
 
         }

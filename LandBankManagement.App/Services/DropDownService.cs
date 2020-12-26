@@ -20,12 +20,12 @@ namespace LandBankManagement.Services
             DataServiceFactory = dataServiceFactory;
             LogService = logService;
         }
-        public ObservableCollection<ComboBoxOptions> GetHobliOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetHobliOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetHobliOptions();
+                var models =await dataService.GetHobliOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -39,12 +39,12 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetTalukOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetTalukOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetTalukOptions();
+                var models =await dataService.GetTalukOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -57,12 +57,12 @@ namespace LandBankManagement.Services
                 return list;
             }
         }
-        public ObservableCollection<ComboBoxOptions> GetVillageOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetVillageOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetVillageOptions();
+                var models =await dataService.GetVillageOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -76,12 +76,12 @@ namespace LandBankManagement.Services
             }
 
         }
-        public ObservableCollection<ComboBoxOptions> GetCompanyOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetCompanyOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetCompanyOptions();
+                var models =await dataService.GetCompanyOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -95,12 +95,12 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetAccountTypeOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetAccountTypeOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetAccountTypeOptions();
+                var models =await dataService.GetAccountTypeOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -114,12 +114,12 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetExpenseHeadOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetExpenseHeadOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetExpenseHeadOptions();
+                var models =await dataService.GetExpenseHeadOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -132,31 +132,12 @@ namespace LandBankManagement.Services
                 return list;
             }
         }
-        public ObservableCollection<ComboBoxOptions> GetPartyOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetPartyOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetPartyOptions();
-                foreach (var obj in models)
-                {
-                    list.Add(new ComboBoxOptions
-                    {
-                        Id = obj.Key,
-                        Description = obj.Value
-                    });
-                }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
-                return list;
-            }
-        }
-
-        public ObservableCollection<ComboBoxOptions> GetDocumentTypeOptions()
-        {
-            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
-            using (var dataService = DataServiceFactory.CreateDataService())
-            {
-                var models = dataService.GetDocumentTypeOptions();
+                var models =await dataService.GetPartyOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -170,12 +151,12 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetPropertyOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetDocumentTypeOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetPropertyOptions();
+                var models =await dataService.GetDocumentTypeOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -189,12 +170,12 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetCashOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetPropertyOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetCashOptions();
+                var models =await dataService.GetPropertyOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -208,12 +189,12 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetBankOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetCashOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetBankOptions();
+                var models =await dataService.GetCashOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -227,12 +208,31 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetVendorOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetBankOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetVendorOptions();
+                var models =await dataService.GetBankOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                return list;
+            }
+        }
+
+        public async Task<ObservableCollection<ComboBoxOptions>> GetVendorOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models =await dataService.GetVendorOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -282,12 +282,12 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetPartyOptions(string party) {
+        public async Task<ObservableCollection<ComboBoxOptions>> GetPartyOptions(string party) {
 
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetPartyOptions(party);
+                var models =await dataService.GetPartyOptions(party);
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -299,13 +299,13 @@ namespace LandBankManagement.Services
                 return list;
             }
         }
-        public ObservableCollection<ComboBoxOptions> GetPropertyTypeOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetPropertyTypeOptions()
         {
 
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetPropertyTypeOptions();
+                var models =await dataService.GetPropertyTypeOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -319,11 +319,11 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetRoleOptions() {
+        public async Task<ObservableCollection<ComboBoxOptions>> GetRoleOptions() {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetRoleOptions();
+                var models =await dataService.GetRoleOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -337,13 +337,13 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetVendorOptions(string vendor)
+        public async Task<ObservableCollection<ComboBoxOptions>> GetVendorOptions(string vendor)
         {
 
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetVendorOptions(vendor);
+                var models =await dataService.GetVendorOptions(vendor);
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -356,12 +356,12 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetCheckListOptions()
+        public async Task<ObservableCollection<ComboBoxOptions>> GetCheckListOptions()
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetCheckListOptions();
+                var models =await dataService.GetCheckListOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions
@@ -374,11 +374,48 @@ namespace LandBankManagement.Services
             }
         }
 
-        public ObservableCollection<ComboBoxOptions> GetPropertyMergeOptions() {
+        public async Task<ObservableCollection<ComboBoxOptions>> GetPropertyMergeOptions() {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var models = dataService.GetPropertyMergeOptions();
+                var models =await dataService.GetPropertyMergeOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                return list;
+            }
+        }
+
+        public async Task<ObservableCollection<ComboBoxOptions>> GetPropertyOptionsByCompanyID(int companyId) {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetPropertyOptionsByCompanyID(companyId);
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                return list;
+            }
+        }
+
+        public async Task<ObservableCollection<ComboBoxOptions>> GetDealOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetDealOptions();
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions

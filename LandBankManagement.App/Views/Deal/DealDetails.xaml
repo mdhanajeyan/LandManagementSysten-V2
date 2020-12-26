@@ -53,7 +53,7 @@
                     </controls:FluidGrid>
                     
                     
-                    <controls:FluidGrid   Columns="1" ColumnSpacing="10" Margin="0 20 0 0">
+                    <controls:FluidGrid   Columns="1" ColumnSpacing="10" Margin="0 45 0 0">
                         <StackPanel Orientation="Vertical" BorderBrush="#4FC3F7" BorderThickness="2"  Margin="0 0 10 20">
                             <Grid Background="#4FC3F7">
                                 <Grid.ColumnDefinitions>

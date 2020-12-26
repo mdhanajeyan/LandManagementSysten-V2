@@ -24,5 +24,7 @@ namespace LandBankManagement.Data
         public string SearchTerms { get; set; }
 
         public string BuildSearchTerms() => $"{Amount}".ToLower();
+        [NotMapped]
+        public string BankName { get; set; }
     }
 }

@@ -55,9 +55,9 @@ namespace LandBankManagement.ViewModels
             getVendors();
         }
 
-        private void getVendors() {
+        private async void getVendors() {
             PartyViewModel.ShowProgressRing();
-            VendorOptions = DropDownService.GetVendorOptions();
+            VendorOptions =await DropDownService.GetVendorOptions();
             PartyViewModel.HideProgressRing();
         }
         public void Unload()
@@ -186,6 +186,19 @@ namespace LandBankManagement.ViewModels
                 DocList = null;
                 DocList = newlist;
                 EndStatusMessage(" Party Document deleted");
+            }
+        }
+
+        public async void DownloadDocument(int id)
+        {
+            if (id > 0)
+            {
+                StartStatusMessage("Start downloading...");
+                var result = await FilePickerService.DownloadFile(DocList[id - 1].FileName, DocList[id - 1].ImageBytes, DocList[id - 1].ContentType);
+                if (result)
+                    StartStatusMessage("File downloaded...");
+                else
+                    EndStatusMessage("Download failed");
             }
         }
 

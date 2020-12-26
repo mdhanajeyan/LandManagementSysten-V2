@@ -57,10 +57,9 @@ namespace LandBankManagement.Views
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var index = ((Pivot)sender).SelectedIndex;
-            if (index == 1)
+            if (index == 0)
             {
                 await ViewModel.ReceiptsList.LoadAsync(new ReceiptsListArgs { IsEmpty = false });
-                await ViewModel.ReceiptsList.RefreshAsync();
             }
         }
     }

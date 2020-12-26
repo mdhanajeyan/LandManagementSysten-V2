@@ -145,17 +145,17 @@ namespace LandBankManagement.ViewModels
             CurrentSchedule = new DealPayScheduleModel { ScheduleDate=DateTimeOffset.Now};
         }
 
-        private void GetDropdowns()
+        private async void GetDropdowns()
         {
             DealsViewModel.ShowProgressRing();
-            CompanyOptions = DropDownService.GetCompanyOptions();
-            PropertyMergeOptions = DropDownService.GetPropertyMergeOptions();
+            CompanyOptions = await DropDownService.GetCompanyOptions();
+            PropertyMergeOptions =await DropDownService.GetPropertyMergeOptions();
             DealsViewModel.HideProgressRing();
         }
-        public void GetParties()
+        public async void GetParties()
         {
             DealsViewModel.ShowProgressRing();
-            PartyOptions = DropDownService.GetPartyOptions(PartySearchQuery);
+            PartyOptions =await DropDownService.GetPartyOptions(PartySearchQuery);
             DealsViewModel.HideProgressRing();
         }
 

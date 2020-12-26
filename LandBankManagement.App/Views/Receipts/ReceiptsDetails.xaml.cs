@@ -25,5 +25,10 @@ namespace LandBankManagement.Views
         {
             details.SetFocus();
         }
+
+        private void DealPartiesDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.LoadDealParties();
+        }
     }
 }

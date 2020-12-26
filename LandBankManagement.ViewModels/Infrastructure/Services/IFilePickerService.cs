@@ -21,6 +21,6 @@ namespace LandBankManagement.Services
     public interface IFilePickerService
     {
         Task<List<ImagePickerResult>> OpenImagePickerAsync();
-        Task<bool> DownloadFile(string fileName, byte[] buffer);
+        Task<bool> DownloadFile(string fileName, byte[] buffer,string fileType);
     }
 }

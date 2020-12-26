@@ -47,9 +47,9 @@ namespace LandBankManagement.ViewModels
             GetCompanyOption();
         }
 
-        private void GetCompanyOption() {
+        private async void GetCompanyOption() {
             CashAccountViewModel.ShowProgressRing();
-            CompanyOptions = DropDownService.GetCompanyOptions();
+            CompanyOptions =await DropDownService.GetCompanyOptions();
             CashAccountViewModel.HideProgressRing();
         }
         public void Subscribe()

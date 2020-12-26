@@ -14,6 +14,7 @@ namespace LandBankManagement.ViewModels
     {
         public IDropDownService DropDownService { get; }
         public IReceiptService ReceiptsService { get; }
+        IDealService DealService { get; }
         public IFilePickerService FilePickerService { get; }
         public ReceiptsListViewModel ReceiptsListViewModel { get; }
         private ObservableCollection<ComboBoxOptions> _companyOptions = null;
@@ -41,14 +42,36 @@ namespace LandBankManagement.ViewModels
             get => _partyOptions;
             set => Set(ref _partyOptions, value);
         }
+
+        private ObservableCollection<DealPartiesModel> _dealParties;
+        public ObservableCollection<DealPartiesModel> DealParties
+        {
+            get => _dealParties;
+            set => Set(ref _dealParties, value);
+        }
+
+        private bool _isCashChecked;
+        public bool IsCashChecked
+        {
+            get => _isCashChecked;
+            set => Set(ref _isCashChecked, value);
+        }
+        private bool _isBankChecked;
+        public bool IsBankChecked
+        {
+            get => _isBankChecked;
+            set => Set(ref _isBankChecked, value);
+        }
+
         private ReceiptsViewModel ReceiptsViewModel { get; set; }
-        public ReceiptsDetailsViewModel(IDropDownService dropDownService, IReceiptService receiptService, IFilePickerService filePickerService, ICommonServices commonServices, ReceiptsListViewModel villageListViewModel, ReceiptsViewModel receiptsViewModel) : base(commonServices)
+        public ReceiptsDetailsViewModel(IDropDownService dropDownService, IReceiptService receiptService, IFilePickerService filePickerService, ICommonServices commonServices, ReceiptsListViewModel villageListViewModel, ReceiptsViewModel receiptsViewModel, IDealService dealService) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             ReceiptsService = receiptService;
             ReceiptsListViewModel = villageListViewModel;
             ReceiptsViewModel = receiptsViewModel;
+            DealService= dealService;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Receipts" : TitleEdit;
@@ -60,20 +83,35 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new ReceiptModel();
+            Item = new ReceiptModel { DealId=0,PaymentTypeId=0,PayeeId=0,DepositBankId=0};
             IsEditMode = true;
-            GetDropdowns();
+           await GetDropdowns();
         }
-        private void GetDropdowns()
+        private async Task GetDropdowns()
         {
             ReceiptsViewModel.ShowProgressRing();
-                PartyOptions = DropDownService.GetPartyOptions();
-            BankOptions = DropDownService.GetBankOptions();
-            CompanyOptions = DropDownService.GetCompanyOptions();
-            ReceiptsViewModel.HideProgressRing();
-           // DealOptions = DropDownService.GetDealOptions();
+           // PartyOptions = await DropDownService.GetPartyOptions();
+            BankOptions = await DropDownService.GetBankOptions();
+            CompanyOptions = await DropDownService.GetCompanyOptions();
+            DealOptions = await DropDownService.GetDealOptions();
+            ReceiptsViewModel.HideProgressRing();           
         }
-       
+
+        public async void LoadDealParties() {
+            DealParties =await DealService.GetDealParties(Item.DealId);
+        }
+
+        public async void LoadSelectedReceipt(int id) {
+            ReceiptsViewModel.ShowProgressRing();
+            var model = await ReceiptsService.GetReceiptAsync(id);
+            Item = model;
+            if (model.PaymentTypeId == 1)
+                IsCashChecked = true;
+            else
+                IsBankChecked = true;
+            LoadDealParties();
+            ReceiptsViewModel.HideProgressRing();
+        }
 
         public void Subscribe()
         {
@@ -85,21 +123,18 @@ namespace LandBankManagement.ViewModels
             MessageService.Unsubscribe(this);
         }
 
-        //public ExpenseHeadDetailsArgs CreateArgs()
-        //{
-        //    return new ExpenseHeadDetailsArgs
-        //    {
-        //        ExpenseHeadId = Item?.ExpenseHeadId ?? 0
-        //    };
-        //}
-
-
         protected override async Task<bool> SaveItemAsync(ReceiptModel model)
         {
             try
             {
                 StartStatusMessage("Saving Receipts...");
                 ReceiptsViewModel.ShowProgressRing();
+
+                if (IsCashChecked)
+                    model.PaymentTypeId = 1;
+                else
+                    model.PaymentTypeId = 2;
+
                 if (model.ReceiptId <= 0)
                     await ReceiptsService.AddReceiptAsync(model);
                 else
@@ -121,7 +156,8 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new ReceiptModel() { PayeeId = 1 };
+            Item = new ReceiptModel { DealId = 0, PaymentTypeId = 0, PayeeId = 0, DepositBankId = 0 };
+            DealParties = new ObservableCollection<DealPartiesModel>();
         }
         protected override async Task<bool> DeleteItemAsync(ReceiptModel model)
         {

@@ -121,11 +121,11 @@ namespace LandBankManagement.ViewModels
             }
 
         }
-        private void GetDropdowns()
+        private async void GetDropdowns()
         {
             FundTransferViewModel.ShowProgressRing();
-               CompanyOptions = DropDownService.GetCompanyOptions();           
-            BankOptions = DropDownService.GetBankOptions();
+               CompanyOptions = await DropDownService.GetCompanyOptions();           
+            BankOptions =await DropDownService.GetBankOptions();
             FundTransferViewModel.HideProgressRing();
         }              
       

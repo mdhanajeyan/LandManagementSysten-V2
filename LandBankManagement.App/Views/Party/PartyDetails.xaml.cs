@@ -43,5 +43,12 @@ namespace LandBankManagement.Views
             if (id>0)
                 ViewModel.ClodeVendorDetails(id);
         }
+
+        private void Doc_Dpwnload_Click(object sender, RoutedEventArgs e)
+        {
+            var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.DownloadDocument(identity);
+
+        }
     }
 }

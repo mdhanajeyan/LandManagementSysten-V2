@@ -56,15 +56,15 @@ namespace LandBankManagement.ViewModels
             GetHobli();
             VillageViewModel.ShowProgressRing();
         }
-        private void GetTaluks()
+        private async void GetTaluks()
         {
-            var models = DropDownService.GetTalukOptions();
+            var models = await DropDownService.GetTalukOptions();
             TalukOptions = models;
 
         }
-        private void GetHobli()
+        private async void GetHobli()
         {
-            var models = DropDownService.GetHobliOptions();
+            var models = await DropDownService.GetHobliOptions();
             HobliOptions = models;
 
         }

@@ -11,6 +11,7 @@ namespace LandBankManagement.ViewModels
 
 
         IReceiptService ReceiptsService { get; }
+        IDealService DealService { get; }
         public ReceiptsListViewModel ReceiptsList { get; set; }
 
         public ReceiptsDetailsViewModel ReceiptsDetials { get; set; }
@@ -27,17 +28,16 @@ namespace LandBankManagement.ViewModels
             get => _progressRingActive;
             set => Set(ref _progressRingActive, value);
         }
-        public ReceiptsViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IReceiptService receiptService) : base(commonServices)
+        public ReceiptsViewModel(IDropDownService dropDownService, ICommonServices commonServices, IFilePickerService filePickerService, IReceiptService receiptService, IDealService dealService) : base(commonServices)
         {
             ReceiptsService = receiptService;
             ReceiptsList = new ReceiptsListViewModel(receiptService, commonServices,this);
-            ReceiptsDetials = new ReceiptsDetailsViewModel(dropDownService, receiptService, filePickerService, commonServices, ReceiptsList,this);
+            ReceiptsDetials = new ReceiptsDetailsViewModel(dropDownService, receiptService, filePickerService, commonServices, ReceiptsList, this,dealService);
         }
 
         public async Task LoadAsync(ReceiptsListArgs args)
         {
-            await ReceiptsDetials.LoadAsync();
-            await ReceiptsList.LoadAsync(args);
+            await ReceiptsDetials.LoadAsync();            
         }
         public void Unload()
         {
@@ -63,7 +63,6 @@ namespace LandBankManagement.ViewModels
         {
             MessageService.Unsubscribe(this);
             ReceiptsList.Unsubscribe();
-
         }
 
         private async void OnMessage(ReceiptsListViewModel viewModel, string message, object args)
@@ -94,10 +93,19 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
-                ShowProgressRing();
-                var model = await ReceiptsService.GetReceiptAsync(selected.ReceiptId);
-                selected.Merge(model);
-                ReceiptsDetials.Item = model;
+                //ShowProgressRing();
+                //var model = await ReceiptsService.GetReceiptAsync(selected.ReceiptId);
+                //selected.Merge(model);
+                //ReceiptsDetials.Item = model;
+                //if (model.PaymentTypeId == 1)
+                //    ReceiptsDetials.IsCashChecked = true;
+                //else
+                //    ReceiptsDetials.IsBankChecked = true;
+                //ReceiptsDetials.LoadDealParties();
+                //ReceiptsDetials.Item = ReceiptsDetials.Item;
+                SelectedPivotIndex = 1;
+                ReceiptsDetials.LoadSelectedReceipt(selected.ReceiptId);
+               
             }
             catch (Exception ex)
             {

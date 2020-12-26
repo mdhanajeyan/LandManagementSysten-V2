@@ -42,7 +42,8 @@ namespace LandBankManagement.ViewModels
             {
                 new NavigationItem(0xf1ed, "Payments", typeof(PaymentsViewModel)){Screen=NavigationScreen.Payments},
                 new NavigationItem(0xf101, "Fund Transfer", typeof(FundTransferViewModel)){Screen=NavigationScreen.FundTransfer},
-               
+                 new NavigationItem(0xf101, "Receipts", typeof(ReceiptsViewModel)){Screen=NavigationScreen.Receipt},
+
             }
         };
 

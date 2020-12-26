@@ -175,16 +175,16 @@ namespace LandBankManagement.ViewModels
             Item = null;
             Item = old;
         }
-        private void GetDropdowns()
+        private async void GetDropdowns()
         {
             PropertyCheckListViewModel.ShowProgressRing();
-            CompanyOptions = DropDownService.GetCompanyOptions();
-            HobliOptions = DropDownService.GetHobliOptions();
-            TalukOptions = DropDownService.GetTalukOptions();
-            VillageOptions = DropDownService.GetVillageOptions();
-            DocumentTypeOptions = DropDownService.GetDocumentTypeOptions();
-            PropertyTypeOptions = DropDownService.GetPropertyTypeOptions();
-            CheckListOptions = DropDownService.GetCheckListOptions();
+            CompanyOptions = await DropDownService.GetCompanyOptions();
+            HobliOptions = await DropDownService.GetHobliOptions();
+            TalukOptions = await DropDownService.GetTalukOptions();
+            VillageOptions = await DropDownService.GetVillageOptions();
+            DocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();
+            PropertyTypeOptions = await DropDownService.GetPropertyTypeOptions();
+            CheckListOptions = await DropDownService.GetCheckListOptions();
             PropertyCheckListViewModel.HideProgressRing();
         }
         public void PrepareCheckList() {
@@ -227,9 +227,9 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        public void GetVendors() {
+        public async void GetVendors() {
             PropertyCheckListViewModel.ShowProgressRing();
-            VendorOptions = DropDownService.GetVendorOptions(VendorSearchQuery);
+            VendorOptions = await DropDownService.GetVendorOptions(VendorSearchQuery);
             PropertyCheckListViewModel.HideProgressRing();
         }
 

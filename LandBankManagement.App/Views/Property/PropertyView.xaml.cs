@@ -27,7 +27,6 @@ namespace LandBankManagement.Views
         {
             ViewModel.Subscribe();
             await ViewModel.LoadAsync (e.Parameter as PropertyListArgs);
-           // await ViewModel.PropertyList.RefreshAsync();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

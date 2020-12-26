@@ -145,8 +145,12 @@ namespace LandBankManagement.ViewModels
         {
             if (id > 0)
             {
-               await FilePickerService.DownloadFile(DocList[id - 1].FileName, DocList[id - 1].ImageBytes);
-              
+                StartStatusMessage("Start downloading...");
+                var result=  await FilePickerService.DownloadFile(DocList[id - 1].FileName, DocList[id - 1].ImageBytes, DocList[id - 1].ContentType);
+              if(result)
+                    StartStatusMessage("File downloaded...");
+              else
+                    EndStatusMessage("Download failed");
             }
         }
 

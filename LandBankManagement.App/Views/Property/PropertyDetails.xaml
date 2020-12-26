@@ -225,10 +225,17 @@
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock Text="{Binding FileName}" Foreground="#265fab" Grid.Column="0" Grid.ColumnSpan="2" FontSize="16"  Padding="0 10 5 0"  TextTrimming="CharacterEllipsis"  HorizontalAlignment="Left"></TextBlock>
                                                     <Button x:Name="Doc_Delete" Tag="{Binding Identity}" Height="35" Grid.Column="2"  Background="Transparent" Padding="10 5 0 5"  Click="Doc_Delete_Click" HorizontalAlignment="Right">
                                                         <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74D;" Foreground="Red"  HorizontalAlignment="Left"/>
+                                                        <Button.Resources>
+                                                            <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                                        </Button.Resources>
+                                                    </Button>
+                                                    <Button x:Name="Doc_Dpwnload" Tag="{Binding Identity}" Grid.Column="3" Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Doc_Dpwnload_Click" HorizontalAlignment="Left">
+                                                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE896;" Foreground="#05a344"  HorizontalAlignment="Left"/>
                                                         <Button.Resources>
                                                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                                         </Button.Resources>

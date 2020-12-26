@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Provider;
 
 namespace LandBankManagement.Services
 {
@@ -72,14 +73,49 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<bool> DownloadFile(string fileName,byte[] buffer) {
+        public async Task<bool> DownloadFile(string fileName,byte[] buffer,string fileType) {
             try
             {
-                //var downloadFolder = await DownloadsFolder.CreateFolderAsync("LmsFiles",CreationCollisionOption.GenerateUniqueName);
-                //var srcFile = await downloadFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                var srcFile = await DownloadsFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
-                Stream stream = await srcFile.OpenStreamForWriteAsync();
-                stream.Write(buffer, 0, buffer.Length);
+                FileSavePicker savePicker = new FileSavePicker();
+              //  savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                // Dropdown of file types the user can save the file as
+                savePicker.FileTypeChoices.Add(fileType, new List<string>() { "."+fileName.Split(".")[1] });
+                // Default file name if the user does not type one in or select a file to replace
+                savePicker.SuggestedFileName = fileName;
+                StorageFile file = await savePicker.PickSaveFileAsync();
+                if (file != null)
+                {
+                    // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
+                    CachedFileManager.DeferUpdates(file);
+                    //// write to file
+                    Stream stream = await file.OpenStreamForWriteAsync();
+                    stream.Write(buffer, 0, buffer.Length);
+                   // await FileIO.WriteTextAsync(file, "Example file contents.");
+                    // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+                    // Completing updates may require Windows to ask for user input.
+                    FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                    if (status == FileUpdateStatus.Complete)
+                    {
+                        return true;
+                    }
+                    else if (status == FileUpdateStatus.CompleteAndRenamed)
+                    {
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                //StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+                //StorageFile sampleFile = await storageFolder.CreateFileAsync("ErrorFile.txt", CreationCollisionOption.ReplaceExisting);
+                //await Windows.Storage.FileIO.WriteTextAsync(sampleFile, "Swift as a shadow");
+
+                ////var downloadFolder = await DownloadsFolder.CreateFolderAsync("LmsFiles",CreationCollisionOption.GenerateUniqueName);
+                ////var srcFile = await downloadFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                //var srcFile = await DownloadsFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
+                //Stream stream = await srcFile.OpenStreamForWriteAsync();
+                //stream.Write(buffer, 0, buffer.Length);
                 return true;
             }
             catch (Exception ex) {
