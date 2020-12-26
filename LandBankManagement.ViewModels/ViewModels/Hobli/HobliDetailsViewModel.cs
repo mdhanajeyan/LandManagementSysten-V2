@@ -48,8 +48,10 @@ namespace LandBankManagement.ViewModels
              GetTaluks();
         }
 
-        private void GetTaluks() {
-            var models = DropDownService.GetTalukOptions();
+        private async void GetTaluks() {
+            HobliViewModel.ShowProgressRing();
+            var models =await DropDownService.GetTalukOptions();
+            HobliViewModel.HideProgressRing();
             TalukOptions = models;            
         }       
 

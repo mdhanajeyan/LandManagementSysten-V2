@@ -55,9 +55,9 @@ namespace LandBankManagement.ViewModels
             getVendors();
         }
 
-        private void getVendors() {
+        private async void getVendors() {
             PartyViewModel.ShowProgressRing();
-            VendorOptions = DropDownService.GetVendorOptions();
+            VendorOptions =await DropDownService.GetVendorOptions();
             PartyViewModel.HideProgressRing();
         }
         public void Unload()

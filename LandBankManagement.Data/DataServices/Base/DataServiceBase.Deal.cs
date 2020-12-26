@@ -23,7 +23,8 @@ namespace LandBankManagement.Data.Services
                     SaleValue2 = model.SaleValue2,
                 };
                 _dataSource.Entry(entity).State = EntityState.Added;
-                int res = await _dataSource.SaveChangesAsync();
+                await _dataSource.SaveChangesAsync();
+                int res = entity.DealId;
 
                 foreach (var item in model.DealParties)
                 {
@@ -194,6 +195,14 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> DeleteDealAsync(Deal model)
         {
+            var parties = _dataSource.DealParties.Where(x => x.DealId == model.DealId).ToList();
+            _dataSource.DealParties.RemoveRange(parties);
+            await _dataSource.SaveChangesAsync();
+
+            var pays = _dataSource.DealPaySchedule.Where(x => x.DealId == model.DealId).ToList();
+            _dataSource.DealPaySchedule.RemoveRange(pays);
+            await _dataSource.SaveChangesAsync();
+
             _dataSource.Deal.Remove(model);
             return await _dataSource.SaveChangesAsync();
         }
@@ -211,5 +220,6 @@ namespace LandBankManagement.Data.Services
             _dataSource.DealPaySchedule.Remove(items);
             return await _dataSource.SaveChangesAsync();
         }
+
     }
 }

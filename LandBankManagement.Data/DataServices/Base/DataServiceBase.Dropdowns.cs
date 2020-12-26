@@ -8,54 +8,54 @@ namespace LandBankManagement.Data.Services
 {
     partial class DataServiceBase
     {
-        public Dictionary<int, string> GetTalukOptions()
+        public async Task<Dictionary<int, string>> GetTalukOptions()
         {
 
-            return _dataSource.Taluks.Select(x => new { x.TalukId, x.TalukName }).ToDictionary(t => t.TalukId, t => t.TalukName);
+            return await _dataSource.Taluks.Select(x => new { x.TalukId, x.TalukName }).ToDictionaryAsync(t => t.TalukId, t => t.TalukName);
         }
-        public Dictionary<int, string> GetHobliOptions()
+        public async Task<Dictionary<int, string>> GetHobliOptions()
         {
-            return _dataSource.Hoblis.Select(x => new { x.HobliId, x.HobliName }).ToDictionary(t => t.HobliId, t => t.HobliName);
+            return await _dataSource.Hoblis.Select(x => new { x.HobliId, x.HobliName }).ToDictionaryAsync(t => t.HobliId, t => t.HobliName);
         }
-        public Dictionary<int, string> GetVillageOptions()
+        public async Task<Dictionary<int, string>> GetVillageOptions()
         {
-            return _dataSource.Villages.Select(x => new { x.VillageId, x.VillageName }).ToDictionary(t => t.VillageId, t => t.VillageName);
+            return await _dataSource.Villages.Select(x => new { x.VillageId, x.VillageName }).ToDictionaryAsync(t => t.VillageId, t => t.VillageName);
         }
-        public Dictionary<int, string> GetCompanyOptions()
+        public async Task<Dictionary<int, string>> GetCompanyOptions()
         {
-            return _dataSource.Companies.Select(x => new { x.CompanyID, x.Name }).ToDictionary(t => t.CompanyID, t => t.Name);
+            return await _dataSource.Companies.Select(x => new { x.CompanyID, x.Name }).ToDictionaryAsync(t => t.CompanyID, t => t.Name);
         }
-        public Dictionary<int, string> GetAccountTypeOptions()
+        public async Task<Dictionary<int, string>> GetAccountTypeOptions()
         {
-            return _dataSource.AccountTypes.Select(x => new { x.AccountTypeId, x.AccountTypeName }).ToDictionary(t => t.AccountTypeId, t => t.AccountTypeName);
+            return await _dataSource.AccountTypes.Select(x => new { x.AccountTypeId, x.AccountTypeName }).ToDictionaryAsync(t => t.AccountTypeId, t => t.AccountTypeName);
         }
-        public Dictionary<int, string> GetExpenseHeadOptions()
+        public async Task<Dictionary<int, string>> GetExpenseHeadOptions()
         {
-            return _dataSource.ExpenseHeads.Select(x => new { x.ExpenseHeadId, x.ExpenseHeadName }).ToDictionary(t => t.ExpenseHeadId, t => t.ExpenseHeadName);
+            return await _dataSource.ExpenseHeads.Select(x => new { x.ExpenseHeadId, x.ExpenseHeadName }).ToDictionaryAsync(t => t.ExpenseHeadId, t => t.ExpenseHeadName);
         }
-        public Dictionary<int, string> GetPartyOptions()
+        public async Task<Dictionary<int, string>> GetPartyOptions()
         {
-            return _dataSource.Parties.Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionary(t => t.PartyId, t => t.PartyFirstName);
+            return await _dataSource.Parties.Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionaryAsync(t => t.PartyId, t => t.PartyFirstName);
         }
-        public Dictionary<int, string> GetDocumentTypeOptions()
+        public async Task<Dictionary<int, string>> GetDocumentTypeOptions()
         {
-            return _dataSource.DocumentTypes.Select(x => new { x.DocumentTypeId, x.DocumentTypeName }).ToDictionary(t => t.DocumentTypeId, t => t.DocumentTypeName);
+            return await _dataSource.DocumentTypes.Select(x => new { x.DocumentTypeId, x.DocumentTypeName }).ToDictionaryAsync(t => t.DocumentTypeId, t => t.DocumentTypeName);
         }
-        public Dictionary<int, string> GetPropertyOptions()
+        public async Task<Dictionary<int, string>> GetPropertyOptions()
         {
-            return _dataSource.Properties.Select(x => new { x.PropertyId, x.PropertyName }).ToDictionary(t => t.PropertyId, t => t.PropertyName);
+            return await _dataSource.Properties.Select(x => new { x.PropertyId, x.PropertyName }).ToDictionaryAsync(t => t.PropertyId, t => t.PropertyName);
         }
-        public Dictionary<int, string> GetCashOptions()
+        public async Task<Dictionary<int, string>> GetCashOptions()
         {
-            return _dataSource.CashAccounts.Select(x => new { x.CashAccountId, x.CashAccountName }).ToDictionary(t => t.CashAccountId, t => t.CashAccountName);
+            return await _dataSource.CashAccounts.Select(x => new { x.CashAccountId, x.CashAccountName }).ToDictionaryAsync(t => t.CashAccountId, t => t.CashAccountName);
         }
-        public Dictionary<int, string> GetBankOptions()
+        public async Task<Dictionary<int, string>> GetBankOptions()
         {
-            return _dataSource.BankAccounts.Select(x => new { x.BankAccountId, x.BankName }).ToDictionary(t => t.BankAccountId, t => t.BankName);
+            return await _dataSource.BankAccounts.Select(x => new { x.BankAccountId, x.BankName }).ToDictionaryAsync(t => t.BankAccountId, t => t.BankName);
         }
-        public Dictionary<int, string> GetVendorOptions()
+        public async Task<Dictionary<int, string>> GetVendorOptions()
         {
-            return _dataSource.Vendors.Select(x => new { x.VendorId, x.VendorName }).ToDictionary(t => t.VendorId, t => t.VendorName);
+            return await _dataSource.Vendors.Select(x => new { x.VendorId, x.VendorName }).ToDictionaryAsync(t => t.VendorId, t => t.VendorName);
         }
 
 
@@ -74,36 +74,49 @@ namespace LandBankManagement.Data.Services
             return list;
         }
 
-        public Dictionary<int, string> GetPartyOptions(string party)
+        public async  Task<Dictionary<int, string>> GetPartyOptions(string party)
         {
-            return _dataSource.Parties.Where(x=>x.PartyFirstName.Contains(party)).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionary(t => t.PartyId, t => t.PartyFirstName);
+            return await _dataSource.Parties.Where(x=>x.PartyFirstName.Contains(party)).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionaryAsync(t => t.PartyId, t => t.PartyFirstName);
         }
 
-        public Dictionary<int, string> GetPropertyTypeOptions()
+        public async Task<Dictionary<int, string>> GetPropertyTypeOptions()
         {
-            return _dataSource.PropertyTypes.Select(x => new { x.PropertyTypeId, x.PropertyTypeText }).ToDictionary(t => t.PropertyTypeId, t => t.PropertyTypeText);
+            return await _dataSource.PropertyTypes.Select(x => new { x.PropertyTypeId, x.PropertyTypeText }).ToDictionaryAsync(t => t.PropertyTypeId, t => t.PropertyTypeText);
         }
 
-        public Dictionary<int, string> GetRoleOptions()
+        public async Task<Dictionary<int, string>> GetRoleOptions()
         {
-            return _dataSource.Roles.Select(x => new { x.RoleId, x.Name }).ToDictionary(t => t.RoleId, t => t.Name);
+            return await _dataSource.Roles.Select(x => new { x.RoleId, x.Name }).ToDictionaryAsync(t => t.RoleId, t => t.Name);
         }
 
-        public Dictionary<int, string> GetVendorOptions(string party)
+        public async Task<Dictionary<int, string>> GetVendorOptions(string party)
         {
-            return _dataSource.Vendors.Where(x => x.VendorName.Contains(party)).Select(x => new { x.VendorId, x.VendorName }).ToDictionary(t => t.VendorId, t => t.VendorName);
+            return await _dataSource.Vendors.Where(x => x.VendorName.Contains(party)).Select(x => new { x.VendorId, x.VendorName }).ToDictionaryAsync(t => t.VendorId, t => t.VendorName);
         }
 
-        public Dictionary<int, string> GetCheckListOptions()
+        public async Task<Dictionary<int, string>> GetCheckListOptions()
         {
-            return _dataSource.CheckLists.Select(x => new { x.CheckListId, x.CheckListName }).ToDictionary(t => t.CheckListId, t => t.CheckListName);
+            return await _dataSource.CheckLists.Select(x => new { x.CheckListId, x.CheckListName }).ToDictionaryAsync(t => t.CheckListId, t => t.CheckListName);
         }
 
-        public Dictionary<int, string> GetPropertyMergeOptions()
+        public async Task<Dictionary<int, string>> GetPropertyMergeOptions()
         {
-            return _dataSource.PropertyMerge.Where(x=>x.ForProposal==false).Select(x => new { x.PropertyMergeId, x.PropertyMergeDealName }).ToDictionary(t => t.PropertyMergeId, t => t.PropertyMergeDealName);
+            return await _dataSource.PropertyMerge.Where(x=>x.ForProposal==false).Select(x => new { x.PropertyMergeId, x.PropertyMergeDealName }).ToDictionaryAsync(t => t.PropertyMergeId, t => t.PropertyMergeDealName);
         }
-              
 
+        public async Task<Dictionary<int, string>> GetPropertyOptionsByCompanyID(int companyId)
+        {
+            if(companyId==0)
+            return await _dataSource.Properties.Select(x => new { x.PropertyId, x.PropertyName }).ToDictionaryAsync(t => t.PropertyId, t => t.PropertyName);
+            else
+            return await _dataSource.Properties.Where(x=>x.CompanyID==companyId).Select(x => new { x.PropertyId, x.PropertyName }).ToDictionaryAsync(t => t.PropertyId, t => t.PropertyName);
+        }
+
+        public async Task<Dictionary<int, string>> GetDealOptions()
+        {
+            return await (from d in _dataSource.Deal
+                        join pm in _dataSource.PropertyMerge on d.PropertyMergeId equals pm.PropertyMergeId
+                        select new { d.DealId, pm.PropertyMergeDealName }).ToDictionaryAsync(t => t.DealId, t => t.PropertyMergeDealName);           
+        }
     }
 }

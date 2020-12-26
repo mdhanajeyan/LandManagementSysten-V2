@@ -56,7 +56,7 @@ namespace LandBankManagement.Data.Services
         Task<int> GetTaluksCountAsync(DataRequest<Taluk> request);
         Task<int> UpdateTalukAsync(Taluk model);
         Task<int> DeleteTalukAsync(Taluk model);
-        Dictionary<int, string> GetTalukOptions();
+        Task<Dictionary<int, string>> GetTalukOptions();
 
         Task<int> AddHobliAsync(Hobli model);
         Task<Hobli> GetHobliAsync(long id);
@@ -65,8 +65,8 @@ namespace LandBankManagement.Data.Services
         Task<int> GetHoblisCountAsync(DataRequest<Hobli> request);
         Task<int> UpdateHobliAsync(Hobli model);
         Task<int> DeleteHobliAsync(Hobli model);
-        Dictionary<int, string> GetHobliOptions();
-        Dictionary<int, string> GetAccountTypeOptions();
+        Task<Dictionary<int, string>> GetHobliOptions();
+        Task<Dictionary<int, string>> GetAccountTypeOptions();
         Task<int> AddVillageAsync(Village model);
         Task<Village> GetVillageAsync(long id);
         Task<IList<Village>> GetVillagesAsync(DataRequest<Village> request);
@@ -74,8 +74,8 @@ namespace LandBankManagement.Data.Services
         Task<int> GetVillagesCountAsync(DataRequest<Village> request);
         Task<int> UpdateVillageAsync(Village model);
         Task<int> DeleteVillageAsync(Village model);
-        Dictionary<int, string> GetVillageOptions();
-        Dictionary<int, string> GetCompanyOptions();
+        Task<Dictionary<int, string>> GetVillageOptions();
+        Task<Dictionary<int, string>> GetCompanyOptions();
         Task<int> AddAccountTypeAsync(AccountType model);
         Task<AccountType> GetAccountTypeAsync(long id);
         Task<IList<AccountType>> GetAccountTypesAsync(DataRequest<AccountType> request);
@@ -215,21 +215,24 @@ namespace LandBankManagement.Data.Services
         Task<List<RolePermission>> GetRolePermissionsByRoleIDAsync(int roleId);
         Task<int> AddRolePermissionsAsync(List<RolePermission> models);
 
-        Dictionary<int, string> GetExpenseHeadOptions();
-        Dictionary<int, string> GetPartyOptions();
-        Dictionary<int, string> GetDocumentTypeOptions();
-        Dictionary<int, string> GetPropertyOptions();
-        Dictionary<int, string> GetCashOptions();
-        Dictionary<int, string> GetBankOptions();
-        Dictionary<int, string> GetVendorOptions();
+        Task<Dictionary<int, string>> GetExpenseHeadOptions();
+        Task<Dictionary<int, string>> GetPartyOptions();
+        Task<Dictionary<int, string>> GetDocumentTypeOptions();
+        Task<Dictionary<int, string>> GetPropertyOptions();
+        Task<Dictionary<int, string>> GetCashOptions();
+        Task<Dictionary<int, string>> GetBankOptions();
+        Task<Dictionary<int, string>> GetVendorOptions();
         Dictionary<int, string> GetReportingToOptions();
         Dictionary<int, string> GetGenderOptions();
-        Dictionary<int, string> GetPartyOptions(string party);
-        Dictionary<int, string> GetPropertyTypeOptions();
-        Dictionary<int, string> GetRoleOptions();
-        Dictionary<int, string> GetVendorOptions(string party);
-        Dictionary<int, string> GetCheckListOptions();
-        Dictionary<int, string> GetPropertyMergeOptions();
+        Task<Dictionary<int, string>> GetPartyOptions(string party);
+        Task<Dictionary<int, string>> GetPropertyTypeOptions();
+        Task<Dictionary<int, string>> GetRoleOptions();
+        Task<Dictionary<int, string>> GetVendorOptions(string party);
+        Task<Dictionary<int, string>> GetCheckListOptions();
+        Task<Dictionary<int, string>> GetPropertyMergeOptions();
+        Task<Dictionary<int, string>> GetPropertyOptionsByCompanyID(int companyId);
+        Task<Dictionary<int, string>> GetDealOptions();
+
         Task<int> AddPropertyCheckListAsync(PropertyCheckList model);
         Task<PropertyCheckList> GetPropertyCheckListAsync(long id);
         Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(DataRequest<PropertyCheckList> request);

@@ -53,17 +53,16 @@ namespace LandBankManagement.ViewModels
         {
             Item = new BankAccountModel();
             GetCompanyOption();
-            GetAccountTypeOption();
         }
 
-        private void GetCompanyOption()
+        private async void GetCompanyOption()
         {
-            CompanyOptions = DropDownService.GetCompanyOptions();
+            BankAccountViewModel.ShowProgressRing();
+            CompanyOptions = await DropDownService.GetCompanyOptions();
+            AcctTypeOptions = await DropDownService.GetAccountTypeOptions();
+            BankAccountViewModel.HideProgressRing();
         }
-        private void GetAccountTypeOption()
-        {
-            AcctTypeOptions = DropDownService.GetAccountTypeOptions();
-        }
+       
         public void Subscribe()
         {
             MessageService.Subscribe<BankAccountDetailsViewModel, BankAccountModel>(this, OnDetailsMessage);

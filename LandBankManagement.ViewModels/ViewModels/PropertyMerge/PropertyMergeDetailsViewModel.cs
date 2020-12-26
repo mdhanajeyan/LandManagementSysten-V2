@@ -81,11 +81,11 @@ namespace LandBankManagement.ViewModels
             GetDropdowns();
         }
        
-        private void GetDropdowns()
+        private async void GetDropdowns()
         {
             PropertyMergesViewModel.ShowProgressRing();
-            CompanyOptions = DropDownService.GetCompanyOptions();
-            PropertyOptions = DropDownService.GetPropertyOptions();
+            CompanyOptions = await DropDownService.GetCompanyOptions();
+            PropertyOptions = await DropDownService.GetPropertyOptions();
             PropertyMergesViewModel.HideProgressRing();
         }
 
@@ -98,6 +98,12 @@ namespace LandBankManagement.ViewModels
                     CurrentProperty = new PropertyMergeListModel();
                 CurrentProperty = model;
             }
+        }
+
+        public async void LoadPropertyOptionByCompany() {
+            PropertyMergesViewModel.ShowProgressRing();
+            PropertyOptions = await DropDownService.GetPropertyOptionsByCompanyID(selectedCompany);
+            PropertyMergesViewModel.HideProgressRing();
         }
 
         public void AddParopertyToList() {          

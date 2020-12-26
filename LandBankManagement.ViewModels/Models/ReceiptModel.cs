@@ -15,10 +15,10 @@ namespace LandBankManagement.Models
         public int PartyId { get; set; }
         public int PaymentTypeId { get; set; }
         public int DepositBankId { get; set; }
-        public DateTime DateOfPayment { get; set; }
-        public decimal Amount { get; set; }
+        public DateTimeOffset DateOfPayment { get; set; }
+        public string Amount { get; set; }
         public string Narration { get; set; }
-
+        public string BankName { get; set; }
         public bool IsNew => ReceiptId <= 0;
 
         public override void Merge(ObservableObject source)
@@ -43,6 +43,7 @@ namespace LandBankManagement.Models
                 DateOfPayment = source.DateOfPayment;
                 Amount = source.Amount;
                 Narration = source.Narration;
+                BankName = source.BankName;
             }
         }
     }

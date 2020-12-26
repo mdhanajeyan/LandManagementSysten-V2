@@ -176,16 +176,16 @@ namespace LandBankManagement.ViewModels
             CurrentPayment = new PaymentListModel { DateOfPayment = DateTimeOffset.Now };
         }
 
-        private void GetDropdowns()
+        private async void GetDropdowns()
         {
             PaymentsViewModel.ShowProgressRing();
-           CompanyOptions = DropDownService.GetCompanyOptions();
-            ExpenseOptions = DropDownService.GetExpenseHeadOptions();
-            PartyOptions= DropDownService.GetPartyOptions();
-            PropertyOptions= DropDownService.GetPropertyOptions();
-            DocumentTypeOptions = DropDownService.GetDocumentTypeOptions();
-            CashOptions = DropDownService.GetCashOptions();
-            BankOptions = DropDownService.GetBankOptions();
+           CompanyOptions =await DropDownService.GetCompanyOptions();
+            ExpenseOptions = await DropDownService.GetExpenseHeadOptions();
+            PartyOptions= await DropDownService.GetPartyOptions();
+            PropertyOptions= await DropDownService.GetPropertyOptions();
+            DocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();
+            CashOptions = await DropDownService.GetCashOptions();
+            BankOptions = await DropDownService.GetBankOptions();
             PaymentsViewModel.HideProgressRing();
         }
         
