@@ -115,7 +115,7 @@ namespace LandBankManagement.ViewModels
 
         public async void LoginWithPassword()
         {
-
+           
             if (loginProcessStarted)
                 return;
             ShowProgressRing();

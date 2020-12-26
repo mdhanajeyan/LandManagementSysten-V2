@@ -292,6 +292,19 @@ namespace LandBankManagement.ViewModels
         }
 
 
+        public async void DownloadDocument(int id)
+        {
+            if (id > 0)
+            {
+                StartStatusMessage("Start downloading...");
+                var result = await FilePickerService.DownloadFile(DocList[id - 1].FileName, DocList[id - 1].ImageBytes, DocList[id - 1].ContentType);
+                if (result)
+                    StartStatusMessage("File downloaded...");
+                else
+                    EndStatusMessage("Download failed");
+            }
+        }
+
         public void Subscribe()
         {
             MessageService.Subscribe<PropertyDetailsViewModel, PropertyModel>(this, OnDetailsMessage);

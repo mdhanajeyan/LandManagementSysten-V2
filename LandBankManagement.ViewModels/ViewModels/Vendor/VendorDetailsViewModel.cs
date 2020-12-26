@@ -135,7 +135,18 @@ namespace LandBankManagement.ViewModels
                 EndStatusMessage(" Vendor Document deleted");
             }
         }
-
+        public async void DownloadDocument(int id)
+        {
+            if (id > 0)
+            {
+                StartStatusMessage("Start downloading...");
+                var result = await FilePickerService.DownloadFile(DocList[id - 1].FileName, DocList[id - 1].ImageBytes, DocList[id - 1].ContentType);
+                if (result)
+                    StartStatusMessage("File downloaded...");
+                else
+                    EndStatusMessage("Download failed");
+            }
+        }
         protected override async Task<bool> SaveItemAsync(VendorModel model)
         {
             try
