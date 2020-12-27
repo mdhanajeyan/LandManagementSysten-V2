@@ -73,7 +73,7 @@ namespace LandBankManagement
 
         public string SQLServerConnectionString
         {
-            get => GetSettingsValue("SQLServerConnectionString", GetConnectionString());
+            get => GetSettingsValue("SQLServerConnectionString", GetConnectionString);
             set => SetSettingsValue("SQLServerConnectionString", value);
         }
 
@@ -103,6 +103,22 @@ namespace LandBankManagement
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return defaultValue;
+            }
+        }
+        private TResult GetSettingsValue<TResult>(string name, Func<TResult> action)
+        {
+            try
+            {
+                if (!LocalSettings.Values.ContainsKey(name))
+                {
+                    LocalSettings.Values[name] = action();
+                }
+                return (TResult)LocalSettings.Values[name];
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return action();
             }
         }
         private void SetSettingsValue(string name, object value)
@@ -142,7 +158,7 @@ namespace LandBankManagement
             catch (Exception ex)
             {
 
-                logService.WriteAsync(Data.LogType.Error, this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                logService.WriteAsync(Data.LogType.Information, this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex.Message,ex.InnerException?.Message);
             }
             
                 return regVal;

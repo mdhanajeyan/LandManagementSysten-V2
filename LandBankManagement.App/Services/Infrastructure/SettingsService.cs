@@ -5,6 +5,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.Storage;
 
 using LandBankManagement.Views;
+using System.Collections.Generic;
+using LandBankManagement.ViewModels;
 
 namespace LandBankManagement.Services
 {
@@ -99,6 +101,31 @@ namespace LandBankManagement.Services
                     break;
             }
             return dialog.Result;
+        }
+
+        public List<SettingsDictionary> FetchAllLocalAppSettings()
+        {
+            var allSettings = ApplicationData.Current.LocalSettings.Values;
+
+            var result = new List<SettingsDictionary>();
+
+            foreach (KeyValuePair<string, object> settings in allSettings)
+            {
+                result.Add(new SettingsDictionary { Key = settings.Key, Value = settings.Value.ToString() });
+            }
+
+            return result;
+        }
+
+        public void ClearAllLocalAppSettings()
+        {
+            var allSettings = ApplicationData.Current.LocalSettings.Values;
+
+
+            foreach (KeyValuePair<string, object> settings in allSettings)
+            {
+                ApplicationData.Current.LocalSettings.Values[settings.Key] = "";
+            }
         }
     }
 }

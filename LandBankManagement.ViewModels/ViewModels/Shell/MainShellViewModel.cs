@@ -32,7 +32,7 @@ namespace LandBankManagement.ViewModels
                  new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel)){Screen=NavigationScreen.Village},
                  new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
                  new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel)){Screen=NavigationScreen.PropertyType},
-                 
+
             }
         };
 
@@ -62,7 +62,8 @@ namespace LandBankManagement.ViewModels
                 new NavigationItem(0xf243, "View Log", typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs},
                 new NavigationItem(0xf044, "Role", typeof(RoleViewModel)){Screen=NavigationScreen.Role},
                   new NavigationItem(0xf044, "Role Permission", typeof(RolePermissionViewModel)){Screen=NavigationScreen.RolePermission},
-                new NavigationItem(0xf2bb, "User", typeof(UserViewModel)){Screen=NavigationScreen.UserInfo},
+                new NavigationItem(0xf2bb, "User", typeof(UserViewModel)){Screen=NavigationScreen.UserInfo}
+                
             }
         };
 
@@ -91,6 +92,8 @@ namespace LandBankManagement.ViewModels
             ReportItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
             AdminItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(item => (NavigationScreen)item.ScreenId == x.Screen));
             PropertyItem.Children.ToList().ForEach(x => x.HasPermission = _userInfo.Permission.Any(items => (NavigationScreen)items.ScreenId == x.Screen));
+
+            AdminItem.Children.Where(x => x.Screen == NavigationScreen.Default).ToList().ForEach(x => x.HasPermission = true);
         }
 
         private object _selectedItem;
@@ -121,7 +124,7 @@ namespace LandBankManagement.ViewModels
             await base.LoadAsync(args);
             _userInfo = args.UserInfo;
             SetMenuPermissions();
-           // HideProgressRing();
+            // HideProgressRing();
         }
 
 
@@ -141,7 +144,7 @@ namespace LandBankManagement.ViewModels
                     await UpdateAppLogBadge();
                     break;
                 case "SettingsViewModel":
-                    //  NavigationService.Navigate(viewModel, new SettingsArgs());
+                    NavigationService.Navigate(viewModel, new SettingsArgs());
                     break;
                 case "VendorViewModel":
                     NavigationService.Navigate(viewModel, new VendorListArgs());

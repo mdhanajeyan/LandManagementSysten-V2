@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LandBankManagement.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LandBankManagement.Services
@@ -24,5 +26,7 @@ namespace LandBankManagement.Services
 
         Task<Result> ValidateConnectionAsync(string connectionString);
         Task<Result> CreateDabaseAsync(string connectionString);
+        List<SettingsDictionary> FetchAllLocalAppSettings();
+        void ClearAllLocalAppSettings();
     }
 }

@@ -13,6 +13,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -27,14 +28,23 @@ namespace LandBankManagement.ViewModels
     }
     #endregion
 
+    public class SettingsDictionary
+    {
+        public string Key { get; set; }
+        public string Value { get; set; }
+    }
+
     public class SettingsViewModel : ViewModelBase
     {
-        public SettingsViewModel(ISettingsService settingsService, ICommonServices commonServices) : base(commonServices)
+        public SettingsViewModel(ILoginService loginService, ISettingsService settingsService, ICommonServices commonServices) : base(commonServices)
         {
             SettingsService = settingsService;
+            LoginService = loginService;
         }
 
         public ISettingsService SettingsService { get; }
+
+        public ILoginService LoginService { get; }
 
         public string Version => $"v{SettingsService.Version}";
 
@@ -45,39 +55,13 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _isBusy, value);
         }
 
-        private bool _isLocalProvider;
-        public bool IsLocalProvider
-        {
-            get { return _isLocalProvider; }
-            set { if (Set(ref _isLocalProvider, value)) UpdateProvider(); }
-        }
 
-        private bool _isSqlProvider;
-        public bool IsSqlProvider
-        {
-            get => _isSqlProvider;
-            set => Set(ref _isSqlProvider, value);
-        }
-
-        private string _sqlConnectionString = null;
-        public string SqlConnectionString
-        {
-            get => _sqlConnectionString;
-            set => Set(ref _sqlConnectionString, value);
-        }
-
-        public bool IsRandomErrorsEnabled
-        {
-            get { return SettingsService.IsRandomErrorsEnabled; }
-            set { SettingsService.IsRandomErrorsEnabled = value; }
-        }
-
-        public ICommand ResetLocalDataCommand => new RelayCommand(OnResetLocalData);
-        public ICommand ValidateSqlConnectionCommand => new RelayCommand(OnValidateSqlConnection);
-        public ICommand CreateDatabaseCommand => new RelayCommand(OnCreateDatabase);
-        public ICommand SaveChangesCommand => new RelayCommand(OnSaveChanges);
+        public ICommand ViewAllSettingsCommand => new RelayCommand(OnViewAllSettings);
+        public ICommand ClearAllSettingsCommand => new RelayCommand(OnClearAllSettings);
 
         public SettingsArgs ViewModelArgs { get; private set; }
+
+        public List<SettingsDictionary> AppSettingsStorage { get; set; }
 
         public Task LoadAsync(SettingsArgs args)
         {
@@ -85,94 +69,34 @@ namespace LandBankManagement.ViewModels
 
             StatusReady();
 
-            IsLocalProvider = SettingsService.DataProvider == DataProviderType.SQLite;
-
-            SqlConnectionString = SettingsService.SQLServerConnectionString;
-            IsSqlProvider = SettingsService.DataProvider == DataProviderType.SQLServer;
+            AppSettingsStorage = SettingsService.FetchAllLocalAppSettings();
 
             return Task.CompletedTask;
         }
 
-        private void UpdateProvider()
-        {
-            if (IsLocalProvider && !IsSqlProvider)
-            {
-                SettingsService.DataProvider = DataProviderType.SQLite;
-            }
-        }
 
-        private async void OnResetLocalData()
-        {
-            IsBusy = true;
-            StatusMessage("Waiting database reset...");
-            var result = await SettingsService.ResetLocalDataProviderAsync();
-            IsBusy = false;
-            if (result.IsOk)
-            {
-                StatusReady();
-            }
-            else
-            {
-                StatusMessage(result.Message);
-            }
-        }
 
-        private async void OnValidateSqlConnection()
-        {
-            await ValidateSqlConnectionAsync();
-        }
-
-        private async Task<bool> ValidateSqlConnectionAsync()
+        private void OnViewAllSettings()
         {
             StatusReady();
-            IsBusy = true;
-            StatusMessage("Validating connection string...");
-            var result = await SettingsService.ValidateConnectionAsync(SqlConnectionString);
-            IsBusy = false;
-            if (result.IsOk)
-            {
-                StatusMessage(result.Message);
-                return true;
-            }
-            else
-            {
-                StatusMessage(result.Message);
-                return false;
-            }
+
+            AppSettingsStorage = SettingsService.FetchAllLocalAppSettings();
+
+            StatusError("Error Viewing All Settings");
+
         }
 
-        private async void OnCreateDatabase()
+        private async void OnClearAllSettings()
         {
-            StatusReady();
-            DisableAllViews("Waiting for the database to be created...");
-            var result = await SettingsService.CreateDabaseAsync(SqlConnectionString);
-            EnableOtherViews();
-            EnableThisView("");
-            
-            if (result.IsOk)
-            {
-                StatusMessage(result.Message);
-            }
-            else
-            {
-                StatusError("Error creating database");
-            }
-        }
+            var result = await DialogService.ShowAsync("Do you really want to clear all Settings? ", " You will be logged out and will have to login back if you choose to clear all current Settings.", "Yes", "No");
 
-        private async void OnSaveChanges()
-        {
-            if (IsSqlProvider)
+            if (result)
             {
-                if (await ValidateSqlConnectionAsync())
-                {
-                    SettingsService.SQLServerConnectionString = SqlConnectionString;
-                    SettingsService.DataProvider = DataProviderType.SQLServer;
-                }
+                SettingsService.ClearAllLocalAppSettings();
+
+                LoginService.Logoff();
             }
-            else
-            {
-                SettingsService.DataProvider = DataProviderType.SQLite;
-            }
+
         }
     }
 }

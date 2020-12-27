@@ -60,6 +60,7 @@ namespace LandBankManagement.Views
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
+                ViewModel.ShowProgressRing();
                 DoEffectOut();
 
                 ViewModel.Login();

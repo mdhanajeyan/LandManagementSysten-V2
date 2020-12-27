@@ -1,24 +1,22 @@
 ﻿using System;
-
+using System.Reflection;
 using LandBankManagement.Data.Services;
 
 namespace LandBankManagement.Services
 {
     public class DataServiceFactory : IDataServiceFactory
     {
-        static private Random _random = new Random(0);
+        private readonly ILogService _logService;
+        public DataServiceFactory(ILogService logService)
+        {
+            _logService = logService;
+        }
 
         public IDataService CreateDataService()
         {
-            if (AppSettings.Current.IsRandomErrorsEnabled)
-            {
-                if (_random.Next(20) == 0)
-                {
-                    throw new InvalidOperationException("Random error simulation");
-                }
-            }
-
-            return new SQLServerDataService(AppSettings.Current.SQLServerConnectionString);
+            var connectionString = AppSettings.Current.SQLServerConnectionString;
+            _logService.WriteAsync(Data.LogType.Information, GetType().Name, MethodBase.GetCurrentMethod().Name, "Connection String", connectionString);
+            return new SQLServerDataService(connectionString);
         }
     }
 }
