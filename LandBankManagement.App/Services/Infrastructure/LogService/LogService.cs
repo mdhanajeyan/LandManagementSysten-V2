@@ -139,8 +139,6 @@ namespace LandBankManagement.Services
                 Message = source.Message,
                 Description = source.Description,
             };
-        }
-
-        
+        }     
     }
 }

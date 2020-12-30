@@ -9,6 +9,8 @@
       xmlns:models="using:LandBankManagement.Models"
     xmlns:controls="using:LandBankManagement.Controls"
      xmlns:syncfusion="using:Syncfusion.UI.Xaml.TreeGrid"
+    xmlns:sync="using:Syncfusion.UI.Xaml.Grid" 
+      xmlns:utils="using:Syncfusion.UI.Xaml.Utils"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
 
 
@@ -18,25 +20,45 @@
             <syncfusion:TreeGridTextColumn HeaderText="Document No" MappingName="DocumentNo" />
             <syncfusion:TreeGridTextColumn HeaderText="Survey No" MappingName="SurveyNo" TextAlignment="Left" />
         </syncfusion:TreeGridColumns>-->
-        
+        <Style x:Key="TreeGridHeader" TargetType="syncfusion:TreeGridHeaderCell">
+            <Setter Property="Foreground" Value="#fff" />
+            <Setter Property="Background" Value="#4FC3F7" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="FontSize" Value="17" />
+            
+        </Style>
+        <Style TargetType="syncfusion:TreeGridRowControl">
+            <Setter Property="utils:SetterValueBindingHelper.PropertyBinding">
+                <Setter.Value>
+                    <utils:SetterValueBindingHelper Binding="{Binding Converter={StaticResource SfTreeGridAlternativeRowStyleConverter}, RelativeSource={RelativeSource Self}}" Property="Background" />
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Margin="10,5,5,5" x:Name="root_grid" >
-        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100" >
-            <Grid>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>-->
+        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100"  >
+            <Popup.Resources>
+                <ThemeShadow x:Name="borderShadow"/>
+            </Popup.Resources>
+            <Grid x:Name="PopupContainer" Shadow="{StaticResource borderShadow}" Translation="0,0,50">
                 <Grid.RowDefinitions>
                     <RowDefinition  Height="40"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid  Grid.Row="0" HorizontalAlignment="Stretch" Padding="0 0 20 0" Background="#a3a0a0">
+                <Grid  Grid.Row="0" HorizontalAlignment="Stretch" Padding="0 0 20 0" Background="#00B0FF">
                     <Button x:Name="Popup_closeBtn"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Popup_closeBtn_Click">
-                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE8BB;" Foreground="Red" FontWeight="Medium"  HorizontalAlignment="Left"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE8BB;" Foreground="#fff" FontWeight="Medium"  HorizontalAlignment="Left"/>
                         <Button.Resources>
                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                         </Button.Resources>
                     </Button>
                 </Grid>
-                <ScrollViewer Grid.Row="1" VerticalScrollMode="Enabled" MaxHeight="700" >
-                    <views:CostDetails  ViewModel="{x:Bind ViewModel.CostDetails}"  Height="1000"/>
+                <ScrollViewer Grid.Row="1" VerticalScrollMode="Enabled" MaxHeight="700"   >
+                    <views:CostDetails  ViewModel="{x:Bind ViewModel.CostDetails}"  Height="800" />
                 </ScrollViewer>
             </Grid>
         </Popup>
@@ -81,8 +103,13 @@
                                        ChildPropertyName="Children"
                             
                                        ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" />-->
-        <syncfusion:SfTreeGrid Name="treeGrid" AutoGenerateColumns="False" ChildPropertyName="Children"    SelectionChanged="treeGrid_SelectionChanged"  ColumnSizer="Star"                    
-                                       ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" HeaderRowHeight="40" RowHeight="35">
+        <!--<controls:ListToolbar Grid.Row="0"
+           
+            Query="{x:Bind Query, Mode=TwoWay}"
+            QuerySubmitted="OnQuerySubmitted"
+            ButtonClick="OnToolbarClick" />-->
+        <syncfusion:SfTreeGrid  Name="treeGrid" AutoGenerateColumns="False" ChildPropertyName="Children" BorderBrush="#4FC3F7" BorderThickness="1"   SelectionChanged="treeGrid_SelectionChanged"   ColumnSizer="Star" SelectionBackground="#B3E5FC"                   
+                                       ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource TreeGridHeader}">
 
             <syncfusion:SfTreeGrid.Columns>
                 <syncfusion:TreeGridTextColumn HeaderText="Name" MappingName="PropertyName" />

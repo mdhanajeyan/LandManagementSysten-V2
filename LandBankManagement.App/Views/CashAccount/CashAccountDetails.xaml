@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CashAccountDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5"  HorizontalAlignment="Center">
-                <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
+                <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormTextBox Header="Cash A/C Name" Text="{x:Bind EditableItem.CashAccountName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />

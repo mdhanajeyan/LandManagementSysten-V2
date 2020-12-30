@@ -14,10 +14,10 @@
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:VillageDetailsViewModel">
             <controls:FluidGrid Margin="0,50,0,0" Columns="2" ColumnWidth="300" ColumnSpacing="12" RowSpacing="10" HorizontalAlignment="Center">
-                <controls:FormComboBox  Header="Taluk" ItemsSource="{x:Bind TalukOptions}"
+                <controls:FormComboBox  Header="Taluk" ItemsSource="{x:Bind TalukOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.TalukId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                <controls:FormComboBox  Header="Hobli" ItemsSource="{x:Bind HobliOptions}"
+                <controls:FormComboBox  Header="Hobli" ItemsSource="{x:Bind HobliOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.HobliId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormTextBox Header="Village Name" Text="{x:Bind EditableItem.VillageName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />

@@ -15,10 +15,10 @@
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:ReceiptsDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="30" RowSpacing="12" HorizontalAlignment="Center" x:Name="ReceiptsConatiner">
-                <controls:FormComboBox  Header="From Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
+                <controls:FormComboBox  Header="From Company / Individual" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                <controls:FormComboBox x:Name="DealPartiesDDl"  Header="Deal" ItemsSource="{x:Bind DealOptions}" SelectionChanged="DealPartiesDDl_SelectionChanged"
+                <controls:FormComboBox x:Name="DealPartiesDDl"  Header="Deal" ItemsSource="{x:Bind DealOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectionChanged="DealPartiesDDl_SelectionChanged"
                                            SelectedValue="{x:Bind EditableItem.DealId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
               

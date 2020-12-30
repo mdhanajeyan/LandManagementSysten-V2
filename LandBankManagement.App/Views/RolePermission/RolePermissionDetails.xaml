@@ -15,9 +15,9 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:RolePermissionDetailsViewModel">
-            <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnWidth="700" ColumnSpacing="12" RowSpacing="5" HorizontalAlignment="Center">               
-                    
-                        <controls:FormComboBox x:Name="RoleDropDown" Header="Role Permission" ItemsSource="{x:Bind RoleOptions}" 
+            <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnWidth="700" ColumnSpacing="12" RowSpacing="5" HorizontalAlignment="Center">
+
+                <controls:FormComboBox x:Name="RoleDropDown" Header="Role Permission" ItemsSource="{x:Bind RoleOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                                            SelectedValue="{x:Bind EditableItem.RoleInfoId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" 
                                                 SelectionChanged="RoleDropDown_SelectionChanged"/>                  

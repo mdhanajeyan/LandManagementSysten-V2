@@ -20,7 +20,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>07EBE7B8BF28825145B2A85ABD57DFE978D7C1BD</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>18F9C1FC6226718BC03B51F91A464CDEF850B031</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxPackageDir>D:\AppPackages\</AppxPackageDir>
@@ -180,6 +180,7 @@
     <Compile Include="Controls\WindowTitle\WindowTitle.cs" />
     <Compile Include="Controls\WrapPanel\WrapPanel.cs" />
     <Compile Include="Converters\AreaConvertor.cs" />
+    <Compile Include="Converters\SfTreeGridAlternativeRowStyleConverter.cs" />
     <Compile Include="Extensions\AreaConvertorExtension.cs" />
     <Compile Include="Converters\BindingTypeConverter.cs" />
     <Compile Include="Converters\BoolNegationConverter.cs" />
@@ -201,6 +202,8 @@
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportViewers\Company\CompanyReportViewer.cs" />
+    <Compile Include="ReportViewers\DealReportViewer.cs" />
+    <Compile Include="ReportViewers\PropertyCheckListReportViewer.cs" />
     <Compile Include="Services\CashAccountService.cs" />
     <Compile Include="Services\DealService.cs" />
     <Compile Include="Services\PropertyCheckListService.cs" />
@@ -330,6 +333,9 @@
     <Compile Include="Views\Deal\DealList.xaml.cs">
       <DependentUpon>DealList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Deal\DealReportView.xaml.cs">
+      <DependentUpon>DealReportView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Deal\DealView.xaml.cs">
       <DependentUpon>DealView.xaml</DependentUpon>
     </Compile>
@@ -401,6 +407,9 @@
     </Compile>
     <Compile Include="Views\PropertyCheckList\PropertyCheckListList.xaml.cs">
       <DependentUpon>PropertyCheckListList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyCheckList\PropertyCheckListReportView.xaml.cs">
+      <DependentUpon>PropertyCheckListReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PropertyCheckList\PropertyCheckListView.xaml.cs">
       <DependentUpon>PropertyCheckListView.xaml</DependentUpon>
@@ -757,6 +766,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Deal\DealReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Deal\DealView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -852,6 +865,10 @@
     <Page Include="Views\PropertyCheckList\PropertyCheckListList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PropertyCheckList\PropertyCheckListReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PropertyCheckList\PropertyCheckListView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1073,11 +1090,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ReportTemplates\CompanyReport.rdlc" />
+    <EmbeddedResource Include="ReportTemplates\PropertyCheckListReport.rdlc" />
+    <EmbeddedResource Include="ReportTemplates\DealReport.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AppLog\AppLog.db" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\LandBankManagement.Models.PropertyCheckListModel.datasource" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

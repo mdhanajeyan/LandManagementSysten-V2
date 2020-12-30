@@ -24,10 +24,10 @@
                     <controls:FluidGrid  Columns="2" ColumnSpacing="10" >
 
                         <controls:FluidGrid  ColumnSpan="2" Columns="1" ColumnSpacing="10" Margin="0 20 0 0">
-                            <controls:FormComboBox  Header="Deal Name" ItemsSource="{x:Bind PropertyMergeOptions}"
+                            <controls:FormComboBox  Header="Deal Name" ItemsSource="{x:Bind PropertyMergeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PropertyMergeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                            <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
+                            <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.CompanyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                         </controls:FluidGrid>

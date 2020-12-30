@@ -154,12 +154,26 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> GetDealsCountAsync(DataRequest<Deal> request)
         {
-            IQueryable<Deal> items = _dataSource.Deal;
+            IQueryable<Deal> items = from d in _dataSource.Deal
+                                     join
+           pm in _dataSource.PropertyMerge on d.PropertyMergeId equals pm.PropertyMergeId
+                                     join
+c in _dataSource.Companies on d.CompanyId equals c.CompanyID
+                                     select (new Deal
+                                     {
+                                         DealId = d.DealId,
+                                         DealName = pm.PropertyMergeDealName,
+                                         CompanyId = d.CompanyId,
+                                         SaleValue1 = d.SaleValue1,
+                                         SaleValue2 = d.SaleValue2,
+                                         Amount1 = _dataSource.DealPaySchedule.Where(x => x.DealId == d.DealId).Sum(x => x.Amount1).ToString(),
+                                         Amount2 = _dataSource.DealPaySchedule.Where(x => x.DealId == d.DealId).Sum(x => x.Amount2).ToString()
+                                     });
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
             {
-                items = items.Where(r => r.SearchTerms.Contains(request.Query.ToLower()));
+                items = items.Where(r => r.BuildSearchTerms().Contains(request.Query.ToLower()));
             }
 
             // Where

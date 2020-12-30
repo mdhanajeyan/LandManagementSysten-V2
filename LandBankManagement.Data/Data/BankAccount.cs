@@ -21,7 +21,7 @@ namespace LandBankManagement.Data
 
         [NotMapped]
         public string SearchTerms { get; set; }
-        public string BuildSearchTerms() => $"{BankName} {BranchName} {IFSCCode}".ToLower();
+        public string BuildSearchTerms() => $"{BankName} {BranchName} {IFSCCode} {AccountNumber}".ToLower();
         [NotMapped]
         public string CompanyName { get; set; }
         [NotMapped]

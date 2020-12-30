@@ -109,10 +109,11 @@ namespace LandBankManagement
             serviceCollection.AddTransient<PropertyMergeDetailsViewModel>();
             serviceCollection.AddTransient<DealViewModel>();
             serviceCollection.AddTransient<DealDetailsViewModel>();
-
+            serviceCollection.AddTransient<DealReportViewModel>();
             serviceCollection.AddTransient<SettingsViewModel>();
             serviceCollection.AddTransient<ValidateConnectionViewModel>();
             serviceCollection.AddTransient<CreateDatabaseViewModel>();
+            serviceCollection.AddTransient<PropertyCheckListReportViewModel>();
 
             _rootServiceProvider = serviceCollection.BuildServiceProvider();
         }

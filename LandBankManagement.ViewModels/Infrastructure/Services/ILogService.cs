@@ -20,5 +20,6 @@ namespace LandBankManagement.Services
         Task<int> DeleteLogRangeAsync(int index, int length, DataRequest<AppLog> request);
 
         Task MarkAllAsReadAsync();
+       
     }
 }

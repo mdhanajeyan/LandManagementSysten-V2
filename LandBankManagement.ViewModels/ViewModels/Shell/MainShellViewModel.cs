@@ -32,6 +32,7 @@ namespace LandBankManagement.ViewModels
                  new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel)){Screen=NavigationScreen.Village},
                  new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
                  new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel)){Screen=NavigationScreen.PropertyType},
+                
 
             }
         };
@@ -51,7 +52,9 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                 new NavigationItem(0xE9F9, "Report", typeof(CompanyReportViewModel))
+                 new NavigationItem(0xE9F9, "Comapny Report", typeof(CompanyReportViewModel)),
+                  new NavigationItem(0xf035, "Deal Report", typeof(DealReportViewModel)),
+                  new NavigationItem(0xf035, "Property CheckList Report", typeof(PropertyCheckListReportViewModel))
             }
         };
 
@@ -212,6 +215,12 @@ namespace LandBankManagement.ViewModels
                 case "DealViewModel":
                     NavigationService.Navigate(viewModel, new DealListArgs());
                     break;
+                case "DealReportViewModel":
+                    NavigationService.Navigate(viewModel, new DealReportArgs());
+                    break;
+                case "PropertyCheckListReportViewModel":
+                    NavigationService.Navigate(viewModel, new PropertyCheckListReportArgs());
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -222,7 +231,7 @@ namespace LandBankManagement.ViewModels
             yield return SetupItem;
             yield return PropertyItem;
             yield return TransactionItem;
-            yield return ReportItem;
+          //  yield return ReportItem;
             yield return AdminItem;
         }
 

@@ -213,6 +213,8 @@ namespace LandBankManagement.ViewModels
         }
 
         private void ResetCheckList() {
+            if (CheckListOptions == null)
+                CheckListOptions = new ObservableCollection<ComboBoxOptions>();
             CheckList = new ObservableCollection<CheckListOfPropertyModel>();
             foreach (var obj in CheckListOptions)
             {

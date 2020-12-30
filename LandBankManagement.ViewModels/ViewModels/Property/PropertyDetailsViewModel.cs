@@ -110,7 +110,7 @@ namespace LandBankManagement.ViewModels
             Item = new PropertyModel();
             Item.DateOfExecution = DateTimeOffset.Now;
             IsEditMode = true;
-            GetDropdowns();
+            await GetDropdowns();
         }
 
        public void loadAcres(Area area,string type) {
@@ -147,7 +147,7 @@ namespace LandBankManagement.ViewModels
             Item = null;
             Item = old;
         }
-        private async void GetDropdowns()
+        private async Task GetDropdowns()
         {
             PropertyView.ShowProgressRing();
             CompanyOptions = await DropDownService.GetCompanyOptions();

@@ -157,7 +157,7 @@ namespace LandBankManagement.Data.Services
             // Query
             if (!String.IsNullOrEmpty(request.Query))
             {
-                items = items.Where(r => r.SearchTerms.Contains(request.Query.ToLower()));
+                items = items.Where(r => r.BuildSearchTerms().Contains(request.Query.ToLower()));
             }
 
             // Where

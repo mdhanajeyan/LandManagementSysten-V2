@@ -22,8 +22,8 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Company Name" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="VIllage Name" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="2" Text="Property Name" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="3" Text="Survey No" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="2" Text="Property Name*" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="3" Text="Survey No*" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="4" Text="Status" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="5" Text="Remarks" Style="{StaticResource ColumnHeaderStyle}" />
                 

@@ -8,6 +8,7 @@
      xmlns:viewmodels="using:LandBankManagement.ViewModels"
       xmlns:models="using:LandBankManagement.Models"
     xmlns:controls="using:LandBankManagement.Controls"
+     xmlns:syncfusion="using:Syncfusion.UI.Xaml.TreeGrid"
     mc:Ignorable="d"
     d:DesignHeight="600"
     d:DesignWidth="900">
@@ -32,17 +33,17 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Background" Value="#fff" />
             <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="MinWidth" Value="223" />           
+            <Setter Property="MinWidth" Value="200" />           
             <Setter Property="BorderBrush" Value="#c1c1c3" />
             <Setter Property="Height" Value="35" />
         </Style>
     </UserControl.Resources>
-    <Grid Background="#f0f0f0" Width="900" Height="1100" Padding="20">
+    <Grid Background="#fcfcfc" Width="900" Height="800" Padding="20">
         <Grid.RowDefinitions>
             <RowDefinition  Height="140"/>
             <RowDefinition  Height="100"/>
             <RowDefinition Height="180"/>
-            <RowDefinition  Height="300"/>
+            <RowDefinition  Height="230"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
@@ -118,7 +119,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>               
             </Grid.RowDefinitions>
-            <StackPanel  Grid.Row="1" Grid.Column="0" Padding="5 0 5 0" Orientation="Vertical">
+            <StackPanel  Grid.Row="1" Grid.Column="0" Padding="5 0 5 0" Orientation="Vertical" >
                 <TextBlock Text="Document Type"  Style="{StaticResource PopupLabels}"/>
                 <TextBox Text="{x:Bind ViewModel.Item.DocumentType,Mode=TwoWay}"  Style="{StaticResource PopupTextbox}" IsReadOnly="True"/>
             </StackPanel>
@@ -145,13 +146,13 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="70"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Text="Payment Schedule"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Height="30" FontSize="17" FontWeight="Medium"/>
             <StackPanel  Grid.Row="1" Grid.Column="0" Padding="5 0 5 0" Orientation="Vertical">
                 <TextBlock Text="Date"  Style="{StaticResource PopupLabels}"/>
-                <CalendarDatePicker  BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" MinWidth="230"  Date="{x:Bind ViewModel.CurrentPayment.ScheduleDate,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
+                <CalendarDatePicker  BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" MinWidth="200"  Date="{x:Bind ViewModel.CurrentPayment.ScheduleDate,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
             </StackPanel>
             <StackPanel  Grid.Row="1" Grid.Column="1" Padding="5 0 5 0" Orientation="Vertical">
                 <TextBlock Text="Description"  Style="{StaticResource PopupLabels}"/>
@@ -166,52 +167,30 @@
                 <TextBox Text="{x:Bind ViewModel.CurrentPayment.Amount2,Mode=TwoWay,Converter={StaticResource DecimalConverter},UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PopupTextbox}"/>
             </StackPanel>
             <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Content="Add" x:Name="AddPayment"  Margin="10" Click="AddPayment_Click"  Width="100"/>
-                <Button Content="Clear" x:Name="ClearPayment" Margin="10" Click="ClearPayment_Click"  Width="100"/>
+                <Button Content="Add" x:Name="AddPayment" Background="#80D8FF"  Margin="10" Click="AddPayment_Click"  Width="100"/>
+                <Button Content="Clear" x:Name="ClearPayment" Background="#80D8FF" Margin="10" Click="ClearPayment_Click"  Width="100"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="3"  >
-           
-            <StackPanel>
-                <StackPanel Orientation="Horizontal" Padding="5 " BorderThickness="1" BorderBrush="#adadac" Height="45" Margin="12 20 34 0">
-                    <TextBlock Text="Date" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.2}"  Style="{StaticResource PopupLabels}"/>
-                    <TextBlock Text="Description" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.2}"  Style="{StaticResource PopupLabels}"/>
-                    <TextBlock Text="Amount1" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.2}"  Style="{StaticResource PopupLabels}"/>
-                    <TextBlock Text="Amount2" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.2}"  Style="{StaticResource PopupLabels}"/>
-                    <TextBlock Text="Total" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.10}"  Style="{StaticResource PopupLabels}"/>
-                </StackPanel>
-                <StackPanel >
-                    <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="290" >
-                        <ListView x:Name="docListView" ItemsSource="{x:Bind ViewModel.PaymentScheduleList,Mode=TwoWay}"  Margin="0 0 0 15"  >
-                            <ListView.ItemTemplate >
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" MinHeight="30" BorderThickness="1" BorderBrush="#adadac" >
-                                        <TextBlock Text="{Binding ScheduleDate, Converter={StaticResource DateTimeFormatConverter}}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.2}" Foreground="#616263" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
-                                        <TextBlock Text="{Binding Description}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.2}" Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
-                                        <TextBlock Text="{Binding Amount1}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.2}" Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
-                                        <TextBlock Text="{Binding Amount2}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.2}" Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
-                                        <TextBlock Text="{Binding Total}" Width="{Binding Converter={StaticResource WidthPercentageConverter},ElementName=docListView, 
-                       Path=ActualWidth, ConverterParameter=0.15}" Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
-                                    </StackPanel>
 
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </ScrollViewer>
-                    
-                  
-                </StackPanel>
-                
-            </StackPanel>
+            <syncfusion:SfTreeGrid Name="treeGrid" AutoGenerateColumns="False"  ColumnSizer="Star"                    
+                                       ItemsSource="{x:Bind ViewModel.PaymentScheduleList,Mode=TwoWay}" HeaderRowHeight="40" RowHeight="35">
+
+                <syncfusion:SfTreeGrid.Columns>
+                    <syncfusion:TreeGridTemplateColumn HeaderText="Date" MappingName="PropertyId" ShowHeaderToolTip="True">
+                        <syncfusion:TreeGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ScheduleDate, Converter={StaticResource DateTimeFormatConverter}}" Foreground="#616263" FontSize="16"  Padding="0 5 20 0" TextWrapping="Wrap" ></TextBlock>
+                            </DataTemplate>
+                        </syncfusion:TreeGridTemplateColumn.CellTemplate>
+                    </syncfusion:TreeGridTemplateColumn>
+                    <syncfusion:TreeGridTextColumn HeaderText="Description" MappingName="Description" />
+                    <syncfusion:TreeGridTextColumn HeaderText="Amount 1" MappingName="Amount1" />
+                    <syncfusion:TreeGridTextColumn HeaderText="Amount 2" MappingName="Amount2" />
+                    <syncfusion:TreeGridTextColumn HeaderText="Total" MappingName="Total" TextAlignment="Left" />              
+                </syncfusion:SfTreeGrid.Columns>
+            </syncfusion:SfTreeGrid>
+           
         </Grid>
         <Grid Grid.Row="4"  >
             <Grid.ColumnDefinitions>
@@ -227,14 +206,14 @@
             <StackPanel  Grid.Column="0">
             </StackPanel>
             <StackPanel  Grid.Column="1"></StackPanel>           
-            <TextBlock Grid.Column="2" x:Name="TotalAmountTxt1" Text="{x:Bind ViewModel.TotalAmount1, Mode=OneWay}" Foreground="#616263" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
-            <TextBlock Grid.Column="3" x:Name="TotalAmountTxt2"  Text="{x:Bind ViewModel.TotalAmount1, Mode=OneWay}" Foreground="#616263" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
+            <TextBlock Grid.Column="2" x:Name="TotalAmountTxt1" Text="{x:Bind ViewModel.TotalAmount1, Mode=OneWay}" Foreground="#616263" FontSize="16"  Padding="15 15 20 0" TextWrapping="Wrap" ></TextBlock>
+            <TextBlock Grid.Column="3" x:Name="TotalAmountTxt2"  Text="{x:Bind ViewModel.TotalAmount1, Mode=OneWay}" Foreground="#616263" FontSize="16"  Padding="15 15 20 0" TextWrapping="Wrap" ></TextBlock>
         </Grid>
 
         <Grid Grid.Row="5"   >
             <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button x:Name="SaveBtn" Content="Save"  Margin="10" Click="SaveBtn_Click" Width="100"/>
-                <Button x:Name="CancelBtn" Content="Cancel" Margin="10" Click="CancelBtn_Click"  Width="100"/>
+                <Button x:Name="SaveBtn" Content="Save" Background="#80D8FF"  Margin="10" Click="SaveBtn_Click" Width="100"/>
+                <Button x:Name="CancelBtn" Content="Cancel" Background="#80D8FF" Margin="10" Click="CancelBtn_Click"  Width="100"/>
             </StackPanel>
         </Grid>
     </Grid>

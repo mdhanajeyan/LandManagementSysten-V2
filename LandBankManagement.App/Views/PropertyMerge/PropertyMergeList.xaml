@@ -23,7 +23,7 @@
                     <ColumnDefinition Width="10*"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Merged Proeprty" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="0" Text="Merged Property*" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="Total Area" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="2" Text="Sale Value 1" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="3" Text="Sale Value 1" Style="{StaticResource ColumnHeaderStyle}" />

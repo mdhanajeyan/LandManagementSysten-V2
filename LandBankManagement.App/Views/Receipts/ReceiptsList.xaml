@@ -16,7 +16,7 @@
                     <ColumnDefinition Width="30*"/>
                     <ColumnDefinition Width="40*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Bank" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="0" Text="Bank*" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text=" Amount" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="2" Text="Narration" Style="{StaticResource ColumnHeaderStyle}" />
 

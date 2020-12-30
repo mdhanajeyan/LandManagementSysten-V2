@@ -17,7 +17,7 @@ namespace LandBankManagement.Data
         [NotMapped]
         public string SearchTerms { get; set; }
 
-        public string BuildSearchTerms() => $"{DealId} {PropertyMergeId} ".ToLower();
+        public string BuildSearchTerms() => $"{DealName} ".ToLower();
 
         [NotMapped]
         public IList<DealParties> DealParties = new List<DealParties>();

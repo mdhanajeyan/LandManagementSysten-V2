@@ -113,7 +113,22 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> GetReceiptsCountAsync(DataRequest<Receipt> request)
         {
-            IQueryable<Receipt> items = _dataSource.Receipts;
+            IQueryable<Receipt> items = from r in _dataSource.Receipts
+                                        join
+     b in _dataSource.BankAccounts on r.DepositBankId equals b.BankAccountId
+                                        select (new Receipt
+                                        {
+                                            ReceiptId = r.ReceiptId,
+                                            ReceiptGuid = r.ReceiptGuid,
+                                            DealId = r.DealId,
+                                            PayeeId = r.PayeeId,
+                                            PaymentTypeId = r.PaymentTypeId,
+                                            DateOfPayment = r.DateOfPayment,
+                                            Amount = r.Amount,
+                                            Narration = r.Narration,
+                                            DepositBankId = r.DepositBankId,
+                                            BankName = b.BankName
+                                        });
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))

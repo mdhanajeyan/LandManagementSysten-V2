@@ -7,6 +7,7 @@ using Syncfusion.UI.Xaml.TreeGrid;
 using System.Collections.Generic;
 using LandBankManagement.Models;
 using System.Linq;
+using LandBankManagement.Controls;
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace LandBankManagement.Views
@@ -16,15 +17,27 @@ namespace LandBankManagement.Views
         public PropertyList()
         {
             this.InitializeComponent();
+            
         }
         public PropertyListViewModel ViewModel
         {
             get { return (PropertyListViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
+       
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(PropertyListViewModel), typeof(PropertyList), new PropertyMetadata(null));
+        #region Query
+        public string Query
+        {
+            get { return (string)GetValue(QueryProperty); }
+            set { SetValue(QueryProperty, value); }
+        }
 
-        private  void CostDetails_Click(object sender, RoutedEventArgs e)
+        public static readonly DependencyProperty QueryProperty = DependencyProperty.Register(nameof(Query), typeof(string), typeof(PropertyList), new PropertyMetadata(null));
+        #endregion
+        public ListToolbarMode ToolbarMode =>  ListToolbarMode.Default;
+
+        private void CostDetails_Click(object sender, RoutedEventArgs e)
         {
             var propertyId = Convert.ToInt32(((Button)sender).Tag.ToString());
              ViewModel.CostDetails.LoadAsync(propertyId);
@@ -54,6 +67,33 @@ namespace LandBankManagement.Views
             var propertyId = Convert.ToInt32(((Button)sender).Tag.ToString());
             var selectedItem = ViewModel.Items.Where(x => x.PropertyId == propertyId).FirstOrDefault();
             ViewModel.PopulateProperty(selectedItem);
+        }
+              
+
+        private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+          //  QuerySubmittedCommand?.TryExecute(args.QueryText);
+        }
+        private void OnToolbarClick(object sender, ToolbarButtonClickEventArgs e)
+        {
+            //switch (e.ClickedButton)
+            //{
+            //    case ToolbarButton.New:
+            //        NewCommand?.TryExecute();
+            //        break;
+            //    case ToolbarButton.Delete:
+            //        DeleteCommand?.TryExecute();
+            //        break;
+            //    case ToolbarButton.Select:
+            //        StartSelectionCommand?.TryExecute();
+            //        break;
+            //    case ToolbarButton.Refresh:
+            //        RefreshCommand?.TryExecute();
+            //        break;
+            //    case ToolbarButton.Cancel:
+            //        CancelSelectionCommand?.TryExecute();
+            //        break;
+            //}
         }
     }
 }
