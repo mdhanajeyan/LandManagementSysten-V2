@@ -70,30 +70,34 @@ namespace LandBankManagement.Views
         }
               
 
-        private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
+            ViewModel.Query = args.QueryText;
+            await ViewModel.RefreshAsync();
           //  QuerySubmittedCommand?.TryExecute(args.QueryText);
         }
-        private void OnToolbarClick(object sender, ToolbarButtonClickEventArgs e)
+        private async void OnToolbarClick(object sender, ToolbarButtonClickEventArgs e)
         {
-            //switch (e.ClickedButton)
-            //{
-            //    case ToolbarButton.New:
-            //        NewCommand?.TryExecute();
-            //        break;
-            //    case ToolbarButton.Delete:
-            //        DeleteCommand?.TryExecute();
-            //        break;
-            //    case ToolbarButton.Select:
-            //        StartSelectionCommand?.TryExecute();
-            //        break;
-            //    case ToolbarButton.Refresh:
-            //        RefreshCommand?.TryExecute();
-            //        break;
-            //    case ToolbarButton.Cancel:
-            //        CancelSelectionCommand?.TryExecute();
-            //        break;
-            //}
+
+            switch (e.ClickedButton)
+            {
+                case ToolbarButton.New:
+                   // NewCommand?.TryExecute();
+                    break;
+                case ToolbarButton.Delete:
+                  //  DeleteCommand?.TryExecute();
+                    break;
+                case ToolbarButton.Select:
+                    //StartSelectionCommand?.TryExecute();
+                    break;
+                case ToolbarButton.Refresh:
+                    // RefreshCommand?.TryExecute();
+                   await ViewModel.RefreshAsync();
+                    break;
+                case ToolbarButton.Cancel:
+                   // CancelSelectionCommand?.TryExecute();
+                    break;
+            }
         }
     }
 }

@@ -53,7 +53,7 @@ namespace LandBankManagement.Data
 
         [NotMapped]
         public string SearchTerms { get; set; }
-
+        public string BuildSearchTerms() => $"{PropertyName} {DocumentNo} {SurveyNo} ".ToLower();
         [NotMapped]
         public IList<PropPaySchedule> PropPaySchedules { get; set; }
         [NotMapped]

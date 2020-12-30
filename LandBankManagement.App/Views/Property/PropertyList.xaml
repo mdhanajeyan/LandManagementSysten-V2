@@ -36,10 +36,10 @@
         </Style>
     </UserControl.Resources>
     <Grid Margin="10,5,5,5" x:Name="root_grid" >
-        <!--<Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>-->
+        </Grid.RowDefinitions>
         <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100"  >
             <Popup.Resources>
                 <ThemeShadow x:Name="borderShadow"/>
@@ -103,18 +103,18 @@
                                        ChildPropertyName="Children"
                             
                                        ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" />-->
-        <!--<controls:ListToolbar Grid.Row="0"
+        <controls:ListSearchToolBar Grid.Row="0"
            
-            Query="{x:Bind Query, Mode=TwoWay}"
+            Query="{x:Bind ViewModel.Query, Mode=TwoWay}"
             QuerySubmitted="OnQuerySubmitted"
-            ButtonClick="OnToolbarClick" />-->
-        <syncfusion:SfTreeGrid  Name="treeGrid" AutoGenerateColumns="False" ChildPropertyName="Children" BorderBrush="#4FC3F7" BorderThickness="1"   SelectionChanged="treeGrid_SelectionChanged"   ColumnSizer="Star" SelectionBackground="#B3E5FC"                   
+            ButtonClick="OnToolbarClick" />
+        <syncfusion:SfTreeGrid  Grid.Row="1" Name="treeGrid" AutoGenerateColumns="False" ChildPropertyName="Children" BorderBrush="#4FC3F7" BorderThickness="1"   SelectionChanged="treeGrid_SelectionChanged"   ColumnSizer="Star" SelectionBackground="#B3E5FC"                   
                                        ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource TreeGridHeader}">
 
             <syncfusion:SfTreeGrid.Columns>
-                <syncfusion:TreeGridTextColumn HeaderText="Name" MappingName="PropertyName" />
-                <syncfusion:TreeGridTextColumn HeaderText="Document No" MappingName="DocumentNo" />
-                <syncfusion:TreeGridTextColumn HeaderText="Survey No" MappingName="SurveyNo" TextAlignment="Left" />
+                <syncfusion:TreeGridTextColumn HeaderText="Name*" MappingName="PropertyName" />
+                <syncfusion:TreeGridTextColumn HeaderText="Document No*" MappingName="DocumentNo" />
+                <syncfusion:TreeGridTextColumn HeaderText="Survey No*" MappingName="SurveyNo" TextAlignment="Left" />
                 <syncfusion:TreeGridTemplateColumn HeaderText=" Add Cost Details " MappingName="PropertyId" ShowHeaderToolTip="True">
                     <syncfusion:TreeGridTemplateColumn.CellTemplate>
                         <DataTemplate>
