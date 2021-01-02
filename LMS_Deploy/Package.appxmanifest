@@ -4,15 +4,16 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  IgnorableNamespaces="uap rescap uap3">
 
   <Identity
     Name="LandManagementSystem"
-    Publisher="CN=LeanSys"
-    Version="0.4.0.0" />
+    Publisher="CN=&quot;LeanSys Pvt. Ltd. &quot;"
+    Version="0.8.10.0" />
 
   <Properties>
-    <DisplayName>LMS_Deploy</DisplayName>
+    <DisplayName>Land Management System</DisplayName>
     <PublisherDisplayName>LeanSys</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -46,5 +47,10 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
+    <Capability Name="internetClientServer"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <uap3:Capability Name="remoteSystem"/>
+    <uap:Capability Name="enterpriseAuthentication"/>
+    <uap:Capability Name="sharedUserCertificates"/>
   </Capabilities>
 </Package>

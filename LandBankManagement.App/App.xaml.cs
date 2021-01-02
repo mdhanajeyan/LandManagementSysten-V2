@@ -9,7 +9,6 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using LandBankManagement.Services;
 using LandBankManagement.Views.SplashScreen;
-using Syncfusion.UI.Xaml.Grid;
 
 
 namespace LandBankManagement
@@ -24,11 +23,7 @@ namespace LandBankManagement
             List<Assembly> assembliesToInclude = new List<Assembly>();
 
             //Now, add in all the assemblies your app uses  
-            assembliesToInclude.Add(typeof(SfDataGrid).GetTypeInfo().Assembly);
-
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NjY1NUAzMTM4MmUzMzJlMzBQcDlLM3d2N0Ywd1liN29jdWdJWDFaMnduc0ZaVTMrK3JCSXc3RUVRdnBBPQ==");
-            Bold.Licensing.BoldLicenseProvider.RegisterLicense("M3uZkZffANauHRYN/PTFrvJgrSOFLAfr6wdwEyf/CkI=");
-
+          
             InitializeComponent();
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;

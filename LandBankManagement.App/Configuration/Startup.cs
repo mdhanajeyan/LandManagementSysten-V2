@@ -51,7 +51,6 @@ namespace LandBankManagement
 
             NavigationService.Register<CompanyViewModel, CompanyView>();
             NavigationService.Register<CompanyDetailsViewModel, CompanyView>();
-            NavigationService.Register<CompanyReportViewModel, CompanyReportView>();
 
             NavigationService.Register<AppLogsViewModel, AppLogsView>();
 
@@ -76,13 +75,11 @@ namespace LandBankManagement
             NavigationService.Register<ReceiptsViewModel, ReceiptsView>();
             NavigationService.Register<RoleViewModel, RoleView>();
             NavigationService.Register<UserViewModel, UserView>();
-            NavigationService.Register<PropertyViewModel, PropertyView>();
             NavigationService.Register<PropertyMergeViewModel, PropertyMergeView>();
             NavigationService.Register<RolePermissionViewModel, RolePermissionView>();
             NavigationService.Register<PropertyCheckListViewModel, PropertyCheckListView>();
             NavigationService.Register<DealViewModel, DealView>();
-            NavigationService.Register<DealReportViewModel, DealReportView>();
-            NavigationService.Register<PropertyCheckListReportViewModel, PropertyCheckListReportView>();
+
         }
        
         static private async Task EnsureLogDbAsync()

@@ -13,14 +13,14 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>18F9C1FC6226718BC03B51F91A464CDEF850B031</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>07EBE7B8BF28825145B2A85ABD57DFE978D7C1BD</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxPackageDir>D:\AppPackages\</AppxPackageDir>
@@ -131,7 +131,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\GridLengths.cs" />
-    <Compile Include="Common\Infrastructure\ReportViewerHelper.cs" />
     <Compile Include="Common\VirtualCollection\VirtualCollection.cs" />
     <Compile Include="Common\VirtualCollection\VirtualCollection.IList.cs" />
     <Compile Include="Common\VirtualCollection\VirtualCollection.Selection.cs" />
@@ -180,7 +179,6 @@
     <Compile Include="Controls\WindowTitle\WindowTitle.cs" />
     <Compile Include="Controls\WrapPanel\WrapPanel.cs" />
     <Compile Include="Converters\AreaConvertor.cs" />
-    <Compile Include="Converters\SfTreeGridAlternativeRowStyleConverter.cs" />
     <Compile Include="Extensions\AreaConvertorExtension.cs" />
     <Compile Include="Converters\BindingTypeConverter.cs" />
     <Compile Include="Converters\BoolNegationConverter.cs" />
@@ -201,9 +199,6 @@
     <Compile Include="Extensions\ItemIndexRangeExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportViewers\Company\CompanyReportViewer.cs" />
-    <Compile Include="ReportViewers\DealReportViewer.cs" />
-    <Compile Include="ReportViewers\PropertyCheckListReportViewer.cs" />
     <Compile Include="Services\CashAccountService.cs" />
     <Compile Include="Services\DealService.cs" />
     <Compile Include="Services\PropertyCheckListService.cs" />
@@ -318,9 +313,6 @@
     <Compile Include="Views\Company\CompanyDetails.xaml.cs">
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Company\CompanyReportView.xaml.cs">
-      <DependentUpon>CompanyReportView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Company\CompanyView.xaml.cs">
       <DependentUpon>CompanyView.xaml</DependentUpon>
     </Compile>
@@ -332,9 +324,6 @@
     </Compile>
     <Compile Include="Views\Deal\DealList.xaml.cs">
       <DependentUpon>DealList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Deal\DealReportView.xaml.cs">
-      <DependentUpon>DealReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Deal\DealView.xaml.cs">
       <DependentUpon>DealView.xaml</DependentUpon>
@@ -408,9 +397,6 @@
     <Compile Include="Views\PropertyCheckList\PropertyCheckListList.xaml.cs">
       <DependentUpon>PropertyCheckListList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PropertyCheckList\PropertyCheckListReportView.xaml.cs">
-      <DependentUpon>PropertyCheckListReportView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PropertyCheckList\PropertyCheckListView.xaml.cs">
       <DependentUpon>PropertyCheckListView.xaml</DependentUpon>
     </Compile>
@@ -432,17 +418,8 @@
     <Compile Include="Views\PropertyType\PropertyTypeView.xaml.cs">
       <DependentUpon>PropertyTypeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Property\CostDetails.xaml.cs">
-      <DependentUpon>CostDetails.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Property\PropertyDetails.xaml.cs">
       <DependentUpon>PropertyDetails.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Property\PropertyList.xaml.cs">
-      <DependentUpon>PropertyList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Property\PropertyView.xaml.cs">
-      <DependentUpon>PropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Receipts\ReceiptsDetails.xaml.cs">
       <DependentUpon>ReceiptsDetails.xaml</DependentUpon>
@@ -746,10 +723,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Company\CompanyReportView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Company\CompanyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -763,10 +736,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Deal\DealList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Deal\DealReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -866,10 +835,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\PropertyCheckList\PropertyCheckListReportView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\PropertyCheckList\PropertyCheckListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -898,19 +863,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Property\CostDetails.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Property\PropertyDetails.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Property\PropertyList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Property\PropertyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1020,9 +973,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BoldReports.UWP">
-      <Version>2.4.19</Version>
-    </PackageReference>
     <PackageReference Include="FontAwesome.UWP">
       <Version>4.7.0.9</Version>
     </PackageReference>
@@ -1071,9 +1021,6 @@
     <PackageReference Include="Remotion.Linq">
       <Version>2.2.0</Version>
     </PackageReference>
-    <PackageReference Include="Syncfusion.SfGrid.UWP">
-      <Version>18.3.0.53</Version>
-    </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>
     </PackageReference>
@@ -1101,6 +1048,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\DataSources\LandBankManagement.Models.PropertyCheckListModel.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\Infrastructure\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

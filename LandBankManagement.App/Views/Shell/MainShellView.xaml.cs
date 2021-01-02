@@ -12,7 +12,6 @@ using LandBankManagement.Services;
 
 using muxc = Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using BoldReports.UI.Xaml;
 
 namespace LandBankManagement.Views
 {
@@ -119,21 +118,7 @@ namespace LandBankManagement.Views
             controlsSearchBox.Focus(FocusState.Programmatic);
         }
 
-        private void ReportViewer_ReportError(object sender, ReportErrorEventArgs e)
-        {
-            string errorLog;
-
-            if (e.Exception != null)
-            {
-                errorLog = (string.Format("Error Message: {0} \n Stack Trace: {1}", e.Message, e.Exception.StackTrace));
-            }
-            else
-            {
-                errorLog = e.Message;
-            }
-
-            LogService.WriteAsync(Data.LogType.Error, errorLog, "Bold Reports", e.Exception);
-        }
+      
 
     }
 }
