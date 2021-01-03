@@ -18,16 +18,16 @@ namespace LandBankManagement
             Current = new AppSettings();
         }
 
-        static public AppSettings Current { get; }
+        public static AppSettings Current { get; }
 
-        static public readonly string AppLogPath = "AppLog";
-        static public readonly string AppLogName = $"AppLog.1.0.db";
-        static public readonly string AppLogFileName = Path.Combine(AppLogPath, AppLogName);
+        public static readonly string AppLogPath = "AppLog";
+        public static readonly string AppLogName = $"AppLog.1.0.db";
+        public static readonly string AppLogFileName = Path.Combine(AppLogPath, AppLogName);
 
-        static public readonly string DatabasePatternFileName = "";
-        static public readonly string DatabasePath = "";
-        static public readonly string DatabasePattern = "";
-        static public readonly string DatabaseName = "";
+        public static readonly string DatabasePatternFileName = "";
+        public static readonly string DatabasePath = "";
+        public static readonly string DatabasePattern = "";
+        public static readonly string DatabaseName = "";
 
         public readonly string AppLogConnectionString = $"Data Source={AppLogFileName}";
 
@@ -73,7 +73,8 @@ namespace LandBankManagement
 
         public string SQLServerConnectionString
         {
-            get => GetSettingsValue("SQLServerConnectionString", @"Data Source=SQL5097.site4now.net;Initial Catalog=DB_A637E6_LandBank;User Id=DB_A637E6_LandBank_admin;Password=Matrix@291;Pooling=False");
+            get => GetSettingsValue("SQLServerConnectionString", @"Data Source=LAPTOP-ABQQVC3B\LEANSSYS;Initial Catalog=LmsDev;User Id=sa;Password=Matrix@291;Pooling=False;Trusted_Connection=False;");
+
             set => SetSettingsValue("SQLServerConnectionString", value);
         }
 

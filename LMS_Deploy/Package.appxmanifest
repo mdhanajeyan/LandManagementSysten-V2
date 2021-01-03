@@ -10,7 +10,7 @@
   <Identity
     Name="LandManagementSystem"
     Publisher="CN=&quot;LeanSys Pvt. Ltd. &quot;"
-    Version="0.8.10.0" />
+    Version="0.8.11.0" />
 
   <Properties>
     <DisplayName>Land Management System</DisplayName>
