@@ -18,16 +18,16 @@ namespace LandBankManagement
             Current = new AppSettings();
         }
 
-        static public AppSettings Current { get; }
+        public static AppSettings Current { get; }
 
-        static public readonly string AppLogPath = "AppLog";
-        static public readonly string AppLogName = $"AppLog.1.0.db";
-        static public readonly string AppLogFileName = Path.Combine(AppLogPath, AppLogName);
+        public static readonly string AppLogPath = "AppLog";
+        public static readonly string AppLogName = $"AppLog.1.0.db";
+        public static readonly string AppLogFileName = Path.Combine(AppLogPath, AppLogName);
 
-        static public readonly string DatabasePatternFileName = "";
-        static public readonly string DatabasePath = "";
-        static public readonly string DatabasePattern = "";
-        static public readonly string DatabaseName = "";
+        public static readonly string DatabasePatternFileName = "";
+        public static readonly string DatabasePath = "";
+        public static readonly string DatabasePattern = "";
+        public static readonly string DatabaseName = "";
 
         public readonly string AppLogConnectionString = $"Data Source={AppLogFileName}";
 
