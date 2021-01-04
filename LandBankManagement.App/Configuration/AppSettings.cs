@@ -131,12 +131,19 @@ namespace LandBankManagement
             string Datasource = GetRegValue("DBServer", "SQL5053.site4now.net");
             string Catalog = GetRegValue("DBCatalog", "DB_A637E6_LmsDev");
             string Username = GetRegValue("DBUsername", "DB_A637E6_LmsDev_admin");
+            //string Datasource = GetRegValue("DBServer", "SQL5097.site4now.net");
+            //string Catalog = GetRegValue("DBCatalog", "DB_A637E6_LandBank");
+            //string Username = GetRegValue("DBUsername", "DB_A637E6_LandBank_admin");
             string Password = GetRegValue("DBPassword", "Matrix@291");
             string Trusted_Connection = GetRegValue("Trusted_Connection", "False");
             string Integrated_Security = GetRegValue("Integrated_Security", "False");
 
+            //string connectionString = "Data Source=" + Datasource + ";Initial Catalog=" + Catalog + ";User ID=" +
+            //                          Username + ";Password=" + Password + ";Trusted_Connection=" + Trusted_Connection + ";Integrated Security=" + Integrated_Security + ";Pooling=False";
+
+            // string connectionString = "Data Source=192.168.0.1,49172;Initial Catalog=DB_A637E6_LmsDev;User ID=karthi;Password=Matrix@291; Pooling=False";
             string connectionString = "Data Source=" + Datasource + ";Initial Catalog=" + Catalog + ";User ID=" +
-                                      Username + ";Password=" + Password + ";Trusted_Connection=" + Trusted_Connection + ";Integrated Security=" + Integrated_Security + ";Pooling=False"; 
+                                      Username + ";Password=" + Password + ";Pooling=False";
             return connectionString;
         }
 
