@@ -40,7 +40,13 @@
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100"  >
+        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100" >
+            <Popup.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform x:Name="scalreTransform"/>
+                    <TranslateTransform x:Name="translateTransform" Y="100" X="80"/>
+                </TransformGroup>
+            </Popup.RenderTransform>
             <Popup.Resources>
                 <ThemeShadow x:Name="borderShadow"/>
             </Popup.Resources>
@@ -50,7 +56,17 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid  Grid.Row="0" HorizontalAlignment="Stretch" Padding="0 0 20 0" Background="#00B0FF">
-                    <Button x:Name="Popup_closeBtn"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Popup_closeBtn_Click">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="Popup_DrogBtn" Grid.Column="0"  Width="40" Height="40"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Left"  ManipulationMode="All" ManipulationDelta="Popup_DrogBtn_ManipulationDelta">
+                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE759;" Foreground="#fff" FontWeight="ExtraBold"  HorizontalAlignment="Left"/>
+                        <Button.Resources>
+                            <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="Popup_closeBtn" Grid.Column="1"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Popup_closeBtn_Click">
                         <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE8BB;" Foreground="#fff" FontWeight="Medium"  HorizontalAlignment="Left"/>
                         <Button.Resources>
                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>

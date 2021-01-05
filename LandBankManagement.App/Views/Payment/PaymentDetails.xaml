@@ -79,16 +79,16 @@
                     </Grid.RowDefinitions>
                 <Grid Grid.Row="0" HorizontalAlignment="Center">
                     <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Button Content="AddPayment" x:Name="AddPayment"  Margin="10" Click="AddPayment_Click"  Width="100"/>
-                        <Button Content="ClearPayment" x:Name="ClearPayment" Margin="10" Click="ClearPayment_Click"  Width="100"/>
+                        <Button Content="Add Payment" x:Name="AddPayment"  Margin="10" Click="AddPayment_Click"  Width="100"/>
+                        <Button Content="Clear Payment" x:Name="ClearPayment" Margin="10" Click="ClearPayment_Click"  Width="100"/>
                     </StackPanel>
                 </Grid>
-                    <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="10 0 10 30">
+                    <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="10 0 10 30" BorderBrush="#B3E5FC" BorderThickness="2">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0"  HorizontalAlignment="Stretch" Background="#b0b0b0" Padding="0 0 0 0">
+                        <Grid Grid.Row="0"  HorizontalAlignment="Stretch" Background="#B3E5FC" Padding="0 0 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>

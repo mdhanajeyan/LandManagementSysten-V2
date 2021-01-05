@@ -99,5 +99,13 @@ namespace LandBankManagement.Views
                     break;
             }
         }
+
+        private void Popup_DrogBtn_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+        {
+            scalreTransform.ScaleX *= e.Delta.Scale;
+            scalreTransform.ScaleY *= e.Delta.Scale;
+            translateTransform.X += e.Delta.Translation.X;
+            translateTransform.Y += e.Delta.Translation.Y;
+        }
     }
 }

@@ -104,8 +104,8 @@
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
-                        <StackPanel Orientation="Vertical" BorderBrush="#b0b0b0" BorderThickness="1"  Margin="0 0 10 20">
-                            <Grid Background="#b0b0b0">
+                            <StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1"  Margin="0 0 10 20">
+                                <Grid Background="#81D4FA">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
@@ -184,11 +184,11 @@
                                     </ListView.ItemTemplate>
                                 </ListView>
                             </ScrollViewer>
-                        </StackPanel>                     
-                        
-                        
-                        <StackPanel Orientation="Vertical" BorderBrush="#b0b0b0" BorderThickness="1"  Margin="0 0 10 20" MinHeight="200">
-                            <Grid Background="#b0b0b0">
+                        </StackPanel>
+
+
+                            <StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1"  Margin="0 0 10 20" MinHeight="200">
+                                <Grid Background="#81D4FA">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="25"/>
                                         <ColumnDefinition Width="*"/>

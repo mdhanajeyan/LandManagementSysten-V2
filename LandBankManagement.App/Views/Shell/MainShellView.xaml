@@ -303,7 +303,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <muxc:NavigationView  x:Name="navigationView" 
+        <muxc:NavigationView  x:Name="navigationView" IsBackButtonVisible="Collapsed"
                         MenuItemsSource="{x:Bind ViewModel.Items}" 
                         IsSettingsVisible="False"
                         MenuItemTemplate="{StaticResource NavigationViewMenuItem}"
@@ -312,7 +312,7 @@
                         IsPaneOpen="{x:Bind ViewModel.IsPaneOpen, Mode=TwoWay}"
                         AlwaysShowHeader="False"
                         IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=OneWay}">
-            <muxc:NavigationView.AutoSuggestBox>
+            <!--<muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
                          x:Name="controlsSearchBox"
                          VerticalAlignment="Center"
@@ -326,7 +326,7 @@
                         <KeyboardAccelerator Modifiers="Control" Key="F" Invoked="CtrlF_Invoked" />
                     </AutoSuggestBox.KeyboardAccelerators>
                 </AutoSuggestBox>
-            </muxc:NavigationView.AutoSuggestBox>
+            </muxc:NavigationView.AutoSuggestBox>-->
 
             <Grid>
                 <Frame x:Name="frame">

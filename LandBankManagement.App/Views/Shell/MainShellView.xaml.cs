@@ -116,7 +116,7 @@ namespace LandBankManagement.Views
 
         private void CtrlF_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            controlsSearchBox.Focus(FocusState.Programmatic);
+           // controlsSearchBox.Focus(FocusState.Programmatic);
         }
 
         private void ReportViewer_ReportError(object sender, ReportErrorEventArgs e)

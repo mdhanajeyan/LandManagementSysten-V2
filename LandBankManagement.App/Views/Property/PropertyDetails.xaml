@@ -99,8 +99,8 @@
                                 </StackPanel>
                             </Button>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" BorderBrush="#b0b0b0" BorderThickness="1"  Margin="0 0 10 20">
-                            <Grid Background="#b0b0b0">
+                        <StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1"  Margin="0 0 10 20">
+                            <Grid Background="#81D4FA">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
@@ -188,8 +188,8 @@
                         </ScrollViewer>
                         </StackPanel>
 
-                        <StackPanel Orientation="Vertical" BorderBrush="#b0b0b0" BorderThickness="1" Margin="0 0 10 20" MinHeight="200">
-                            <Grid Background="#b0b0b0">
+                        <StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1" Margin="0 0 10 20" MinHeight="200">
+                            <Grid Background="#81D4FA">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
@@ -203,7 +203,7 @@
                                     </Button.Resources>
                                 </Button>
                                     <Button x:Name="SaveDocBtn"   Height="35" Margin="10 0 0 0"  Background="Transparent" Padding="5"  Command="{x:Bind SavePictureCommand}" HorizontalAlignment="Right">
-                                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74E;" Foreground="#039BE5"  HorizontalAlignment="Left"/>
+                                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74E;" Foreground="#fff"  HorizontalAlignment="Left"/>
                                         <Button.Resources>
                                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                         </Button.Resources>
@@ -260,8 +260,8 @@
                                 </ScrollViewer>
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" BorderBrush="#b0b0b0" BorderThickness="1"  Margin="0 0 10 20" MinHeight="200">
-                            <Grid Background="#b0b0b0">
+                        <StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1"  Margin="0 0 10 20" MinHeight="200">
+                            <Grid Background="#81D4FA">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>

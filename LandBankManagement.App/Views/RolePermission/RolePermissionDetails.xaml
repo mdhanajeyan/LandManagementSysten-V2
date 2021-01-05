@@ -29,7 +29,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Background="#b0b0b0" Margin="0 20 0 0">
+                    <StackPanel Grid.Row="0" Background="#B3E5FC" Margin="0 20 0 0">
                 <Grid   HorizontalAlignment="Stretch" Height="30" Padding="10 5 0 0">
                         
                     <Grid.ColumnDefinitions >
@@ -42,13 +42,13 @@
                         <TextBlock Grid.Column="2" Text="Read / Write" HorizontalAlignment="Center"/>
                 </Grid>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" Margin="0 0 0 20"  HorizontalAlignment="Stretch" BorderBrush="#b0b0b0" BorderThickness="1">
+                    <StackPanel Grid.Row="1" Margin="0 0 0 20"  HorizontalAlignment="Stretch" BorderBrush="#B3E5FC" BorderThickness="1">
                         <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500" >
                             <ListView ItemsSource="{x:Bind RolePermissionList,Mode=TwoWay}" >
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="BorderThickness" Value="0,0,0,1" />
-                                        <Setter Property="BorderBrush" Value="#b0b0b0" />
+                                        <Setter Property="BorderBrush" Value="#B3E5FC" />
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />                                        
                                     </Style>
                                 </ListView.ItemContainerStyle>
