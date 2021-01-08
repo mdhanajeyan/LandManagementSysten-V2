@@ -198,7 +198,7 @@
                                     <CheckBox Grid.Column="0" x:Name="SelectAll" Margin="5 0 0 0" IsChecked="{Binding IsSelected,Mode=TwoWay}" Checked="SelectAll_Checked" Unchecked="SelectAll_Checked" >
                                     </CheckBox>
                                     <TextBlock  Grid.Column="1" Text="CheckList Item" Foreground="#fff" HorizontalAlignment="Left" Padding="10 5 0 0" FontSize="15" FontWeight="Medium"/>
-                                    <TextBlock  Grid.Column="2" Text="Manditory" Foreground="#fff" HorizontalAlignment="Left" Padding="10 5 0 0" FontSize="15" FontWeight="Medium"/>
+                                    <TextBlock  Grid.Column="2" Text="Mandatory" Foreground="#fff" HorizontalAlignment="Left" Padding="10 5 0 0" FontSize="15" FontWeight="Medium"/>
 
                                 </Grid>
                             <StackPanel Margin="0 0 0 0">

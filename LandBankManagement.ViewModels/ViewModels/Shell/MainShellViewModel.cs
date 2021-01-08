@@ -42,8 +42,8 @@ namespace LandBankManagement.ViewModels
             Children = new ObservableCollection<NavigationItem>
             {
                 new NavigationItem(0xf1ed, "Payments", typeof(PaymentsViewModel)){Screen=NavigationScreen.Payments},
-                new NavigationItem(0xf101, "Fund Transfer", typeof(FundTransferViewModel)){Screen=NavigationScreen.FundTransfer},
-                 new NavigationItem(0xf101, "Receipts", typeof(ReceiptsViewModel)){Screen=NavigationScreen.Receipt},
+                new NavigationItem(0xf0d6, "Fund Transfer", typeof(FundTransferViewModel)){Screen=NavigationScreen.FundTransfer},
+                 new NavigationItem(0xf044, "Receipts", typeof(ReceiptsViewModel)){Screen=NavigationScreen.Receipt},
 
             }
         };
@@ -52,7 +52,7 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                 new NavigationItem(0xE9F9, "Comapny Report", typeof(CompanyReportViewModel)),
+                 new NavigationItem(0xE9F9, "Company Report", typeof(CompanyReportViewModel)),
                   new NavigationItem(0xf035, "Deal Report", typeof(DealReportViewModel)),
                   new NavigationItem(0xf035, "Property CheckList Report", typeof(PropertyCheckListReportViewModel))
             }
@@ -64,9 +64,8 @@ namespace LandBankManagement.ViewModels
             {
                 new NavigationItem(0xf243, "View Log", typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs},
                 new NavigationItem(0xf044, "Role", typeof(RoleViewModel)){Screen=NavigationScreen.Role},
-                  new NavigationItem(0xf044, "Role Permission", typeof(RolePermissionViewModel)){Screen=NavigationScreen.RolePermission},
+                new NavigationItem(0xf044, "Role Permission", typeof(RolePermissionViewModel)){Screen=NavigationScreen.RolePermission},
                 new NavigationItem(0xf2bb, "User", typeof(UserViewModel)){Screen=NavigationScreen.UserInfo}
-                
             }
         };
 
@@ -76,10 +75,8 @@ namespace LandBankManagement.ViewModels
             {
                 new NavigationItem(0xf041, "Property", typeof(PropertyViewModel)){ Screen=NavigationScreen.Property},
                 new NavigationItem(0xf035, "Property Check List", typeof(PropertyCheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
-                new NavigationItem(0xf035, "Property Merge", typeof(PropertyMergeViewModel)){Screen=NavigationScreen.MergeProperties},
-                 new NavigationItem(0xf035, "Property Deal", typeof(DealViewModel)){Screen=NavigationScreen.PropertyDeals}
-
-
+                new NavigationItem(0xf12e, "Property Merge", typeof(PropertyMergeViewModel)){Screen=NavigationScreen.MergeProperties},
+                new NavigationItem(0xf2b5, "Property Deal", typeof(DealViewModel)){Screen=NavigationScreen.PropertyDeals}
             }
         };
 
