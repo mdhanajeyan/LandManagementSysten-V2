@@ -376,7 +376,8 @@ namespace LandBankManagement.Services
                 BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
                 SaleValue1 = source.SaleValue1,
                 SaleValue2 = source.SaleValue2,
-                CompanyID=source.CompanyID
+                CompanyID=source.CompanyID,
+                IsSold=source.IsSold
             };
 
             return model;
@@ -423,7 +424,8 @@ namespace LandBankManagement.Services
                 BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
                 SaleValue1 = source.SaleValue1,
                 SaleValue2 = source.SaleValue2,
-                CompanyID = source.CompanyID
+                CompanyID = source.CompanyID,
+                IsSold = source.IsSold
             };
             if (source.PropertyDocuments != null && source.PropertyDocuments.Count > 0)
             {

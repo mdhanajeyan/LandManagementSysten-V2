@@ -104,7 +104,7 @@
                                 </ListView>
                             </ScrollViewer>
 
-                            <TextBlock Text="Selected Parties" Margin="10 30 0 0" Foreground="#b5047a" FontSize="18" FontWeight="Bold"/>
+                            <TextBlock Text="Selected Parties" Margin="10 30 0 0" Foreground="#9E9E9E" FontSize="18" FontWeight="Bold"/>
 
                             <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500"  Margin="0 20 0 0">
                                 <ListView x:Name="partyListView" ItemsSource="{x:Bind DealPartyList,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
@@ -140,7 +140,7 @@
                     
                     <controls:FluidGrid  ColumnSpan="2" Columns="1" ColumnSpacing="10" Margin="0 20 0 0">
                         <StackPanel>
-                            <TextBlock Text="Payment Schedule" HorizontalAlignment="Left" Foreground="#9e6b0d" FontSize="17" FontWeight="Medium"/>
+                            <TextBlock Text="Payment Schedule" HorizontalAlignment="Left" Foreground="#9E9E9E" FontSize="17" FontWeight="Medium"/>
                         </StackPanel>                     
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Columns="4" ColumnSpacing="10" Margin="0 20 0 0">                        

@@ -40,6 +40,19 @@ namespace LandBankManagement.Data.Services
                 }
                 await _dataSource.SaveChangesAsync();
 
+                var propertyList =await (from pm in _dataSource.PropertyMerge join
+                                         pml in _dataSource.PropertyMergeList on pm.PropertyMergeGuid equals pml.PropertyMergeGuid join
+                                         p in _dataSource.Properties on pml.PropertyGuid equals p.PropertyGuid
+                                         where pm.PropertyMergeId == model.PropertyMergeId
+                                         select p).ToListAsync();
+
+                if (propertyList != null) {
+                    foreach (var property in propertyList) {
+                        property.IsSold = true;
+                        _dataSource.Entry(property).State = EntityState.Modified;
+                    }
+                    await _dataSource.SaveChangesAsync();
+                }
                 return res;
             }
             catch (Exception ex)

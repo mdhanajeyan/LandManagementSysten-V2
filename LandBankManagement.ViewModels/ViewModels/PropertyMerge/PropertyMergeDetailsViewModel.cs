@@ -85,7 +85,7 @@ namespace LandBankManagement.ViewModels
         {
             PropertyMergesViewModel.ShowProgressRing();
             CompanyOptions = await DropDownService.GetCompanyOptions();
-            PropertyOptions = await DropDownService.GetPropertyOptions();
+            PropertyOptions = await DropDownService.GetUnSoldPropertyOptions();
             PropertyMergesViewModel.HideProgressRing();
         }
 
@@ -202,7 +202,13 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Deleting PropertyMerges...");
                 PropertyMergesViewModel.ShowProgressRing();
-                await PropertyMergeService.DeletePropertyMergeAsync(model);
+               
+                var isDeleted= await PropertyMergeService.DeletePropertyMergeAsync(model);
+                if (isDeleted == 0) {
+                     await DialogService.ShowAsync("", "Deal is exist for this merged Property", "Ok");
+                    StatusError($"This property is not deleted ");
+                    return false;
+                }
                 ClearItem();
                 EndStatusMessage("PropertyMerges deleted");
                 LogWarning("PropertyMerges", "Delete", "PropertyMerges deleted", $"Taluk {model.PropertyMergeId}  was deleted.");

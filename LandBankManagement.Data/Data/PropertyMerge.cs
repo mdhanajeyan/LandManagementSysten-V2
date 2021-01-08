@@ -20,6 +20,8 @@ namespace LandBankManagement.Data
         public bool ForProposal { get; set; }
         [NotMapped]
         public List<PropertyMergeList> propertyMergeLists { get; set; }
+        [NotMapped]
+        public bool IsSold { get; set; }
 
         [NotMapped]
         public string SearchTerms { get; set; }

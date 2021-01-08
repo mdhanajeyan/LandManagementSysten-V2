@@ -20,6 +20,7 @@ namespace LandBankManagement.Models
         public decimal MergedBalancePayable1 { get; set; }
         public decimal MergedBalancePayable2 { get; set; }
         public bool ForProposal { get; set; }
+        public bool IsSold { get; set; }
         public ObservableCollection<PropertyMergeListModel> propertyMergeLists { get; set; }
 
         public bool IsNew => PropertyMergeId <= 0;

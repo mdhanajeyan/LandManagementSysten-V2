@@ -185,6 +185,7 @@ namespace LandBankManagement.Services
                 MergedBalancePayable1 = source.MergedBalancePayable1,
                 MergedBalancePayable2 = source.MergedBalancePayable2,
                 ForProposal = source.ForProposal,
+                IsSold=source.IsSold
             };
             if (source.propertyMergeLists != null && source.propertyMergeLists.Count > 0)
             {

@@ -49,43 +49,43 @@
                     </controls:FluidGrid>
 
                     <controls:FluidGrid  ColumnSpan="2"  Margin="0 20 0 0">
-                        <TextBlock Text="Land Area :"  Foreground="#9e6b0d" FontSize="17" Margin="0 10 0 0"  FontWeight="Medium"/>
+                        <TextBlock Text="Land Area :"  Foreground="#9E9E9E" FontSize="17" Margin="0 10 0 0"  FontWeight="Medium"/>
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10" Margin="0 20 0 0">
-                        <controls:FormTextBox Header="In Acres " Text="{x:Bind EditableItem.LandAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
+                        <controls:FormTextBox Header="Acres " Text="{x:Bind EditableItem.LandAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
                         <controls:FormTextBox Header="Guntas" Text="{x:Bind EditableItem.LandAreaInputGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
                         <controls:FormTextBox Header="Anas" Text="{x:Bind EditableItem.LandAreaInputAanas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Columns="2" ColumnSpacing="10">
                         <!--<controls:FormTextBox Header="In Guntas " Text="{x:Bind EditableItem.LandAreaInGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"  IsReadOnly="True"/>-->
-                        <controls:FormTextBox Header="In sq. Mtrs" Text="{x:Bind EditableItem.LandAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"  IsReadOnly="True"/>
-                        <controls:FormTextBox Header="In sft." Text="{x:Bind EditableItem.LandAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"  IsReadOnly="True"/>                        
+                        <controls:FormTextBox Header="sq. Mtrs" Text="{x:Bind EditableItem.LandAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"  IsReadOnly="True"/>
+                        <controls:FormTextBox Header="sft." Text="{x:Bind EditableItem.LandAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"  IsReadOnly="True"/>                        
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Margin="0 20 0 0">
-                        <TextBlock Text="A Karab Area :"  Foreground="#9e6b0d" FontSize="17" Margin="0 10 0 0"  FontWeight="Medium"/>
+                        <TextBlock Text="A Karab Area :"  Foreground="#9E9E9E" FontSize="17" Margin="0 10 0 0"  FontWeight="Medium"/>
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10" Margin="0 20 0 0">
-                        <controls:FormTextBox Header="In Acres " Text="{x:Bind EditableItem.AKarabAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  LostFocus="Akarab_LostFocus"/>
+                        <controls:FormTextBox Header="Acres " Text="{x:Bind EditableItem.AKarabAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  LostFocus="Akarab_LostFocus"/>
                         <controls:FormTextBox Header="Guntas" Text="{x:Bind EditableItem.AKarabAreaInputGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  LostFocus="Akarab_LostFocus"/>
                         <controls:FormTextBox Header="Anas" Text="{x:Bind EditableItem.AKarabAreaInputAanas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Akarab_LostFocus"/>
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Columns="2" ColumnSpacing="10">
                         <!--<controls:FormTextBox Header="In Guntas " Text="{x:Bind EditableItem.AKarabAreaInGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>-->
-                        <controls:FormTextBox Header="In sq. Mtrs" Text="{x:Bind EditableItem.AKarabAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
-                        <controls:FormTextBox Header="In sft." Text="{x:Bind EditableItem.AKarabAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
+                        <controls:FormTextBox Header="sq. Mtrs" Text="{x:Bind EditableItem.AKarabAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                        <controls:FormTextBox Header="sft." Text="{x:Bind EditableItem.AKarabAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Margin="0 20 0 0">
-                        <TextBlock Text="B Karab Area :"   Foreground="#9e6b0d" FontSize="17" Margin="0 10 0 0"  FontWeight="Medium"/>
+                        <TextBlock Text="B Karab Area :"   Foreground="#9E9E9E" FontSize="17" Margin="0 10 0 0"  FontWeight="Medium"/>
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10" Margin="0 20 0 0">
-                        <controls:FormTextBox Header="In Acres " Text="{x:Bind EditableItem.BKarabAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
+                        <controls:FormTextBox Header="Acres " Text="{x:Bind EditableItem.BKarabAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
                         <controls:FormTextBox Header="Guntas" Text="{x:Bind EditableItem.BKarabAreaInputGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
                         <controls:FormTextBox Header="Anas" Text="{x:Bind EditableItem.BKarabAreaInputAanas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
                     </controls:FluidGrid>
                     <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10">
                         <!--<controls:FormTextBox Header="In Guntas " Text="{x:Bind EditableItem.BKarabAreaInGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>-->
-                        <controls:FormTextBox Header="In sq. Mtrs" Text="{x:Bind EditableItem.BKarabAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
-                        <controls:FormTextBox Header="In sft." Text="{x:Bind EditableItem.BKarabAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
+                        <controls:FormTextBox Header="sq. Mtrs" Text="{x:Bind EditableItem.BKarabAreaInSqMts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
+                        <controls:FormTextBox Header="sft." Text="{x:Bind EditableItem.BKarabAreaInSqft, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="True"/>
                     </controls:FluidGrid>                  
 
                 </controls:FluidGrid>
@@ -143,7 +143,7 @@
                             </ListView>
                         </ScrollViewer>
 
-                        <TextBlock Text="Selected Parties" Margin="10 30 0 0" Foreground="#b5047a" FontSize="18" FontWeight="Bold"/>
+                            <TextBlock Text="Selected Parties" Margin="10 30 0 0" Foreground="#9E9E9E" FontSize="18" FontWeight="Bold"/>
 
                         <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500"  Margin="0 20 0 0">
                             <ListView x:Name="partyListView" ItemsSource="{x:Bind PartyList,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">

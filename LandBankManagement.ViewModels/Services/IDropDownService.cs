@@ -18,6 +18,7 @@ namespace LandBankManagement.Services
         Task<ObservableCollection<ComboBoxOptions>> GetPartyOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetDocumentTypeOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetPropertyOptions();
+        Task<ObservableCollection<ComboBoxOptions>> GetUnSoldPropertyOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetCashOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetBankOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetVendorOptions();

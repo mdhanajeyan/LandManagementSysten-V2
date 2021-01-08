@@ -76,6 +76,11 @@ namespace LandBankManagement.Data.Services
         {
             var merge = await _dataSource.PropertyMerge.Where(r => r.PropertyMergeId == id).FirstOrDefaultAsync();
 
+            var dealPrepared = await _dataSource.Deal.Where(x => x.PropertyMergeId == merge.PropertyMergeId).FirstOrDefaultAsync();
+           
+            if (dealPrepared != null)
+                merge.IsSold = true;
+
             if (_dataSource.PropertyMergeList.Where(x => x.PropertyMergeGuid == merge.PropertyMergeGuid).Count() > 0)
             {
 
@@ -134,7 +139,25 @@ namespace LandBankManagement.Data.Services
         private IQueryable<PropertyMerge> GetPropertyMerge(DataRequest<PropertyMerge> request)
         {
 
-            IQueryable<PropertyMerge> items = _dataSource.PropertyMerge;
+            // IQueryable<PropertyMerge> items = _dataSource.PropertyMerge;
+            IQueryable<PropertyMerge> items = (from p in _dataSource.PropertyMerge
+                                               from d in _dataSource.Deal.Where(d => d.PropertyMergeId == p.PropertyMergeId).DefaultIfEmpty()
+                                               select new PropertyMerge
+                                               {
+                                                   PropertyMergeId = p.PropertyMergeId,
+                                                   PropertyMergeGuid = p.PropertyMergeGuid,
+                                                   PropertyMergeDealName = p.PropertyMergeDealName,
+                                                   MergedTotalArea = p.MergedTotalArea,
+                                                   MergedSaleValue1 = p.MergedSaleValue1,
+                                                   MergedSaleValue2 = p.MergedSaleValue2,
+                                                   MergedAmountPaid1 = p.MergedAmountPaid1,
+                                                   MergedAmountPaid2 = p.MergedAmountPaid2,
+                                                   MergedBalancePayable1 = p.MergedBalancePayable1,
+                                                   MergedBalancePayable2 = p.MergedBalancePayable2,
+                                                   ForProposal = p.ForProposal,
+                                                   IsSold = d == null ? false : true
+                                               });
+
             // Query
             if (!String.IsNullOrEmpty(request.Query))
             {
@@ -201,6 +224,11 @@ namespace LandBankManagement.Data.Services
         {
             try
             {
+                var dealPrepared = await _dataSource.Deal.Where(x => x.PropertyMergeId == model.PropertyMergeId).FirstOrDefaultAsync();
+
+                if (dealPrepared != null)
+                    return 0;
+
                 var entities = _dataSource.PropertyMergeList.Where(x => x.PropertyMergeGuid == model.PropertyMergeGuid);
                 if (entities != null)
                 {

@@ -25,28 +25,28 @@
                         <controls:FormComboBox x:Name="CompanyDDL" Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}" SelectionChanged="CompanyDDL_SelectionChanged"
                                            SelectedValue="{x:Bind selectedCompany, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                        <controls:FormComboBox  Header="Property Name" ItemsSource="{x:Bind PropertyOptions}"
+                        <controls:FormComboBox x:Name="PropertyDDL"  Header="Property Name" ItemsSource="{x:Bind PropertyOptions}" SelectionChanged="PropertyDDL_SelectionChanged"
                                            SelectedValue="{x:Bind selectedProperty, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                        <StackPanel Orientation="Horizontal">
+                        <!--<StackPanel Orientation="Horizontal">
                             <Button  x:Name="Search" Margin="10 25 0 0" Click="Search_Click" Background="#03A9F4" Foreground="#fff"  Width="120">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Search"   />
                                     <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE721;"  Margin="10 0 0 0"  HorizontalAlignment="Left"/>
                                 </StackPanel>
                             </Button>
-                        </StackPanel>
+                        </StackPanel>-->
                     </controls:FluidGrid>
-                    <controls:FluidGrid  ColumnSpan="2" Columns="4" ColumnSpacing="10" Margin="0 10 0 25">
+                    <controls:FluidGrid  ColumnSpan="2" Columns="4" ColumnSpacing="10" Margin="0 20 0 25">
                         <controls:FormTextBox Header="Party" Text="{x:Bind CurrentProperty.Party, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                         <controls:FormTextBox Header="Village" Text="{x:Bind CurrentProperty.Village, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                        <controls:FormTextBox Header="Deal Name" Text="{x:Bind CurrentProperty.SurveyNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
-                        <controls:FormTextBox Header="Deal Name" Text="{x:Bind CurrentProperty.LandArea, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                        <controls:FormTextBox Header="Survey No" Text="{x:Bind CurrentProperty.SurveyNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                        <controls:FormTextBox Header="Area" Text="{x:Bind CurrentProperty.LandArea, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                     </controls:FluidGrid>                 
                                         
                     <controls:FormTextBox Header="Deal Name" Text="{x:Bind EditableItem.PropertyMergeDealName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <CheckBox x:Name="PDC" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.ForProposal, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
-                        <TextBlock Text="PDC"  Foreground="Black" FontSize="15"/>
+                        <TextBlock Text="For Proposal"  Foreground="Black" FontSize="15"/>
                     </CheckBox>
                     <controls:FluidGrid  ColumnSpan="2" Columns="1" ColumnSpacing="10" Margin="0 20 0 0" HorizontalAlignment="Center">
                         <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" >
@@ -109,7 +109,7 @@
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="40"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding PropertyName}" Foreground="#616263" FontSize="16"  Padding="0 15 20 0" TextWrapping="Wrap" ></TextBlock>
+                                            <TextBlock Grid.Column="0" Text="{Binding PropertyName}" Foreground="#616263" FontSize="16"  Padding="0 15 20 0" ToolTipService.ToolTip="{Binding PropertyName}" ></TextBlock>
                                             <TextBlock Grid.Column="1" Text="{Binding Party}" Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
                                             <TextBlock Grid.Column="2" Text="{Binding Village}"  Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>
                                             <TextBlock Grid.Column="3" Text="{Binding SurveyNo}"  Foreground="#616263" FontSize="16" Padding="0 15 0 0"></TextBlock>

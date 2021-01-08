@@ -132,6 +132,7 @@ namespace LandBankManagement.Data.Services
         Task<int> DeletePropertyDocumentAsync(PropertyDocuments documents);
         Task<List<Property>> GetPropertyByGroupGuidAsync(Guid guid);
         Task<List<PropertyDocuments>> GetPropertyDocumentsAsync(Guid id);
+        Task<Dictionary<int, string>> GetUnSoldPropertyOptions();
 
         Task<int> AddPropertyTypeAsync(PropertyType model);
         Task<PropertyType> GetPropertyTypeAsync(long id);

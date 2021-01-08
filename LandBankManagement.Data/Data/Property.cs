@@ -51,6 +51,8 @@ namespace LandBankManagement.Data
         public decimal SaleValue1 { get; set; }
         public decimal SaleValue2 { get; set; }
 
+        public bool? IsSold { get; set; }
+
         [NotMapped]
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() => $"{PropertyName} {DocumentNo} {SurveyNo} ".ToLower();

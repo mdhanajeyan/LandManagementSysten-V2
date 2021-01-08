@@ -21,15 +21,15 @@
                     <ColumnDefinition Width="10*"/>
                     <ColumnDefinition Width="10*"/>
                     <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="10*"/>
+                    <!--<ColumnDefinition Width="10*"/>-->
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Merged Property*" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="1" Text="Total Area" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="2" Text="Sale Value 1" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="3" Text="Sale Value 1" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="4" Text="Amount Paid 1" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="5" Text="Amount Paid 2" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="6" Text="For Proposal" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="0" Text="Merged Property*" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Merged Property" />
+                <TextBlock Grid.Column="1" Text="Total Area" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Total Area"/>
+                <TextBlock Grid.Column="2" Text="Sale Value 1" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Sale Value 1"/>
+                <TextBlock Grid.Column="3" Text="Sale Value 1" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Sale Value 1"/>
+                <TextBlock Grid.Column="4" Text="Amount Paid 1" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Amount Paid 1"/>
+                <TextBlock Grid.Column="5" Text="Amount Paid 2" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Amount Paid 2"/>
+                <TextBlock Grid.Column="6" Text="For Proposal" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="For Proposal"/>
 
             </Grid>
         </DataTemplate>
@@ -45,7 +45,7 @@
                         <ColumnDefinition Width="10*"/>
                         <ColumnDefinition Width="10*"/>
                         <ColumnDefinition Width="10*"/>
-                        <ColumnDefinition Width="10*"/>
+                        <!--<ColumnDefinition Width="10*"/>-->
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{x:Bind PropertyMergeDealName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="1" Text="{x:Bind MergedTotalArea, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
@@ -54,12 +54,12 @@
                     <TextBlock Grid.Column="4" Text="{x:Bind MergedAmountPaid1, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="5" Text="{x:Bind MergedAmountPaid2, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="6" Text="{x:Bind ForProposal, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <Button x:Name="CloneProperty" Grid.Column="7"  Tag="{Binding Path=PropertyMergeId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="CloneProperty_Click">
+                    <!--<Button x:Name="CloneProperty" Grid.Column="7"  Tag="{Binding Path=PropertyMergeId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="CloneProperty_Click">
                         <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE82D;" Foreground="#2b79e0" FontWeight="Medium"  HorizontalAlignment="Left"/>
                         <Button.Resources>
                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                         </Button.Resources>
-                    </Button>
+                    </Button>-->
 
                 </Grid>
             </Grid>

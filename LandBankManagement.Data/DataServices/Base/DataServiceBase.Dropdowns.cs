@@ -45,6 +45,12 @@ namespace LandBankManagement.Data.Services
         {
             return await _dataSource.Properties.Select(x => new { x.PropertyId, x.PropertyName }).ToDictionaryAsync(t => t.PropertyId, t => t.PropertyName);
         }
+
+        public async Task<Dictionary<int, string>> GetUnSoldPropertyOptions()
+        {
+            return await _dataSource.Properties.Where(x=>x.IsSold==false || x.IsSold==null).Select(x => new { x.PropertyId, x.PropertyName }).ToDictionaryAsync(t => t.PropertyId, t => t.PropertyName);
+        }
+
         public async Task<Dictionary<int, string>> GetCashOptions()
         {
             return await _dataSource.CashAccounts.Select(x => new { x.CashAccountId, x.CashAccountName }).ToDictionaryAsync(t => t.CashAccountId, t => t.CashAccountName);

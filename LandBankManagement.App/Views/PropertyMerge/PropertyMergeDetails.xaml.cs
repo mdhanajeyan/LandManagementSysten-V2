@@ -41,5 +41,10 @@ namespace LandBankManagement.Views
         {
             ViewModel.LoadPropertyOptionByCompany();
         }
+
+        private void PropertyDDL_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.LoadedSelectedProperty();
+        }
     }
 }

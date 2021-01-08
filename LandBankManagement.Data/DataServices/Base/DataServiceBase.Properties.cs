@@ -20,7 +20,7 @@ namespace LandBankManagement.Data.Services
                 {
                     PropertyGuid = model.PropertyGuid,
                     PropertyName = model.PropertyName,
-                    GroupGuid=model.GroupGuid,
+                    GroupGuid = model.GroupGuid,
                     PartyId = model.PartyId,
                     TalukId = model.TalukId,
                     HobliId = model.HobliId,
@@ -33,28 +33,29 @@ namespace LandBankManagement.Data.Services
                     PropertyGMapLink = model.PropertyGMapLink,
                     LandAreaInputAcres = model.LandAreaInputAcres,
                     LandAreaInputGuntas = model.LandAreaInputGuntas,
-                    LandAreaInputAanas=model.LandAreaInputAanas,
+                    LandAreaInputAanas = model.LandAreaInputAanas,
                     LandAreaInAcres = model.LandAreaInAcres,
                     LandAreaInGuntas = model.LandAreaInGuntas,
                     LandAreaInSqMts = model.LandAreaInSqMts,
                     LandAreaInSqft = model.LandAreaInSqft,
                     AKarabAreaInputAcres = model.AKarabAreaInputAcres,
                     AKarabAreaInputGuntas = model.AKarabAreaInputGuntas,
-                    AKarabAreaInputAanas=model.AKarabAreaInputAanas,
+                    AKarabAreaInputAanas = model.AKarabAreaInputAanas,
                     AKarabAreaInAcres = model.AKarabAreaInAcres,
                     AKarabAreaInGuntas = model.AKarabAreaInGuntas,
                     AKarabAreaInSqMts = model.AKarabAreaInSqMts,
                     AKarabAreaInSqft = model.AKarabAreaInSqft,
                     BKarabAreaInputAcres = model.BKarabAreaInputAcres,
                     BKarabAreaInputGuntas = model.BKarabAreaInputGuntas,
-                    BKarabAreaInputAanas=model.BKarabAreaInputAanas,
+                    BKarabAreaInputAanas = model.BKarabAreaInputAanas,
                     BKarabAreaInAcres = model.BKarabAreaInAcres,
                     BKarabAreaInGuntas = model.BKarabAreaInGuntas,
                     BKarabAreaInSqMts = model.BKarabAreaInSqMts,
                     BKarabAreaInSqft = model.BKarabAreaInSqft,
                     SaleValue1 = model.SaleValue1,
                     SaleValue2 = model.SaleValue2,
-                    CompanyID = model.CompanyID
+                    CompanyID = model.CompanyID,
+                    IsSold = false
                 };
                 _dataSource.Entry(entity).State = EntityState.Added;
                 await _dataSource.SaveChangesAsync();
@@ -204,7 +205,8 @@ namespace LandBankManagement.Data.Services
                     BKarabAreaInSqMts = source.BKarabAreaInSqMts,
                     BKarabAreaInSqft = source.BKarabAreaInSqft,
                     SaleValue1 = source.SaleValue1,
-                    SaleValue2 = source.SaleValue2
+                    SaleValue2 = source.SaleValue2,
+                    IsSold=source.IsSold
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -259,6 +261,11 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> DeletePropertyAsync(Property model)
         {
+            var propertyEnity =await _dataSource.Properties.Where(x => x.PropertyId == model.PropertyId).FirstOrDefaultAsync();
+            var usedProperty =await _dataSource.PropertyMergeList.Where(x => x.PropertyGuid == propertyEnity.PropertyGuid).FirstOrDefaultAsync();
+            if (usedProperty != null)
+                return 0;
+
             _dataSource.Properties.Remove(model);
             return await _dataSource.SaveChangesAsync();
         }

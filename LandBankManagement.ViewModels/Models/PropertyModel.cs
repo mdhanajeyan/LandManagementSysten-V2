@@ -47,6 +47,7 @@ namespace LandBankManagement.Models
         public string BKarabAreaInSqft { get; set; }
         public decimal SaleValue1 { get; set; }
         public decimal SaleValue2 { get; set; }
+        public bool? IsSold { get; set; }
         public bool IsNew => PropertyId <= 0;
 
         public IEnumerable<PropertyModel> Children { get; set; }

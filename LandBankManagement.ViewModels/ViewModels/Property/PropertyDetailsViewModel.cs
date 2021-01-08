@@ -429,7 +429,13 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Deleting Property...");
                 PropertyView.ShowProgressRing();
-                await PropertyService.DeletePropertyAsync(model);
+                var isDeleted = await PropertyService.DeletePropertyAsync(model);
+                if (isDeleted == 0)
+                {
+                    await DialogService.ShowAsync("", "This property is in use ", "Ok");
+                    StatusError($"This property is not deleted ");
+                    return false;
+                }
                 ClearItem();
                 await PropertyListViewModel.RefreshAsync();
                 EndStatusMessage("Property deleted");
