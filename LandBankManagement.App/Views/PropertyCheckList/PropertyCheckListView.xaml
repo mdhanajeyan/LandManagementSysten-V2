@@ -48,7 +48,7 @@
             <PivotItem >
                 <PivotItem.Header>
                     <PivotHeaderItem  >
-                        <TextBlock Text="Property CHeckList Details" FontWeight="Bold"  FontSize="17"></TextBlock>
+                        <TextBlock Text="Property CheckList Details" FontWeight="Bold"  FontSize="17"></TextBlock>
                     </PivotHeaderItem>
                 </PivotItem.Header>
                 <Grid>

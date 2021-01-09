@@ -75,7 +75,7 @@ namespace LandBankManagement.Services
                 var vendor =  new Vendor();
                 if (vendor != null)
                 {
-                    if (docs.Count > 0)
+                    if (docs != null && docs.Count > 0)
                     {
                         List<VendorDocuments> docList = new List<VendorDocuments>();
                         foreach (var obj in docs)
