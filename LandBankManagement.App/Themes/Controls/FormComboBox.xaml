@@ -183,7 +183,7 @@
                             x:DeferLoadStrategy="Lazy"
                             Margin="0,0,0,6"
                             FlowDirection="{TemplateBinding FlowDirection}"
-                            Foreground="Black"
+                            Foreground="#a3a0a0"
                             FontWeight="{ThemeResource ComboBoxHeaderThemeFontWeight}"
                             Visibility="Collapsed"
                             Content="{TemplateBinding Header}"

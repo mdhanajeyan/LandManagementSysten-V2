@@ -10,13 +10,16 @@
                 <GradientStop Color="#0277BD" Offset="0.0" />
                 <GradientStop Color="#039BE5" Offset="1.0" />
             </LinearGradientBrush>
-          
+            <LinearGradientBrush x:Key="NavigationViewItemBackground" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="#0277BD" Offset="0.0" />
+                <GradientStop Color="#039BE5" Offset="1.0" />
+            </LinearGradientBrush>
             <SolidColorBrush x:Key="NavigationViewTopPaneBackground"/>
-            <SolidColorBrush x:Key="NavigationViewItemBackground"/>
+            <!--<SolidColorBrush x:Key="NavigationViewItemBackground"/>-->
             <SolidColorBrush x:Key="NavigationViewAutoSuggestBackGround" Color="White"/>
             <SolidColorBrush x:Key="NavigationViewItemBackgroundPointerOver" Color="White"/>
             <SolidColorBrush x:Key="NavigationViewItemForeground" Color="White"/>
-            <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="#ECEFF1"/>
+            <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="#0277BD"/>
             <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#ECEFF1"/>
             <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="#ECEFF1"/>
             <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="White"/>
@@ -27,12 +30,13 @@
             <SolidColorBrush x:Key="PivotBorderBrush" Color="Yellow"/>
             <SolidColorBrush x:Key="PivotHeaderBackground" Color="Chocolate"/>
             <!--#endregion-->
-            <SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="Black"/>
+            <!--<SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="Black"/>-->
+            <SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="#a3a0a0"/>
             <SolidColorBrush x:Key="DefaultBackground" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="LightBackground" Color="#424242" />
             <SolidColorBrush x:Key="BorderBrush" Color="White" />
             <SolidColorBrush x:Key="ListBackGround" Color="WhiteSmoke"></SolidColorBrush>
-            <SolidColorBrush x:Key="ListHeaderBackGround" Color="#81D4FA"/>
+            <SolidColorBrush x:Key="ListHeaderBackGround" Color="#4FC3F7"/>
             <SolidColorBrush x:Key="SectionBackGround" Color="White"/>
             <SolidColorBrush x:Key="TaskBarBackGround" Color="#263238"/>
             <SolidColorBrush x:Key="ToolBarButtonForeGround" Color="Black"/>

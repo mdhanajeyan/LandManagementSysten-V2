@@ -18,7 +18,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Background="WhiteSmoke"
+    <Grid Background="{StaticResource DetailsBackGround}"
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0" >
         <controls:WindowTitle Prefix="Receipts" Title="{x:Bind ViewModel.ReceiptsList.Title, Mode=OneWay}" />
