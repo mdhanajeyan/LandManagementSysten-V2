@@ -84,23 +84,46 @@ namespace LandBankManagement.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            ElementSet.Children<AppBarButton>(commandBar.PrimaryCommands).Click += OnButtonClick;
+           // ElementSet.Children<AppBarButton>(commandBar.PrimaryCommands).Click += OnButtonClick;
+            //ElementSet.Children<Button>(buttonBack).Click += OnButtonClick;
+            //ElementSet.Children<Button>(buttonEdit).Click += OnButtonClick;
+            //ElementSet.Children<Button>(buttonDelete).Click += OnButtonClick;
+            //ElementSet.Children<Button>(buttonCancel).Click += OnButtonClick;
+            //ElementSet.Children<Button>(buttonSave).Click += OnButtonClick;
+            buttonBack.Click += OnButtonClick;
+            buttonEdit.Click += OnButtonClick;
+            buttonDelete.Click += OnButtonClick;
+            buttonCancel.Click += OnButtonClick;
+            buttonSave.Click += OnButtonClick;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            ElementSet.Children<AppBarButton>(commandBar.PrimaryCommands).Click -= OnButtonClick;
+            //ElementSet.Children<AppBarButton>(commandBar.PrimaryCommands).Click -= OnButtonClick;
+            //ElementSet.Children<Button>(buttonBack).Click -= OnButtonClick;
+            //ElementSet.Children<Button>(buttonEdit).Click -= OnButtonClick;
+            //ElementSet.Children<Button>(buttonDelete).Click -= OnButtonClick;
+            //ElementSet.Children<Button>(buttonCancel).Click -= OnButtonClick;
+            //ElementSet.Children<Button>(buttonSave).Click -= OnButtonClick;
+            buttonBack.Click -= OnButtonClick;
+            buttonEdit.Click -= OnButtonClick;
+            buttonDelete.Click -= OnButtonClick;
+            buttonCancel.Click -= OnButtonClick;
+            buttonSave.Click -= OnButtonClick;
         }
 
         private void ShowCategory(params string[] categories)
         {
-            ElementSet.Children<AppBarButton>(commandBar.PrimaryCommands)
-                .ForEach(v => v.Show(v.IsCategory(categories)));
+            //ElementSet.Children<AppBarButton>(commandBar.PrimaryCommands)
+            //    .ForEach(v => v.Show(v.IsCategory(categories)));
+            ElementSet.Children<Button>(commandBar.Children)
+               .ForEach(v => v.Show(v.IsCategory(categories)));
         }
 
         private void OnButtonClick(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is AppBarButton button)
+           // if (e.OriginalSource is AppBarButton button)
+            if (e.OriginalSource is Button button)
             {
                 switch (button.Name)
                 {

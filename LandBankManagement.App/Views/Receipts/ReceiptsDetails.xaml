@@ -14,7 +14,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:ReceiptsDetailsViewModel">
-            <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="30" RowSpacing="12" HorizontalAlignment="Center" x:Name="ReceiptsConatiner">
+            <controls:FluidGrid Margin="0,30,10,0" Columns="2" ColumnSpacing="30" RowSpacing="12" HorizontalAlignment="Center" x:Name="ReceiptsConatiner">
                 <controls:FormComboBox  Header="From Company / Individual" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
@@ -60,14 +60,9 @@
     </UserControl.Resources>
 
     <Grid ColumnSpacing="6"  Height="530" VerticalAlignment="Top"
-          Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-        <Grid.ColumnDefinitions>
+          Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">        
 
-            <ColumnDefinition Width="*"/>
-
-        </Grid.ColumnDefinitions>
-
-        <controls:Details x:Name="details" Grid.Column="1" Margin="6,0,0,0"
+        <controls:Details x:Name="details"  Margin="6,0,0,0"
                           DetailsContent="{x:Bind ViewModel}"
                           DetailsTemplate="{StaticResource DetailsTemplate}"
                           IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"
