@@ -9,7 +9,7 @@ namespace LandBankManagement.Services
     #region ActivationInfo
     public class ActivationInfo
     {
-        static public ActivationInfo CreateDefault() => Create<CompanyViewModel>();
+        static public ActivationInfo CreateDefault() => Create<DashboardViewModel>();
 
         static public ActivationInfo Create<TViewModel>(object entryArgs = null) where TViewModel : ViewModelBase
         {

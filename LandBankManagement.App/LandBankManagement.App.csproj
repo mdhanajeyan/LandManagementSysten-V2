@@ -327,6 +327,12 @@
     <Compile Include="Views\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dashboard\Parts\CompanyPane.xaml.cs">
+      <DependentUpon>CompanyPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dashboard\Parts\PropertyPane.xaml.cs">
+      <DependentUpon>PropertyPane.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Deal\DealDetails.xaml.cs">
       <DependentUpon>DealDetails.xaml</DependentUpon>
     </Compile>
@@ -758,6 +764,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Dashboard\Parts\CompanyPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dashboard\Parts\PropertyPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Deal\DealDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1100,6 +1114,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+
     <None Include="Properties\DataSources\LandBankManagement.Models.PropertyCheckListModel.datasource" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

@@ -13,7 +13,7 @@ namespace LandBankManagement.ViewModels
     public class MainShellViewModel : ShellViewModel
     {
         private UserInfoModel _userInfo;
-        private readonly NavigationItem DashboardItem = new NavigationItem(0xE80F, "Dashboard", typeof(DashboardViewModel));
+        private readonly NavigationItem DashboardItem = new NavigationItem(0xf135, "Dashboard", typeof(DashboardViewModel)) {Screen=NavigationScreen.Default };
 
 
 
@@ -225,6 +225,7 @@ namespace LandBankManagement.ViewModels
 
         private IEnumerable<NavigationItem> GetItems()
         {
+            yield return DashboardItem;
             yield return SetupItem;
             yield return PropertyItem;
             yield return TransactionItem;

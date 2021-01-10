@@ -32,7 +32,24 @@
             <TextBlock Grid.Row="1" Margin="12,0" Text="Dashboard" FontSize="22" Foreground="Gray" />
 
 
-            
+            <GridView Grid.Row="2" 
+                      Margin="6" 
+                      ItemContainerStyle="{StaticResource GridItemStyle}"
+                      SelectionMode="None" 
+                      IsItemClickEnabled="True" ItemClick="OnItemClick">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <controls:WrapPanel />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                <views:CompanyPane Margin="12" 
+                                         Width="600"
+                                         Height="250"
+                                         ItemsSource="{x:Bind ViewModel.Companies, Mode=OneWay}" 
+                                         Tag="Companies" />
+
+                
+            </GridView>
         </Grid>
     </Grid>
 </Page>
