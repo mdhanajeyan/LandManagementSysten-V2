@@ -54,7 +54,7 @@ namespace LandBankManagement.ViewModels
             VillageViewModel.ShowProgressRing();
             GetTaluks();
             GetHobli();
-            VillageViewModel.ShowProgressRing();
+            VillageViewModel.HideProgressRing();
         }
         private async void GetTaluks()
         {

@@ -44,13 +44,22 @@ namespace LandBankManagement.ViewModels
         {
             PropertyList.Unload();
         }
+        int noOfApiCalls = 0;
         public void ShowProgressRing()
         {
-            ProgressRingActive = true;
+            noOfApiCalls++;
+               ProgressRingActive = true;
             ProgressRingVisibility = true;
         }
         public void HideProgressRing()
         {
+            if (noOfApiCalls > 1)
+            {
+                noOfApiCalls--;
+                return;
+            }
+            else
+                noOfApiCalls--;
             ProgressRingActive = false;
             ProgressRingVisibility = false;
         }
@@ -97,6 +106,7 @@ namespace LandBankManagement.ViewModels
             {
                 if (selected == null)
                     return;
+                SelectedPivotIndex = 1;
                 ShowProgressRing();
                 // var model = await PropertyService.GetPropertyAsync(selected.PropertyId);
                 var modelList = await PropertyService.GetPropertyByGroupGuidAsync(selected.GroupGuid.GetValueOrDefault());
@@ -114,7 +124,7 @@ namespace LandBankManagement.ViewModels
                         PropertyDetials.DocList[i].Identity = i + 1;
                     }
                 }
-                SelectedPivotIndex = 1;
+               
             }
             catch (Exception ex)
             {

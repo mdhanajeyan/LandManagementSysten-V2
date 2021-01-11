@@ -50,13 +50,22 @@ namespace LandBankManagement.ViewModels
             MessageService.Subscribe<UserListViewModel>(this, OnMessage);
             UserList.Subscribe();
         }
+        int noOfApiCalls = 0;
         public void ShowProgressRing()
         {
+            noOfApiCalls++;
             ProgressRingActive = true;
             ProgressRingVisibility = true;
         }
         public void HideProgressRing()
         {
+            if (noOfApiCalls > 1)
+            {
+                noOfApiCalls--;
+                return;
+            }
+            else
+                noOfApiCalls--;
             ProgressRingActive = false;
             ProgressRingVisibility = false;
         }

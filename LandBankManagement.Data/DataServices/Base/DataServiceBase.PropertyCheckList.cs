@@ -342,10 +342,22 @@ namespace LandBankManagement.Data.Services
                 {
                     foreach (var check in checklist)
                     {
+                        check.PropertyCheckListId = res;
                         if (check.CheckListPropertyId == 0)
                         {
-                            check.PropertyCheckListId = res;
+
                             _dataSource.CheckListOfProperty.Add(check);
+                        }
+                        else if (check.Delete)
+                        {
+                            var item = _dataSource.CheckListOfProperty.Where(x => x.CheckListPropertyId == check.CheckListPropertyId).FirstOrDefault();
+                            _dataSource.CheckListOfProperty.Remove(item);
+                        }
+                        else
+                        {
+                            var item = _dataSource.CheckListOfProperty.Where(x => x.CheckListPropertyId == check.CheckListPropertyId).FirstOrDefault();
+                            item.Mandatory = check.Mandatory;
+                            _dataSource.Entry(item).State = EntityState.Modified;
                         }
                     }
                 }

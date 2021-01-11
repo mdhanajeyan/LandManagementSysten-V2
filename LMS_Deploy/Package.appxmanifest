@@ -8,8 +8,8 @@
 
   <Identity
     Name="LandManagementSystem"
-    Publisher="CN=LeanSys"
-    Version="0.4.0.0" />
+    Publisher="CN=madhu"
+    Version="0.4.2.0" />
 
   <Properties>
     <DisplayName>LMS_Deploy</DisplayName>
@@ -46,5 +46,8 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
+    <Capability Name="internetClientServer"/>
+    <uap:Capability Name="enterpriseAuthentication"/>
+    <Capability Name="privateNetworkClientServer"/>
   </Capabilities>
 </Package>

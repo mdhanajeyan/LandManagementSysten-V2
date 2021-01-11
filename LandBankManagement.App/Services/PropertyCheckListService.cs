@@ -330,7 +330,7 @@ namespace LandBankManagement.Services
                         CheckListPropertyId = obj.CheckListPropertyId,
                         PropertyCheckListId = obj.PropertyCheckListId,
                         CheckListId = obj.CheckListId,
-                        Mandatory = obj.Mandatory
+                        Mandatory = obj.Mandatory,
                     });
                 }
                 model.CheckListOfProperties = checkList;
@@ -458,6 +458,7 @@ namespace LandBankManagement.Services
             target.CheckListId = source.CheckListId;
             target.PropertyCheckListId = source.PropertyCheckListId;
             target.Mandatory = source.Mandatory;
+            target.Delete = source.Delete;
             
         }
     }

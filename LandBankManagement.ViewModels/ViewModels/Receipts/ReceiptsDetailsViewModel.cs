@@ -83,7 +83,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new ReceiptModel { DealId=0,PaymentTypeId=0,PayeeId=0,DepositBankId=0};
+            Item = new ReceiptModel { DealId=0,PaymentTypeId=0,PayeeId=0,DepositBankId=0,DateOfPayment=DateTime.Now};
             IsEditMode = true;
            await GetDropdowns();
         }
@@ -156,7 +156,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new ReceiptModel { DealId = 0, PaymentTypeId = 0, PayeeId = 0, DepositBankId = 0 };
+            Item = new ReceiptModel { DealId = 0, PaymentTypeId = 0, PayeeId = 0, DepositBankId = 0, DateOfPayment = DateTime.Now };
             DealParties = new ObservableCollection<DealPartiesModel>();
         }
         protected override async Task<bool> DeleteItemAsync(ReceiptModel model)

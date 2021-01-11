@@ -19,7 +19,7 @@
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormTextBox Header="Cash A/C Name" Text="{x:Bind EditableItem.CashAccountName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsCashAccountActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >
-                    <TextBlock Text="IsActive"  Foreground="Black" FontSize="15"/>
+                    <TextBlock Text="IsActive"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                 </CheckBox>
             </controls:FluidGrid>
         </DataTemplate>

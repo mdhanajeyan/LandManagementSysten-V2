@@ -56,11 +56,16 @@ namespace LandBankManagement.Views
             return isMultipleSelection ? 2 : 1;
         }
 
+        bool isFirstTimeLoading = true;
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var index = ((Pivot)sender).SelectedIndex;
             if (index == 0)
-            {
+            {if (isFirstTimeLoading)
+                {
+                    isFirstTimeLoading = false;
+                    return;
+                }
                 await ViewModel.ViewModelList.RefreshAsync();
             }
         }

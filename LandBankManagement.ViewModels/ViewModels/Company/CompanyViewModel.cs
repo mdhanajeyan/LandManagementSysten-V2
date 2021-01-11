@@ -49,13 +49,22 @@ namespace LandBankManagement.ViewModels
             CompanyList.Unload();
         }
 
+        int noOfApiCalls = 0;
         public void ShowProgressRing()
         {
-            NewProgressRingActive = true;
+            noOfApiCalls++;
+               NewProgressRingActive = true;
             NewProgressRingVisibility = true;
         }
         public void HideProgressRing()
         {
+            if (noOfApiCalls > 1)
+            {
+                noOfApiCalls--;
+                return;
+            }
+            else
+                noOfApiCalls--;
             NewProgressRingActive = false;
             NewProgressRingVisibility = false;
         }

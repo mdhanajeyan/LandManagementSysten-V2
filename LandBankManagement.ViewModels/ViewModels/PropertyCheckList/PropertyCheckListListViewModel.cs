@@ -44,6 +44,7 @@ namespace LandBankManagement.ViewModels
             Query = ViewModelArgs.Query;
 
             StartStatusMessage("Loading Property...");
+            await RefreshAsync();
             EndStatusMessage("Property loaded");
         }
         public void Unload()
@@ -129,6 +130,8 @@ namespace LandBankManagement.ViewModels
 
         private async Task<IList<PropertyCheckListModel>> GetItemsAsync()
         {
+            if(ViewModelArgs==null)
+                ViewModelArgs =  PropertyCheckListListArgs.CreateEmpty();
             if (!ViewModelArgs.IsEmpty)
             {
                 DataRequest<Data.PropertyCheckList> request = BuildDataRequest();

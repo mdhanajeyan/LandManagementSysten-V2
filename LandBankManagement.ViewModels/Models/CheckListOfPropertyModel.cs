@@ -12,5 +12,6 @@ namespace LandBankManagement.Models
         public bool Mandatory { get; set; }
         public string Name { get; set; }
         public bool IsSelected { get; set; }
+        public bool Delete { get; set; }
     }
 }

@@ -115,9 +115,9 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new PropertyCheckListModel();
+            Item = new PropertyCheckListModel() { PropertyCheckListId = -1, PropertyTypeId = 0, CompanyID = 0, TalukId = 0, HobliId = 0, VillageId = 0, DocumentTypeId = 0 };
             IsEditMode = true;
-            GetDropdowns();
+            await GetDropdowns();
             PrepareCheckList();
         }
 
@@ -125,7 +125,7 @@ namespace LandBankManagement.ViewModels
             StartStatusMessage("Loading Property Checklist...");
             PropertyCheckListViewModel.ShowProgressRing();
             var model = await PropertyCheckListService.GetPropertyCheckListAsync(id);
-           
+            Item = null;
             Item = model;           
             VendorList = model.PropertyCheckListVendors;
             if (model.PropertyCheckListDocuments != null)
@@ -175,7 +175,7 @@ namespace LandBankManagement.ViewModels
             Item = null;
             Item = old;
         }
-        private async void GetDropdowns()
+        private async Task GetDropdowns()
         {
             PropertyCheckListViewModel.ShowProgressRing();
             CompanyOptions = await DropDownService.GetCompanyOptions();
@@ -197,6 +197,7 @@ namespace LandBankManagement.ViewModels
                         if (item != null) { 
                             obj.IsSelected = true;
                             obj.CheckListPropertyId = item.CheckListPropertyId;
+                            obj.Mandatory = item.Mandatory;
                         }
                     }                
                 }
@@ -437,6 +438,13 @@ namespace LandBankManagement.ViewModels
                 {
                     if (obj.CheckListPropertyId == 0 && obj.IsSelected)
                         checklist.Add(obj);
+                    else if (obj.CheckListPropertyId > 0 && obj.IsSelected)
+                        checklist.Add(obj);
+                    else if (obj.CheckListPropertyId > 0 && !obj.IsSelected)
+                    {
+                        obj.Delete = true;
+                        checklist.Add(obj);
+                    }
                 }
                 model.CheckListOfProperties = checklist;
             }

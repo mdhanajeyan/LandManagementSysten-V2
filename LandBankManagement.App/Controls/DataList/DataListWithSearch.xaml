@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:controls="using:LandBankManagement.Controls"
+    xmlns:local="using:LandBankManagement.Styles"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
 
     <Grid>
@@ -31,6 +32,7 @@
 
         <!--List Content-->
         <Grid Grid.Row="2">
+
             <ListView x:Name="listview" Padding="0,6,0,0"
                   DoubleTapped="OnDoubleTapped"
                   ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
@@ -40,7 +42,8 @@
                   SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
                   SelectionMode="{x:Bind SelectionMode, Mode=OneWay}"
                   SelectionChanged="OnSelectionChanged"
-                  Visibility="{x:Bind IsDataAvailable, Mode=OneWay}" />
+                  Visibility="{x:Bind IsDataAvailable, Mode=OneWay}"/>
+
             <TextBlock Margin="6" Text="{x:Bind DataUnavailableMessage, Mode=OneWay}" Visibility="{x:Bind IsDataUnavailable, Mode=OneWay}"/>
         </Grid>
 

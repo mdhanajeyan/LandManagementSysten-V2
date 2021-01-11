@@ -40,13 +40,22 @@ namespace LandBankManagement.ViewModels
         {
             DocumentTypeList.Unload();
         }
+        int noOfApiCalls = 0;
         public void ShowProgressRing()
         {
-            ProgressRingActive = true;
+            noOfApiCalls++;
+               ProgressRingActive = true;
             ProgressRingVisibility = true;
         }
         public void HideProgressRing()
         {
+            if (noOfApiCalls > 1)
+            {
+                noOfApiCalls--;
+                return;
+            }
+            else
+                noOfApiCalls--;
             ProgressRingActive = false;
             ProgressRingVisibility = false;
         }

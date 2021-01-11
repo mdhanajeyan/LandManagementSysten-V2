@@ -190,15 +190,15 @@
                             <StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1"  Margin="0 0 10 20" MinHeight="200">
                                 <Grid Background="#81D4FA">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="35"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition  Width="90"/>
                                 </Grid.ColumnDefinitions>
 
-                                    <CheckBox Grid.Column="0" x:Name="SelectAll" Margin="5 0 0 0" IsChecked="{Binding IsSelected,Mode=TwoWay}" Checked="SelectAll_Checked" Unchecked="SelectAll_Checked" >
+                                    <CheckBox Grid.Column="0" x:Name="SelectAll" Margin="10 0 0 0" IsChecked="{Binding IsSelected,Mode=TwoWay}" Checked="SelectAll_Checked" Unchecked="SelectAll_Checked" >
                                     </CheckBox>
                                     <TextBlock  Grid.Column="1" Text="CheckList Item" Foreground="#fff" HorizontalAlignment="Left" Padding="10 5 0 0" FontSize="15" FontWeight="Medium"/>
-                                    <TextBlock  Grid.Column="2" Text="Mandatory" Foreground="#fff" HorizontalAlignment="Left" Padding="10 5 0 0" FontSize="15" FontWeight="Medium"/>
+                                    <TextBlock  Grid.Column="2" Text="Mandatory" Foreground="#fff" HorizontalAlignment="Left" Padding="0 5 10 0" FontSize="15" FontWeight="Medium"/>
 
                                 </Grid>
                             <StackPanel Margin="0 0 0 0">
@@ -215,12 +215,12 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="25"/>
                                                         <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="20"/>
+                                                        <ColumnDefinition Width="30"/>
                                                     </Grid.ColumnDefinitions>
                                                         <CheckBox Grid.Column="0"  IsChecked="{Binding IsSelected,Mode=TwoWay}"  >
                                                         </CheckBox>
                                                         <TextBlock Text="{Binding Name}" Foreground="#265fab" Grid.Column="1"  FontSize="16"  Padding="5 5 5 0"  TextTrimming="CharacterEllipsis"  HorizontalAlignment="Left"></TextBlock>
-                                                    <CheckBox Grid.Column="2"  IsChecked="{Binding Mandatory,Mode=TwoWay}"  >
+                                                        <CheckBox Grid.Column="2"  Padding="0 0 15 0"  IsChecked="{Binding Mandatory,Mode=TwoWay}"  >
                                                     </CheckBox>
                                                 </Grid>
                                             </DataTemplate>
@@ -236,8 +236,8 @@
                
             </controls:FluidGrid>
                 <Grid Grid.Row="1">
-                    <StackPanel Orientation="Vertical"  BorderBrush="#b0b0b0" BorderThickness="1" Margin="0 20 10 20" MinHeight="200" >
-                        <Grid Background="#b0b0b0" >
+                    <StackPanel Orientation="Vertical"  BorderBrush="#81D4FA" BorderThickness="1" Margin="0 20 10 20" MinHeight="200" >
+                        <Grid Background="#81D4FA" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition  Width="*"/>
                                 <ColumnDefinition Width="*"/>

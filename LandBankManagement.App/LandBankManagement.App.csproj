@@ -267,6 +267,7 @@
     <Compile Include="Services\VirtualCollections\VillageCollection.cs" />
     <Compile Include="Services\VirtualCollections\PartyCollection.cs" />
     <Compile Include="Services\VirtualCollections\VendorCollection.cs" />
+    <Compile Include="Styles\ListViewStyleSelector.cs" />
     <Compile Include="Tools\BitmapTools.cs" />
     <Compile Include="Tools\DependencyExpressions\DependencyExpression.cs" />
     <Compile Include="Tools\DependencyExpressions\DependencyExpressions.cs" />
@@ -1114,7 +1115,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-
     <None Include="Properties\DataSources\LandBankManagement.Models.PropertyCheckListModel.datasource" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

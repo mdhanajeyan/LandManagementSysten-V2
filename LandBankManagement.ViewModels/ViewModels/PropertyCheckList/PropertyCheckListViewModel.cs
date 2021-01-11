@@ -39,13 +39,22 @@ namespace LandBankManagement.ViewModels
            await PropertyCheckListDetials.LoadAsync();
            await ViewModelList.LoadAsync(args);
         }
+        int noOfApiCalls = 0;
         public void ShowProgressRing()
         {
-            ProgressRingActive = true;
+            noOfApiCalls++;
+               ProgressRingActive = true;
             ProgressRingVisibility = true;
         }
         public void HideProgressRing()
         {
+            if (noOfApiCalls > 1)
+            {
+                noOfApiCalls--;
+                return;
+            }
+            else
+                noOfApiCalls--;
             ProgressRingActive = false;
             ProgressRingVisibility = false;
         }
@@ -96,8 +105,9 @@ namespace LandBankManagement.ViewModels
             {
                 ShowProgressRing();
                 // selected.Merge(model);
-                await PropertyCheckListDetials.LoadPropertyCheckList(selected.PropertyCheckListId);
                 SelectedPivotIndex = 1;
+                await PropertyCheckListDetials.LoadPropertyCheckList(selected.PropertyCheckListId);
+                
             }
             catch (Exception ex)
             {

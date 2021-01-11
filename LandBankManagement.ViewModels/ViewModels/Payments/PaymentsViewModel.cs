@@ -35,19 +35,28 @@ namespace LandBankManagement.ViewModels
         public async Task LoadAsync(PaymentsListArgs args)
         {
             await PaymentsDetails.LoadAsync();
-            await PaymentsList.LoadAsync(args);
+           // await PaymentsList.LoadAsync(args);
         }
         public void Unload()
         {
             PaymentsList.Unload();
         }
+        int noOfApiCalls = 0;
         public void ShowProgressRing()
         {
+            noOfApiCalls++;
             ProgressRingActive = true;
             ProgressRingVisibility = true;
         }
         public void HideProgressRing()
         {
+            if (noOfApiCalls > 1)
+            {
+                noOfApiCalls--;
+                return;
+            }
+            else
+                noOfApiCalls--;
             ProgressRingActive = false;
             ProgressRingVisibility = false;
         }

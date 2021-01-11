@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:BankAccountDetailsViewModel">
-            <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="12" RowSpacing="5"  HorizontalAlignment="Center">
+            <controls:FluidGrid Margin="0,30,10,0" Columns="2" ColumnSpacing="12" RowSpacing="5"  HorizontalAlignment="Center">
                 <controls:FormComboBox  Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
@@ -26,7 +26,7 @@
                 <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
                 <controls:FormTextBox Header="Opening Balance" Text="{x:Bind EditableItem.OpeningBalance, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsBankAccountActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >
-                    <TextBlock Text="IsActive"  Foreground="Black" FontSize="15"/>
+                    <TextBlock Text="IsActive"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                 </CheckBox>
 
             </controls:FluidGrid>

@@ -42,13 +42,22 @@ namespace LandBankManagement.ViewModels
         {
             DealList.Unload();
         }
+        int noOfApiCalls = 0;
         public void ShowProgressRing()
         {
-            ProgressRingActive = true;
+            noOfApiCalls++;
+               ProgressRingActive = true;
             ProgressRingVisibility = true;
         }
         public void HideProgressRing()
         {
+            if (noOfApiCalls > 1)
+            {
+                noOfApiCalls--;
+                return;
+            }
+            else
+                noOfApiCalls--;
             ProgressRingActive = false;
             ProgressRingVisibility = false;
         }
@@ -93,6 +102,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                SelectedPivotIndex = 1;
                 ShowProgressRing();
                 var model = await DealService.GetDealAsync(selected.DealId);
                 selected.Merge(model);
@@ -117,7 +127,7 @@ namespace LandBankManagement.ViewModels
                 DealDetails.FinalAmount = (amt1+amt2).ToString();
 
                 DealDetails.ScheduleList = model.DealPaySchedules;
-                SelectedPivotIndex = 1;
+               
             }
             catch (Exception ex)
             {

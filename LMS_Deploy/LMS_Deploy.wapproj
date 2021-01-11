@@ -55,16 +55,17 @@
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <EntryPointProjectUniqueName>..\LandBankManagement.App\LandBankManagement.App.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>6FED17E073AB3D09A75A865EF83FAFED92F03EF5</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>AA7170833753CF5BCC5089C6D12254BA5FDC2D68</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <AppInstallerUri>\\Server\LMS</AppInstallerUri>
+    <AppInstallerUri>C:\Users\madhu\Desktop\publish</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <Use64BitCompiler>true</Use64BitCompiler>
+    <EntryPointProjectUniqueName>..\LandBankManagement.App\LandBankManagement.App.csproj</EntryPointProjectUniqueName>
+    <AppxPackageDir>C:\Users\madhu\Desktop\publish\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <AppxBundle>Always</AppxBundle>
@@ -159,6 +160,7 @@
     <Content Include="Images\Wide310x150Logo.scale-150.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
     <Content Include="Images\Wide310x150Logo.scale-400.png" />
+    <None Include="LMS_Deploy_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LandBankManagement.App\LandBankManagement.App.csproj" />

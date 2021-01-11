@@ -46,7 +46,7 @@
                                         
                     <controls:FormTextBox Header="Deal Name" Text="{x:Bind EditableItem.PropertyMergeDealName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <CheckBox x:Name="PDC" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.ForProposal, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
-                        <TextBlock Text="For Proposal"  Foreground="Black" FontSize="15"/>
+                        <TextBlock Text="For Proposal"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                     </CheckBox>
                     <controls:FluidGrid  ColumnSpan="2" Columns="1" ColumnSpacing="10" Margin="0 20 0 0" HorizontalAlignment="Center">
                         <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" >

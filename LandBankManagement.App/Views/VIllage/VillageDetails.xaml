@@ -23,7 +23,7 @@
                 <controls:FormTextBox Header="Village Name" Text="{x:Bind EditableItem.VillageName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="Village Link" Text="{x:Bind EditableItem.VillageGMapLink, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.VillageIsActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
-                    <TextBlock Text="IsActive"  Foreground="Black" FontSize="15"/>
+                    <TextBlock Text="IsActive"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                 </CheckBox>
             </controls:FluidGrid>
         </DataTemplate>
