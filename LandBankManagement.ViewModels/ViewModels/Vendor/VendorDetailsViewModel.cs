@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -203,15 +204,88 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.VendorId == 0)
+                return false;
+
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure  to delete this Vendor?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<VendorModel>> GetValidationConstraints(VendorModel model)
         {
             yield return new RequiredConstraint<VendorModel>("Name", m => m.VendorName);
+            yield return new RequiredConstraint<VendorModel>("Alias Name", m => m.VendorAlias);
+            yield return new ValidationConstraint<VendorModel>("PAN Number is not Valid", x => ValidatePanNumber(x));
+            yield return new ValidationConstraint<VendorModel>("Aadhar Number is not Valid", x => ValidateAadhar(x));
+            yield return new ValidationConstraint<VendorModel>("Email is not Valid", x => ValidateEmail(x));
+            yield return new ValidationConstraint<VendorModel>("Phone Number is not Valid", x => ValidatePhone(x));
+            yield return new ValidationConstraint<VendorModel>("Pin Code is not Valid", x => ValidatePinCode(x));
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 
+        }
+        private bool ValidatePanNumber(VendorModel model)
+        {
+            if (string.IsNullOrEmpty(model.PAN))
+                return false;
+            Regex regex = new Regex("([A-Z]){5}([0-9]){4}([A-Z]){1}$");
+            if (!regex.IsMatch(model.PAN.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateEmail(VendorModel model)
+        {
+            if (string.IsNullOrEmpty(model.email))
+                return true;
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            if (!regex.IsMatch(model.email.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidatePhone(VendorModel model)
+        {
+            if (string.IsNullOrEmpty(model.PhoneNo))
+                return true;
+            if (model.PhoneNo.Length < 10)
+                return false;
+            Regex regex = new Regex(@"^[0-9]+$");
+            if (!regex.IsMatch(model.PhoneNo.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateAadhar(VendorModel model)
+        {
+            if (string.IsNullOrEmpty(model.AadharNo))
+                return false;
+            if (model.AadharNo.Length < 10)
+                return false;
+            Regex regex = new Regex(@"^(\d{12}|\d{16})$");
+            if (!regex.IsMatch(model.AadharNo.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidatePinCode(VendorModel model)
+        {
+            if (string.IsNullOrEmpty(model.PinCode))
+                return true;
+
+            Regex regex = new Regex(@"^[0-9]+$");
+            if (!regex.IsMatch(model.PinCode.Trim()))
+            {
+                return false;
+            }
+            return true;
         }
 
         /*

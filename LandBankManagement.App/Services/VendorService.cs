@@ -251,7 +251,7 @@ namespace LandBankManagement.Services
             target.AddressLine1 = source.AddressLine1;
             target.AddressLine2 = source.AddressLine2;
             target.City = source.City;
-            target.PinCode = source.PinCode.Trim();
+            target.PinCode = source.PinCode;
             target.PhoneNoIsdCode = source.PhoneNoIsdCode;
             target.PhoneNo = source.PhoneNo;
             target.email = source.email;

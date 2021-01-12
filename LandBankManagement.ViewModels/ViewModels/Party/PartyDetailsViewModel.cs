@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -229,6 +230,7 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new PartyModel();
+            Item.IsPartyActive = true;
             if (DocList != null)
                 DocList.Clear();
         }
@@ -257,15 +259,83 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.PartyId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete this Party?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<PartyModel>> GetValidationConstraints(PartyModel model)
         {
             yield return new RequiredConstraint<PartyModel>("Name", m => m.PartyName);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
+            yield return new ValidationConstraint<PartyModel>("PAN Number is not Valid", x => ValidatePanNumber(x));
+            yield return new ValidationConstraint<PartyModel>("Aadhar Number is not Valid", x => ValidateAadhar(x));
+            yield return new ValidationConstraint<PartyModel>("Email is not Valid", x => ValidateEmail(x));
+            yield return new ValidationConstraint<PartyModel>("Phone Number is not Valid", x => ValidatePhone(x));
+            yield return new ValidationConstraint<PartyModel>("Pin Code is not Valid", x => ValidatePinCode(x));
+        }
+        private bool ValidatePanNumber(PartyModel model)
+        {
+            if (string.IsNullOrEmpty(model.PAN))
+                return false;
+            Regex regex = new Regex("([A-Z]){5}([0-9]){4}([A-Z]){1}$");
+            if (!regex.IsMatch(model.PAN.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
 
+        private bool ValidateEmail(PartyModel model)
+        {
+            if (string.IsNullOrEmpty(model.email))
+                return true;
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            if (!regex.IsMatch(model.email.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidatePhone(PartyModel model)
+        {
+            if (string.IsNullOrEmpty(model.PhoneNo))
+                return true;
+            if (model.PhoneNo.Length < 10)
+                return false;
+            Regex regex = new Regex(@"^[0-9]+$");
+            if (!regex.IsMatch(model.PhoneNo.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateAadhar(PartyModel model)
+        {
+            if (string.IsNullOrEmpty(model.AadharNo))
+                return false;
+            if (model.AadharNo.Length < 10)
+                return false;
+            Regex regex = new Regex(@"^(\d{12}|\d{16})$");
+            if (!regex.IsMatch(model.AadharNo.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidatePinCode(PartyModel model)
+        {
+            if (string.IsNullOrEmpty(model.PinCode))
+                return true;
+
+            Regex regex = new Regex(@"^[0-9]+$");
+            if (!regex.IsMatch(model.PinCode.Trim()))
+            {
+                return false;
+            }
+            return true;
         }
 
         /*

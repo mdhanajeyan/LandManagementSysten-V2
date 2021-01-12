@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using LandBankManagement.Models;
@@ -192,6 +193,8 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (model.CompanyID == 0)
+                    return false;
                 StartStatusMessage("Deleting Company...");
                 CompanyViewModel.ShowProgressRing();
 
@@ -220,16 +223,74 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.CompanyID == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete this Company?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<CompanyModel>> GetValidationConstraints(CompanyModel model)
         {
             yield return new RequiredConstraint<CompanyModel>("Name", m => m.Name);
+            yield return new ValidationConstraint<CompanyModel>("PAN Number is not Valid", x => ValidatePanNumber(x));
+            yield return new ValidationConstraint<CompanyModel>("Email is not Valid", x => ValidateEmail(x));
+            yield return new ValidationConstraint<CompanyModel>("Phone Number is not Valid", x => ValidatePhone(x));
+            yield return new ValidationConstraint<CompanyModel>("Pin Code is not Valid", x => ValidatePinCode(x));
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 
         }
+        private bool ValidatePanNumber(CompanyModel model)
+        {
+            if (string.IsNullOrEmpty(model.PAN))
+                return true;
+            Regex regex = new Regex("([A-Z]){5}([0-9]){4}([A-Z]){1}$");
+            if (!regex.IsMatch(model.PAN.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateEmail(CompanyModel model)
+        {
+            if (string.IsNullOrEmpty(model.Email))
+                return true;
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            if (!regex.IsMatch(model.Email.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidatePhone(CompanyModel model)
+        {
+            if (string.IsNullOrEmpty(model.PhoneNo))
+                return true;
+            if (model.PhoneNo.Length<10)
+                return false;
+            Regex regex = new Regex(@"^[0-9]+$");
+            if (!regex.IsMatch(model.PhoneNo.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidatePinCode(CompanyModel model)
+        {
+            if (string.IsNullOrEmpty(model.Pincode))
+                return true;
+           
+            Regex regex = new Regex(@"^[0-9]+$");
+            if (!regex.IsMatch(model.Pincode.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+
 
         /*
          *  Handle external messages

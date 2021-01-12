@@ -139,6 +139,8 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.UserInfoId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current User?", "Ok", "Cancel");
         }
 
@@ -148,9 +150,7 @@ namespace LandBankManagement.ViewModels
             yield return new RequiredConstraint<UserInfoModel>("Name", m => m.loginName);
             yield return new ValidationConstraint<UserInfoModel>("Login Name should not contain space.", x => validateLoginName(x.loginName));
             yield return new RequiredConstraint<UserInfoModel>("Password", m => m.UserPassword);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
+           
         }
     private bool validateLoginName(string name) {
             return name.Split(' ').Length == 1;

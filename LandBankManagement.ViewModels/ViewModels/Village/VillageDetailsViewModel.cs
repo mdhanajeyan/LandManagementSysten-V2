@@ -150,15 +150,16 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.VillageId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Village?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<VillageModel>> GetValidationConstraints(VillageModel model)
         {
-            yield return new RequiredConstraint<VillageModel>("Name", m => m.VillageName);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
+            yield return new ValidationConstraint<VillageModel>("Taluk must be selected", m => m.TalukId>0);
+            yield return new ValidationConstraint<VillageModel>("Hobli must be selected", m => m.HobliId>0);
+            yield return new RequiredConstraint<VillageModel>("Village Name", m => m.VillageName);           
         }
 
         /*

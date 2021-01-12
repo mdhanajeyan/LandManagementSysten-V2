@@ -51,7 +51,8 @@ namespace LandBankManagement.ViewModels
 
         public void Load()
         {
-            Item = new BankAccountModel();
+            Item = new BankAccountModel { IsBankAccountActive=true};
+            
             GetCompanyOption();
         }
 
@@ -102,7 +103,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new BankAccountModel() { CompanyID = 0 };
+            Item = new BankAccountModel() { CompanyID = 0,IsBankAccountActive=true };
         }
         protected override async Task<bool> DeleteItemAsync(BankAccountModel model)
         {
@@ -128,16 +129,19 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.BankAccountId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current BankAccount?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<BankAccountModel>> GetValidationConstraints(BankAccountModel model)
         {
-            yield return new RequiredConstraint<BankAccountModel>("Comapny", m => m.CompanyID);
-            yield return new RequiredConstraint<BankAccountModel>("Bank Name", m => m.BankName);
+            yield return new ValidationConstraint<BankAccountModel>("Comapny should not be empty", x =>x.CompanyID>0);
             yield return new RequiredConstraint<BankAccountModel>("Bank Name", m => m.BankName);
             yield return new RequiredConstraint<BankAccountModel>("Branck Name", m => m.BranchName);
-            yield return new RequiredConstraint<BankAccountModel>("Type of account", m => m.AccountTypeId);
+            yield return new ValidationConstraint<BankAccountModel>("Type of account", m => m.AccountTypeId > 0);
+            yield return new RequiredConstraint<BankAccountModel>("Account Number", m => m.AccountNumber);           
+            yield return new RequiredConstraint<BankAccountModel>("IFSC Code", m => m.IFSCCode);
         }
 
         /*

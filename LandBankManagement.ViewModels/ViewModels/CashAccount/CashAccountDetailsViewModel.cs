@@ -43,7 +43,7 @@ namespace LandBankManagement.ViewModels
 
         public void Load()
         {
-            Item = new CashAccountModel();
+            Item = new CashAccountModel { IsCashAccountActive=true};
             GetCompanyOption();
         }
 
@@ -94,7 +94,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new CashAccountModel() { CompanyID = 0 };
+            Item = new CashAccountModel() { CompanyID = 0 ,IsCashAccountActive=true};
         }
         protected override async Task<bool> DeleteItemAsync(CashAccountModel model)
         {
@@ -122,14 +122,15 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.CashAccountId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current CashAccount?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<CashAccountModel>> GetValidationConstraints(CashAccountModel model)
         {
-            yield return new RequiredConstraint<CashAccountModel>("Name", m => m.CashAccountName);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
+            yield return new ValidationConstraint<CashAccountModel>("Company should not be empty", m => m.CompanyID>0);
+            yield return new RequiredConstraint<CashAccountModel>("Name", m => m.CashAccountName);         
 
         }
 

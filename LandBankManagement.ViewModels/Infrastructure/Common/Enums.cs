@@ -36,6 +36,7 @@ namespace LandBankManagement.Enums
         PostDatedCheckReport=27,
         DealReport=28,
         Party=29,
+        DocumentType=30
     }
 
     public enum Role

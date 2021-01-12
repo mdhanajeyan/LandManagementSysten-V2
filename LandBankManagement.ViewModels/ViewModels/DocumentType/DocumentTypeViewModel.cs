@@ -34,6 +34,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync(DocumentTypeListArgs args)
         {
+            await DocumentTypeDetials.LoadAsync();
             await DocumentTypeList.LoadAsync(args);
         }
         public void Unload()

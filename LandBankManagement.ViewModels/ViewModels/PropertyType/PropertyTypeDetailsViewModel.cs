@@ -135,15 +135,15 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.PropertyTypeId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current PropertyType?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<PropertyTypeModel>> GetValidationConstraints(PropertyTypeModel model)
         {
-            yield return new RequiredConstraint<PropertyTypeModel>("Name", m => m.PropertyTypeText);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
+            yield return new RequiredConstraint<PropertyTypeModel>("Property Type", m => m.PropertyTypeText);
+         
         }
 
         /*

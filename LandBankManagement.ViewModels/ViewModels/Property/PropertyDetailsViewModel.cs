@@ -458,15 +458,21 @@ namespace LandBankManagement.ViewModels
         }
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.PropertyId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Property?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<PropertyModel>> GetValidationConstraints(PropertyModel model)
         {
+            yield return new ValidationConstraint<PropertyModel>("Company must be selected", m => m.CompanyID > 0);
+            yield return new ValidationConstraint<PropertyModel>("Taluk must be selected", m => m.TalukId > 0);
+            yield return new ValidationConstraint<PropertyModel>("Hobli must be selected", m => m.HobliId > 0);
+            yield return new ValidationConstraint<PropertyModel>("Village must be selected", m => m.VillageId > 0);
+            yield return new ValidationConstraint<PropertyModel>("Property Type must be selected", m => m.PropertyTypeId > 0);
+            yield return new RequiredConstraint<PropertyModel>("Survey No", m => m.SurveyNo);
+            yield return new ValidationConstraint<PropertyModel>("Document Type must be selected", m => m.DocumentTypeId > 0);
             yield return new RequiredConstraint<PropertyModel>("Proeprty Name", m => m.PropertyName);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
         }
 
         /*

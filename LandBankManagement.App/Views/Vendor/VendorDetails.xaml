@@ -15,12 +15,12 @@
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:VendorDetailsViewModel" >
             <controls:FluidGrid Margin="0,12,0,0" Columns="3" ColumnSpacing="40" RowSpacing="12"  HorizontalAlignment="Center">
                 <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"  ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
-                    <controls:FormTextBox Header="Vendor Name" Text="{x:Bind EditableItem.VendorName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
-                <controls:FormTextBox Header="Vendor Alias" Text="{x:Bind EditableItem.VendorAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
+                    <controls:FormTextBox Header="Vendor Name *" Text="{x:Bind EditableItem.VendorName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
+                <controls:FormTextBox Header="Vendor Alias *" Text="{x:Bind EditableItem.VendorAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
 
                 <controls:FormTextBox Header="Son of / Daughter of / Wife of" MaxLength="4" Text="{x:Bind EditableItem.VendorSalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="PAN" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
-                <controls:FormTextBox Header="Aadhaar No" Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  MaxLength="12"/>
+                <controls:FormTextBox Header="PAN *" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
+                <controls:FormTextBox Header="Aadhaar No *" Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  MaxLength="12"/>
                 <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="15"/>
                 <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="100"/>

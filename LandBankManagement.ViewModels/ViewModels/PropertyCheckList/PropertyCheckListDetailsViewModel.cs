@@ -494,6 +494,8 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.PropertyCheckListId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Property?", "Ok", "Cancel");
         }
         public async Task ValidationMeassge(string message)
@@ -502,10 +504,14 @@ namespace LandBankManagement.ViewModels
         }
         override protected IEnumerable<IValidationConstraint<PropertyCheckListModel>> GetValidationConstraints(PropertyCheckListModel model)
         {
-           yield return new RequiredConstraint<PropertyCheckListModel>("Proeprty Name", m => m.PropertyName);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
+            yield return new ValidationConstraint<PropertyCheckListModel>("Company must be selected", m => m.CompanyID > 0);
+            yield return new ValidationConstraint<PropertyCheckListModel>("Taluk must be selected", m => m.TalukId > 0);
+            yield return new ValidationConstraint<PropertyCheckListModel>("Hobli must be selected", m => m.HobliId > 0);
+            yield return new ValidationConstraint<PropertyCheckListModel>("Village must be selected", m => m.VillageId > 0);
+            yield return new ValidationConstraint<PropertyCheckListModel>("Property Type must be selected", m => m.PropertyTypeId > 0);
+            yield return new RequiredConstraint<PropertyCheckListModel>("Survey No", m => m.SurveyNo);
+            yield return new ValidationConstraint<PropertyCheckListModel>("Document Type must be selected", m => m.DocumentTypeId > 0);
+            yield return new RequiredConstraint<PropertyCheckListModel>("Proeprty Name", m => m.PropertyName);
         }
 
         /*

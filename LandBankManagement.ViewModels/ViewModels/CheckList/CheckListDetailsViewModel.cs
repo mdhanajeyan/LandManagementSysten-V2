@@ -136,15 +136,15 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.CheckListId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current CheckList?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<CheckListModel>> GetValidationConstraints(CheckListModel model)
         {
-            yield return new RequiredConstraint<CheckListModel>("Name", m => m.CheckListName);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
+            yield return new RequiredConstraint<CheckListModel>("Check List Name", m => m.CheckListName);
+           
         }
 
         /*

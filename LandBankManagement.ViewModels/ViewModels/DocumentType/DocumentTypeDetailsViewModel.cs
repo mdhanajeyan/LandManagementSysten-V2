@@ -32,7 +32,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new DocumentTypeModel();
+            Item = new DocumentTypeModel { IsDocumentTypeActive=true};
         }
         public void Unload()
         {
@@ -107,7 +107,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new DocumentTypeModel();
+            Item = new DocumentTypeModel { IsDocumentTypeActive = true };
         }
         protected override async Task<bool> DeleteItemAsync(DocumentTypeModel model)
         {
@@ -135,15 +135,14 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.DocumentTypeId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current DocumentType?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<DocumentTypeModel>> GetValidationConstraints(DocumentTypeModel model)
         {
-            yield return new RequiredConstraint<DocumentTypeModel>("Name", m => m.DocumentTypeName);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
+            yield return new RequiredConstraint<DocumentTypeModel>("Document Type", m => m.DocumentTypeName);
         }
 
         /*

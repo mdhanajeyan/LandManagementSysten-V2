@@ -41,7 +41,7 @@ namespace LandBankManagement.ViewModels
 
         public void Load() {
           
-            Item =new HobliModel();
+            Item =new HobliModel { TalukId=0};
              IsEditMode=true;
            // TalukOptions = new ObservableCollection<ComboBoxOptions>();
             //TalukOptions.Add(new ComboBoxOptions { Id = 1, Description = "test1" });
@@ -127,15 +127,15 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.HobliId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Hobli?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<HobliModel>> GetValidationConstraints(HobliModel model)
         {
+            yield return new ValidationConstraint<HobliModel>("Taluk Must be selected", m => m.TalukId>0);
             yield return new RequiredConstraint<HobliModel>("Name", m => m.HobliName);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
         }
 
         /*

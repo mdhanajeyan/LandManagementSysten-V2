@@ -16,7 +16,7 @@
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CompanyDetailsViewModel" >
             <controls:FluidGrid Margin="0,12,0,0" Columns="3" ColumnSpacing="10" RowSpacing="12"  HorizontalAlignment="Center">
                 <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"   ColumnSpacing="12" RowSpacing="12" HorizontalAlignment="Center" >
-                <controls:FormTextBox Header="Company Name" MaxLength="150" Text="{x:Bind EditableItem.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Company Name *" MaxLength="150" Text="{x:Bind EditableItem.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
                     <controls:FormTextBox Header="PAN" MaxLength="10" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" AcceptsReturn="True"  />
                     <controls:FormTextBox Header="GSTIN" MaxLength="15" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
@@ -27,7 +27,7 @@
                 <controls:FormTextBox Header="Address 2" MaxLength="100" Text="{x:Bind EditableItem.AddressLine2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
-                    <controls:FormTextBox Header="Postal Code" MaxLength="6" Text="{x:Bind EditableItem.Pincode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  />
+                    <controls:FormTextBox Header="Postal Code" MaxLength="6" Text="{x:Bind EditableItem.Pincode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" InputScope="Number" />
                     <controls:FormTextBox Header="City" MaxLength="40" Text="{x:Bind EditableItem.City, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 </controls:FluidGrid>
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
