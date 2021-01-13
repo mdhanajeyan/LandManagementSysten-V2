@@ -13,43 +13,43 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:FundTransferDetailsViewModel">
-            <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
-                <controls:FormComboBox  Header="From Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
+            <controls:FluidGrid Margin="0,30,10,0" Columns="2" ColumnSpacing="30" RowSpacing="12" HorizontalAlignment="Center">
+                <controls:FormComboBox  Header="From Company / Individual *" ItemsSource="{x:Bind CompanyOptions}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <StackPanel></StackPanel>
                 <StackPanel  Orientation="Horizontal" Margin="0 15 0 0">
                     <RadioButton x:Name="fromcashRB"  Tag="cash" Margin="10" GroupName="fromCashbank" IsChecked="{Binding IsFromCashChecked,Mode=TwoWay}" >
-                        <TextBlock Text="Cash"  Foreground="Black" FontSize="15"/>
+                        <TextBlock Text="Cash"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                     </RadioButton>
                     <RadioButton  x:Name="frombankRB" Tag="bank" Margin="10" GroupName="fromCashbank" IsChecked="{Binding IsFromBankChecked,Mode=TwoWay}" >
-                        <TextBlock Text="Bank"  Foreground="Black" FontSize="15"/>
+                        <TextBlock Text="Bank"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                     </RadioButton>
                 </StackPanel>
-                <controls:FormComboBox x:Name="FromBank" Header="Cash" ItemsSource="{x:Bind BankOptions}" 
+                <controls:FormComboBox x:Name="FromBank" Header="From Bank *" ItemsSource="{x:Bind BankOptions}" 
                                            SelectedValue="{x:Bind EditableItem.PayeeBankId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Date Of Payment" Foreground="{StaticResource TextControlTextBlockHeaderForeground}" Margin="0 0 0 10"/>
-                    <CalendarDatePicker MinWidth="360" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{x:Bind EditableItem.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
+                    <CalendarDatePicker HorizontalAlignment="Stretch" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{x:Bind EditableItem.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
                 </StackPanel>
-                <controls:FormTextBox Header="Amount" Text="{x:Bind EditableItem.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Amount *" Text="{x:Bind EditableItem.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="Narration"  Text="{x:Bind EditableItem.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <StackPanel></StackPanel>
-                <controls:FormComboBox  Header="To Company / Individual" ItemsSource="{x:Bind CompanyOptions}"
+                <controls:FormComboBox  Header="To Company / Individual *" ItemsSource="{x:Bind CompanyOptions}"
                                            SelectedValue="{x:Bind EditableItem.ReceiverId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <StackPanel></StackPanel>
                
                     <StackPanel  Orientation="Horizontal" Margin="0 15 0 0">
                         <RadioButton x:Name="cashRB"  Tag="cash" Margin="10" GroupName="toCashbank" IsChecked="{Binding IsToCashChecked,Mode=TwoWay}">
-                        <TextBlock Text="Cash"  Foreground="Black" FontSize="15"/>
+                        <TextBlock Text="Cash"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                         </RadioButton>
                         <RadioButton  x:Name="bankRB" Tag="bank" Margin="10" GroupName="toCashbank" IsChecked="{Binding IsToBankChecked,Mode=TwoWay}" >
-                        <TextBlock Text="Bank"  Foreground="Black" FontSize="15"/>
+                        <TextBlock Text="Bank"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                         </RadioButton>
                     </StackPanel>
-                    <controls:FormComboBox x:Name="cashCombo" Header="To Bank" ItemsSource="{x:Bind BankOptions}" 
+                    <controls:FormComboBox x:Name="cashCombo" Header="To Bank *" ItemsSource="{x:Bind BankOptions}" 
                                            SelectedValue="{x:Bind EditableItem.ReceiverBankId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                

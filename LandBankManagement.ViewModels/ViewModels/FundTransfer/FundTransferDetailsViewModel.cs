@@ -206,17 +206,24 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.FundTransferId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current FundTransfer?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<FundTransferModel>> GetValidationConstraints(FundTransferModel model)
         {
-            yield return new RequiredConstraint<FundTransferModel>("Name", m => m.FundTransferId);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
+            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Company", m => m.PayeeId);
+            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Bank", m => m.PayeeBankId);
+            yield return new ValidationConstraint<FundTransferModel>("Amount should not be empty", m => ValidateAmount(m));
+            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Company", m => m.ReceiverId);
+            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("To Bank", m => m.ReceiverBankId);
+           
         }
-
+        private bool ValidateAmount(FundTransferModel model)
+        {
+            return string.IsNullOrEmpty(model.Amount) ? false : Convert.ToDecimal(model.Amount) > 0;
+        }
         /*
          *  Handle external messages
          ****************************************************************/
