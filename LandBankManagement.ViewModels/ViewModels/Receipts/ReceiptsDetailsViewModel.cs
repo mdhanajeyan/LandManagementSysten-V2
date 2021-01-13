@@ -185,15 +185,17 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
+            if (Item.ReceiptId == 0)
+                return false;
             return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete current Receipts?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<ReceiptModel>> GetValidationConstraints(ReceiptModel model)
         {
-            yield return new RequiredConstraint<ReceiptModel>("Name", m => m.PayeeId);
-            //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
-            //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
-
+            yield return new ValidationConstraint<ReceiptModel>("Company must be selected", m => m.PayeeId > 0);
+            yield return new ValidationConstraint<ReceiptModel>("Deal Name must be selected", m => m.DealId > 0);
+            yield return new ValidationConstraint<ReceiptModel>("Deposit Bank must be selected", m => m.DepositBankId > 0);
+            yield return new RequiredConstraint<ReceiptModel>("Amount", m => m.Amount);
         }
 
         /*
