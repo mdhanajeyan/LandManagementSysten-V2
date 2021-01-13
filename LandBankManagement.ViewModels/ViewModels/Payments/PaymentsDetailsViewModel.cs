@@ -283,10 +283,15 @@ namespace LandBankManagement.ViewModels
                 else
                     model.PayeeTypeId = 2;
 
-                if (!ValidatePayments())
-                    return false;
+                if (IsCashChecked)
+                    model.PaymentTypeId = 1;
+                else
+                    model.PaymentTypeId = 2;
 
-                model.PaymentListModel = PaymentList;
+                //if (!ValidatePayments())
+                //    return false;
+
+              //  model.PaymentListModel = PaymentList;
 
                 StartStatusMessage("Saving Payments...");
                 PaymentsViewModel.ShowProgressRing();
@@ -298,7 +303,7 @@ namespace LandBankManagement.ViewModels
 
                 var item = await PaymentsService.GetPaymentAsync(paymentId == 0 ? model.PaymentId : paymentId);
                 Item = item;
-                PaymentList = item.PaymentListModel;
+               // PaymentList = item.PaymentListModel;
 
                 EndStatusMessage("Payments saved");
                 LogInformation("Payments", "Save", "Payments saved successfully", $"Payments {model.PaymentId}  was saved successfully.");
@@ -313,39 +318,39 @@ namespace LandBankManagement.ViewModels
             finally { PaymentsViewModel.HideProgressRing(); }
         }
 
-        private bool ValidatePayments() {
+        //private bool ValidatePayments() {
 
-            if (PaymentList != null && PaymentList.Count > 0)
-                return true;
+        //    if (PaymentList != null && PaymentList.Count > 0)
+        //        return true;
 
-            if (CurrentPayment.CashAccountId <= 0 && CurrentPayment.BankAccountId <= 0) {
-                DialogService.ShowAsync("Validation Error", "Please select either Cash OR Bank account", "Ok");
-                return false;
-            }
-            if (string.IsNullOrEmpty(CurrentPayment.Amount) || Convert.ToDecimal(CurrentPayment.Amount) <= 0) {
-                DialogService.ShowAsync("Validation Error", "Please enter the amount", "Ok");
-                return false;
-            }
-            if ( string.IsNullOrEmpty( CurrentPayment.ChequeNo))
-            {
-                DialogService.ShowAsync("Validation Error", "Please enter the Cheque / Ref.No", "Ok");
-                return false;
-            }
-            if (PaymentList == null) {
-                PaymentList = new ObservableCollection<PaymentListModel>();
-            }
-            PaymentList.Add(CurrentPayment);
-            CurrentPayment = new PaymentListModel { DateOfPayment = DateTimeOffset.Now, PDC = true };
-            for (int i = 0; i < PaymentList.Count; i++)
-            {
-                PaymentList[i].identity = i + 1;
-            }
-            var newList = PaymentList;
-            PaymentList = null;
-            PaymentList = newList;
+        //    if (CurrentPayment.CashAccountId <= 0 && CurrentPayment.BankAccountId <= 0) {
+        //        DialogService.ShowAsync("Validation Error", "Please select either Cash OR Bank account", "Ok");
+        //        return false;
+        //    }
+        //    if (string.IsNullOrEmpty(CurrentPayment.Amount) || Convert.ToDecimal(CurrentPayment.Amount) <= 0) {
+        //        DialogService.ShowAsync("Validation Error", "Please enter the amount", "Ok");
+        //        return false;
+        //    }
+        //    if ( string.IsNullOrEmpty( CurrentPayment.ChequeNo))
+        //    {
+        //        DialogService.ShowAsync("Validation Error", "Please enter the Cheque / Ref.No", "Ok");
+        //        return false;
+        //    }
+        //    if (PaymentList == null) {
+        //        PaymentList = new ObservableCollection<PaymentListModel>();
+        //    }
+        //    PaymentList.Add(CurrentPayment);
+        //    CurrentPayment = new PaymentListModel { DateOfPayment = DateTimeOffset.Now, PDC = true };
+        //    for (int i = 0; i < PaymentList.Count; i++)
+        //    {
+        //        PaymentList[i].identity = i + 1;
+        //    }
+        //    var newList = PaymentList;
+        //    PaymentList = null;
+        //    PaymentList = newList;
 
-            return true;
-        }
+        //    return true;
+        //}
 
         protected override void ClearItem()
         {
@@ -382,13 +387,13 @@ namespace LandBankManagement.ViewModels
         override protected IEnumerable<IValidationConstraint<PaymentModel>> GetValidationConstraints(PaymentModel model)
         {
             yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Company", m => m.PayeeId);
-            yield return new ValidationConstraint<PaymentModel>("Expense head Or Party Not to be empty", x => ValidateExpenseHeadAndParty(x));
-            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Property Name", m => m.PropertyId);
+            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Proeprty Name", m => m.PropertyId);
             yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Document Type", m => m.DocumentTypeId);
-           // yield return new ValidationConstraint<PaymentModel>("Cash Or Bank Account Not to be empty", x => ValidateCashAndBank(x));
-           // yield return new ValidationConstraint<PaymentModel>("Amount Not to be empty", x => ValidateAmount(x));
-           // yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Amount", m => m.Amount);
-           // yield return new RequiredConstraint<PaymentModel>("Cheque / Ref No", m => m.ChequeNo);
+            yield return new ValidationConstraint<PaymentModel>("Expense head / Party must be selected", m => (m.ExpenseHeadId > 0 || m.PartyId>0));
+            yield return new ValidationConstraint<PaymentModel>("Cash / Bank must be selected", m => (m.CashAccountId > 0 || m.BankAccountId>0));
+            yield return new ValidationConstraint<PaymentModel>("Amount should not be empty", m => ValidateAmount(m));
+            yield return new RequiredConstraint<PaymentModel>("Cheque / Ref No", m => m.ChequeNo);
+            // yield return new ValidationConstraint<PaymentModel>("Expense head Or Party Not to be empty", x => ValidateExpenseHeadAndParty(x));
         }
 
         private bool ValidateExpenseHeadAndParty(PaymentModel model) {

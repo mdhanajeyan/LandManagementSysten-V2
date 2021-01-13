@@ -102,16 +102,18 @@ namespace LandBankManagement.ViewModels
             try
             {
                 ShowProgressRing();
+                SelectedPivotIndex = 1;
                 var model = await PaymentsService.GetPaymentAsync(selected.PaymentId);
                 selected.Merge(model);
                 PaymentsDetails.Item = model;
-                for (int i = 0; i < model.PaymentListModel.Count; i++)
-                {
-                    model.PaymentListModel[i].identity = i + 1;
-                }
-                PaymentsDetails.PaymentList = model.PaymentListModel;
+               
+                //for (int i = 0; i < model.PaymentListModel.Count; i++)
+                //{
+                //    model.PaymentListModel[i].identity = i + 1;
+                //}
+                //PaymentsDetails.PaymentList = model.PaymentListModel;
                 PaymentsDetails.defaultSettings();
-                SelectedPivotIndex = 1;
+                
             }
             catch (Exception ex)
             {

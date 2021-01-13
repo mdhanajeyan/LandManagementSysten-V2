@@ -33,15 +33,15 @@ namespace LandBankManagement.Data.Services
                     BankAccountId = model.BankAccountId,
                     CashAccountId = model.CashAccountId
                 };
-                entity.Amount = model.PaymentLists.Sum(x => x.Amount);
+                //entity.Amount = model.PaymentLists.Sum(x => x.Amount);
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
 
-                foreach (var pay in model.PaymentLists) {
-                    pay.PaymentId = entity.PaymentId;
-                    _dataSource.Entry(pay).State = EntityState.Added;
-                }
-                await  _dataSource.SaveChangesAsync();
+                //foreach (var pay in model.PaymentLists) {
+                //    pay.PaymentId = entity.PaymentId;
+                //    _dataSource.Entry(pay).State = EntityState.Added;
+                //}
+                //await  _dataSource.SaveChangesAsync();
 
                 return entity.PaymentId;
             }
@@ -130,6 +130,8 @@ namespace LandBankManagement.Data.Services
                                         from e in _dataSource.ExpenseHeads.Where(x => x.ExpenseHeadId == pay.ExpenseHeadId).DefaultIfEmpty()
                                         from py in _dataSource.Properties.Where(x => x.PropertyId == pay.PropertyId).DefaultIfEmpty()
                                         from d in _dataSource.DocumentTypes.Where(x => x.DocumentTypeId == pay.DocumentTypeId).DefaultIfEmpty()
+                                        from ch in _dataSource.CashAccounts.Where(x=>x.CashAccountId==pay.CashAccountId).DefaultIfEmpty()
+                                        from bk in _dataSource.BankAccounts.Where(x=>x.BankAccountId==pay.BankAccountId).DefaultIfEmpty()
                                         select new Payment
                                         {
                                             PaymentId = pay.PaymentId,
@@ -148,7 +150,8 @@ namespace LandBankManagement.Data.Services
                                             PDC = pay.PDC,
                                             BankAccountId = pay.BankAccountId,
                                             CashAccountId = pay.CashAccountId,
-                                            AccountName = (pay.PartyId > 0) ? p.PartyFirstName : e.ExpenseHeadName,
+                                           // AccountName = (pay.PartyId > 0) ? p.PartyFirstName : e.ExpenseHeadName,
+                                            AccountName = (pay.PaymentTypeId ==1) ? ch.CashAccountName : bk.BankName,
                                             CompanyName=c.Name,
                                             DocumentTypeName=d.DocumentTypeName,
                                             PropertyName=py.PropertyName
@@ -199,18 +202,18 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> UpdatePaymentAsync(Payment model)
         {
-            model.Amount = model.PaymentLists.Sum(x => x.Amount);
+           // model.Amount = model.PaymentLists.Sum(x => x.Amount);
             _dataSource.Entry(model).State = EntityState.Modified;
             int res = await _dataSource.SaveChangesAsync();
 
-            if (model.PaymentLists == null || model.PaymentLists.Count == 0)
-                return res;
-            foreach (var pay in model.PaymentLists)
-            {
-                pay.PaymentId = model.PaymentId;
-                _dataSource.Entry(pay).State = EntityState.Added;
-            }
-            await _dataSource.SaveChangesAsync();
+            //if (model.PaymentLists == null || model.PaymentLists.Count == 0)
+            //    return res;
+            //foreach (var pay in model.PaymentLists)
+            //{
+            //    pay.PaymentId = model.PaymentId;
+            //    _dataSource.Entry(pay).State = EntityState.Added;
+            //}
+            //await _dataSource.SaveChangesAsync();
             return res;
         }
 

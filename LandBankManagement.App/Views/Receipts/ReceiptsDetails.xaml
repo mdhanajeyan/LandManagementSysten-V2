@@ -15,10 +15,10 @@
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:ReceiptsDetailsViewModel">
             <controls:FluidGrid Margin="0,30,10,0" Columns="2" ColumnSpacing="30" RowSpacing="12" HorizontalAlignment="Center" x:Name="ReceiptsConatiner">
-                <controls:FormComboBox  Header="From Company / Individual" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                <controls:FormComboBox  Header="From Company / Individual *" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                <controls:FormComboBox x:Name="DealPartiesDDl"  Header="Deal" ItemsSource="{x:Bind DealOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectionChanged="DealPartiesDDl_SelectionChanged"
+                <controls:FormComboBox x:Name="DealPartiesDDl"  Header="Deal *" ItemsSource="{x:Bind DealOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectionChanged="DealPartiesDDl_SelectionChanged"
                                            SelectedValue="{x:Bind EditableItem.DealId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
               
@@ -45,14 +45,14 @@
                         <TextBlock Text="Bank"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                     </RadioButton>
                 </StackPanel>
-                <controls:FormComboBox x:Name="FromBank" Header="Bank" ItemsSource="{x:Bind BankOptions}" 
+                <controls:FormComboBox x:Name="FromBank" Header="Bank *" ItemsSource="{x:Bind BankOptions}" 
                                            SelectedValue="{x:Bind EditableItem.DepositBankId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Date Of Payment" Foreground="{StaticResource TextControlTextBlockHeaderForeground}" Margin="0 0 0 10"/>
                     <CalendarDatePicker HorizontalAlignment="Stretch" BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" Date="{x:Bind EditableItem.DateOfPayment,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
                 </StackPanel>
-                <controls:FormTextBox Header="Amount" Text="{x:Bind EditableItem.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Amount *" Text="{x:Bind EditableItem.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="Narration"  Text="{x:Bind EditableItem.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <StackPanel></StackPanel>                
             </controls:FluidGrid>
