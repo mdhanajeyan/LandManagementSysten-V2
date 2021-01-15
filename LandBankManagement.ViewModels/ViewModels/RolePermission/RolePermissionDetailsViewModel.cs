@@ -142,7 +142,8 @@ namespace LandBankManagement.ViewModels
 
         protected override async Task<bool> ConfirmDeleteAsync()
         {
-            return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete currentRolePermission?", "Ok", "Cancel");
+            return false;
+            //return await DialogService.ShowAsync("Confirm Delete", "Are you sure to delete currentRolePermission?", "Ok", "Cancel");
         }
 
         override protected IEnumerable<IValidationConstraint<RolePermissionModel>> GetValidationConstraints(RolePermissionModel model)

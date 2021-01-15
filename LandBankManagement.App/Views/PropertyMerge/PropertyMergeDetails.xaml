@@ -44,7 +44,7 @@
                         <controls:FormTextBox Header="Area" Text="{x:Bind CurrentProperty.LandArea, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                     </controls:FluidGrid>                 
                                         
-                    <controls:FormTextBox Header="Deal Name" Text="{x:Bind EditableItem.PropertyMergeDealName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Deal Name *" Text="{x:Bind EditableItem.PropertyMergeDealName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <CheckBox x:Name="PDC" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.ForProposal, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
                         <TextBlock Text="For Proposal"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                     </CheckBox>

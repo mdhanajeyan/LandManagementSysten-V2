@@ -469,9 +469,10 @@ namespace LandBankManagement.ViewModels
             yield return new ValidationConstraint<PropertyModel>("Taluk must be selected", m => m.TalukId > 0);
             yield return new ValidationConstraint<PropertyModel>("Hobli must be selected", m => m.HobliId > 0);
             yield return new ValidationConstraint<PropertyModel>("Village must be selected", m => m.VillageId > 0);
-            yield return new ValidationConstraint<PropertyModel>("Property Type must be selected", m => m.PropertyTypeId > 0);
-            yield return new RequiredConstraint<PropertyModel>("Survey No", m => m.SurveyNo);
             yield return new ValidationConstraint<PropertyModel>("Document Type must be selected", m => m.DocumentTypeId > 0);
+            yield return new RequiredConstraint<PropertyModel>("Document No must be entered", m => m.DocumentNo);
+            yield return new ValidationConstraint<PropertyModel>("Property Type must be selected", m => m.PropertyTypeId > 0);
+            yield return new RequiredConstraint<PropertyModel>("Survey No", m => m.SurveyNo);          
             yield return new RequiredConstraint<PropertyModel>("Proeprty Name", m => m.PropertyName);
         }
 
