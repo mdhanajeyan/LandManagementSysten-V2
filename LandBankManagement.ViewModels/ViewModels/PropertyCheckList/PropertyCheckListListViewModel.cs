@@ -32,7 +32,14 @@ namespace LandBankManagement.ViewModels
     {
         public IPropertyCheckListService PropertyCheckListService { get; }
         public PropertyCheckListListArgs ViewModelArgs { get; private set; }       
-            private PropertyCheckListViewModel PropertyCheckListViewModel { get; set; }
+        public PropertyCheckListViewModel PropertyCheckListViewModel { get; set; }
+
+        private ObservableCollection<ComboBoxOptions> _statuslistOptions = null;
+        public ObservableCollection<ComboBoxOptions> Status
+        {
+            get => _statuslistOptions;
+            set => Set(ref _statuslistOptions, value);
+        }
         public PropertyCheckListListViewModel(IPropertyCheckListService propertyService, ICommonServices commonServices, PropertyCheckListViewModel propertyCheckListViewModel) : base(commonServices)
         {
             PropertyCheckListService = propertyService;
@@ -95,6 +102,7 @@ namespace LandBankManagement.ViewModels
                 StatusList.Add(new ComboBoxOptions { Id = 1, Description = "Pending" });
                 StatusList.Add(new ComboBoxOptions { Id = 2, Description = "Dropped" });
                 StatusList.Add(new ComboBoxOptions { Id = 3, Description = "Procured" });
+                Status = StatusList;
                 PropertyCheckListViewModel.ShowProgressRing();
                 var modals = await GetItemsAsync();
 

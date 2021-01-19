@@ -99,7 +99,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(PropertyCheckListModel selected)
+        public async Task PopulateDetails(PropertyCheckListModel selected)
         {
             try
             {
