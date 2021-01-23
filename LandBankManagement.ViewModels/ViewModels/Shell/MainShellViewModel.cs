@@ -74,8 +74,8 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xf041, "Property", typeof(PropertyViewModel)){ Screen=NavigationScreen.Property},
                 new NavigationItem(0xf035, "Property Check List", typeof(PropertyCheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
+                new NavigationItem(0xf041, "Property", typeof(PropertyViewModel)){ Screen=NavigationScreen.Property},               
                 new NavigationItem(0xf12e, "Property Merge", typeof(PropertyMergeViewModel)){Screen=NavigationScreen.MergeProperties},
                 new NavigationItem(0xf2b5, "Deal", typeof(DealViewModel)){Screen=NavigationScreen.PropertyDeals}
             }

@@ -25,12 +25,12 @@ namespace LandBankManagement.ViewModels
             get => _progressRingActive;
             set => Set(ref _progressRingActive, value);
         }
-        public PartyViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IPartyService partyService,IVendorService vendorService,IDropDownService dropDownService) : base(commonServices)
+        public PartyViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IPartyService partyService,IVendorService vendorService,IDropDownService dropDownService,IPropertyService propertyService) : base(commonServices)
         {
 
             PartyService = partyService;
             PartyList = new PartyListViewModel(partyService, commonServices,this);
-            PartyDetails = new PartyDetailsViewModel(partyService, filePickerService, commonServices, PartyList, dropDownService, vendorService,this);
+            PartyDetails = new PartyDetailsViewModel(partyService, filePickerService, commonServices, PartyList, dropDownService, vendorService,this,propertyService);
         }
 
         public async Task LoadAsync(PartyListArgs args)

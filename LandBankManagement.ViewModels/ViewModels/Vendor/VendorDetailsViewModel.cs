@@ -20,14 +20,24 @@ namespace LandBankManagement.ViewModels
             get => _docList;
             set => Set(ref _docList, value);
         }
+
+        private ObservableCollection<ComboBoxOptions> _solutationOptions = null;
+        public ObservableCollection<ComboBoxOptions> SolutationOptions
+        {
+            get => _solutationOptions;
+            set => Set(ref _solutationOptions, value);
+        }
+
         public IVendorService VendorService { get; }
+        public IDropDownService DropdownService { get; }
         public IFilePickerService FilePickerService { get; }
         private VendorViewModel VendorViewModel { get; set; }
-        public VendorDetailsViewModel(IVendorService vendorService, IFilePickerService filePickerService, ICommonServices commonServices, VendorViewModel vendorViewModel) : base(commonServices)
+        public VendorDetailsViewModel(IVendorService vendorService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropdownService, VendorViewModel vendorViewModel) : base(commonServices)
         {
             VendorService = vendorService;
             FilePickerService = filePickerService;
             VendorViewModel = vendorViewModel;
+            DropdownService = dropdownService;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Vendor" : TitleEdit;
@@ -37,9 +47,10 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new VendorModel();
+            Item = new VendorModel { IsVendorActive = true, SalutationType =1};
             Item.IsVendorActive = true;
             IsEditMode = true;
+            SolutationOptions = DropdownService.GetSalutationOptions();
         }
         public void Unload()
         {
@@ -175,7 +186,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new VendorModel() { IsVendorActive=true};
+            Item = new VendorModel() { IsVendorActive=true,SalutationType=1};
             if (DocList != null)
                 DocList.Clear();
         }
@@ -226,7 +237,7 @@ namespace LandBankManagement.ViewModels
         private bool ValidatePanNumber(VendorModel model)
         {
             if (string.IsNullOrEmpty(model.PAN))
-                return false;
+                return true;
             Regex regex = new Regex("([A-Z]){5}([0-9]){4}([A-Z]){1}$");
             if (!regex.IsMatch(model.PAN.Trim()))
             {
@@ -264,7 +275,7 @@ namespace LandBankManagement.ViewModels
         private bool ValidateAadhar(VendorModel model)
         {
             if (string.IsNullOrEmpty(model.AadharNo))
-                return false;
+                return true;
             if (model.AadharNo.Length < 10)
                 return false;
             Regex regex = new Regex(@"^(\d{12}|\d{16})$");

@@ -132,7 +132,8 @@ namespace LandBankManagement.Data.Services
                     PAN = source.PAN,
                     AadharNo = source.AadharNo,
                     GSTIN = source.GSTIN,
-                    IsVendorActive = source.IsVendorActive
+                    IsVendorActive = source.IsVendorActive,
+                    SalutationType=source.SalutationType
                 })
                 .AsNoTracking()
                 .ToListAsync();

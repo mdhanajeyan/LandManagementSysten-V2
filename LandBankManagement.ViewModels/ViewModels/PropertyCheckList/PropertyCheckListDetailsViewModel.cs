@@ -125,7 +125,7 @@ namespace LandBankManagement.ViewModels
             StartStatusMessage("Loading Property Checklist...");
             PropertyCheckListViewModel.ShowProgressRing();
             var model = await PropertyCheckListService.GetPropertyCheckListAsync(id);
-            Item = null;
+           // Item = null;
             Item = model;           
             VendorList = model.PropertyCheckListVendors;
             if (model.PropertyCheckListDocuments != null)

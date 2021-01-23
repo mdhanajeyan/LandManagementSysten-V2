@@ -32,5 +32,6 @@ namespace LandBankManagement.Services
         Task<ObservableCollection<ComboBoxOptions>> GetPropertyMergeOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetPropertyOptionsByCompanyID(int companyId);
         Task<ObservableCollection<ComboBoxOptions>> GetDealOptions();
+        ObservableCollection<ComboBoxOptions> GetSalutationOptions();
     }
 }

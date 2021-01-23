@@ -388,9 +388,9 @@ namespace LandBankManagement.ViewModels
         {
             yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Company", m => m.PayeeId);
             yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Proeprty Name", m => m.PropertyId);
-            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Document Type", m => m.DocumentTypeId);
             yield return new ValidationConstraint<PaymentModel>("Expense head / Party must be selected", m => (m.ExpenseHeadId > 0 || m.PartyId>0));
-            yield return new ValidationConstraint<PaymentModel>("Cash / Bank must be selected", m => (m.CashAccountId > 0 || m.BankAccountId>0));
+            yield return new ValidationConstraint<PaymentModel>("Document Type must be selected", m => ValidateDocumentType(m));
+           yield return new ValidationConstraint<PaymentModel>("Cash / Bank must be selected", m => (m.CashAccountId > 0 || m.BankAccountId>0));
             yield return new ValidationConstraint<PaymentModel>("Amount should not be empty", m => ValidateAmount(m));
             yield return new RequiredConstraint<PaymentModel>("Cheque / Ref No", m => m.ChequeNo);
             // yield return new ValidationConstraint<PaymentModel>("Expense head Or Party Not to be empty", x => ValidateExpenseHeadAndParty(x));
@@ -398,6 +398,14 @@ namespace LandBankManagement.ViewModels
 
         private bool ValidateExpenseHeadAndParty(PaymentModel model) {
             return model.ExpenseHeadId > 0 || model.PartyId > 0;
+        }
+
+        private bool ValidateDocumentType(PaymentModel model)
+        {
+            if (IsExpenseChecked) {
+                return true;
+            }
+            return model.DocumentTypeId > 0 ;
         }
 
         private bool ValidateCashAndBank(PaymentModel model)

@@ -11,7 +11,7 @@ namespace LandBankManagement.Data
         public Guid PropertyGuid { get; set; }
         public int PartyId { get; set; }
         public int PropertyId { get; set; }
-
+        public bool? IsPrimaryParty { get; set; }
         [NotMapped]
         public string PartyName { get; set; }
     }

@@ -13,7 +13,7 @@ namespace LandBankManagement.Models
         public int AccountTypeId { get; set; }
         public string CashAccountName { get; set; }
         public bool IsCashAccountActive { get; set; }
-
+        public string OpeningBalance { get; set; }
         public string CompanyName { get; set; }
         public bool IsNew => CashAccountId <= 0;
 
@@ -35,6 +35,7 @@ namespace LandBankManagement.Models
                 CashAccountName = source.CashAccountName;
                 IsCashAccountActive = source.IsCashAccountActive;
                 CompanyID = source.CompanyID;
+                OpeningBalance = source.OpeningBalance;
             }
         }
 

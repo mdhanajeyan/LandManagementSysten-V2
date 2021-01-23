@@ -30,6 +30,7 @@ namespace LandBankManagement.Data
         public string AadharNo { get; set; }
         public string GSTIN { get; set; }
         public bool IsVendorActive { get; set; }
+        public int? SalutationType { get; set; }
         [NotMapped]
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() => $"{VendorId} {VendorName} {email} {AddressLine1}".ToLower();

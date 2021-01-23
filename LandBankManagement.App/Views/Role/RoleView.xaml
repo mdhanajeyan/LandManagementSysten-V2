@@ -19,7 +19,7 @@
     </UserControl.Resources>
 
     <Grid Background="{StaticResource DetailsBackGround}"
-          BorderBrush="LightGray"
+          BorderBrush="#FAFAFA"
           BorderThickness="1,0,0,0">
         <controls:WindowTitle Prefix="Role" Title="{x:Bind ViewModel.RoleList.Title, Mode=OneWay}" />
 

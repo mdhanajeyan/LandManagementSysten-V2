@@ -40,8 +40,8 @@ namespace LandBankManagement.ViewModels
        // public ExpenseHeadDetailsArgs ViewModelArgs { get; private set; }
 
         public void Load() {
-          
-            Item =new HobliModel { TalukId=0};
+
+            Item = HobliModel.CreateEmpty();
              IsEditMode=true;
            // TalukOptions = new ObservableCollection<ComboBoxOptions>();
             //TalukOptions.Add(new ComboBoxOptions { Id = 1, Description = "test1" });

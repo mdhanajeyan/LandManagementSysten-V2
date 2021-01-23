@@ -17,10 +17,19 @@
                 <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"  ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
                     <controls:FormTextBox Header="Vendor Name *" Text="{x:Bind EditableItem.VendorName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
                 <controls:FormTextBox Header="Vendor Alias *" Text="{x:Bind EditableItem.VendorAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
-
-                <controls:FormTextBox Header="Son of / Daughter of / Wife of" MaxLength="4" Text="{x:Bind EditableItem.VendorSalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="PAN *" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
-                <controls:FormTextBox Header="Aadhaar No *" Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  MaxLength="12"/>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35*"/>
+                            <ColumnDefinition Width="65*"/>
+                        </Grid.ColumnDefinitions>
+                        <controls:FormComboBox Grid.Column="0"  Header="Salutation" ItemsSource="{x:Bind SolutationOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{x:Bind EditableItem.SalutationType, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                        <controls:FormTextBox Grid.Column="1" Header="" Height="30" VerticalAlignment="Bottom" MaxLength="4" Text="{x:Bind EditableItem.VendorSalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                   
+                <controls:FormTextBox Header="PAN " Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
+                <controls:FormTextBox Header="Aadhaar No " Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  MaxLength="12"/>
                 <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="15"/>
                 <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="100"/>
@@ -29,7 +38,7 @@
                 <controls:FormTextBox Header="Address 2" Text="{x:Bind EditableItem.AddressLine2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
                 <controls:FluidGrid  ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60" >
                     <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="6"/>
-                    <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="120" />
+                    <controls:FormTextBox Header="City / VIllage" Text="{x:Bind EditableItem.City, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="120" />
                 </controls:FluidGrid>
 
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsVendorActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >

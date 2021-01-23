@@ -21,7 +21,8 @@ namespace LandBankManagement.Data.Services
                     AccountTypeId = 1,
                     CashAccountName = model.CashAccountName,
                     IsCashAccountActive = model.IsCashAccountActive,
-                    CompanyID=model.CompanyID
+                    CompanyID=model.CompanyID,
+                    OpeningBalance=model.OpeningBalance
                 };
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
@@ -54,7 +55,8 @@ namespace LandBankManagement.Data.Services
                                                 CashAccountName = cash.CashAccountName,
                                                 IsCashAccountActive = cash.IsCashAccountActive,
                                                 CompanyID = cash.CompanyID,
-                                                CompanyName=c.Name
+                                                CompanyName=c.Name,
+                                                OpeningBalance=cash.OpeningBalance
                                             });
 
             // Query
@@ -95,7 +97,8 @@ namespace LandBankManagement.Data.Services
                     CashAccountName = source.CashAccountName,
                     IsCashAccountActive = source.IsCashAccountActive,
                     CompanyID = source.CompanyID,
-                    CompanyName=source.CompanyName
+                    CompanyName=source.CompanyName,
+                    OpeningBalance=source.OpeningBalance
                 })
                 .AsNoTracking()
                 .ToListAsync();

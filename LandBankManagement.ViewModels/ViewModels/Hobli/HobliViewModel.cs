@@ -104,7 +104,6 @@ namespace LandBankManagement.ViewModels
                 ShowProgressRing();
                 var model = await HobliService.GetHobliAsync(selected.HobliId);
                 selected.Merge(model);
-                model.HobliIsActive = true;
                 HobliDetials.Item = model;
             }
             catch (Exception ex)

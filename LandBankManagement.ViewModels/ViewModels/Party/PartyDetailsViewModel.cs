@@ -33,7 +33,9 @@ namespace LandBankManagement.ViewModels
         public PartyListViewModel PartyListViewModel { get; }
         private PartyViewModel PartyViewModel { get; set; }
         public IVendorService VendorService { get; }
-        public PartyDetailsViewModel(IPartyService partyService, IFilePickerService filePickerService, ICommonServices commonServices, PartyListViewModel partyListViewModel,IDropDownService dropDownService,IVendorService vendorService, PartyViewModel partyViewModel) : base(commonServices)
+        private bool FromProperty { get; set; }
+       public IPropertyService PropertyService { get; }
+        public PartyDetailsViewModel(IPartyService partyService, IFilePickerService filePickerService, ICommonServices commonServices, PartyListViewModel partyListViewModel,IDropDownService dropDownService,IVendorService vendorService, PartyViewModel partyViewModel, IPropertyService propertyService) : base(commonServices)
         {
             PartyService = partyService;
             PartyListViewModel = partyListViewModel;
@@ -41,6 +43,7 @@ namespace LandBankManagement.ViewModels
             DropDownService = dropDownService;
             VendorService = vendorService;
             PartyViewModel = partyViewModel;
+            PropertyService = propertyService;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Party" : TitleEdit;
@@ -48,11 +51,12 @@ namespace LandBankManagement.ViewModels
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
-        public async Task LoadAsync()
+        public async Task LoadAsync(bool fromProeprty)
         {
             Item = new PartyModel();
             Item.IsPartyActive = true;
             IsEditMode = true;
+            FromProperty = fromProeprty;
             getVendors();
         }
 
@@ -216,6 +220,10 @@ namespace LandBankManagement.ViewModels
 
                 DocList = model.partyDocuments;
                 EndStatusMessage("Party saved");
+                if (FromProperty) {
+                    PropertyService.AddParty(new PropertyPartyModel { PartyId = Item.PartyId, PartyName = Item.PartyName });
+                    NavigationService.Navigate(typeof(PropertyViewModel), new PropertyListArgs {  FromParty = true });
+                }
                 LogInformation("Party", "Save", "Party saved successfully", $"Party {model.PartyId} '{model.PartyName}' was saved successfully.");
                 return true;
             }

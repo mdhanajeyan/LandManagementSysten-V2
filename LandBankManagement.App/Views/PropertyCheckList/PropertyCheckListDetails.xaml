@@ -236,7 +236,15 @@
                
             </controls:FluidGrid>
                 <Grid Grid.Row="1">
-                    <StackPanel Orientation="Vertical"  BorderBrush="#81D4FA" BorderThickness="1" Margin="0 20 10 20" MinHeight="200" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Vertical">
+                        <TextBlock Text="Property Description" Margin="0 0 0 7" Foreground="{StaticResource TextControlTextBlockHeaderForeground}"/>
+                        <TextBox Text="{x:Bind EditableItem.PropertyDescription, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" BorderBrush="#cfcbca" MinHeight="50"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Vertical"  BorderBrush="#81D4FA" BorderThickness="1" Margin="0 20 10 20" MinHeight="200" >
                         <Grid Background="#81D4FA" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition  Width="*"/>

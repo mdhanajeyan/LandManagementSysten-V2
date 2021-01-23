@@ -36,7 +36,11 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync(PropertyListArgs args)
         {
-            await PropertyDetials.LoadAsync();
+            if (args.FromParty)
+            {
+                SelectedPivotIndex = 1;
+            }
+            await PropertyDetials.LoadAsync(args.FromParty);           
             await PropertyList.LoadAsync(args);
             
         }
@@ -110,6 +114,7 @@ namespace LandBankManagement.ViewModels
                 ShowProgressRing();
                 // var model = await PropertyService.GetPropertyAsync(selected.PropertyId);
                 var modelList = await PropertyService.GetPropertyByGroupGuidAsync(selected.GroupGuid.GetValueOrDefault());
+                HideProgressRing();
                 PropertyDetials.PropertyList = modelList;
                 var model = modelList[0];
                 //selected.Merge(model);

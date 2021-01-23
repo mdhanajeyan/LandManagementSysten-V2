@@ -213,7 +213,8 @@ namespace LandBankManagement.Services
                 PAN = source.PAN,
                 AadharNo = source.AadharNo,
                 GSTIN = source.GSTIN,
-                IsVendorActive = source.IsVendorActive
+                IsVendorActive = source.IsVendorActive,
+                SalutationType=source.SalutationType??0
             };
             if (source.VendorDocuments != null && source.VendorDocuments.Count > 0)
             {
@@ -259,6 +260,7 @@ namespace LandBankManagement.Services
             target.AadharNo = source.AadharNo;
             target.GSTIN = source.GSTIN;
             target.IsVendorActive = source.IsVendorActive;
+            target.SalutationType = source.SalutationType;
 
         }
 

@@ -18,7 +18,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Background="WhiteSmoke"
+    <Grid Background="#FAFAFA"
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
         <controls:WindowTitle Prefix="Taluk" Title="{x:Bind ViewModel.TalukList.Title, Mode=OneWay}" />

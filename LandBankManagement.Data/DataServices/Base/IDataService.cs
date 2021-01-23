@@ -126,7 +126,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdatePropertyAsync(Property model);
         Task<int> DeletePropertyAsync(Property model);
         Task<int> AddPropertyParty(List<PropertyParty> propertyParties);
-        Task<int> AddPropPaySchedule(List<PropPaySchedule> schedules, decimal Sale1, decimal Sale2);
+        Task<int> AddPropPaySchedule(int propertyId, List<PropPaySchedule> schedules, decimal Sale1, decimal Sale2);
         Task<PropertyCostDetails> GetPropertyCostDetails(int propertyId);
         Task<int> UploadPropertyDocumentsAsync(List<PropertyDocuments> model);
         Task<int> DeletePropertyDocumentAsync(PropertyDocuments documents);
@@ -233,7 +233,7 @@ namespace LandBankManagement.Data.Services
         Task<Dictionary<int, string>> GetPropertyMergeOptions();
         Task<Dictionary<int, string>> GetPropertyOptionsByCompanyID(int companyId);
         Task<Dictionary<int, string>> GetDealOptions();
-
+        Dictionary<int, string> GetSalutationOptions();
         Task<int> AddPropertyCheckListAsync(PropertyCheckList model);
         Task<PropertyCheckList> GetPropertyCheckListAsync(long id);
         Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(DataRequest<PropertyCheckList> request);

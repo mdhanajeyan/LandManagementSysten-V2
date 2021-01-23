@@ -19,8 +19,9 @@
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormTextBox Header="Hobli Name *" Text="{x:Bind EditableItem.HobliName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="GMap Link" Text="{x:Bind EditableItem.HobliGMapLink, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <!--<CheckBox x:Name="isActive" IsChecked="{x:Bind EditableItem.HobliIsActive, Mode=TwoWay}" Content="IsActive"/>-->
-
+                <CheckBox x:Name="isActive" Margin="10 20 0 0"  IsChecked="{x:Bind EditableItem.HobliIsActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >
+                    <TextBlock Text="IsActive"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
+                </CheckBox>
             </controls:FluidGrid>
         </DataTemplate>
     </UserControl.Resources>

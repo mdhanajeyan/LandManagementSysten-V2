@@ -274,7 +274,10 @@ namespace LandBankManagement.Data.Services
             if (propertyParties == null)
                 return 0;
             foreach (var model in propertyParties) {
+                if(model.PropertyPartyId==0)
                 _dataSource.Entry(model).State = EntityState.Added;
+                else
+                    _dataSource.Entry(model).State = EntityState.Modified;
             }
             int res = await _dataSource.SaveChangesAsync();
             return res;
@@ -291,7 +294,8 @@ namespace LandBankManagement.Data.Services
                                        PartyId = pp.PartyId,
                                        PropertyGuid = pp.PropertyGuid,
                                        PropertyId = pp.PropertyId,
-                                       PartyName = party.PartyFirstName
+                                       PartyName = party.PartyFirstName,
+                                       IsPrimaryParty=pp.IsPrimaryParty
                                    }).ToListAsync();
                 return model;
             }
@@ -306,13 +310,13 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.SaveChangesAsync();
         }
 
-        public async Task<int> AddPropPaySchedule(List<PropPaySchedule> schedules,decimal Sale1,decimal Sale2)
+        public async Task<int> AddPropPaySchedule(int propertyId, List<PropPaySchedule> schedules,decimal Sale1,decimal Sale2)
         {
             if (schedules == null)
                 return 0;
             try
             {
-                var property = _dataSource.Properties.Where(x => x.PropertyId == schedules[0].PropertyId).FirstOrDefault();
+                var property = _dataSource.Properties.Where(x => x.PropertyId == propertyId).FirstOrDefault();
                 if (property != null) {
                     property.SaleValue1 = Sale1;
                     property.SaleValue2 = Sale2;
@@ -324,8 +328,8 @@ namespace LandBankManagement.Data.Services
                 {
                     _dataSource.Entry(model).State = EntityState.Added;
                 }
-                int res = await _dataSource.SaveChangesAsync();
-                return res;
+               await _dataSource.SaveChangesAsync();
+                return 1;
             }
             catch (Exception ex) {
                 throw ex;
@@ -369,7 +373,8 @@ namespace LandBankManagement.Data.Services
                                                    PartyId = pp.PartyId,
                                                    PropertyGuid = pp.PropertyGuid,
                                                    PropertyId = pp.PropertyId,
-                                                   PartyName = party.PartyFirstName
+                                                   PartyName = party.PartyFirstName,
+                                                   IsPrimaryParty=pp.IsPrimaryParty
                                                }).ToListAsync();
                 model.PropPaySchedules = await _dataSource.PropPaySchedules.Where(p => p.PropertyId == propertyId).ToListAsync();
 

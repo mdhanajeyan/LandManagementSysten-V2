@@ -89,6 +89,7 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _propertyList, value);
         }
         public PropertyViewModel PropertyView { get; set; }
+               
         public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel propertyListViewModel, PropertyViewModel propertyView) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -96,6 +97,7 @@ namespace LandBankManagement.ViewModels
             PropertyService = propertyService;
             PropertyListViewModel = propertyListViewModel;
             PropertyView = propertyView;
+            
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Property" : TitleEdit;
@@ -105,12 +107,33 @@ namespace LandBankManagement.ViewModels
 
         // public ExpenseHeadDetailsArgs ViewModelArgs { get; private set; }
 
-        public async Task LoadAsync()
+        public async Task LoadAsync(bool fromParty)
         {
             Item = new PropertyModel();
             Item.DateOfExecution = DateTimeOffset.Now;
             IsEditMode = true;
             await GetDropdowns();
+            if(fromParty)
+            GetStoredItem();
+        }
+        public void GetStoredItem() {
+            var prop = PropertyService.GetStoredItems();
+            if (prop != null) {
+                Item = prop.Item;
+                DocList = prop.DocList;
+                PartyList = prop.PartyList;
+                PropertyList = prop.PropertyList;
+            }
+        }
+        public void storeItems() {
+            var property = new PropertyContainer
+            {
+                Item = Item,
+                DocList=DocList,
+                PartyList=PartyList,
+                PropertyList=PropertyList
+            };
+            PropertyService.StoreItems(property);
         }
 
        public void loadAcres(Area area,string type) {
@@ -170,7 +193,14 @@ namespace LandBankManagement.ViewModels
                 return;
 
             foreach (var item in PartyOptions) {
+
                 if (item.IsSelected) {
+                    if (PartyList != null)
+                    {
+                        var existParty = PartyList.Where(x => x.PartyId == item.Id).FirstOrDefault();
+                        if (existParty != null)
+                            continue;
+                    }
                     if (PartyList == null)
                         PartyList = new ObservableCollection<PropertyPartyModel>();
                     PartyList.Add(new PropertyPartyModel { 
@@ -328,7 +358,6 @@ namespace LandBankManagement.ViewModels
             Item = null;
             Item = newItem;
 
-            PartyList = null;
             DocList = null;
 
         }
@@ -386,17 +415,16 @@ namespace LandBankManagement.ViewModels
             if (PartyList == null)
                 return;
             var parties = new List<PropertyPartyModel>();
-            foreach (var model in PartyList) {
-                if (model.PropertyPartyId == 0)
-                {
+            foreach (var model in PartyList) {                
                     parties.Add(new PropertyPartyModel
                     {
                         PartyId=model.PartyId,
                         PropertyId= property.PropertyId,
-                        PropertyGuid=property.PropertyGuid
-
+                        PropertyGuid=property.PropertyGuid,
+                        PropertyPartyId=model.PropertyPartyId,
+                        IsPrimaryParty=model.IsPrimaryParty==null?false: model.IsPrimaryParty
                     });                    
-                }
+                
             }
             if (parties.Count > 0) {
                 PropertyView.ShowProgressRing();

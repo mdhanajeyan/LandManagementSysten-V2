@@ -28,6 +28,7 @@ namespace LandBankManagement.Models
         public string AadharNo { get; set; }
         public string GSTIN { get; set; }
         public bool IsVendorActive { get; set; }
+        public int SalutationType { get; set; }
         public ObservableCollection<ImagePickerResult> VendorDocuments { get; set; }
         public bool IsNew => VendorId <= 0;
         public override void Merge(ObservableObject source)
@@ -64,6 +65,7 @@ namespace LandBankManagement.Models
                 GSTIN = source.GSTIN;
                 IsVendorActive = source.IsVendorActive;
                 VendorDocuments = source.VendorDocuments;
+                SalutationType = source.SalutationType;
             }
         }
     }

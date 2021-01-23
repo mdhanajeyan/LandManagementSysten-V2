@@ -9,7 +9,6 @@ namespace LandBankManagement.ViewModels
     public class VendorViewModel : ViewModelBase
     {
         public IVendorService VendorService { get; }
-
         public VendorListViewModel VendorList { get; set; }
         public VendorDetailsViewModel VendorDetails { get; set; }
         private bool _progressRingVisibility;
@@ -26,11 +25,11 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _progressRingActive, value);
         }
 
-        public VendorViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IVendorService vendorService) : base(commonServices) {
+        public VendorViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IVendorService vendorService,IDropDownService dropDownService) : base(commonServices) {
 
             VendorService = vendorService;
             VendorList = new VendorListViewModel(vendorService, commonServices,this);
-            VendorDetails = new VendorDetailsViewModel(vendorService, filePickerService, commonServices,this);
+            VendorDetails = new VendorDetailsViewModel(vendorService, filePickerService, commonServices, dropDownService,this);
         }
 
         public async Task LoadAsync(VendorListArgs args)

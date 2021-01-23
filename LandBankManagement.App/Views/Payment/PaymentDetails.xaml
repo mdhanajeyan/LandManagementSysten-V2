@@ -26,11 +26,7 @@
                     <controls:FormComboBox  Header="Property Name *" ItemsSource="{x:Bind PropertyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PropertyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                    <controls:FluidGrid  ColumnSpan="2"  Margin="0 10 0 5">
-                        <controls:FormComboBox  Header="Document Type *" ItemsSource="{x:Bind DocumentTypeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
-                    </controls:FluidGrid>
+                   
                     <StackPanel  Orientation="Horizontal">
                         <RadioButton x:Name="expenseRB"  Tag="expense" Margin="10" GroupName="expensPart" IsChecked="{Binding IsExpenseChecked,Mode=TwoWay}" Command="{Binding ExpenseCheckedCommand}">
                             <TextBlock Text="Expense Head" Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
@@ -47,10 +43,14 @@
                         <controls:FormComboBox  Header="Party *" ItemsSource="{x:Bind PartyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=PartyVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
                                            SelectedValue="{x:Bind EditableItem.PartyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                    </StackPanel> 
-               
+                    </StackPanel>
+                    <controls:FluidGrid  ColumnSpan="2"  Margin="0 10 0 5">
+                        <controls:FormComboBox  Header="Document Type " ItemsSource="{x:Bind DocumentTypeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                    </controls:FluidGrid>
 
-                <StackPanel  Orientation="Horizontal">
+                    <StackPanel  Orientation="Horizontal">
                     <RadioButton x:Name="cashRB"  Tag="cash" Margin="10" GroupName="cashbank" IsChecked="{Binding IsCashChecked,Mode=TwoWay}" Command="{Binding CashCheckedCommand}">
                             <TextBlock Text="Cash" Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                     </RadioButton>
@@ -73,13 +73,20 @@
                 </StackPanel>
                     <controls:FormTextBox Header="Amount *" Text="{x:Bind EditableItem.Amount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormTextBox Header="Cheque / ref No *" Text="{x:Bind EditableItem.ChequeNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <controls:FormTextBox Header="Narration" Text="{x:Bind EditableItem.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                   
                     <CheckBox x:Name="PDC" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.PDC, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
                         <TextBlock Text="PDC"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                 </CheckBox>
-                
-               
-            </controls:FluidGrid>
+                  
+                        <!--<controls:FormTextBox Header="Narration"   AcceptsReturn="True"  MinHeight="100" TextWrapping="Wrap" Text="{x:Bind EditableItem.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />-->
+                    <controls:FluidGrid  ColumnSpan="2" Columns="1" Margin="0 10 0 5">
+                        <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Stretch">
+                            <TextBlock Text="Narration" Margin="0 0 0 7" Foreground="{StaticResource TextControlTextBlockHeaderForeground}"/>
+                            <TextBox Text="{x:Bind EditableItem.Narration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Margin="0 0 10 0" BorderBrush="#cfcbca" MinHeight="50"/>
+                        </StackPanel>
+                    </controls:FluidGrid>
+
+                </controls:FluidGrid>
             <!--<Grid Grid.Row="1" Grid.Column="1" >
                     <Grid.RowDefinitions>
                         <RowDefinition/>

@@ -78,6 +78,7 @@
                 </ScrollViewer>
             </Grid>
         </Popup>
+        
         <!--<VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="Screen">
                     <VisualState>

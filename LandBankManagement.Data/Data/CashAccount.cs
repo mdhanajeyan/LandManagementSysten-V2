@@ -13,6 +13,7 @@ namespace LandBankManagement.Data
         public int CompanyID { get; set; }
         public string CashAccountName { get; set; }
         public bool IsCashAccountActive { get; set; }
+        public decimal? OpeningBalance { get; set; }
 
         [NotMapped]
         public string SearchTerms { get; set; }

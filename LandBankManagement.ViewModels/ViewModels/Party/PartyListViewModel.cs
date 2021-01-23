@@ -21,7 +21,7 @@ namespace LandBankManagement.ViewModels
         }
 
         public int SelectedPageIndex { get; set; } = 0;
-
+        public bool FromProperty { get; set; } = false;
         public bool IsEmpty { get; set; }
 
         public string Query { get; set; }

@@ -160,7 +160,9 @@ namespace LandBankManagement.Views
 
         private void Add_NewParty_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(typeof(PartyViewModel), new PartyListArgs{ SelectedPageIndex=1});
+            ViewModel.storeItems();
+             NavigationService.Navigate(typeof(PartyViewModel), new PartyListArgs{ SelectedPageIndex=1,FromProperty=true});
+           
         }
 
         private void Doc_Dpwnload_Click(object sender, RoutedEventArgs e)
@@ -168,6 +170,6 @@ namespace LandBankManagement.Views
             var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
             ViewModel.DownloadDocument(identity);
 
-        }
+        }     
     }
 }

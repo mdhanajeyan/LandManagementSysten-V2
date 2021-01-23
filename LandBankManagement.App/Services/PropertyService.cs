@@ -15,11 +15,24 @@ namespace LandBankManagement.Services
 
         public IDataServiceFactory DataServiceFactory { get; }
         public ILogService LogService { get; }
-
+        public PropertyContainer CurrentProperty { get; set; }
+       
         public PropertyService(IDataServiceFactory dataServiceFactory, ILogService logService)
         {
             DataServiceFactory = dataServiceFactory;
             LogService = logService;
+        }
+
+        public void StoreItems(PropertyContainer data) {
+            CurrentProperty = data;
+        }
+
+        public PropertyContainer GetStoredItems()
+        {
+            return CurrentProperty;
+        }
+        public void AddParty(PropertyPartyModel propertyPartyModel) {
+            CurrentProperty.PartyList.Add(propertyPartyModel);
         }
 
         public async Task<PropertyModel> AddPropertyAsync(PropertyModel model, ICollection<ImagePickerResult> docs)
@@ -249,7 +262,8 @@ namespace LandBankManagement.Services
             target.PropertyPartyId = source.PropertyPartyId;
             target.PropertyGuid = source.PropertyGuid;
             target.PartyId = source.PartyId;
-            target.PropertyId = source.PropertyId;        
+            target.PropertyId = source.PropertyId;
+            target.IsPrimaryParty = source.IsPrimaryParty;
         }
 
 
@@ -286,7 +300,7 @@ namespace LandBankManagement.Services
 
         }
 
-        public async Task<int> AddPropPaySchedule(List<PaymentScheduleModel> schedules, decimal Sale1, decimal Sale2) {
+        public async Task<int> AddPropPaySchedule(int propertyId,List<PaymentScheduleModel> schedules, decimal Sale1, decimal Sale2) {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var paySchedule = new List<PropPaySchedule>();
@@ -297,7 +311,8 @@ namespace LandBankManagement.Services
                     UpdatePropPaySchedule(pay, model);
                     paySchedule.Add(pay);
                 }
-                return await dataService.AddPropPaySchedule(paySchedule, Sale1, Sale2);
+
+                return await dataService.AddPropPaySchedule(propertyId,paySchedule, Sale1, Sale2);
             }
         }
 
@@ -330,7 +345,8 @@ namespace LandBankManagement.Services
                 PropertyGuid = source.PropertyGuid,
                 PartyId = source.PartyId,
                 PropertyId = source.PropertyId,
-                PartyName = source.PartyName
+                PartyName = source.PartyName,
+                IsPrimaryParty=source.IsPrimaryParty
             };
             return model;
         }

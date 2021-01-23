@@ -24,7 +24,8 @@ namespace LandBankManagement.ViewModels
         public bool IsEmpty { get; set; }
 
         public string Query { get; set; }
-
+        public bool FromParty { get; set; } = false;
+        
         public Expression<Func<Data.Property, object>> OrderBy { get; set; }
         public Expression<Func<Data.Property, object>> OrderByDesc { get; set; }
     }

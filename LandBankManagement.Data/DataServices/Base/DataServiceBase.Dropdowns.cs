@@ -11,11 +11,11 @@ namespace LandBankManagement.Data.Services
         public async Task<Dictionary<int, string>> GetTalukOptions()
         {
 
-            return await _dataSource.Taluks.Select(x => new { x.TalukId, x.TalukName }).ToDictionaryAsync(t => t.TalukId, t => t.TalukName);
+            return await _dataSource.Taluks.Where(x=>x.TalukIsActive).Select(x => new { x.TalukId, x.TalukName }).ToDictionaryAsync(t => t.TalukId, t => t.TalukName);
         }
         public async Task<Dictionary<int, string>> GetHobliOptions()
         {
-            return await _dataSource.Hoblis.Select(x => new { x.HobliId, x.HobliName }).ToDictionaryAsync(t => t.HobliId, t => t.HobliName);
+            return await _dataSource.Hoblis.Where(x=>x.HobliIsActive).Select(x => new { x.HobliId, x.HobliName }).ToDictionaryAsync(t => t.HobliId, t => t.HobliName);
         }
         public async Task<Dictionary<int, string>> GetVillageOptions()
         {
@@ -123,6 +123,15 @@ namespace LandBankManagement.Data.Services
             return await (from d in _dataSource.Deal
                         join pm in _dataSource.PropertyMerge on d.PropertyMergeId equals pm.PropertyMergeId
                         select new { d.DealId, pm.PropertyMergeDealName }).ToDictionaryAsync(t => t.DealId, t => t.PropertyMergeDealName);           
+        }
+
+        public Dictionary<int, string> GetSalutationOptions()
+        {
+            Dictionary<int, string> list = new Dictionary<int, string>();
+            list.Add(1, "Son of");
+            list.Add(2, "Daughter of");
+            list.Add(3, "Wife of");
+            return list;
         }
     }
 }

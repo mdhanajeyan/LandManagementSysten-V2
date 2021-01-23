@@ -32,8 +32,8 @@ namespace LandBankManagement.ViewModels
        // public ExpenseHeadDetailsArgs ViewModelArgs { get; private set; }
 
         public async Task LoadAsync() {
-            Item = new TalukModel();
-            IsEditMode=true;
+            Item = new TalukModel { TalukIsActive = true, TalukId = 0 };
+            IsEditMode =true;
         }
 
         //public async Task LoadAsync(ExpenseHeadDetailsArgs args)
@@ -112,7 +112,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new TalukModel();
+            Item = new TalukModel { TalukIsActive=true,TalukId=0};
         }
         protected override async Task<bool> DeleteItemAsync(TalukModel model)
         {

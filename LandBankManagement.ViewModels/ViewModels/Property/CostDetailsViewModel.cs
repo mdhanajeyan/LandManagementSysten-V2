@@ -67,6 +67,7 @@ namespace LandBankManagement.ViewModels
             decimal totalAmt2 = 0;
             foreach (var model in PaymentScheduleList)
             {
+                model.Total = model.Amount1 + model.Amount2;
                 totalAmt1 += model.Amount1;
                 totalAmt2 += model.Amount2;
             }
@@ -107,8 +108,24 @@ namespace LandBankManagement.ViewModels
         public async void SavePaymentSequence() {
             if (PaymentScheduleList.Count == 0)
                 return;
+            //bool anyNew = false;
+            //foreach (var model in PaymentScheduleList)
+            //{
+            //    if (model.ScheduleId == 0)
+            //    {
+            //        anyNew = true;
+            //        break;
+            //    }
+            //}
+            //if (!anyNew)
+            //    return;
 
-           await PropertyService.AddPropPaySchedule(PaymentScheduleList.ToList(),Convert.ToDecimal( Item.SaleValue1), Convert.ToDecimal(Item.SaleValue2));
+            var status= await PropertyService.AddPropPaySchedule(Item.PropertyId,PaymentScheduleList.ToList(),Convert.ToDecimal( Item.SaleValue1), Convert.ToDecimal(Item.SaleValue2));
+            if(status>0)
+                await DialogService.ShowAsync("Success", "Cost Details saved successfully", "Ok");
+            else
+                await DialogService.ShowAsync("Error", " cost details is not saved", "Ok");
+
         }
 
 
