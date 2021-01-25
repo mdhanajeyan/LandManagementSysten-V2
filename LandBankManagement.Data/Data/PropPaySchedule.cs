@@ -11,6 +11,7 @@ namespace LandBankManagement.Data
         [Key]
         public int PropPayScheduleId { get; set; }
         public int PropertyId { get; set; }
+        public int PropertyDocumentTypeId { get; set; }
         public DateTime ScheduleDate { get; set; }
         public string Description { get; set; }
         public decimal Amount1 { get; set; }

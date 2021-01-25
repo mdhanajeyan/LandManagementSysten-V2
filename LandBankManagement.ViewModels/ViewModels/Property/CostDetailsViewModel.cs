@@ -58,7 +58,7 @@ namespace LandBankManagement.ViewModels
             Item =await PropertyService.GetPropertyCostDetails(id);
             Parties = Item.Parties;
             PaymentScheduleList = new ObservableCollection<PaymentScheduleModel>(Item.PropPaySchedules);
-            CurrentPayment = new PaymentScheduleModel() { ScheduleDate = DateTimeOffset.Now,PropertyId=Item.PropertyId };
+            CurrentPayment = new PaymentScheduleModel() { ScheduleDate = DateTimeOffset.Now,PropertyId=Item.PropertyId, PropertyDocumentTypeId = Item.PropertyDocumentTypeId };
             CalculateTotalAMounts();
         }
 
@@ -94,11 +94,11 @@ namespace LandBankManagement.ViewModels
 
             CurrentPayment.Total = CurrentPayment.Amount1 + CurrentPayment.Amount2;
             PaymentScheduleList.Add(CurrentPayment);
-            CurrentPayment = new PaymentScheduleModel() { ScheduleDate = DateTimeOffset.Now, PropertyId = Item.PropertyId };
+            CurrentPayment = new PaymentScheduleModel() { ScheduleDate = DateTimeOffset.Now, PropertyId = Item.PropertyId ,PropertyDocumentTypeId=Item.PropertyDocumentTypeId};
             CalculateTotalAMounts();
         }
         public void ClearPayment() {
-            CurrentPayment = new PaymentScheduleModel() { ScheduleDate = DateTimeOffset.Now , PropertyId = Item.PropertyId };
+            CurrentPayment = new PaymentScheduleModel() { ScheduleDate = DateTimeOffset.Now , PropertyId = Item.PropertyId, PropertyDocumentTypeId = Item.PropertyDocumentTypeId };
         }
         protected override void ClearItem()
         {
@@ -120,7 +120,7 @@ namespace LandBankManagement.ViewModels
             //if (!anyNew)
             //    return;
 
-            var status= await PropertyService.AddPropPaySchedule(Item.PropertyId,PaymentScheduleList.ToList(),Convert.ToDecimal( Item.SaleValue1), Convert.ToDecimal(Item.SaleValue2));
+            var status= await PropertyService.AddPropPaySchedule(Item.PropertyDocumentTypeId,PaymentScheduleList.ToList(),Convert.ToDecimal( Item.SaleValue1), Convert.ToDecimal(Item.SaleValue2));
             if(status>0)
                 await DialogService.ShowAsync("Success", "Cost Details saved successfully", "Ok");
             else

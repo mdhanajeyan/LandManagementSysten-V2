@@ -88,15 +88,43 @@ namespace LandBankManagement.ViewModels
             get => _propertyList;
             set => Set(ref _propertyList, value);
         }
+
+        private ObservableCollection<PropertyDocumentTypeModel> _propertyDocumentTypeList = null;
+        public ObservableCollection<PropertyDocumentTypeModel> PropertyDocumentTypeList
+        {
+            get => _propertyDocumentTypeList;
+            set => Set(ref _propertyDocumentTypeList, value);
+        }
+
+        private PropertyDocumentTypeModel _currentDocumentType = null;
+        public PropertyDocumentTypeModel CurrentDocumentType
+        {
+            get => _currentDocumentType;
+            set => Set(ref _currentDocumentType, value);
+        }
         public PropertyViewModel PropertyView { get; set; }
-               
+
+        private bool _enableDocType = false;
+        public bool EnableDocType
+        {
+            get => _enableDocType;
+            set => Set(ref _enableDocType, value);
+        }
+
+        private bool _enablePropertyName = false;
+        public bool EnablePropertyName
+        {
+            get => _enablePropertyName;
+            set => Set(ref _enablePropertyName, value);
+        }
+
         public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel propertyListViewModel, PropertyViewModel propertyView) : base(commonServices)
         {
             DropDownService = dropDownService;
             FilePickerService = filePickerService;
             PropertyService = propertyService;
             PropertyListViewModel = propertyListViewModel;
-            PropertyView = propertyView;
+            PropertyView = propertyView;   
             
         }
 
@@ -104,12 +132,12 @@ namespace LandBankManagement.ViewModels
         public string TitleEdit => Item == null ? "Property" : $"{Item.PropertyName}";
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
-
-        // public ExpenseHeadDetailsArgs ViewModelArgs { get; private set; }
-
+              
         public async Task LoadAsync(bool fromParty)
         {
-            Item = new PropertyModel();
+            EnableDocType = true;
+            EnablePropertyName = true;
+               Item = new PropertyModel();
             Item.DateOfExecution = DateTimeOffset.Now;
             IsEditMode = true;
             await GetDropdowns();
@@ -139,29 +167,29 @@ namespace LandBankManagement.ViewModels
        public void loadAcres(Area area,string type) {
 
             if (type == "Area")
-            {             
-                   Item.LandAreaInAcres = Math.Round(area.Acres,2).ToString();
-                   Item.LandAreaInGuntas =Math.Round( area.Guntas,2).ToString();
-                   Item.LandAreaInputAanas = Math.Round(area.Anas, 2).ToString();
-                   Item.LandAreaInSqft = Math.Round(area.SqFt,2).ToString();
-                   Item.LandAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
+            {
+                Item.LandAreaInAcres = Math.Round(area.Acres,2).ToString();
+                Item.LandAreaInGuntas =Math.Round( area.Guntas,2).ToString();
+                Item.LandAreaInputAanas = Math.Round(area.Anas, 2).ToString();
+                Item.LandAreaInSqft = Math.Round(area.SqFt,2).ToString();
+                Item.LandAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
             }
             if (type == "AKarab")
             {
-                    Item.AKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
-                    Item.AKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
-                    Item.AKarabAreaInputAanas = Math.Round(area.Anas, 2).ToString();
-                    Item.AKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
-                    Item.AKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
+                Item.AKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
+                Item.AKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
+                Item.AKarabAreaInputAanas = Math.Round(area.Anas, 2).ToString();
+                Item.AKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
+                Item.AKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
               
             }
             if (type == "BKarab")
             {
-                    Item.BKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
-                    Item.BKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
-                    Item.BKarabAreaInputAanas = Math.Round(area.Anas, 2).ToString();
-                    Item.BKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
-                    Item.BKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
+                Item.BKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
+                Item.BKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
+                Item.BKarabAreaInputAanas = Math.Round(area.Anas, 2).ToString();
+                Item.BKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
+                Item.BKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
             }
             RestartItem();
         }
@@ -209,6 +237,8 @@ namespace LandBankManagement.ViewModels
                     });
                 }
             }
+            PartyOptions = null;
+            PartySearchQuery = "";
         }
 
         public void PreparePropertyName() {
@@ -222,18 +252,33 @@ namespace LandBankManagement.ViewModels
         public async void LoadPropertyById(int id) {
 
             var model = PropertyList.First(x => x.PropertyId == id);
+            foreach (var propDocument in model.PropertyDocumentType)
+            {
+                propDocument.DocumentType = DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId).First().Description;
+                if (propDocument.PropertyDocuments != null)
+                {
+                    for (int i = 0; i < propDocument.PropertyDocuments.Count; i++)
+                    {
+                        propDocument.PropertyDocuments[i].Identity = i + 1;
+                    }
+                }
+            }
+
+            PropertyDocumentTypeList = model.PropertyDocumentType;
+            CurrentDocumentType = model.PropertyDocumentType[0];
             Item = model;
+            UpdateItemValues();
             PropertyView.ShowProgressRing();
             await GetPropertyParties(id);
             PropertyView.HideProgressRing();
-            DocList = model.PropertyDocuments;
-            if (model.PropertyDocuments != null)
-            {
-                for (int i = 0; i < DocList.Count; i++)
-                {
-                    DocList[i].Identity = i + 1;
-                }
-            }
+            //DocList = model.PropertyDocuments;
+            //if (model.PropertyDocuments != null)
+            //{
+            //    for (int i = 0; i < DocList.Count; i++)
+            //    {
+            //        DocList[i].Identity = i + 1;
+            //    }
+            //}
         }
 
         public async void RemoveParty(int id) {
@@ -248,14 +293,47 @@ namespace LandBankManagement.ViewModels
             PartyList.Remove(model);
         }
 
+        public void SetCurrentDocumentType(int documentTypeId) {
+            if (documentTypeId == 0)
+                return;
+            if (PropertyDocumentTypeList != null)
+            {
+                var isExist = PropertyDocumentTypeList.Where(x => x.DocumentTypeId == documentTypeId).FirstOrDefault();
+                if (isExist != null)
+                {
+                    EditableItem.DocumentTypeId = CurrentDocumentType.DocumentTypeId;
+                    return;
+                }
+            }
+
+            CurrentDocumentType = new PropertyDocumentTypeModel();
+
+            CurrentDocumentType.DocumentTypeId = documentTypeId;
+            CurrentDocumentType.DocumentType = DocumentTypeOptions.Where(x => x.Id == documentTypeId).First().Description;
+            if (PropertyDocumentTypeList == null)
+                PropertyDocumentTypeList = new ObservableCollection<PropertyDocumentTypeModel>();
+            PropertyDocumentTypeList.Add(CurrentDocumentType);
+        }
+
+        public void ShiftDocumentType(int documentTypeId) {
+            CurrentDocumentType = PropertyDocumentTypeList.Where(x => x.DocumentTypeId == documentTypeId).First();
+            UpdateItemValues();
+        }
+
+
+
         public ICommand EditPictureCommand => new RelayCommand(OnEditFile);
-        private async void OnEditFile()
+        public async void OnEditFile()
         {
             var result = await FilePickerService.OpenImagePickerAsync();
             if (result != null)
             {
-                if (DocList == null)
-                    DocList = new ObservableCollection<ImagePickerResult>();
+                //if (DocList == null)
+                //    DocList = new ObservableCollection<ImagePickerResult>();
+
+                if (CurrentDocumentType.PropertyDocuments == null)
+                    CurrentDocumentType.PropertyDocuments = new ObservableCollection<ImagePickerResult>();
+                DocList = CurrentDocumentType.PropertyDocuments;
 
                 foreach (var file in result)
                 {
@@ -265,6 +343,13 @@ namespace LandBankManagement.ViewModels
                 {
                     DocList[i].Identity = i + 1;
                 }
+
+                CurrentDocumentType.PropertyDocuments = DocList;
+                var item = PropertyDocumentTypeList;
+                PropertyDocumentTypeList = null;
+                PropertyDocumentTypeList = item;
+
+
             }
 
         }
@@ -285,8 +370,8 @@ namespace LandBankManagement.ViewModels
                 {
                     StartStatusMessage("Saving Property Documents...");
                     PropertyView.ShowProgressRing();
-                    await PropertyService.SaveDocuments(docs,Item.PropertyGuid);
-                    DocList = await PropertyService.GetProeprtyDocuments(Item.PropertyGuid);
+                    await PropertyService.SaveDocuments(docs, Item.PropertyGuid,CurrentDocumentType.PropertyDocumentTypeId);
+                    DocList = await PropertyService.GetProeprtyDocuments(CurrentDocumentType.PropertyDocumentTypeId);
                     for (int i = 0; i < DocList.Count; i++)
                     {
                         DocList[i].Identity = i + 1;
@@ -354,7 +439,9 @@ namespace LandBankManagement.ViewModels
             newItem.VillageId = Item.VillageId;
             newItem.GroupGuid = Item.GroupGuid;
             newItem.DateOfExecution = DateTimeOffset.Now;
-
+            EnableDocType = true;
+            EnablePropertyName = true;
+            PropertyDocumentTypeList = null;
             Item = null;
             Item = newItem;
 
@@ -368,10 +455,26 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Saving Property...");
                 PropertyView.ShowProgressRing();
+                UpdateCurrentDocumentType();
+                if (PropertyDocumentTypeList == null) {
+                    PropertyDocumentTypeList = new ObservableCollection<PropertyDocumentTypeModel>();
+                }
+
+                //if (PropertyDocumentTypeList.Count == 0)
+                //{
+                //    PropertyDocumentTypeList.Add(CurrentDocumentType);
+                //}
+                //else {
+                //    var inx = PropertyDocumentTypeList.ToList().FindIndex(x=>x.PropertyDocumentTypeId==CurrentDocumentType.PropertyDocumentTypeId);
+                //    PropertyDocumentTypeList[inx] = CurrentDocumentType;
+                //}
+
+                model.PropertyDocumentType = PropertyDocumentTypeList;
+
                 if (model.PropertyId <= 0)
-                    model = await PropertyService.AddPropertyAsync(model, DocList);
+                    model = await PropertyService.AddPropertyAsync(model,PropertyDocumentTypeList, DocList);
                 else
-                    await PropertyService.UpdatePropertyAsync(model, DocList);
+                    await PropertyService.UpdatePropertyAsync(model, PropertyDocumentTypeList, DocList);
 
                 SaveParties(model);
                 ReloadProperty(model.GroupGuid.Value, model.PropertyId);
@@ -391,22 +494,93 @@ namespace LandBankManagement.ViewModels
             }
         }
 
+        private void UpdateCurrentDocumentType() {
+            CurrentDocumentType.LandAreaInputAcres = Item.LandAreaInputAcres;
+            CurrentDocumentType.LandAreaInputGuntas = Item.LandAreaInputGuntas;
+            CurrentDocumentType.LandAreaInAcres = Item.LandAreaInAcres;
+            CurrentDocumentType.LandAreaInGuntas = Item.LandAreaInGuntas;
+            CurrentDocumentType.LandAreaInputAanas = Item.LandAreaInputAanas;
+            CurrentDocumentType.LandAreaInSqft = Item.LandAreaInSqft;
+            CurrentDocumentType.LandAreaInSqMts = Item.LandAreaInSqMts;
+            CurrentDocumentType.AKarabAreaInputAcres = Item.AKarabAreaInputAcres;
+            CurrentDocumentType.AKarabAreaInputGuntas = Item.AKarabAreaInputGuntas;
+            CurrentDocumentType.AKarabAreaInAcres = Item.AKarabAreaInAcres;
+            CurrentDocumentType.AKarabAreaInGuntas = Item.AKarabAreaInGuntas;
+            CurrentDocumentType.AKarabAreaInputAanas = Item.AKarabAreaInputAanas;
+            CurrentDocumentType.AKarabAreaInSqft = Item.AKarabAreaInSqft;
+            CurrentDocumentType.AKarabAreaInSqMts = Item.AKarabAreaInSqMts;
+            CurrentDocumentType.BKarabAreaInputAcres = Item.BKarabAreaInputAcres;
+            CurrentDocumentType.BKarabAreaInputGuntas = Item.BKarabAreaInputGuntas;
+            CurrentDocumentType.BKarabAreaInAcres = Item.BKarabAreaInAcres;
+            CurrentDocumentType.BKarabAreaInGuntas = Item.BKarabAreaInGuntas;
+            CurrentDocumentType.BKarabAreaInputAanas = Item.BKarabAreaInputAanas;
+            CurrentDocumentType.BKarabAreaInSqft = Item.BKarabAreaInSqft;
+            CurrentDocumentType.BKarabAreaInSqMts = Item.BKarabAreaInSqMts;
+        }
+
+        private void UpdateItemValues()
+        {
+            EditableItem.DocumentTypeId = CurrentDocumentType.DocumentTypeId;
+            EditableItem.LandAreaInputAcres = CurrentDocumentType.LandAreaInputAcres;
+            EditableItem.LandAreaInputGuntas = CurrentDocumentType.LandAreaInputGuntas;
+            EditableItem.LandAreaInAcres = CurrentDocumentType.LandAreaInAcres;
+            EditableItem.LandAreaInGuntas = CurrentDocumentType.LandAreaInGuntas;
+            EditableItem.LandAreaInputAanas = CurrentDocumentType.LandAreaInputAanas;
+            EditableItem.LandAreaInSqft = CurrentDocumentType.LandAreaInSqft;
+            EditableItem.LandAreaInSqMts = CurrentDocumentType.LandAreaInSqMts;
+            EditableItem.AKarabAreaInputAcres = CurrentDocumentType.AKarabAreaInputAcres;
+            EditableItem.AKarabAreaInputGuntas = CurrentDocumentType.AKarabAreaInputGuntas;
+            EditableItem.AKarabAreaInAcres = CurrentDocumentType.AKarabAreaInAcres;
+            EditableItem.AKarabAreaInGuntas = CurrentDocumentType.AKarabAreaInGuntas;
+            EditableItem.AKarabAreaInputAanas = CurrentDocumentType.AKarabAreaInputAanas;
+            EditableItem.AKarabAreaInSqft = CurrentDocumentType.AKarabAreaInSqft;
+            EditableItem.AKarabAreaInSqMts = CurrentDocumentType.AKarabAreaInSqMts;
+            EditableItem.BKarabAreaInputAcres = CurrentDocumentType.BKarabAreaInputAcres;
+            EditableItem.BKarabAreaInputGuntas = CurrentDocumentType.BKarabAreaInputGuntas;
+            EditableItem.BKarabAreaInAcres = CurrentDocumentType.BKarabAreaInAcres;
+            EditableItem.BKarabAreaInGuntas = CurrentDocumentType.BKarabAreaInGuntas;
+            EditableItem.BKarabAreaInputAanas = CurrentDocumentType.BKarabAreaInputAanas;
+            EditableItem.BKarabAreaInSqft = CurrentDocumentType.BKarabAreaInSqft;
+            EditableItem.BKarabAreaInSqMts = CurrentDocumentType.BKarabAreaInSqMts;
+
+            var temp = EditableItem;
+            EditableItem = null;
+            EditableItem = temp;
+        }
+
         private async void ReloadProperty(Guid guid,int propertId) {
             PropertyView.ShowProgressRing();
              PropertyList = await PropertyService.GetPropertyByGroupGuidAsync(guid);
             
-            var model = PropertyList.Where(x=>x.PropertyId==propertId).FirstOrDefault();
-            
-            Item = model;
-            await GetPropertyParties(model.PropertyId);
-            DocList = model.PropertyDocuments;
-            if (model.PropertyDocuments != null)
+            var model = PropertyList.Where(x=>x.PropertyId==propertId).FirstOrDefault();          
+          
+
+            foreach (var propDocument in model.PropertyDocumentType)
             {
-                for (int i = 0; i < DocList.Count; i++)
+                propDocument.DocumentType = DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId).First().Description;
+                if (propDocument.PropertyDocuments != null)
                 {
-                    DocList[i].Identity = i + 1;
+                    for (int i = 0; i < propDocument.PropertyDocuments.Count; i++)
+                    {
+                        propDocument.PropertyDocuments[i].Identity = i + 1;
+                    }
                 }
             }
+
+            PropertyDocumentTypeList = model.PropertyDocumentType;
+            CurrentDocumentType = model.PropertyDocumentType[0];
+            Item = model;
+            UpdateItemValues();
+            await GetPropertyParties(model.PropertyId);
+            EnableDocType = false;
+            //DocList = model.PropertyDocuments;
+            //if (model.PropertyDocuments != null)
+            //{
+            //    for (int i = 0; i < DocList.Count; i++)
+            //    {
+            //        DocList[i].Identity = i + 1;
+            //    }
+            //}
             PropertyView.HideProgressRing();
         }
 
@@ -443,6 +617,8 @@ namespace LandBankManagement.ViewModels
 
         protected override void ClearItem()
         {
+            EnableDocType = true;
+            EnablePropertyName = true;
             Item = new PropertyModel() { PropertyId = -1,  PropertyTypeId = 0, CompanyID = 0, TalukId = 0, HobliId = 0, VillageId = 0, DocumentTypeId = 0,DateOfExecution=DateTimeOffset.Now};
             PartySearchQuery = "";
             PartyOptions = null;
@@ -450,6 +626,7 @@ namespace LandBankManagement.ViewModels
             if (DocList != null)
                 DocList.Clear();
             PropertyList = null;
+            PropertyDocumentTypeList = null;
         }
         protected override async Task<bool> DeleteItemAsync(PropertyModel model)
         {

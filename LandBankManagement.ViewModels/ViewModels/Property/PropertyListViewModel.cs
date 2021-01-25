@@ -50,6 +50,13 @@ namespace LandBankManagement.ViewModels
         }
 
         public PropertyViewModel PropertyView { get; set; }
+
+        private ObservableCollection<PropertyListingModel>  _properties = null;
+        public ObservableCollection<PropertyListingModel> Properties
+        {
+            get => _properties;
+            set => Set(ref _properties, value);
+        }
         public PropertyListViewModel(IPropertyService propertyService, ICommonServices commonServices, PropertyViewModel propertyView) : base(commonServices)
         {
             PropertyService = propertyService;
@@ -108,19 +115,38 @@ namespace LandBankManagement.ViewModels
                 List<PropertyModel> propertyModels = new List<PropertyModel>();
                 foreach (var obj in list)
                 {
+                    //var item = new PropertyModel();
+                    //if (obj.Count() > 1)
+                    //{
+                    //    item = obj.First();
+                    //    item.Children = obj.Skip(1);
+                    //}
+                    //else
+                    //    item = obj.First();
+
                     var item = new PropertyModel();
-                    if (obj.Count() > 1)
-                    {
-                        item = obj.First();
-                        item.Children = obj.Skip(1);
-                    }
-                    else
-                        item = obj.First();
+                    item = obj.First();
+                    item.Children = obj;
 
                     propertyModels.Add(item);
                 }
                 Items = propertyModels;
 
+
+
+                Properties = new ObservableCollection<PropertyListingModel>();
+                int i = 0;
+                foreach (var obj in list)
+                {
+                    var item = new PropertyListingModel();
+                    item.id = i;
+                    item.GroupGuid = obj.First().GroupGuid.Value;
+                    item.Children = obj;
+                    item.ShowChildren = false;
+                    item.HideChildren = true;
+                    Properties.Add(item);
+                    i++;
+                }
 
                 EndStatusMessage("Property List loaded");
             }
@@ -143,6 +169,14 @@ namespace LandBankManagement.ViewModels
             //NotifyPropertyChanged(nameof(Title));
 
             return isOk;
+        }
+
+        public void ChangeVisibility(int id) {
+            Properties[id].ShowChildren = !Properties[id].ShowChildren;
+            Properties[id].HideChildren = !Properties[id].HideChildren;
+            var temp = Properties;
+            Properties = null;
+            Properties = temp;
         }
 
         private async Task<IList<PropertyModel>> GetItemsAsync()

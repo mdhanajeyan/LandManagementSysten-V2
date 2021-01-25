@@ -7,6 +7,7 @@ namespace LandBankManagement.Data
     public class PropertyCostDetails
     {
         public int PropertyId { get; set; }
+        public int PropertyDocumentTypeId { get; set; }
         public string ComapnyName { get; set; }
         public string PropertyName { get; set; }
         public string PropertyType { get; set; }

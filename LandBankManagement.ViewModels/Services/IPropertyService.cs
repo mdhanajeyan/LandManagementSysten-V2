@@ -11,12 +11,12 @@ namespace LandBankManagement.Services
 {
     public interface IPropertyService
     {
-        Task<PropertyModel> AddPropertyAsync(PropertyModel model,ICollection<ImagePickerResult> docs);
+        Task<PropertyModel> AddPropertyAsync(PropertyModel model, ICollection<PropertyDocumentTypeModel> propDocType,ICollection<ImagePickerResult> docs);
         Task<PropertyModel> GetPropertyAsync(long id);
         Task<IList<PropertyModel>> GetPropertiesAsync(DataRequest<Property> request);
         Task<IList<PropertyModel>> GetPropertiesAsync(int skip, int take, DataRequest<Property> request);
         Task<int> GetPropertiesCountAsync(DataRequest<Property> request);
-        Task<PropertyModel> UpdatePropertyAsync(PropertyModel model, ICollection<ImagePickerResult> docs);
+        Task<PropertyModel> UpdatePropertyAsync(PropertyModel model, ICollection<PropertyDocumentTypeModel> propDocType, ICollection<ImagePickerResult> docs);
         Task<int> DeletePropertyAsync(PropertyModel model);
         Task<int> AddPropertyPartyAsync(List<PropertyPartyModel> propertyParties);
         Task<ObservableCollection<PropertyPartyModel>> GetPartiesOfProperty(int propertyId);
@@ -26,8 +26,8 @@ namespace LandBankManagement.Services
         Task<int> DeletePropertyDocumentAsync(ImagePickerResult documents);
         Task<ObservableCollection<PropertyModel>> GetPropertyByGroupGuidAsync(Guid guid);
 
-        Task<int> SaveDocuments(ICollection<ImagePickerResult> docs, Guid propertyGuid);
-        Task<ObservableCollection<ImagePickerResult>> GetProeprtyDocuments(Guid propertyGuid);
+        Task<int> SaveDocuments(ICollection<ImagePickerResult> docs, Guid propertyGuid,int propertyDocumentTypeId);
+        Task<ObservableCollection<ImagePickerResult>> GetProeprtyDocuments(int propertyDocumentTypeId);
         void StoreItems(PropertyContainer data);
         PropertyContainer GetStoredItems();
         void AddParty(PropertyPartyModel propertyPartyModel);

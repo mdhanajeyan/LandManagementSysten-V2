@@ -1,11 +1,10 @@
-﻿using LandBankManagement.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace LandBankManagement.Services
+namespace LandBankManagement.Models
 {
-    public class ImagePickerResult : ObservableObject
+   public class PropertyUploadDocumentModel : ObservableObject
     {
         public int blobId { get; set; }
         public Guid guid { get; set; }
@@ -19,9 +18,4 @@ namespace LandBankManagement.Services
         public int DocumentType { get; set; }
     }
 
-    public interface IFilePickerService
-    {
-        Task<List<ImagePickerResult>> OpenImagePickerAsync();
-        Task<bool> DownloadFile(string fileName, byte[] buffer,string fileType);
-    }
 }

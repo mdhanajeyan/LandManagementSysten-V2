@@ -7,6 +7,7 @@ namespace LandBankManagement.Data
     {
         [Key]
         public int PropertyBlobId { get; set; }
+        public int PropertyDocumentTypeId { get; set; }
         public Guid PropertyGuid { get; set; }
         public byte[] FileBlob { get; set; }
         public string FileName { get; set; }

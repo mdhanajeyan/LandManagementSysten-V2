@@ -170,6 +170,23 @@ namespace LandBankManagement.Views
             var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
             ViewModel.DownloadDocument(identity);
 
-        }     
+        }
+
+        private void DocumentType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var identity = Convert.ToInt32(((ComboBox)sender).SelectedValue.ToString());
+            ViewModel.SetCurrentDocumentType(identity);
+        }
+
+        private void uploadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OnEditFile();
+        }
+
+        private void changeDocType_Click(object sender, RoutedEventArgs e)
+        {
+            var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.ShiftDocumentType(identity);
+        }
     }
 }

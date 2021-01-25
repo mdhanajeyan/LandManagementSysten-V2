@@ -50,8 +50,10 @@ namespace LandBankManagement.Models
         public bool? IsSold { get; set; }
         public bool IsNew => PropertyId <= 0;
 
+        public bool ShowChildrens { get; set; }
         public IEnumerable<PropertyModel> Children { get; set; }
         public ObservableCollection<ImagePickerResult> PropertyDocuments { get; set; }
+        public ObservableCollection<PropertyDocumentTypeModel> PropertyDocumentType { get; set; }
         public override void Merge(ObservableObject source)
         {
             if (source is PropertyModel model)

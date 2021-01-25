@@ -11,6 +11,7 @@
      xmlns:syncfusion="using:Syncfusion.UI.Xaml.TreeGrid"
     xmlns:sync="using:Syncfusion.UI.Xaml.Grid" 
       xmlns:utils="using:Syncfusion.UI.Xaml.Utils"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
 
 
@@ -125,7 +126,118 @@
             Query="{x:Bind ViewModel.Query, Mode=TwoWay}"
             QuerySubmitted="OnQuerySubmitted"
             ButtonClick="OnToolbarClick" />
-        <syncfusion:SfTreeGrid  Grid.Row="1" Name="treeGrid" AutoGenerateColumns="False" ChildPropertyName="Children" BorderBrush="#4FC3F7" BorderThickness="1"   SelectionChanged="treeGrid_SelectionChanged"   ColumnSizer="Star" SelectionBackground="#B3E5FC"                   
+        <StackPanel  Grid.Row="1" BorderBrush="#78909C" MaxHeight="500"  BorderThickness="0 0 0 1" VerticalAlignment="Top">
+        <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500"  Margin="0 0 0 0">
+        <muxc:ItemsRepeater  x:Name="docListView" ItemsSource="{x:Bind ViewModel.Properties,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="0 0 0 0"  Background="#fbfafa">
+
+                    <DataTemplate x:DataType="models:PropertyListingModel">
+                        <Grid  HorizontalAlignment="Stretch" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid  Background="#4FC3F7" Padding="0 0 0 0" Grid.Row="0" Height="40" BorderBrush="#78909C"  BorderThickness="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="ShowRow" Grid.Column="0" Tag="{x:Bind id}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="ToggleRow_Click" Visibility="{x:Bind HideChildren}">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE710;" Foreground="#FFF" FontWeight="Medium"  HorizontalAlignment="Left"/>
+                                    <Button.Resources>
+                                        <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                    </Button.Resources>
+                                </Button>
+                                <Button x:Name="HideRow" Grid.Column="0" Tag="{x:Bind id}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="ToggleRow_Click" Visibility="{x:Bind ShowChildren}">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE738;" Foreground="#FFF" FontWeight="Medium"  HorizontalAlignment="Left"/>
+                                    <Button.Resources>
+                                        <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                    </Button.Resources>
+                                </Button>
+                                <TextBlock  Text="{x:Bind GroupGuid}" Grid.Column="1" Foreground="#fff" Padding=" 10 7 0 0" FontWeight="Medium" FontSize="16"/>
+
+                            </Grid>
+                            <Grid Visibility="{x:Bind ShowChildren}" Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Background="#B3E5FC" BorderBrush="#78909C" BorderThickness="1 0 1 1" Height="40">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Property Name" Grid.Column="0" Padding="20 7 0 0"/>
+                                    <TextBlock Text="Document No" Grid.Column="1" Padding="20 7 0 0"/>
+                                    <TextBlock Text="Survey No" Grid.Column="2" Padding="20 7 0 0"/>
+                                    <TextBlock Text="Add Document Type" Grid.Column="3" Padding="0 7 0 0"/>
+
+                                </Grid>
+
+                                <muxc:ItemsRepeater Grid.Row="1" x:Name="docListView" ItemsSource="{x:Bind Children}"  Background="#fbfafa" >
+                                    <DataTemplate>
+                                        <Grid  HorizontalAlignment="Stretch" >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid Grid.Row="0" Background="#B3E5FC" BorderBrush="#78909C" BorderThickness="1 0 1 1" Height="40">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="80"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding PropertyName}" Grid.Column="0" Padding="20 7 0 0"/>
+                                                <TextBlock Text="{Binding DocumentNo}" Grid.Column="1" Padding="0 7 0 0"/>
+                                                <TextBlock Text="{Binding SurveyNo}" Grid.Column="2" Padding="0 7 0 0"/>
+                                                <Button x:Name="DocumentType" Grid.Column="3" Tag="{Binding Path=PropertyId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="DocumentType_Click">
+                                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE82D;" Foreground="#2b79e0" FontWeight="Medium"  HorizontalAlignment="Left"/>
+                                                    <Button.Resources>
+                                                        <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                                    </Button.Resources>
+                                                </Button>
+                                                <Button x:Name="EditProperty"  Grid.Column="4" Tag="{Binding Path=PropertyId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="EditProperty_Click">
+                                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE70F;" Foreground="#2b79e0" FontWeight="Medium"  HorizontalAlignment="Left"/>
+                                                    <Button.Resources>
+                                                        <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                                    </Button.Resources>
+                                                </Button>
+                                            </Grid>
+                                            <muxc:ItemsRepeater x:Name="docListView" Grid.Row="1" ItemsSource="{Binding PropertyDocumentType ,Mode=TwoWay}"  Margin="0 0 0 0"  Background="#fff" HorizontalAlignment="Stretch">
+
+                                                <DataTemplate>
+                                                    <Grid  HorizontalAlignment="Stretch" BorderBrush="#78909C" BorderThickness="1 0 1 1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="80"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding DocumentType}" Grid.Column="0" Foreground="#757575"   FontSize="16"  Padding="30 10 5 0"  TextTrimming="CharacterEllipsis"  HorizontalAlignment="Left"></TextBlock>
+                                                        <Button x:Name="CostDetails" Grid.Column="1"  Tag="{Binding Path=PropertyDocumentTypeId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="CostDetails_Click" ToolTipService.ToolTip="Cost Details">
+                                                            <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE825;" Foreground="#757575" FontWeight="Medium"  HorizontalAlignment="Left"/>
+                                                            <Button.Resources>
+                                                                <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                                            </Button.Resources>
+                                                        </Button>
+
+                                                    </Grid>
+                                                </DataTemplate>
+
+                                            </muxc:ItemsRepeater>
+                                        </Grid>
+                                    </DataTemplate>
+                                </muxc:ItemsRepeater>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </muxc:ItemsRepeater>
+        </ScrollViewer>
+        </StackPanel>
+            <!--<syncfusion:SfTreeGrid  Grid.Row="1" Name="treeGrid" AutoGenerateColumns="False" ChildPropertyName="Children" BorderBrush="#4FC3F7" BorderThickness="1"   SelectionChanged="treeGrid_SelectionChanged"   ColumnSizer="Star" SelectionBackground="#B3E5FC"                   
                                        ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource TreeGridHeader}">
 
             <syncfusion:SfTreeGrid.Columns>
@@ -135,7 +247,7 @@
                 <syncfusion:TreeGridTemplateColumn HeaderText=" Add Cost Details " MappingName="PropertyId" ShowHeaderToolTip="True">
                     <syncfusion:TreeGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <!--<Button x:Name="CostDetails" Tag="{Binding Path=PropertyId}" Content="Add Cost" Click="CostDetails_Click" />-->
+                            --><!--<Button x:Name="CostDetails" Tag="{Binding Path=PropertyId}" Content="Add Cost" Click="CostDetails_Click" />--><!--
                             <Button x:Name="Popup_closeBtn"  Tag="{Binding Path=PropertyId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="CostDetails_Click">
                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE825;" Foreground="#2b79e0" FontWeight="Medium"  HorizontalAlignment="Left"/>
                                 <Button.Resources>
@@ -148,7 +260,7 @@
                 <syncfusion:TreeGridTemplateColumn HeaderText="Add Doc Type " MappingName="PropertyId" ShowHeaderToolTip="True">
                     <syncfusion:TreeGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <!--<Button x:Name="DocumentType"  Tag="{Binding Path=PropertyId}" Content="Add DocumentType" Click="DocumentType_Click"/>-->
+                            --><!--<Button x:Name="DocumentType"  Tag="{Binding Path=PropertyId}" Content="Add DocumentType" Click="DocumentType_Click"/>--><!--
                             <Button x:Name="Popup_closeBtn"  Tag="{Binding Path=PropertyId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="DocumentType_Click">
                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE82D;" Foreground="#2b79e0" FontWeight="Medium"  HorizontalAlignment="Left"/>
                                 <Button.Resources>
@@ -161,7 +273,7 @@
                 <syncfusion:TreeGridTemplateColumn HeaderText=" " MappingName="PropertyId" ShowHeaderToolTip="True">
                     <syncfusion:TreeGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <!--<Button x:Name="DocumentType"  Tag="{Binding Path=PropertyId}" Content="Add DocumentType" Click="DocumentType_Click"/>-->
+                            --><!--<Button x:Name="DocumentType"  Tag="{Binding Path=PropertyId}" Content="Add DocumentType" Click="DocumentType_Click"/>--><!--
                             <Button x:Name="EditProperty"  Tag="{Binding Path=PropertyId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="EditProperty_Click">
                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE70F;" Foreground="#2b79e0" FontWeight="Medium"  HorizontalAlignment="Left"/>
                                 <Button.Resources>
@@ -172,7 +284,7 @@
                     </syncfusion:TreeGridTemplateColumn.CellTemplate>
                 </syncfusion:TreeGridTemplateColumn>
             </syncfusion:SfTreeGrid.Columns>
-        </syncfusion:SfTreeGrid>
+        </syncfusion:SfTreeGrid>-->
 
     </Grid>
    

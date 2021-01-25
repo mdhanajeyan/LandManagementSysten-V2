@@ -107,5 +107,11 @@ namespace LandBankManagement.Views
             translateTransform.X += e.Delta.Translation.X;
             translateTransform.Y += e.Delta.Translation.Y;
         }
+
+        private void ToggleRow_Click(object sender, RoutedEventArgs e)
+        {
+            var index = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.ChangeVisibility(index);
+        }
     }
 }

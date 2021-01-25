@@ -35,30 +35,36 @@ namespace LandBankManagement.Services
             CurrentProperty.PartyList.Add(propertyPartyModel);
         }
 
-        public async Task<PropertyModel> AddPropertyAsync(PropertyModel model, ICollection<ImagePickerResult> docs)
+        public async Task<PropertyModel> AddPropertyAsync(PropertyModel model,ICollection<PropertyDocumentTypeModel> propDocType, ICollection<ImagePickerResult> docs)
         {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var property = new Property();
-                if (property != null )
-                {
-                    if ( docs!=null && docs.Count>0)
+               
+                    List<PropertyDocumentType> propertyDocumentTypeList = new List<PropertyDocumentType>();
+                var propertyDoc = propDocType.First();
+                    var propertyDocumentType = new PropertyDocumentType();
+                    UpdatePropertyDocumentTypeFromModel(propertyDocumentType, propertyDoc);
+                    if (propertyDoc.PropertyDocuments != null && propertyDoc.PropertyDocuments.Count > 0)
                     {
                         List<PropertyDocuments> docList = new List<PropertyDocuments>();
-                        foreach (var obj in docs)
+                        foreach (var obj in propertyDoc.PropertyDocuments)
                         {
                             var doc = new PropertyDocuments();
                             UpdateDocumentFromModel(doc, obj);
                             docList.Add(doc);
                         }
-                        property.PropertyDocuments = docList;
+                    propertyDocumentType.PropertyDocuments = docList;
+                    propertyDocumentTypeList.Add(propertyDocumentType);
                     }
+                property.PropertyDocumentType = propertyDocumentTypeList;
+
                     UpdatePropertyFromModel(property, model);
                     property.PropertyGuid = Guid.NewGuid();
                     property.GroupGuid = (model.GroupGuid==null || model.GroupGuid == Guid.Empty) ? Guid.NewGuid() : model.GroupGuid;// For Grouping property
                    var propertyID=  await dataService.AddPropertyAsync(property);
                     model.Merge(await GetPropertyAsync(dataService, propertyID));
-                }
+                
                 return model;
             }
         }
@@ -75,7 +81,7 @@ namespace LandBankManagement.Services
             }
             return null;
         }
-        public async Task<int> SaveDocuments(ICollection<ImagePickerResult> docs,Guid propertyGuid) {
+        public async Task<int> SaveDocuments(ICollection<ImagePickerResult> docs,Guid propertyGuid,int propertyDocumentTypeId) {
             if (docs != null && docs.Count > 0)
             {
                 using (var dataService = DataServiceFactory.CreateDataService())
@@ -86,6 +92,7 @@ namespace LandBankManagement.Services
                         var doc = new PropertyDocuments();
                         UpdateDocumentFromModel(doc, obj);
                         doc.PropertyGuid = propertyGuid;
+                        doc.PropertyDocumentTypeId = propertyDocumentTypeId;
                         docList.Add(doc);
                     }
                     return await dataService.UploadPropertyDocumentsAsync(docList);
@@ -94,11 +101,11 @@ namespace LandBankManagement.Services
             return 0;
         }
 
-        public async Task<ObservableCollection<ImagePickerResult>> GetProeprtyDocuments(Guid propertyGuid) {
+        public async Task<ObservableCollection<ImagePickerResult>> GetProeprtyDocuments(int propertyDocumentTypeId) {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
-                var items = await dataService.GetPropertyDocumentsAsync(propertyGuid);
+                var items = await dataService.GetPropertyDocumentsAsync(propertyDocumentTypeId);
                 foreach (var doc in items)
                 {
                     docs.Add(new ImagePickerResult
@@ -140,7 +147,7 @@ namespace LandBankManagement.Services
                 var items = await dataService.GetPropertiesAsync(skip, take, request);
                 foreach (var item in items)
                 {
-                    models.Add(await CreatePropertyModelAsync(item, includeAllFields: false));
+                    models.Add(await CreatePropertyModelWithDocsAsync(item));
                 }
                 return models;
             }
@@ -167,29 +174,33 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<PropertyModel> UpdatePropertyAsync(PropertyModel model, ICollection<ImagePickerResult> docs)
+        public async Task<PropertyModel> UpdatePropertyAsync(PropertyModel model, ICollection<PropertyDocumentTypeModel> propDocType, ICollection<ImagePickerResult> docs)
         {
-            long id = model.PropertyId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var property = id > 0 ? await dataService.GetPropertyAsync(model.PropertyId) : new Property();
-                if (property != null)
-                {
-                    if (docs != null && docs.Count > 0)
+                var property = new Property();
+                List<PropertyDocumentType> propertyDocumentTypeList = new List<PropertyDocumentType>();
+                foreach (var propertyDoc in propDocType) {
+                    var propertyDocumentType = new PropertyDocumentType();
+                    UpdatePropertyDocumentTypeFromModel(propertyDocumentType, propertyDoc);
+                    if (propertyDoc.PropertyDocuments != null && propertyDoc.PropertyDocuments.Count > 0)
                     {
                         List<PropertyDocuments> docList = new List<PropertyDocuments>();
-                        foreach (var obj in docs)
+                        foreach (var obj in propertyDoc.PropertyDocuments)
                         {
                             var doc = new PropertyDocuments();
                             UpdateDocumentFromModel(doc, obj);
                             docList.Add(doc);
                         }
-                        property.PropertyDocuments = docList;
+                        propertyDocumentType.PropertyDocuments = docList;                       
                     }
-                    UpdatePropertyFromModel(property, model);
-                    await dataService.UpdatePropertyAsync(property);
-                    model.Merge(await GetPropertyAsync(dataService, property.PropertyId));
+                    propertyDocumentTypeList.Add(propertyDocumentType);
                 }
+                property.PropertyDocumentType = propertyDocumentTypeList;
+                UpdatePropertyFromModel(property, model);
+                await dataService.UpdatePropertyAsync(property);
+                model.Merge(await GetPropertyAsync(dataService, property.PropertyId));
+
                 return model;
             }
         }
@@ -269,6 +280,7 @@ namespace LandBankManagement.Services
 
         private async Task<PropertyCostDetailsModel> CreateCostDetailsModel(PropertyCostDetails source) {
             var model = new PropertyCostDetailsModel {
+                PropertyDocumentTypeId=source.PropertyDocumentTypeId,
                 PropertyId = source.PropertyId,
                 ComapnyName = source.ComapnyName,
                 PropertyName = source.PropertyName,
@@ -300,7 +312,7 @@ namespace LandBankManagement.Services
 
         }
 
-        public async Task<int> AddPropPaySchedule(int propertyId,List<PaymentScheduleModel> schedules, decimal Sale1, decimal Sale2) {
+        public async Task<int> AddPropPaySchedule(int propDocTypeId,List<PaymentScheduleModel> schedules, decimal Sale1, decimal Sale2) {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var paySchedule = new List<PropPaySchedule>();
@@ -312,12 +324,13 @@ namespace LandBankManagement.Services
                     paySchedule.Add(pay);
                 }
 
-                return await dataService.AddPropPaySchedule(propertyId,paySchedule, Sale1, Sale2);
+                return await dataService.AddPropPaySchedule(propDocTypeId, paySchedule, Sale1, Sale2);
             }
         }
 
         private void UpdatePropPaySchedule(PropPaySchedule target, PaymentScheduleModel source) {
             target.PropertyId = source.PropertyId;
+            target.PropertyDocumentTypeId = source.PropertyDocumentTypeId;
             target.ScheduleDate = source.ScheduleDate.UtcDateTime;
             target.Description = source.Description;
             target.Amount1 = source.Amount1;
@@ -327,6 +340,7 @@ namespace LandBankManagement.Services
         private PaymentScheduleModel CreatePaymentScheduleModel(PropPaySchedule source) {
 
             var model = new PaymentScheduleModel { 
+                PropertyDocumentTypeId=source.PropertyDocumentTypeId,
             ScheduleId=source.PropPayScheduleId,
             ScheduleDate=source.ScheduleDate,
             Description=source.Description,
@@ -369,29 +383,29 @@ namespace LandBankManagement.Services
                 PropertyTypeId = source.PropertyTypeId,
                 SurveyNo = source.SurveyNo,
                 PropertyGMapLink = source.PropertyGMapLink,
-                LandAreaInputAcres = source.LandAreaInputAcres.ToString(),
-                LandAreaInputGuntas = source.LandAreaInputGuntas.ToString(),
-                LandAreaInputAanas= source.LandAreaInputAanas.ToString(),
-                LandAreaInAcres = source.LandAreaInAcres.ToString(),
-                LandAreaInGuntas = source.LandAreaInGuntas.ToString(),
-                LandAreaInSqMts = source.LandAreaInSqMts.ToString(),
-                LandAreaInSqft = source.LandAreaInSqft.ToString(),
-                AKarabAreaInputAcres = source.AKarabAreaInputAcres.ToString(),
-                AKarabAreaInputGuntas = source.AKarabAreaInputGuntas.ToString(),
-                AKarabAreaInputAanas = source.AKarabAreaInputAanas.ToString(),
-                AKarabAreaInAcres = source.AKarabAreaInAcres.ToString(),
-                AKarabAreaInGuntas = source.AKarabAreaInGuntas.ToString(),
-                AKarabAreaInSqMts = source.AKarabAreaInSqMts.ToString(),
-                AKarabAreaInSqft = source.AKarabAreaInSqft.ToString(),
-                BKarabAreaInputAcres = source.BKarabAreaInputAcres.ToString(),
-                BKarabAreaInputGuntas = source.BKarabAreaInputGuntas.ToString(),
-                BKarabAreaInputAanas = source.BKarabAreaInputAanas.ToString(),
-                BKarabAreaInAcres = source.BKarabAreaInAcres.ToString(),
-                BKarabAreaInGuntas = source.BKarabAreaInGuntas.ToString(),
-                BKarabAreaInSqMts = source.BKarabAreaInSqMts.ToString(),
-                BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
-                SaleValue1 = source.SaleValue1,
-                SaleValue2 = source.SaleValue2,
+                //LandAreaInputAcres = source.LandAreaInputAcres.ToString(),
+                //LandAreaInputGuntas = source.LandAreaInputGuntas.ToString(),
+                //LandAreaInputAanas= source.LandAreaInputAanas.ToString(),
+                //LandAreaInAcres = source.LandAreaInAcres.ToString(),
+                //LandAreaInGuntas = source.LandAreaInGuntas.ToString(),
+                //LandAreaInSqMts = source.LandAreaInSqMts.ToString(),
+                //LandAreaInSqft = source.LandAreaInSqft.ToString(),
+                //AKarabAreaInputAcres = source.AKarabAreaInputAcres.ToString(),
+                //AKarabAreaInputGuntas = source.AKarabAreaInputGuntas.ToString(),
+                //AKarabAreaInputAanas = source.AKarabAreaInputAanas.ToString(),
+                //AKarabAreaInAcres = source.AKarabAreaInAcres.ToString(),
+                //AKarabAreaInGuntas = source.AKarabAreaInGuntas.ToString(),
+                //AKarabAreaInSqMts = source.AKarabAreaInSqMts.ToString(),
+                //AKarabAreaInSqft = source.AKarabAreaInSqft.ToString(),
+                //BKarabAreaInputAcres = source.BKarabAreaInputAcres.ToString(),
+                //BKarabAreaInputGuntas = source.BKarabAreaInputGuntas.ToString(),
+                //BKarabAreaInputAanas = source.BKarabAreaInputAanas.ToString(),
+                //BKarabAreaInAcres = source.BKarabAreaInAcres.ToString(),
+                //BKarabAreaInGuntas = source.BKarabAreaInGuntas.ToString(),
+                //BKarabAreaInSqMts = source.BKarabAreaInSqMts.ToString(),
+                //BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
+                //SaleValue1 = source.SaleValue1,
+                //SaleValue2 = source.SaleValue2,
                 CompanyID=source.CompanyID,
                 IsSold=source.IsSold
             };
@@ -399,7 +413,7 @@ namespace LandBankManagement.Services
             return model;
         }
 
-        static public async Task<PropertyModel> CreatePropertyModelWithDocsAsync(Property source)
+       static public async Task<PropertyModel> CreatePropertyModelWithDocsAsync(Property source)
         {
             var model = new PropertyModel()
             {
@@ -417,52 +431,97 @@ namespace LandBankManagement.Services
                 PropertyTypeId = source.PropertyTypeId,
                 SurveyNo = source.SurveyNo,
                 PropertyGMapLink = source.PropertyGMapLink,
-                LandAreaInputAcres = source.LandAreaInputAcres.ToString(),
-                LandAreaInputGuntas = source.LandAreaInputGuntas.ToString(),
-                LandAreaInputAanas = source.LandAreaInputAanas.ToString(),
-                LandAreaInAcres = source.LandAreaInAcres.ToString(),
-                LandAreaInGuntas = source.LandAreaInGuntas.ToString(),
-                LandAreaInSqMts = source.LandAreaInSqMts.ToString(),
-                LandAreaInSqft = source.LandAreaInSqft.ToString(),
-                AKarabAreaInputAcres = source.AKarabAreaInputAcres.ToString(),
-                AKarabAreaInputGuntas = source.AKarabAreaInputGuntas.ToString(),
-                AKarabAreaInputAanas = source.AKarabAreaInputAanas.ToString(),
-                AKarabAreaInAcres = source.AKarabAreaInAcres.ToString(),
-                AKarabAreaInGuntas = source.AKarabAreaInGuntas.ToString(),
-                AKarabAreaInSqMts = source.AKarabAreaInSqMts.ToString(),
-                AKarabAreaInSqft = source.AKarabAreaInSqft.ToString(),
-                BKarabAreaInputAcres = source.BKarabAreaInputAcres.ToString(),
-                BKarabAreaInputGuntas = source.BKarabAreaInputGuntas.ToString(),
-                BKarabAreaInputAanas = source.BKarabAreaInputAanas.ToString(),
-                BKarabAreaInAcres = source.BKarabAreaInAcres.ToString(),
-                BKarabAreaInGuntas = source.BKarabAreaInGuntas.ToString(),
-                BKarabAreaInSqMts = source.BKarabAreaInSqMts.ToString(),
-                BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
-                SaleValue1 = source.SaleValue1,
-                SaleValue2 = source.SaleValue2,
+                //LandAreaInputAcres = source.LandAreaInputAcres.ToString(),
+                //LandAreaInputGuntas = source.LandAreaInputGuntas.ToString(),
+                //LandAreaInputAanas = source.LandAreaInputAanas.ToString(),
+                //LandAreaInAcres = source.LandAreaInAcres.ToString(),
+                //LandAreaInGuntas = source.LandAreaInGuntas.ToString(),
+                //LandAreaInSqMts = source.LandAreaInSqMts.ToString(),
+                //LandAreaInSqft = source.LandAreaInSqft.ToString(),
+                //AKarabAreaInputAcres = source.AKarabAreaInputAcres.ToString(),
+                //AKarabAreaInputGuntas = source.AKarabAreaInputGuntas.ToString(),
+                //AKarabAreaInputAanas = source.AKarabAreaInputAanas.ToString(),
+                //AKarabAreaInAcres = source.AKarabAreaInAcres.ToString(),
+                //AKarabAreaInGuntas = source.AKarabAreaInGuntas.ToString(),
+                //AKarabAreaInSqMts = source.AKarabAreaInSqMts.ToString(),
+                //AKarabAreaInSqft = source.AKarabAreaInSqft.ToString(),
+                //BKarabAreaInputAcres = source.BKarabAreaInputAcres.ToString(),
+                //BKarabAreaInputGuntas = source.BKarabAreaInputGuntas.ToString(),
+                //BKarabAreaInputAanas = source.BKarabAreaInputAanas.ToString(),
+                //BKarabAreaInAcres = source.BKarabAreaInAcres.ToString(),
+                //BKarabAreaInGuntas = source.BKarabAreaInGuntas.ToString(),
+                //BKarabAreaInSqMts = source.BKarabAreaInSqMts.ToString(),
+                //BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
+                //SaleValue1 = source.SaleValue1,
+                //SaleValue2 = source.SaleValue2,
                 CompanyID = source.CompanyID,
                 IsSold = source.IsSold
             };
-            if (source.PropertyDocuments != null && source.PropertyDocuments.Count > 0)
+
+
+            if (source.PropertyDocumentType != null && source.PropertyDocumentType.Count > 0)
             {
-                ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
-                foreach (var doc in source.PropertyDocuments)
-                {
-                    docs.Add(new ImagePickerResult
+                ObservableCollection<PropertyDocumentTypeModel> propDocTypeList = new ObservableCollection<PropertyDocumentTypeModel>();
+                foreach (var propDoc in source.PropertyDocumentType) {
+                    var propertyDocumentTypeModel = new PropertyDocumentTypeModel();
+                    UpDatePropertyDocumentTypeModel(propertyDocumentTypeModel, propDoc);
+
+                    if (propDoc.PropertyDocuments != null)
                     {
-                        blobId = doc.PropertyBlobId,
-                        guid = doc.PropertyGuid,
-                        FileName = doc.FileName,
-                        ImageBytes = doc.FileBlob,
-                        ContentType = doc.FileType,
-                        Size = doc.FileLenght,
-                        FileCategoryId = doc.FileCategoryId
-                    });
+                        ObservableCollection<ImagePickerResult> docs = new ObservableCollection<ImagePickerResult>();
+                        foreach (var doc in propDoc.PropertyDocuments)
+                        {
+                            docs.Add(new ImagePickerResult
+                            {
+                                blobId = doc.PropertyBlobId,
+                                guid = doc.PropertyGuid,
+                                FileName = doc.FileName,
+                                ImageBytes = doc.FileBlob,
+                                ContentType = doc.FileType,
+                                Size = doc.FileLenght,
+                                FileCategoryId = doc.FileCategoryId,
+                                DocumentType = doc.PropertyDocumentTypeId
+                            });
+                        }
+                        propertyDocumentTypeModel.PropertyDocuments = docs;
+                    }
+                    propDocTypeList.Add(propertyDocumentTypeModel);
                 }
-                model.PropertyDocuments = docs;
+                model.PropertyDocumentType = propDocTypeList;
             }
 
             return model;
+        }
+
+       static private void UpDatePropertyDocumentTypeModel(PropertyDocumentTypeModel target, PropertyDocumentType source) {
+            target.PropertyDocumentTypeId = source.PropertyDocumentTypeId;
+            target.PropertyId = source.PropertyId;
+            target.DocumentType = source.DocumentTypeName;
+            target.DocumentTypeId = source.DocumentTypeId;
+            target.LandAreaInputAcres = source.LandAreaInputAcres.ToString();
+            target.LandAreaInputGuntas =source.LandAreaInputGuntas.ToString();
+            target.LandAreaInputAanas =  source.LandAreaInputAanas.ToString();
+            target.LandAreaInAcres =source.LandAreaInAcres.ToString();
+            target.LandAreaInGuntas = source.LandAreaInGuntas.ToString();
+            target.LandAreaInSqMts =  source.LandAreaInSqMts.ToString();
+            target.LandAreaInSqft =  source.LandAreaInSqft.ToString();
+            target.AKarabAreaInputAcres = source.AKarabAreaInputAcres.ToString();
+            target.AKarabAreaInputGuntas =  source.AKarabAreaInputGuntas.ToString();
+            target.AKarabAreaInputAanas = source.AKarabAreaInputAanas.ToString();
+            target.AKarabAreaInAcres =  source.AKarabAreaInAcres.ToString();
+            target.AKarabAreaInGuntas =  source.AKarabAreaInGuntas.ToString();
+            target.AKarabAreaInSqMts =  source.AKarabAreaInSqMts.ToString();
+            target.AKarabAreaInSqft = source.AKarabAreaInSqft.ToString();
+            target.BKarabAreaInputAcres =source.BKarabAreaInputAcres.ToString();
+            target.BKarabAreaInputGuntas = source.BKarabAreaInputGuntas.ToString();
+            target.BKarabAreaInputAanas = source.BKarabAreaInputAanas.ToString();
+            target.BKarabAreaInAcres = source.BKarabAreaInAcres.ToString();
+            target.BKarabAreaInGuntas =source.BKarabAreaInGuntas.ToString();
+            target.BKarabAreaInSqMts = source.BKarabAreaInSqMts.ToString();
+            target.BKarabAreaInSqft = source.BKarabAreaInSqft.ToString();
+            target.SaleValue1 = source.SaleValue1;
+            target.SaleValue2 = source.SaleValue2;
+
         }
 
         private void UpdatePropertyFromModel(Property target, PropertyModel source)
@@ -481,6 +540,37 @@ namespace LandBankManagement.Services
             target.PropertyTypeId = source.PropertyTypeId;
             target.SurveyNo = source.SurveyNo;
             target.PropertyGMapLink = source.PropertyGMapLink;
+            //target.LandAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
+            //target.LandAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputGuntas) ? "0" : source.LandAreaInputGuntas);
+            //target.LandAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAanas) ? "0" : source.LandAreaInputAanas);
+            //target.LandAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInAcres) ? "0" : source.LandAreaInAcres);
+            //target.LandAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInGuntas) ? "0" : source.LandAreaInGuntas);
+            //target.LandAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInSqMts) ? "0" : source.LandAreaInSqMts);
+            //target.LandAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInSqft) ? "0" : source.LandAreaInSqft);
+            //target.AKarabAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputAcres) ? "0" : source.AKarabAreaInputAcres);
+            //target.AKarabAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputGuntas) ? "0" : source.AKarabAreaInputGuntas);
+            //target.AKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputAanas) ? "0" : source.AKarabAreaInputAanas);
+            //target.AKarabAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInAcres) ? "0" : source.AKarabAreaInAcres);
+            //target.AKarabAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInGuntas) ? "0" : source.AKarabAreaInGuntas);
+            //target.AKarabAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInSqft) ? "0" : source.AKarabAreaInSqft);
+            //target.AKarabAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
+            //target.BKarabAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAcres) ? "0" : source.BKarabAreaInputAcres);
+            //target.BKarabAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputGuntas) ? "0" : source.BKarabAreaInputGuntas);
+            //target.BKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAanas) ? "0" : source.BKarabAreaInputAanas);
+            //target.BKarabAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInAcres) ? "0" : source.BKarabAreaInAcres);
+            //target.BKarabAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInGuntas) ? "0" : source.BKarabAreaInGuntas);
+            //target.BKarabAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInSqMts) ? "0" : source.BKarabAreaInSqMts);
+            //target.BKarabAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInSqft) ? "0" : source.BKarabAreaInSqft);
+            //target.SaleValue1 = source.SaleValue1;
+            //target.SaleValue2 = source.SaleValue2;
+            target.CompanyID = source.CompanyID;
+        }
+
+        private void UpdatePropertyDocumentTypeFromModel(PropertyDocumentType target, PropertyDocumentTypeModel source)
+        {
+            target.PropertyDocumentTypeId = source.PropertyDocumentTypeId;
+            target.PropertyId = source.PropertyId;
+            target.DocumentTypeId = source.DocumentTypeId;
             target.LandAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
             target.LandAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputGuntas) ? "0" : source.LandAreaInputGuntas);
             target.LandAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAanas) ? "0" : source.LandAreaInputAanas);
@@ -493,8 +583,8 @@ namespace LandBankManagement.Services
             target.AKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInputAanas) ? "0" : source.AKarabAreaInputAanas);
             target.AKarabAreaInAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInAcres) ? "0" : source.AKarabAreaInAcres);
             target.AKarabAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInGuntas) ? "0" : source.AKarabAreaInGuntas);
-            target.AKarabAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInSqft) ? "0" : source.AKarabAreaInSqft);
-            target.AKarabAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
+            target.AKarabAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInSqMts) ? "0" : source.AKarabAreaInSqMts);
+            target.AKarabAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.AKarabAreaInSqft) ? "0" : source.AKarabAreaInSqft);
             target.BKarabAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAcres) ? "0" : source.BKarabAreaInputAcres);
             target.BKarabAreaInputGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputGuntas) ? "0" : source.BKarabAreaInputGuntas);
             target.BKarabAreaInputAanas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInputAanas) ? "0" : source.BKarabAreaInputAanas);
@@ -504,7 +594,6 @@ namespace LandBankManagement.Services
             target.BKarabAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInSqft) ? "0" : source.BKarabAreaInSqft);
             target.SaleValue1 = source.SaleValue1;
             target.SaleValue2 = source.SaleValue2;
-            target.CompanyID = source.CompanyID;
         }
 
         private void UpdateDocumentFromModel(PropertyDocuments target, ImagePickerResult source)
@@ -516,6 +605,7 @@ namespace LandBankManagement.Services
             target.FileType = source.ContentType;
             target.FileCategoryId = source.FileCategoryId;
             target.UploadTime = DateTime.Now;
+            target.PropertyDocumentTypeId = source.DocumentType;
         }
     }
 }

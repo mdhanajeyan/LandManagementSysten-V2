@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-
+using System.Collections.ObjectModel;
 using LandBankManagement.Models;
 using LandBankManagement.Services;
 
@@ -111,6 +112,7 @@ namespace LandBankManagement.ViewModels
                 if (selected == null)
                     return;
                 SelectedPivotIndex = 1;
+                
                 ShowProgressRing();
                 // var model = await PropertyService.GetPropertyAsync(selected.PropertyId);
                 var modelList = await PropertyService.GetPropertyByGroupGuidAsync(selected.GroupGuid.GetValueOrDefault());
@@ -118,18 +120,36 @@ namespace LandBankManagement.ViewModels
                 PropertyDetials.PropertyList = modelList;
                 var model = modelList[0];
                 //selected.Merge(model);
+                if (model.PropertyDocumentType == null)
+                    return;
 
-                PropertyDetials.Item = model;
-                await PropertyDetials.GetPropertyParties(model.PropertyId);
-                PropertyDetials.DocList = model.PropertyDocuments;
-                if (model.PropertyDocuments != null)
-                {
-                    for (int i = 0; i < PropertyDetials.DocList.Count; i++)
+                foreach (var propDocument in model.PropertyDocumentType) {
+                    propDocument.DocumentType = PropertyDetials.DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId).First().Description;
+                    if (propDocument.PropertyDocuments != null)
                     {
-                        PropertyDetials.DocList[i].Identity = i + 1;
+                        for (int i = 0; i < propDocument.PropertyDocuments.Count; i++)
+                        {
+                            propDocument.PropertyDocuments[i].Identity = i + 1;
+                        }
                     }
                 }
-               
+                UpdateAreas(model, model.PropertyDocumentType[0]);
+                PropertyDetials.Item = model;
+                PropertyDetials.PropertyDocumentTypeList = model.PropertyDocumentType;
+                PropertyDetials.CurrentDocumentType = model.PropertyDocumentType[0];
+                await PropertyDetials.GetPropertyParties(model.PropertyId);
+
+                PropertyDetials.EnableDocType = false;
+                //  PropertyDetials.DocList = model.PropertyDocuments;
+
+                //if (model.PropertyDocuments != null)
+                //{
+                //    for (int i = 0; i < PropertyDetials.DocList.Count; i++)
+                //    {
+                //        PropertyDetials.DocList[i].Identity = i + 1;
+                //    }
+                //}
+
             }
             catch (Exception ex)
             {
@@ -139,32 +159,78 @@ namespace LandBankManagement.ViewModels
                 HideProgressRing();
             }
         }
-
+        private void UpdateAreas(PropertyModel model, PropertyDocumentTypeModel source) {
+            model.DocumentTypeId = source.DocumentTypeId;
+            model.LandAreaInputAcres = source.LandAreaInputAcres;
+            model.LandAreaInputGuntas = source.LandAreaInputGuntas;
+            model.LandAreaInAcres = source.LandAreaInAcres;
+            model.LandAreaInGuntas = source.LandAreaInGuntas;
+            model.LandAreaInputAanas = source.LandAreaInputAanas;
+            model.LandAreaInSqft = source.LandAreaInSqft;
+            model.LandAreaInSqMts = source.LandAreaInSqMts;
+            model.AKarabAreaInputAcres = source.AKarabAreaInputAcres;
+            model.AKarabAreaInputGuntas = source.AKarabAreaInputGuntas;
+            model.AKarabAreaInAcres = source.AKarabAreaInAcres;
+            model.AKarabAreaInGuntas = source.AKarabAreaInGuntas;
+            model.AKarabAreaInputAanas = source.AKarabAreaInputAanas;
+            model.AKarabAreaInSqft = source.AKarabAreaInSqft;
+            model.AKarabAreaInSqMts = source.AKarabAreaInSqMts;
+            model.BKarabAreaInputAcres = source.BKarabAreaInputAcres;
+            model.BKarabAreaInputGuntas = source.BKarabAreaInputGuntas;
+            model.BKarabAreaInAcres = source.BKarabAreaInAcres;
+            model.BKarabAreaInGuntas = source.BKarabAreaInGuntas;
+            model.BKarabAreaInputAanas = source.BKarabAreaInputAanas;
+            model.BKarabAreaInSqft = source.BKarabAreaInSqft;
+            model.BKarabAreaInSqMts = source.BKarabAreaInSqMts;
+        }
         public async void LoadPropertyForNewDocumentType(int id)
         {
+            PropertyDetials.EnableDocType = true;
+            PropertyDetials.EnablePropertyName = false;
             ShowProgressRing();
             var model = await PropertyService.GetPropertyAsync(id);
             HideProgressRing();
+            PropertyDetials.PropertyList = new ObservableCollection<PropertyModel>();
+            PropertyDetials.PropertyList.Add(model);
+
+            foreach (var propDocument in model.PropertyDocumentType)
+            {
+                propDocument.DocumentType = PropertyDetials.DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId).First().Description;
+                if (propDocument.PropertyDocuments != null)
+                {
+                    for (int i = 0; i < propDocument.PropertyDocuments.Count; i++)
+                    {
+                        propDocument.PropertyDocuments[i].Identity = i + 1;
+                    }
+                }
+            }
+            UpdateAreas(model, model.PropertyDocumentType[0]);
             model.DocumentTypeId = 0;
             PropertyDetials.Item = model;
+            PropertyDetials.PropertyDocumentTypeList = model.PropertyDocumentType;
+            PropertyDetials.CurrentDocumentType = model.PropertyDocumentType[0];
             await PropertyDetials.GetPropertyParties(model.PropertyId);
-            PropertyDetials.DocList = model.PropertyDocuments;
-            if (model.PropertyDocuments != null)
-            {
-                for (int i = 0; i < PropertyDetials.DocList.Count; i++)
-                {
-                    PropertyDetials.DocList[i].Identity = i + 1;
-                    PropertyDetials.DocList[i].blobId = 0;
-                }
-            }
-            if (PropertyDetials.PartyList != null) {
-                foreach (var party in PropertyDetials.PartyList) {
-                    party.PropertyId = 0;
-                    party.PropertyPartyId = 0;
-                }
-            }
-            PropertyDetials.Item.PropertyId=0;
-            PropertyDetials.Item.GroupGuid =null;
+
+            //model.DocumentTypeId = 0;
+            //PropertyDetials.Item = model;
+            //await PropertyDetials.GetPropertyParties(model.PropertyId);
+            //PropertyDetials.DocList = model.PropertyDocuments;
+            //if (model.PropertyDocuments != null)
+            //{
+            //    for (int i = 0; i < PropertyDetials.DocList.Count; i++)
+            //    {
+            //        PropertyDetials.DocList[i].Identity = i + 1;
+            //        PropertyDetials.DocList[i].blobId = 0;
+            //    }
+            //}
+            //if (PropertyDetials.PartyList != null) {
+            //    foreach (var party in PropertyDetials.PartyList) {
+            //        party.PropertyId = 0;
+            //        party.PropertyPartyId = 0;
+            //    }
+            //}
+            //PropertyDetials.Item.PropertyId=0;
+            //PropertyDetials.Item.GroupGuid =null;
             SelectedPivotIndex = 1;
         }
     }

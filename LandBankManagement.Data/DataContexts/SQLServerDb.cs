@@ -53,6 +53,7 @@ namespace LandBankManagement.Data.Services
         public DbSet<Deal> Deal { get; set; }
         public DbSet<DealParties> DealParties { get; set; }
         public DbSet<DealPaySchedule> DealPaySchedule { get; set; }
+       public DbSet<PropertyDocumentType> PropertyDocumentType { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_connectionString);
