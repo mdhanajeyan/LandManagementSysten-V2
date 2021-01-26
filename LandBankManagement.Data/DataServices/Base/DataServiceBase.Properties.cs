@@ -462,13 +462,19 @@ dt in _dataSource.DocumentTypes on pd.DocumentTypeId equals dt.DocumentTypeId
 
         public async Task<int> DeletePropertyAsync(Property model)
         {
-            var propertyEnity =await _dataSource.Properties.Where(x => x.PropertyId == model.PropertyId).FirstOrDefaultAsync();
-            var usedProperty =await _dataSource.PropertyMergeList.Where(x => x.PropertyGuid == propertyEnity.PropertyGuid).FirstOrDefaultAsync();
-            if (usedProperty != null)
-                return 0;
+            try
+            {
+                var propertyEnity = await _dataSource.Properties.Where(x => x.PropertyId == model.PropertyId).FirstOrDefaultAsync();
+                var usedProperty = await _dataSource.PropertyMergeList.Where(x => x.PropertyGuid == propertyEnity.PropertyGuid).FirstOrDefaultAsync();
+                if (usedProperty != null)
+                    return 0;
 
-            _dataSource.Properties.Remove(model);
-            return await _dataSource.SaveChangesAsync();
+                _dataSource.Properties.Remove(propertyEnity);
+                return await _dataSource.SaveChangesAsync();
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<int> AddPropertyParty(List<PropertyParty> propertyParties) {

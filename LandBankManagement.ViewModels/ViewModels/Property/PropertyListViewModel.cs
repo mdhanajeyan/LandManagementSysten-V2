@@ -127,7 +127,6 @@ namespace LandBankManagement.ViewModels
                     var item = new PropertyModel();
                     item = obj.First();
                     item.Children = obj;
-
                     propertyModels.Add(item);
                 }
                 Items = propertyModels;
@@ -144,6 +143,7 @@ namespace LandBankManagement.ViewModels
                     item.Children = obj;
                     item.ShowChildren = false;
                     item.HideChildren = true;
+                    item.GroupName = string.Join(", ", obj.Select(s => s.PropertyName));
                     Properties.Add(item);
                     i++;
                 }

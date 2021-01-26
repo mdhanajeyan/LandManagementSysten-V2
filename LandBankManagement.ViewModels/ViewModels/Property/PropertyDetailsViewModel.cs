@@ -444,9 +444,11 @@ namespace LandBankManagement.ViewModels
             PropertyDocumentTypeList = null;
             Item = null;
             Item = newItem;
-
             DocList = null;
 
+            foreach (var partyItem in PartyList) {
+                partyItem.PropertyPartyId = 0;
+            }
         }
        
         protected override async Task<bool> SaveItemAsync(PropertyModel model)
@@ -548,7 +550,7 @@ namespace LandBankManagement.ViewModels
             EditableItem = temp;
         }
 
-        private async void ReloadProperty(Guid guid,int propertId) {
+        private async Task ReloadProperty(Guid guid,int propertId) {
             PropertyView.ShowProgressRing();
              PropertyList = await PropertyService.GetPropertyByGroupGuidAsync(guid);
             
@@ -601,6 +603,8 @@ namespace LandBankManagement.ViewModels
                 
             }
             if (parties.Count > 0) {
+                if (parties.Count == 1)
+                    parties[0].IsPrimaryParty = true;
                 PropertyView.ShowProgressRing();
                await PropertyService.AddPropertyPartyAsync(parties);
                 PropertyView.HideProgressRing();
@@ -611,8 +615,6 @@ namespace LandBankManagement.ViewModels
             PropertyView.ShowProgressRing();
             PartyList =await PropertyService.GetPartiesOfProperty(id);
             PropertyView.HideProgressRing();
-
-
         }
 
         protected override void ClearItem()
@@ -632,6 +634,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                Guid groupGuid= PropertyList[0].GroupGuid.Value;
                 StartStatusMessage("Deleting Property...");
                 PropertyView.ShowProgressRing();
                 var isDeleted = await PropertyService.DeletePropertyAsync(model);
@@ -641,6 +644,16 @@ namespace LandBankManagement.ViewModels
                     StatusError($"This property is not deleted ");
                     return false;
                 }
+
+                if (PropertyList.Count > 1) {
+                  var  propList = await PropertyService.GetPropertyByGroupGuidAsync(groupGuid);
+                    if (propList != null) {
+                        await ReloadProperty(propList[0].GroupGuid.Value, propList[0].PropertyId);
+                        EndStatusMessage("Property deleted");
+                        return true;
+                    }
+                }
+
                 ClearItem();
                 await PropertyListViewModel.RefreshAsync();
                 EndStatusMessage("Property deleted");

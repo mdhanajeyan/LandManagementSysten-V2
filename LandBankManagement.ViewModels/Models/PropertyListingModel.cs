@@ -9,6 +9,7 @@ namespace LandBankManagement.Models
    public class PropertyListingModel : ObservableObject
     {
         public int id { get; set; }
+        public string GroupName { get; set; }
         public Guid GroupGuid { get; set; }
         public bool ShowChildren { get; set; }
         public bool HideChildren { get; set; }

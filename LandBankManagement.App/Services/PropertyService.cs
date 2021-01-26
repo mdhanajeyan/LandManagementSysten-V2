@@ -54,9 +54,10 @@ namespace LandBankManagement.Services
                             UpdateDocumentFromModel(doc, obj);
                             docList.Add(doc);
                         }
-                    propertyDocumentType.PropertyDocuments = docList;
-                    propertyDocumentTypeList.Add(propertyDocumentType);
+                    propertyDocumentType.PropertyDocuments = docList;                   
                     }
+                propertyDocumentTypeList.Add(propertyDocumentType);
+
                 property.PropertyDocumentType = propertyDocumentTypeList;
 
                     UpdatePropertyFromModel(property, model);
@@ -194,6 +195,7 @@ namespace LandBankManagement.Services
                         }
                         propertyDocumentType.PropertyDocuments = docList;                       
                     }
+
                     propertyDocumentTypeList.Add(propertyDocumentType);
                 }
                 property.PropertyDocumentType = propertyDocumentTypeList;

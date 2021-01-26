@@ -153,7 +153,7 @@
                                         <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                     </Button.Resources>
                                 </Button>
-                                <TextBlock  Text="{x:Bind GroupGuid}" Grid.Column="1" Foreground="#fff" Padding=" 10 7 0 0" FontWeight="Medium" FontSize="16"/>
+                                <TextBlock  Text="{x:Bind GroupName}" Grid.Column="1" Foreground="#fff" Padding=" 10 7 0 0" FontWeight="Medium" FontSize="16"/>
 
                             </Grid>
                             <Grid Visibility="{x:Bind ShowChildren}" Grid.Row="1">
