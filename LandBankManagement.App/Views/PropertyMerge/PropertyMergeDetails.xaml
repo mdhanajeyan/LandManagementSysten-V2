@@ -31,6 +31,8 @@
                         <controls:FormComboBox x:Name="PropertyDDL"  Header="Property Name" ItemsSource="{x:Bind PropertyOptions}" SelectionChanged="PropertyDDL_SelectionChanged"
                                            SelectedValue="{x:Bind selectedProperty, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
+                        <controls:FormComboBox x:Name="DocumentTypeDDL"  Header="Document Type" ItemsSource="{x:Bind PropertyDocumentOptions,Mode=TwoWay}" SelectionChanged="DocumentTypeDDL_SelectionChanged"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
                         <!--<StackPanel Orientation="Horizontal">
                             <Button  x:Name="Search" Margin="10 25 0 0" Click="Search_Click" Background="#03A9F4" Foreground="#fff"  Width="120">
                                 <StackPanel Orientation="Horizontal">

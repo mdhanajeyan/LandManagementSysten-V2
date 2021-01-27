@@ -18,6 +18,6 @@ namespace LandBankManagement.Services
         Task<int> UpdatePropertyMergeAsync(PropertyMergeModel model);
         Task<int> DeletePropertyMergeAsync(PropertyMergeModel model);
         Task<int> DeletePropertyMergeItemAsync(int id);
-        Task<PropertyMergeListModel> GetPropertyListItemForProeprty(int id);
+        Task<PropertyMergeListModel> GetPropertyListItemForProeprty(int propertyId, int DocumentTypeId);
     }
 }

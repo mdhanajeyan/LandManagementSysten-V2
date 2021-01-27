@@ -151,7 +151,7 @@ namespace LandBankManagement.Data.Services
         Task<int> GetPropCheckListMastersCountAsync(DataRequest<PropCheckListMaster> request);
         Task<int> UpdatePropCheckListMasterAsync(PropCheckListMaster model);
         Task<int> DeletePropCheckListMasterAsync(PropCheckListMaster model);
-
+        Task<int> DeleteCheckListOfPropertyAsync(int checkListPropertyId);
 
         Task<int> AddFundTransferAsync(FundTransfer model);
         Task<FundTransfer> GetFundTransferAsync(long id);
@@ -230,10 +230,14 @@ namespace LandBankManagement.Data.Services
         Task<Dictionary<int, string>> GetRoleOptions();
         Task<Dictionary<int, string>> GetVendorOptions(string party);
         Task<Dictionary<int, string>> GetCheckListOptions();
+        Task<Dictionary<int, string>> GetPropertyCheckListOptions();
         Task<Dictionary<int, string>> GetPropertyMergeOptions();
         Task<Dictionary<int, string>> GetPropertyOptionsByCompanyID(int companyId);
         Task<Dictionary<int, string>> GetDealOptions();
         Dictionary<int, string> GetSalutationOptions();
+        Task<Dictionary<int, string>> GetDocumentTypesByPropertyID(int propertyId);
+        Task<Dictionary<int, string>> GetDealPartiesOptions(int dealId);
+
         Task<int> AddPropertyCheckListAsync(PropertyCheckList model);
         Task<PropertyCheckList> GetPropertyCheckListAsync(long id);
         Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(DataRequest<PropertyCheckList> request);
@@ -248,7 +252,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdatePropertyCheckListStatusAsync(int id,int status,string remarks);
         Task<IList<PropertyCheckListDocuments>> GetPropertyCheckListDocumentsAsync(Guid id);
         Task<int> UploadPropertyCheckListDocumentsAsync(List<PropertyCheckListDocuments> documents);
-
+        Task<List<CheckListOfProperty>> GetCheckListOfProperty(int id);
 
         Task<int> AddPropertyMergeAsync(PropertyMerge model);
         Task<PropertyMerge> GetPropertyMergeAsync(long id);
@@ -258,7 +262,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdatePropertyMergeAsync(PropertyMerge model);
         Task<int> DeletePropertyMergeAsync(PropertyMerge model);
         Task<int> DeletePropertyMergeItemAsync(int id);
-        Task<PropertyMergeList> GetPropertyListItemForProeprty(int id);
+        Task<PropertyMergeList> GetPropertyListItemForProeprty(int propertyId, int DocumentTypeId);
 
         Task<int> AddDealAsync(Deal model);
         Task<Deal> GetDealAsync(long id);

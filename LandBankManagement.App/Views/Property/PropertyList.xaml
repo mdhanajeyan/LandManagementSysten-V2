@@ -189,7 +189,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="80"/>
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Text="{Binding PropertyName}" Grid.Column="0" Padding="20 7 0 0"/>

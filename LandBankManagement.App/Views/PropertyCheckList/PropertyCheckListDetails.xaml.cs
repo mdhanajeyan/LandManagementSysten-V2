@@ -137,8 +137,10 @@ namespace LandBankManagement.Views
 
         private async void Doc_Delete_Click(object sender, RoutedEventArgs e)
         {
-            var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
-            await ViewModel.DeleteDocument(identity);
+            var identity = ((Button)sender).Tag.ToString();
+            var checkListId = Convert.ToInt32(identity.Split('_')[0]);
+            var docInx = Convert.ToInt32(identity.Split('_')[1]);
+            await ViewModel.DeleteDocument(checkListId, docInx);
         }
 
         private void SurveyNoTxt_LostFocus(object sender, RoutedEventArgs e)
@@ -160,6 +162,35 @@ namespace LandBankManagement.Views
         private void Add_vendor_Click(object sender, RoutedEventArgs e)
         {
              NavigationService.Navigate(typeof(VendorViewModel) ,new VendorListArgs { SelectedPageIndex=1});
+        }
+
+        private void fromMasterRB_Checked(object sender, RoutedEventArgs e)
+        {
+            var type = ((RadioButton)sender).Tag.ToString();           
+          
+            ViewModel.LoadCheckList(type);
+        }
+
+        private async void PropertyCheckListCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           await ViewModel.LoadCheckListByProeprty();
+        }
+
+        private void uploadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var CheckListId = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.OnEditFile(CheckListId);
+        }
+
+        private void AddCheckListItem_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.AddNewCheckListItem();
+        }
+
+        private void CheckList_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var CheckListId = Convert.ToInt32(((Button)sender).Tag.ToString());
+            ViewModel.RemoveCheckListItem(CheckListId);
         }
     }
 }

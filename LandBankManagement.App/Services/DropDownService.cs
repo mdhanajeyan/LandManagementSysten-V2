@@ -393,6 +393,24 @@ namespace LandBankManagement.Services
             }
         }
 
+        public async Task<ObservableCollection<ComboBoxOptions>> GetPropertyCheckListOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetPropertyCheckListOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                return list;
+            }
+        }
+
         public async Task<ObservableCollection<ComboBoxOptions>> GetPropertyMergeOptions() {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -435,6 +453,42 @@ namespace LandBankManagement.Services
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var models = await dataService.GetDealOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                return list;
+            }
+        }
+        public async Task<ObservableCollection<ComboBoxOptions>> GetDocumentTypesByPropertyID(int propertyId)
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetDocumentTypesByPropertyID(propertyId);
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key,
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                return list;
+            }
+        }
+        public async Task<ObservableCollection<ComboBoxOptions>> GetDealPartiesOptions(int dealId)
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetDealPartiesOptions(dealId);
                 foreach (var obj in models)
                 {
                     list.Add(new ComboBoxOptions

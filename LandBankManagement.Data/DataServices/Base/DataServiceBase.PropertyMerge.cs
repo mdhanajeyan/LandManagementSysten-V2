@@ -44,34 +44,68 @@ namespace LandBankManagement.Data.Services
             }
         }
 
-        public async Task<PropertyMergeList> GetPropertyListItemForProeprty(int id)
+        public async Task<PropertyMergeList> GetPropertyListItemForProeprty(int propertyId,int DocumentTypeId)
         {
-            var partyname = await (from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == id)
-                                   from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
-                                  select party.PartyFirstName).ToListAsync();
-           
 
-            var item = await (from pt in _dataSource.Properties.Where(x => x.PropertyId == id)
-                              from v in _dataSource.Villages.Where(x => x.VillageId == pt.VillageId).DefaultIfEmpty()
-                              
+            //var partyname = await (from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == id)
+            //                       from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
+            //                      select party.PartyFirstName).ToListAsync();
+
+            var partyName = "";
+            var propertyparty =await _dataSource.PropertyParty.Where(x => x.PropertyId == propertyId).ToListAsync();
+            if (propertyparty != null) {
+                if (propertyparty.Count == 1)
+                    partyName = _dataSource.Parties.Where(x => x.PartyId == propertyparty[0].PartyId).Select(s => s.PartyFirstName).First();
+                else
+                    partyName = _dataSource.Parties.Where(x => x.PartyId == propertyparty.Where(p=>p.IsPrimaryParty==true).Select(s=>s.PartyId).First()).Select(s => s.PartyFirstName).First();
+            }
+
+            var item = await (from pt in _dataSource.Properties.Where(x => x.PropertyId == propertyId) join
+                               v in _dataSource.Villages on pt.VillageId equals v.VillageId join
+                              pdt in _dataSource.PropertyDocumentType on pt.PropertyId equals pdt.PropertyId 
+                              where pdt.DocumentTypeId==DocumentTypeId
                               select new PropertyMergeList
                               {
                                   PropertyGuid = pt.PropertyGuid,
+                                  PropertyDocumentTypeId=pdt.PropertyDocumentTypeId,
                                   PropertyName = pt.PropertyName,
                                   Village = v.VillageName,
                                   SurveyNo = pt.SurveyNo,
-                                  LandArea = pt.LandAreaInputAcres + "-" + pt.LandAreaInputGuntas + "-" + pt.LandAreaInputAanas,
-                                  SaleValue1 = pt.SaleValue1.ToString(),
-                                  SaleValue2 = pt.SaleValue2.ToString(),
-                                  Amount1 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId).Sum(x => x.Amount1).ToString(),
-                                  Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId).Sum(x => x.Amount1).ToString(),
-                                    Party=string.Join(",",partyname)
+                                  LandArea = CalculateArea(pdt),
+                                  SaleValue1 = pdt.SaleValue1.ToString(),
+                                  SaleValue2 = pdt.SaleValue2.ToString(),
+                                  Amount1 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId==pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString(),
+                                  Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId == pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString(),
+                                  Party = string.Join(",", partyName)
                               }).FirstOrDefaultAsync();
+
+            //var item = await (from pt in _dataSource.Properties.Where(x => x.PropertyId == propertyId)
+            //                  from v in _dataSource.Villages.Where(x => x.VillageId == pt.VillageId).DefaultIfEmpty()
+
+            //                  select new PropertyMergeList
+            //                  {
+            //                      PropertyGuid = pt.PropertyGuid,
+            //                      PropertyName = pt.PropertyName,
+            //                      Village = v.VillageName,
+            //                      SurveyNo = pt.SurveyNo,
+            //                      LandArea = CalculateArea(pt),
+            //                      SaleValue1 = pt.SaleValue1.ToString(),
+            //                      SaleValue2 = pt.SaleValue2.ToString(),
+            //                      Amount1 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId).Sum(x => x.Amount1).ToString(),
+            //                      Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId).Sum(x => x.Amount1).ToString(),
+            //                        Party=string.Join(",", partyName)
+            //                  }).FirstOrDefaultAsync();
             return item;
 
         }
-              
 
+        private string CalculateArea(PropertyDocumentType pt) {
+            var area = pt.LandAreaInputAcres + pt.AKarabAreaInputAcres + pt.BKarabAreaInputAcres;
+            var AKharab = pt.LandAreaInputGuntas + pt.AKarabAreaInputGuntas + pt.BKarabAreaInputGuntas;
+            var BKharab = pt.LandAreaInputAanas + pt.AKarabAreaInputAanas + pt.BKarabAreaInputAanas;
+            return area + " - " + AKharab +
+                                  " - " + BKharab;
+        }
         public async Task<PropertyMerge> GetPropertyMergeAsync(long id)
         {
             var merge = await _dataSource.PropertyMerge.Where(r => r.PropertyMergeId == id).FirstOrDefaultAsync();
@@ -88,7 +122,7 @@ namespace LandBankManagement.Data.Services
                             from pt in _dataSource.Properties.Where(x => x.PropertyGuid == pm.PropertyGuid).DefaultIfEmpty()
                             from c in _dataSource.Companies.Where(x => x.CompanyID == pt.CompanyID).DefaultIfEmpty()
                             from v in _dataSource.Villages.Where(x => x.VillageId == pt.VillageId).DefaultIfEmpty()
-
+                            from pdt in _dataSource.PropertyDocumentType.Where(x=>x.PropertyId==pt.PropertyId && x.PropertyDocumentTypeId==pm.PropertyDocumentTypeId).DefaultIfEmpty()
                             select new PropertyMergeList
                             {
                                 PropertyMergeListId = pm.PropertyMergeListId,
@@ -97,21 +131,30 @@ namespace LandBankManagement.Data.Services
                                 PropertyName = pt.PropertyName,
                                 Village = v.VillageName,
                                 SurveyNo = pt.SurveyNo,
-                                LandArea = pt.LandAreaInputAcres + "-" + pt.LandAreaInputGuntas + "-" + pt.LandAreaInputAanas,
-                                AKarab = pt.AKarabAreaInputAcres + "-" + pt.AKarabAreaInputGuntas + "-" + pt.AKarabAreaInputAanas,
-                                BKarab = pt.BKarabAreaInputAcres + "-" + pt.BKarabAreaInputGuntas + "-" + pt.BKarabAreaInputAanas,
-                                SaleValue1 = pt.SaleValue1.ToString(),
-                                SaleValue2 = pt.SaleValue2.ToString(),
-                                Amount1 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId).Sum(x => x.Amount1).ToString(),
-                                Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId).Sum(x => x.Amount1).ToString()
+                                LandArea = pdt.LandAreaInputAcres + "-" + pdt.LandAreaInputGuntas + "-" + pdt.LandAreaInputAanas,
+                                AKarab = pdt.AKarabAreaInputAcres + "-" + pdt.AKarabAreaInputGuntas + "-" + pdt.AKarabAreaInputAanas,
+                                BKarab = pdt.BKarabAreaInputAcres + "-" + pdt.BKarabAreaInputGuntas + "-" + pdt.BKarabAreaInputAanas,
+                                SaleValue1 = pdt.SaleValue1.ToString(),
+                                SaleValue2 = pdt.SaleValue2.ToString(),
+                                Amount1 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId == pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString(),
+                                Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId == pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString()
                             }).ToList();
 
                 foreach (var item in list) {
-                    var partyname = await (from p in _dataSource.Properties.Where(x=>x.PropertyGuid==item.PropertyGuid)
-                        from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == p.PropertyId)
-                        from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
-                        select party.PartyFirstName).ToListAsync();
-                    item.Party = string.Join(",", partyname);
+                    var propertyparty = await _dataSource.PropertyParty.Where(x => x.PropertyGuid == item.PropertyGuid).ToListAsync();
+                    if (propertyparty != null)
+                    {
+                        if (propertyparty.Count == 1)
+                            item.Party  = _dataSource.Parties.Where(x => x.PartyId == propertyparty[0].PartyId).Select(s => s.PartyFirstName).First();
+                        else
+                            item.Party = _dataSource.Parties.Where(x => x.PartyId == propertyparty.Where(p => p.IsPrimaryParty == true).Select(s => s.PartyId).First()).Select(s => s.PartyFirstName).First();
+                    }
+
+                    //var partyname = await (from p in _dataSource.Properties.Where(x=>x.PropertyGuid==item.PropertyGuid)
+                    //    from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == p.PropertyId)
+                    //    from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
+                    //    select party.PartyFirstName).ToListAsync();
+                    //item.Party = string.Join(",", partyname);
                 }
 
                 merge.propertyMergeLists = list;

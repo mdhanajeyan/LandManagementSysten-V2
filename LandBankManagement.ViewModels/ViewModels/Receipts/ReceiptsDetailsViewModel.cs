@@ -98,7 +98,8 @@ namespace LandBankManagement.ViewModels
         }
 
         public async void LoadDealParties() {
-            DealParties =await DealService.GetDealParties(Item.DealId);
+            PartyOptions = await DropDownService.GetDealPartiesOptions(Item.DealId);
+           // DealParties =await DealService.GetDealParties(Item.DealId);
         }
 
         public async void LoadSelectedReceipt(int id) {

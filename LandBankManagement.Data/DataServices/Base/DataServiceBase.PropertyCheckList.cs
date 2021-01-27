@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace LandBankManagement.Data.Services
                 return 0;
             try
             {
-                ICollection<PropertyCheckListDocuments> docs = model.PropertyCheckListDocuments;
+               // ICollection<PropertyCheckListDocuments> docs = model.PropertyCheckListDocuments;
                 ICollection<PropertyCheckListVendor> vendors = model.PropertyCheckListVendors;
                 ICollection<CheckListOfProperty> checklist = model.CheckListOfProperties;
 
@@ -59,19 +60,7 @@ namespace LandBankManagement.Data.Services
                 await _dataSource.SaveChangesAsync();
                 int res = entity.PropertyCheckListId;
 
-
-                if (docs != null)
-                {
-                    foreach (var doc in docs)
-                    {
-                        if (doc.PropertyCheckListBlobId == 0)
-                        {
-                            doc.PropertyGuid = model.PropertyGuid;
-                            _dataSource.PropertyCheckListDocuments.Add(doc);
-                        }
-                    }
-                }
-                await _dataSource.SaveChangesAsync();
+               
                 if (vendors != null) {
                     foreach (var vendor in vendors)
                     {
@@ -93,6 +82,22 @@ namespace LandBankManagement.Data.Services
                             check.PropertyCheckListId = res;
                             _dataSource.CheckListOfProperty.Add(check);
                         }
+                        await _dataSource.SaveChangesAsync();
+
+                        var docs = check.Documents;
+                        if (docs != null)
+                        {
+                            foreach (var doc in docs)
+                            {
+                                if (doc.PropertyCheckListBlobId == 0)
+                                {
+                                    doc.CheckListPropertyId = check.CheckListPropertyId;
+                                    doc.PropertyGuid = model.PropertyGuid;
+                                    _dataSource.PropertyCheckListDocuments.Add(doc);
+                                }
+                            }
+                        }
+                       
                     }
                 }
                 await _dataSource.SaveChangesAsync();
@@ -120,7 +125,7 @@ namespace LandBankManagement.Data.Services
                 if (vendors.Any()) {
                     property.PropertyCheckListVendors = vendors;
                 }
-                var checklist= GetCheckListOfProperty(property.PropertyCheckListId);
+                var checklist=await GetCheckListOfProperty(property.PropertyCheckListId);
                 if (checklist.Any()) {
                     property.CheckListOfProperties = checklist;
                 }
@@ -178,13 +183,31 @@ namespace LandBankManagement.Data.Services
                 throw ex;
             }
         }
-
-        private List<CheckListOfProperty> GetCheckListOfProperty(int id)
+               
+        public async Task<List<CheckListOfProperty>> GetCheckListOfProperty(int id)
         {
             try
             {
-                return _dataSource.CheckListOfProperty
-                    .Where(r => r.PropertyCheckListId == id).ToList();
+                var items =await  (from cl in _dataSource.CheckLists join
+                                   clp in _dataSource.CheckListOfProperty on cl.CheckListId equals clp.CheckListId 
+                                   where clp.PropertyCheckListId==id
+                             select new CheckListOfProperty
+                             {
+                                 PropertyCheckListId = clp.PropertyCheckListId,
+                                 CheckListId = clp.CheckListId,
+                                 Mandatory = clp.Mandatory,
+                                 Name = cl.CheckListName,
+                                 CheckListPropertyId = clp.CheckListPropertyId
+                             }
+                              ).ToListAsync();
+
+                foreach (var obj in items) {
+                    obj.Documents =await _dataSource.PropertyCheckListDocuments.Where(x => x.CheckListPropertyId == obj.CheckListPropertyId).ToListAsync();
+                }
+
+                return items;
+                //return await _dataSource.CheckListOfProperty
+                //    .Where(r => r.PropertyCheckListId == id).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -308,24 +331,24 @@ namespace LandBankManagement.Data.Services
         {
             try
             {
-                ICollection<PropertyCheckListDocuments> docs = model.PropertyCheckListDocuments;
+                //ICollection<PropertyCheckListDocuments> docs = model.PropertyCheckListDocuments;
                 ICollection<PropertyCheckListVendor> vendors = model.PropertyCheckListVendors;
                 ICollection<CheckListOfProperty> checklist = model.CheckListOfProperties;
                 _dataSource.Entry(model).State = EntityState.Modified;
                  await _dataSource.SaveChangesAsync();
                 int res = model.PropertyCheckListId;
-                if (docs != null)
-                {
-                    foreach (var doc in docs)
-                    {
-                        if (doc.PropertyCheckListBlobId == 0)
-                        {
-                            doc.PropertyGuid = model.PropertyGuid;
-                            _dataSource.PropertyCheckListDocuments.Add(doc);
-                        }
-                    }
-                }
-                await _dataSource.SaveChangesAsync();
+                //if (docs != null)
+                //{
+                //    foreach (var doc in docs)
+                //    {
+                //        if (doc.PropertyCheckListBlobId == 0)
+                //        {
+                //            doc.PropertyGuid = model.PropertyGuid;
+                //            _dataSource.PropertyCheckListDocuments.Add(doc);
+                //        }
+                //    }
+                //}
+                //await _dataSource.SaveChangesAsync();
                 if (vendors != null)
                 {
                     foreach (var vendor in vendors)
@@ -358,6 +381,20 @@ namespace LandBankManagement.Data.Services
                             var item = _dataSource.CheckListOfProperty.Where(x => x.CheckListPropertyId == check.CheckListPropertyId).FirstOrDefault();
                             item.Mandatory = check.Mandatory;
                             _dataSource.Entry(item).State = EntityState.Modified;
+                        }
+
+                        var docs = check.Documents;
+                        if (docs != null)
+                        {
+                            foreach (var doc in docs)
+                            {
+                                if (doc.PropertyCheckListBlobId == 0)
+                                {
+                                    doc.CheckListPropertyId = check.CheckListPropertyId;
+                                    doc.PropertyGuid = model.PropertyGuid;
+                                    _dataSource.PropertyCheckListDocuments.Add(doc);
+                                }
+                            }
                         }
                     }
                 }
@@ -399,6 +436,13 @@ namespace LandBankManagement.Data.Services
         public async Task<int> DeletePropertyCheckListVendorAsync(PropertyCheckListVendor vendor)
         {
             _dataSource.PropertyCheckListVendor.Remove(vendor);
+            return await _dataSource.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteCheckListOfPropertyAsync(int checkListPropertyId)
+        {
+            var item = _dataSource.CheckListOfProperty.Where(x => x.CheckListPropertyId == checkListPropertyId).FirstOrDefault();
+            _dataSource.CheckListOfProperty.Remove(item);
             return await _dataSource.SaveChangesAsync();
         }
     }

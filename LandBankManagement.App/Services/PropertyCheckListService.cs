@@ -117,6 +117,13 @@ namespace LandBankManagement.Services
                 return await dataService.DeletePropertyCheckListAsync(property);
             }
         }
+        public async Task<int> DeleteCheckListOfPropertyAsync(int checkListPropertyID)
+        {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                return await dataService.DeleteCheckListOfPropertyAsync(checkListPropertyID);
+            }
+        }
 
              
         public async Task<int> DeletePropertyDocumentAsync(PropertyCheckListDocumentsModel documents)
@@ -204,6 +211,27 @@ namespace LandBankManagement.Services
                 }
 
                 return docList;
+            }
+        }
+
+        public async Task<ObservableCollection<CheckListOfPropertyModel>> GetCheckListOfProperty(int id) {
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                ObservableCollection<CheckListOfPropertyModel> checkList = new ObservableCollection<CheckListOfPropertyModel>();
+                var items = await dataService.GetCheckListOfProperty(id);
+                foreach (var obj in items)
+                {
+                    checkList.Add(new CheckListOfPropertyModel
+                    {
+                        CheckListPropertyId=obj.CheckListPropertyId,
+                        PropertyCheckListId=obj.PropertyCheckListId,
+                        CheckListId=obj.CheckListId,
+                        Mandatory=obj.Mandatory,
+                        Name=obj.Name
+                    });
+                }
+
+                return checkList;
             }
         }
 
@@ -298,40 +326,62 @@ namespace LandBankManagement.Services
                 PropertyDescription = source.PropertyDescription,
                 CheckListMaster = source.CheckListMaster
             };
-            if (source.PropertyCheckListDocuments != null && source.PropertyCheckListDocuments.Count > 0)
-            {
-                var docList = new ObservableCollection<PropertyCheckListDocumentsModel>();
-                foreach (var obj in source.PropertyCheckListDocuments)
-                {
-                    docList.Add(new PropertyCheckListDocumentsModel
-                    {
-                        PropertyCheckListBlobId = obj.PropertyCheckListBlobId,
-                        guid = obj.PropertyGuid,
-                        ImageBytes = obj.FileBlob,
-                        FileName = obj.FileName,
-                        ContentType = obj.FileType,
-                        FileCategoryId = obj.FileCategoryId,
-                        UploadTime = obj.UploadTime,
-                        DueDate = obj.DueDate,
-                        ActualCompletionDate = obj.ActualCompletionDate,
-                        Remarks = obj.Remarks
-                    });
-                }
-                model.PropertyCheckListDocuments =docList;
-            }
+            //if (source.PropertyCheckListDocuments != null && source.PropertyCheckListDocuments.Count > 0)
+            //{
+            //    var docList = new ObservableCollection<PropertyCheckListDocumentsModel>();
+            //    foreach (var obj in source.PropertyCheckListDocuments)
+            //    {
+            //        docList.Add(new PropertyCheckListDocumentsModel
+            //        {
+            //            PropertyCheckListBlobId = obj.PropertyCheckListBlobId,
+            //            guid = obj.PropertyGuid,
+            //            ImageBytes = obj.FileBlob,
+            //            FileName = obj.FileName,
+            //            ContentType = obj.FileType,
+            //            FileCategoryId = obj.FileCategoryId,
+            //            UploadTime = obj.UploadTime,
+            //            DueDate = obj.DueDate,
+            //            ActualCompletionDate = obj.ActualCompletionDate,
+            //            Remarks = obj.Remarks
+            //        });
+            //    }
+            //    model.PropertyCheckListDocuments =docList;
+            //}
 
             if (source.CheckListOfProperties != null && source.CheckListOfProperties.Count > 0)
             {
                 var checkList = new ObservableCollection<CheckListOfPropertyModel>();
                 foreach (var obj in source.CheckListOfProperties)
                 {
-                    checkList.Add(new CheckListOfPropertyModel
+                    var checkItem = new CheckListOfPropertyModel
                     {
                         CheckListPropertyId = obj.CheckListPropertyId,
                         PropertyCheckListId = obj.PropertyCheckListId,
                         CheckListId = obj.CheckListId,
                         Mandatory = obj.Mandatory,
-                    });
+                        Name=obj.Name
+                    };
+                    var docList = new ObservableCollection<PropertyCheckListDocumentsModel>();
+                    foreach (var doc in obj.Documents)
+                    {
+                        docList.Add(new PropertyCheckListDocumentsModel
+                        {
+                            PropertyCheckListBlobId = doc.PropertyCheckListBlobId,
+                            CheckListPropertyId = doc.CheckListPropertyId,
+                            guid = doc.PropertyGuid,
+                            ImageBytes = doc.FileBlob,
+                            FileName = doc.FileName,
+                            ContentType = doc.FileType,
+                            FileCategoryId = doc.FileCategoryId,
+                            UploadTime = doc.UploadTime,
+                            DueDate = doc.DueDate,
+                            ActualCompletionDate = doc.ActualCompletionDate,
+                            Remarks = doc.Remarks
+                        });
+                    }
+                    checkItem.Documents = docList;
+
+                    checkList.Add(checkItem);
                 }
                 model.CheckListOfProperties = checkList;
             }
@@ -394,17 +444,17 @@ namespace LandBankManagement.Services
             target.PropertyDescription = source.PropertyDescription;
             target.CheckListMaster = source.CheckListMaster;
 
-            if (source.PropertyCheckListDocuments != null && source.PropertyCheckListDocuments.Count > 0)
-            {
-                List<PropertyCheckListDocuments> docList = new List<PropertyCheckListDocuments>();
-                foreach (var obj in source.PropertyCheckListDocuments)
-                {
-                    var doc = new PropertyCheckListDocuments();
-                    UpdateDocumentFromModel(doc, obj);
-                    docList.Add(doc);
-                }
-                target.PropertyCheckListDocuments = docList;
-            }
+            //if (source.PropertyCheckListDocuments != null && source.PropertyCheckListDocuments.Count > 0)
+            //{
+            //    List<PropertyCheckListDocuments> docList = new List<PropertyCheckListDocuments>();
+            //    foreach (var obj in source.PropertyCheckListDocuments)
+            //    {
+            //        var doc = new PropertyCheckListDocuments();
+            //        UpdateDocumentFromModel(doc, obj);
+            //        docList.Add(doc);
+            //    }
+            //    target.PropertyCheckListDocuments = docList;
+            //}
             if (source.CheckListOfProperties != null && source.CheckListOfProperties.Count > 0)
             {
                 List<CheckListOfProperty> checkList = new List<CheckListOfProperty>();
@@ -433,6 +483,7 @@ namespace LandBankManagement.Services
         private void UpdateDocumentFromModel(PropertyCheckListDocuments target, PropertyCheckListDocumentsModel source)
         {
             target.PropertyCheckListBlobId = source.PropertyCheckListBlobId;
+            target.CheckListPropertyId = source.CheckListPropertyId;
             target.PropertyGuid = source.guid;
             target.FileBlob = source.ImageBytes;
             target.FileName = source.FileName;
@@ -459,7 +510,15 @@ namespace LandBankManagement.Services
             target.PropertyCheckListId = source.PropertyCheckListId;
             target.Mandatory = source.Mandatory;
             target.Delete = source.Delete;
-            
+
+            List<PropertyCheckListDocuments> docList = new List<PropertyCheckListDocuments>();
+            foreach (var obj in source.Documents)
+            {
+                var doc = new PropertyCheckListDocuments();
+                UpdateDocumentFromModel(doc, obj);
+                docList.Add(doc);
+            }
+            target.Documents =docList;
         }
     }
 }

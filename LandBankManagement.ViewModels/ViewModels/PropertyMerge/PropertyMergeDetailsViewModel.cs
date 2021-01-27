@@ -28,6 +28,13 @@ namespace LandBankManagement.ViewModels
         {
             get => _propertyOptions;
             set => Set(ref _propertyOptions, value);
+        } 
+        
+        private ObservableCollection<ComboBoxOptions> _propertyDocumentTypeOptions = null;
+        public ObservableCollection<ComboBoxOptions> PropertyDocumentOptions
+        {
+            get => _propertyDocumentTypeOptions;
+            set => Set(ref _propertyDocumentTypeOptions, value);
         }
 
         private ObservableCollection<PropertyMergeListModel> _propertyListOptions = null;
@@ -58,6 +65,12 @@ namespace LandBankManagement.ViewModels
             get => _propertyId;
             set => Set(ref _propertyId, value);
         }
+        private int _documentTypeId;
+        public int selectedDocumentType
+        {
+            get => _documentTypeId;
+            set => Set(ref _documentTypeId, value);
+        }
 
         private PropertyMergeViewModel PropertyMergesViewModel { get; set; }
         public PropertyMergeDetailsViewModel(IDropDownService dropDownService, IPropertyMergeService propertMergeService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyMergeViewModel propertyMergeViewModel) : base(commonServices)
@@ -85,14 +98,20 @@ namespace LandBankManagement.ViewModels
         {
             PropertyMergesViewModel.ShowProgressRing();
             CompanyOptions = await DropDownService.GetCompanyOptions();
-            PropertyOptions = await DropDownService.GetUnSoldPropertyOptions();
+            PropertyOptions = await DropDownService.GetUnSoldPropertyOptions();           
             PropertyMergesViewModel.HideProgressRing();
         }
 
-        public async void LoadedSelectedProperty() {
-            if (selectedProperty > 0) {
+        public async Task GetDocumentType() {
+            if (selectedProperty == 0)
+                return;
+            PropertyDocumentOptions = await DropDownService.GetDocumentTypesByPropertyID(selectedProperty);
+        }
+
+        public async Task LoadedSelectedProperty() {
+            if (selectedDocumentType > 0) {
                 PropertyMergesViewModel.ShowProgressRing();
-                var model = await PropertyMergeService.GetPropertyListItemForProeprty(selectedProperty);
+                var model = await PropertyMergeService.GetPropertyListItemForProeprty(selectedProperty,selectedDocumentType);
                 PropertyMergesViewModel.HideProgressRing();
                 if (CurrentProperty == null)
                     CurrentProperty = new PropertyMergeListModel();
@@ -106,7 +125,7 @@ namespace LandBankManagement.ViewModels
             PropertyMergesViewModel.HideProgressRing();
         }
 
-        public void AddParopertyToList() {          
+        public void AddPropertyToList() {          
 
             if (PropertyList == null)
                 PropertyList = new ObservableCollection<PropertyMergeListModel>();
@@ -122,6 +141,11 @@ namespace LandBankManagement.ViewModels
             CurrentProperty = new PropertyMergeListModel();
             selectedProperty = 0;
             selectedCompany = 0;
+            selectedDocumentType = 0;
+            var temp = PropertyDocumentOptions;
+            PropertyDocumentOptions = null;
+            PropertyDocumentOptions = temp;
+            
         }
 
         public void Subscribe()
@@ -155,7 +179,9 @@ namespace LandBankManagement.ViewModels
         protected override async Task<bool> SaveItemAsync(PropertyMergeModel model)
         {
             try
-            {               
+            {
+                if (PropertyList == null || PropertyList.Count==0)
+                    return false;
 
                 model.propertyMergeLists = PropertyList;
                 foreach (var obj in model.propertyMergeLists) {
@@ -200,6 +226,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (model == null || model.PropertyMergeId == 0)
+                    return false;
+
                 StartStatusMessage("Deleting PropertyMerges...");
                 PropertyMergesViewModel.ShowProgressRing();
                

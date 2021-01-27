@@ -67,14 +67,15 @@ namespace LandBankManagement.Services
             }
         }
 
-        public async Task<PropertyMergeListModel> GetPropertyListItemForProeprty(int id) {
+        public async Task<PropertyMergeListModel> GetPropertyListItemForProeprty(int propertyId, int DocumentTypeId) {
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var obj = await dataService.GetPropertyListItemForProeprty(id);
+                var obj = await dataService.GetPropertyListItemForProeprty(propertyId, DocumentTypeId);
                 var model = new PropertyMergeListModel
                 {
                     PropertyMergeListId = obj.PropertyMergeListId,
                     PropertyMergeGuid = obj.PropertyMergeGuid,
+                    PropertyDocumentTypeId=obj.PropertyDocumentTypeId,
                     PropertyGuid = obj.PropertyGuid,
                     PropertyName = obj.PropertyName,
                     Party = obj.Party,
@@ -196,6 +197,7 @@ namespace LandBankManagement.Services
                     {
                         PropertyMergeListId = obj.PropertyMergeListId,
                         PropertyMergeGuid = obj.PropertyMergeGuid,
+                        PropertyDocumentTypeId=obj.PropertyDocumentTypeId,
                         PropertyGuid = obj.PropertyGuid,
                         PropertyName = obj.PropertyName,
                         Party = obj.Party,
@@ -220,6 +222,7 @@ namespace LandBankManagement.Services
         {
             target.PropertyMergeListId = source.PropertyMergeListId;
             target.PropertyMergeGuid = source.PropertyMergeGuid;
+            target.PropertyDocumentTypeId = source.PropertyDocumentTypeId;
             target.PropertyGuid = source.PropertyGuid;
             target.PropertyName = source.PropertyName;
             target.Party = source.Party;

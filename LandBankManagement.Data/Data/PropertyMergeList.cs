@@ -10,6 +10,7 @@ namespace LandBankManagement.Data
         public int PropertyMergeListId { get; set; }
         public Guid PropertyMergeGuid { get; set; }
         public Guid PropertyGuid { get; set; }
+        public int PropertyDocumentTypeId { get; set; }
 
         [NotMapped]
         public string PropertyName { get; set; }

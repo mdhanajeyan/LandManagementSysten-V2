@@ -24,5 +24,7 @@ namespace LandBankManagement.Services
         Task<int> UpdatePropertyCheckListStatusAsync(int id, int status, string remarks);
         Task<int> SaveDocuments(ICollection<PropertyCheckListDocumentsModel> docs, Guid propertyGuid);
         Task<ObservableCollection<PropertyCheckListDocumentsModel>> GetDocuments(Guid propertyGuid);
+        Task<ObservableCollection<CheckListOfPropertyModel>> GetCheckListOfProperty(int id);
+        Task<int> DeleteCheckListOfPropertyAsync(int checkListPropertyId);
     }
 }

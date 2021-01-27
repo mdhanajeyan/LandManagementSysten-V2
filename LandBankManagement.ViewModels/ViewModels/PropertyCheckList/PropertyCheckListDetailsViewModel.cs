@@ -69,7 +69,14 @@ namespace LandBankManagement.ViewModels
             get => _checkList;
             set => Set(ref _checkList, value);
         }
-        
+
+        private ObservableCollection<ComboBoxOptions> _propertyCheckList = null;
+        public ObservableCollection<ComboBoxOptions> PropertyCheckListOptions
+        {
+            get => _propertyCheckList;
+            set => Set(ref _propertyCheckList, value);
+        }
+
         private ObservableCollection<ComboBoxOptions> _vendorOptions = null;
         public ObservableCollection<ComboBoxOptions> VendorOptions
         {
@@ -84,11 +91,37 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _vendor, value);
         }
 
-
         public string _vendorSearchQuery = null;
         public string VendorSearchQuery {
             get => _vendorSearchQuery;
             set => Set(ref _vendorSearchQuery, value);
+        }
+
+        private bool _isFromMasterChecked;
+        public bool IsFromMasterChecked
+        {
+            get => _isFromMasterChecked;
+            set => Set(ref _isFromMasterChecked, value);
+        }
+
+        private bool _isFromPropertyChecked ;
+        public bool IsFromPropertyChecked
+        {
+            get => _isFromMasterChecked;
+            set => Set(ref _isFromPropertyChecked, value);
+        }
+
+        private bool _showNewCheckListCombo ;
+        public bool ShowNewCheckListCombo
+        {
+            get => _showNewCheckListCombo;
+            set => Set(ref _showNewCheckListCombo, value);
+        } 
+        private bool _showExistCheckListCombo ;
+        public bool ShowExistCheckListCombo
+        {
+            get => _showExistCheckListCombo;
+            set => Set(ref _showExistCheckListCombo, value);
         }
 
         private ObservableCollection<PropertyCheckListDocumentsModel> _docList = null;
@@ -97,6 +130,21 @@ namespace LandBankManagement.ViewModels
             get => _docList;
             set => Set(ref _docList, value);
         }
+
+        private int _selectedPropertyCheckList;
+        public int SelectedPropertyCheckList
+        {
+            get => _selectedPropertyCheckList;
+            set => Set(ref _selectedPropertyCheckList, value);
+        }
+
+        private int _selectedNewCheckListItem;
+        public int SelectedNewCheckListItem
+        {
+            get => _selectedNewCheckListItem;
+            set => Set(ref _selectedNewCheckListItem, value);
+        }
+
         private PropertyCheckListViewModel PropertyCheckListViewModel { get; set; }
         public PropertyCheckListDetailsViewModel(IDropDownService dropDownService, IPropertyCheckListService propertyCheckListService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyCheckListListViewModel propertyCheckListListViewModel, PropertyCheckListViewModel propertyCheckListViewModel) : base(commonServices)
         {
@@ -118,7 +166,7 @@ namespace LandBankManagement.ViewModels
             Item = new PropertyCheckListModel() { PropertyCheckListId = -1, PropertyTypeId = 0, CompanyID = 0, TalukId = 0, HobliId = 0, VillageId = 0, DocumentTypeId = 0 };
             IsEditMode = true;
             await GetDropdowns();
-            PrepareCheckList();
+          //  PrepareCheckList();
         }
 
         public async Task LoadPropertyCheckList(int id) {
@@ -128,15 +176,28 @@ namespace LandBankManagement.ViewModels
            // Item = null;
             Item = model;           
             VendorList = model.PropertyCheckListVendors;
-            if (model.PropertyCheckListDocuments != null)
-            {
-                for (int i = 0; i < model.PropertyCheckListDocuments.Count; i++)
-                {
-                    model.PropertyCheckListDocuments[i].Identity = i + 1;
+            if (model.CheckListOfProperties != null) {
+                CheckList = new ObservableCollection<CheckListOfPropertyModel>();
+
+                foreach (var item in model.CheckListOfProperties) {
+                    for (int i = 0; i < item.Documents.Count; i++)
+                    {
+                        item.Documents[i].DeleteAt = item.CheckListId + "_" + i + 1;
+
+                    }
                 }
+                CheckList = model.CheckListOfProperties;
             }
-            DocList = model.PropertyCheckListDocuments;
-            PrepareCheckList();
+            //if (model.PropertyCheckListDocuments != null)
+            //{
+            //    for (int i = 0; i < model.PropertyCheckListDocuments.Count; i++)
+            //    {
+            //        model.PropertyCheckListDocuments[i].Identity = i + 1;
+            //    }
+            //}
+            //DocList = model.PropertyCheckListDocuments;
+           // PrepareCheckList();
+           
             RestartItem();
             PropertyCheckListViewModel.HideProgressRing();
             StartStatusMessage("Property Checklist is loaded");
@@ -185,6 +246,7 @@ namespace LandBankManagement.ViewModels
             DocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();
             PropertyTypeOptions = await DropDownService.GetPropertyTypeOptions();
             CheckListOptions = await DropDownService.GetCheckListOptions();
+            PropertyCheckListOptions = await DropDownService.GetPropertyCheckListOptions();
             PropertyCheckListViewModel.HideProgressRing();
         }
         public void PrepareCheckList() {
@@ -230,6 +292,68 @@ namespace LandBankManagement.ViewModels
             }
         }
 
+        public void AddNewCheckListItem()
+        {
+            if (CheckListOptions == null)
+                return;
+            var item = CheckListOptions.Where(x => x.Id == SelectedNewCheckListItem).First();
+            if (CheckList != null)
+            {
+                var isExist = CheckList.Where(x => x.CheckListId == SelectedNewCheckListItem).FirstOrDefault();
+                if (isExist != null)
+                    return;
+            }
+            else
+                CheckList = new ObservableCollection<CheckListOfPropertyModel>();
+
+            CheckList.Add(new CheckListOfPropertyModel
+            {
+                PropertyCheckListId = 0,
+                CheckListPropertyId = 0,
+                CheckListId = item.Id,
+                Mandatory = false,
+                Name = item.Description,
+                IsSelected = true
+            });           
+        }
+
+        public void RemoveCheckListItem(int checkListId)
+        {
+            var item = CheckList.Where(x => x.CheckListId == checkListId).FirstOrDefault();
+            if (item == null)
+                return;
+            if (item.CheckListPropertyId > 0)
+            {
+                PropertyCheckListService.DeleteCheckListOfPropertyAsync(item.CheckListPropertyId);
+                CheckList.Remove(item);
+            }
+            else
+                CheckList.Remove(item);
+        }
+
+        public async Task LoadCheckList(string type)
+        {
+            if (type == "master")
+            {
+                ShowExistCheckListCombo = false;
+                ShowNewCheckListCombo = true;
+            }
+            else
+            {
+                ShowExistCheckListCombo = true;
+                ShowNewCheckListCombo = false;
+                await LoadCheckListByProeprty();
+            }
+        }
+
+        public async Task LoadCheckListByProeprty() {
+            var items = await PropertyCheckListService.GetCheckListOfProperty(SelectedPropertyCheckList);
+            foreach (var obj in items) {
+                obj.CheckListPropertyId = 0;
+                obj.PropertyCheckListId = 0;
+            }
+            CheckList = items;
+        }
         public async void GetVendors() {
             PropertyCheckListViewModel.ShowProgressRing();
             VendorOptions = await DropDownService.GetVendorOptions(VendorSearchQuery);
@@ -274,18 +398,19 @@ namespace LandBankManagement.ViewModels
             VendorList.Remove(model);
         }
 
-        public ICommand EditPictureCommand => new RelayCommand(OnEditFile);
-        private async void OnEditFile()
+       // public ICommand EditPictureCommand => new RelayCommand(OnEditFile);
+        public async void OnEditFile(int checkListId)
         {
             var result = await FilePickerService.OpenImagePickerAsync();
             if (result != null)
             {
-                if (DocList == null)
-                    DocList = new ObservableCollection<PropertyCheckListDocumentsModel>();
-
+               
+                var item = CheckList.Where(x => x.CheckListId == checkListId).First();
+                if (item.Documents == null)
+                    item.Documents = new ObservableCollection<PropertyCheckListDocumentsModel>();
                 foreach (var file in result)
                 {
-                    DocList.Add(new PropertyCheckListDocumentsModel { 
+                    item.Documents.Add(new PropertyCheckListDocumentsModel { 
                     FileCategoryId=file.FileCategoryId,
                     FileName=file.FileName,
                     Size=file.Size,
@@ -295,10 +420,15 @@ namespace LandBankManagement.ViewModels
                     ActualCompletionDate=DateTimeOffset.Now
                     });
                 }
-                for (int i = 0; i < DocList.Count; i++)
+                for (int i = 0; i < item.Documents.Count; i++)
                 {
-                    DocList[i].Identity = i + 1;
+                    //item.Documents[i].Identity = i + 1;
+                    item.Documents[i].DeleteAt =checkListId+"_"+ i + 1;
+
                 }
+                var temp = CheckList;
+                CheckList = null;
+                CheckList = temp;
             }
 
         }
@@ -335,27 +465,26 @@ namespace LandBankManagement.ViewModels
 
         }
 
-        public async Task DeleteDocument(int id)
+        public async Task DeleteDocument(int checkListId,int docInx)
         {
-            if (id > 0)
-            {
+           
                 StartStatusMessage("Deleting Property Documents...");
-                if (DocList[id - 1].PropertyCheckListBlobId > 0)
+                var item = CheckList.Where(x => x.CheckListId == checkListId).First();
+            var doc = item.Documents[docInx - 1];
+                if (doc.PropertyCheckListBlobId > 0)
                 {
                     PropertyCheckListViewModel.ShowProgressRing();
-                      await PropertyCheckListService.DeletePropertyDocumentAsync(DocList[id - 1]);
+                      await PropertyCheckListService.DeletePropertyDocumentAsync(doc);
                     PropertyCheckListViewModel.HideProgressRing();
                 }
-                DocList.RemoveAt(id - 1);
-                var newlist = DocList;
-                for (int i = 0; i < newlist.Count; i++)
-                {
-                    newlist[i].Identity = i + 1;
-                }
-                DocList = null;
-                DocList = newlist;
-                EndStatusMessage("Property Documents deleted");
+            item.Documents.Remove(doc);
+            for (int i = 0; i < item.Documents.Count; i++)
+            {
+                item.Documents[i].DeleteAt = checkListId + "_" + i + 1;
+
             }
+            EndStatusMessage("Property Documents deleted");
+           
         }
 
 
@@ -406,18 +535,18 @@ namespace LandBankManagement.ViewModels
             }
         }
         private void PreparePRoeprtyCheckListModel(PropertyCheckListModel model) {
-            var docList = new ObservableCollection<PropertyCheckListDocumentsModel>();
-            if (DocList != null)
-            {
-                foreach (var obj in DocList)
-                {
-                    if (obj.PropertyCheckListBlobId == 0)
-                    {
-                        docList.Add(obj);
-                    }
-                }
-                model.PropertyCheckListDocuments = docList;
-            }
+            //var docList = new ObservableCollection<PropertyCheckListDocumentsModel>();
+            //if (DocList != null)
+            //{
+            //    foreach (var obj in DocList)
+            //    {
+            //        if (obj.PropertyCheckListBlobId == 0)
+            //        {
+            //            docList.Add(obj);
+            //        }
+            //    }
+            //    model.PropertyCheckListDocuments = docList;
+            //}
             var vendorList = new ObservableCollection<PropertyCheckListVendorModel>();
             if (VendorList != null)
             {
@@ -431,23 +560,24 @@ namespace LandBankManagement.ViewModels
                 model.PropertyCheckListVendors = vendorList;
             }
 
-            var checklist = new ObservableCollection<CheckListOfPropertyModel>();
-            if (CheckList != null)
-            {
-                foreach (var obj in CheckList)
-                {
-                    if (obj.CheckListPropertyId == 0 && obj.IsSelected)
-                        checklist.Add(obj);
-                    else if (obj.CheckListPropertyId > 0 && obj.IsSelected)
-                        checklist.Add(obj);
-                    else if (obj.CheckListPropertyId > 0 && !obj.IsSelected)
-                    {
-                        obj.Delete = true;
-                        checklist.Add(obj);
-                    }
-                }
-                model.CheckListOfProperties = checklist;
-            }
+            //var checklist = new ObservableCollection<CheckListOfPropertyModel>();
+            //if (CheckList != null)
+            //{
+            //    foreach (var obj in CheckList)
+            //    {
+            //        if (obj.CheckListPropertyId == 0 && obj.IsSelected)
+            //            checklist.Add(obj);
+            //        else if (obj.CheckListPropertyId > 0 && obj.IsSelected)
+            //            checklist.Add(obj);
+            //        else if (obj.CheckListPropertyId > 0 && !obj.IsSelected)
+            //        {
+            //            obj.Delete = true;
+            //            checklist.Add(obj);
+            //        }
+            //    }
+            //    model.CheckListOfProperties = checklist;
+            //}
+            model.CheckListOfProperties = CheckList;
         }
 
 
@@ -466,7 +596,8 @@ namespace LandBankManagement.ViewModels
             VendorList = null;
             if (DocList != null)
                 DocList.Clear();
-            ResetCheckList();
+            CheckList = new ObservableCollection<CheckListOfPropertyModel>();
+           // ResetCheckList();
         }
         protected override async Task<bool> DeleteItemAsync(PropertyCheckListModel model)
         {

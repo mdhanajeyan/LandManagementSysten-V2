@@ -29,9 +29,12 @@ namespace LandBankManagement.Services
         Task<ObservableCollection<ComboBoxOptions>> GetRoleOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetVendorOptions(string vendor);
         Task<ObservableCollection<ComboBoxOptions>> GetCheckListOptions();
+        Task<ObservableCollection<ComboBoxOptions>> GetPropertyCheckListOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetPropertyMergeOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetPropertyOptionsByCompanyID(int companyId);
         Task<ObservableCollection<ComboBoxOptions>> GetDealOptions();
         ObservableCollection<ComboBoxOptions> GetSalutationOptions();
+        Task<ObservableCollection<ComboBoxOptions>> GetDocumentTypesByPropertyID(int propertyId);
+        Task<ObservableCollection<ComboBoxOptions>> GetDealPartiesOptions(int dealId);
     }
 }

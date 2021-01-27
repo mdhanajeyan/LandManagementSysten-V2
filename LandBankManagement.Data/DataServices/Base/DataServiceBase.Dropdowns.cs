@@ -105,6 +105,11 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.CheckLists.Select(x => new { x.CheckListId, x.CheckListName }).ToDictionaryAsync(t => t.CheckListId, t => t.CheckListName);
         }
 
+        public async Task<Dictionary<int, string>> GetPropertyCheckListOptions()
+        {
+            return await _dataSource.PropertyCheckList.Select(x => new { x.PropertyCheckListId, x.PropertyName }).ToDictionaryAsync(t => t.PropertyCheckListId, t => t.PropertyName);
+        }
+
         public async Task<Dictionary<int, string>> GetPropertyMergeOptions()
         {
             return await _dataSource.PropertyMerge.Where(x=>x.ForProposal==false).Select(x => new { x.PropertyMergeId, x.PropertyMergeDealName }).ToDictionaryAsync(t => t.PropertyMergeId, t => t.PropertyMergeDealName);
@@ -116,6 +121,24 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.Properties.Select(x => new { x.PropertyId, x.PropertyName }).ToDictionaryAsync(t => t.PropertyId, t => t.PropertyName);
             else
             return await _dataSource.Properties.Where(x=>x.CompanyID==companyId).Select(x => new { x.PropertyId, x.PropertyName }).ToDictionaryAsync(t => t.PropertyId, t => t.PropertyName);
+        }
+
+        public async Task<Dictionary<int, string>> GetDocumentTypesByPropertyID(int propertyId)
+        {           
+            var items=await (from dp in _dataSource.PropertyDocumentType join
+                      d in _dataSource.DocumentTypes on dp.DocumentTypeId equals d.DocumentTypeId
+                      where dp.PropertyId== propertyId
+                      select new { d.DocumentTypeId,d.DocumentTypeName}).ToDictionaryAsync(t => t.DocumentTypeId, t => t.DocumentTypeName);
+
+            return items;
+        }
+
+        public async Task<Dictionary<int, string>> GetDealPartiesOptions(int dealId)
+        {
+            var models = await (from dp in _dataSource.DealParties join p in _dataSource.Parties on dp.PartyId equals p.PartyId
+                                where (dp.DealId == dealId)
+                                select new { dp.PartyId, p.PartyFirstName }).ToDictionaryAsync(t => t.PartyId, t => t.PartyFirstName); 
+            return models;
         }
 
         public async Task<Dictionary<int, string>> GetDealOptions()

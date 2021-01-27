@@ -23,7 +23,7 @@ namespace LandBankManagement.Views
 
         private void AddProperty_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.AddParopertyToList();
+            ViewModel.AddPropertyToList();
         }
 
         private void Delete_Property_Click(object sender, RoutedEventArgs e)
@@ -42,9 +42,19 @@ namespace LandBankManagement.Views
             ViewModel.LoadPropertyOptionByCompany();
         }
 
-        private void PropertyDDL_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void PropertyDDL_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ViewModel.LoadedSelectedProperty();
+            
+            await  ViewModel.GetDocumentType();
+        }
+
+        private async void DocumentTypeDDL_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+            ViewModel.selectedDocumentType = Convert.ToInt32(val);
+            await ViewModel.LoadedSelectedProperty();
         }
     }
 }
