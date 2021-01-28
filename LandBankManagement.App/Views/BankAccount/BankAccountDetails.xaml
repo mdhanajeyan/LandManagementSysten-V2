@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:BankAccountDetailsViewModel">
             <controls:FluidGrid Margin="0,30,10,0" Columns="2" ColumnSpacing="12" RowSpacing="5"  HorizontalAlignment="Center">
-                <controls:FormComboBox  Header="Company / Individual *" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                <controls:FormComboBox x:Name="CompanyDDl" Header="Company / Individual *" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                 <controls:FormTextBox Header="Bank Name *" Text="{x:Bind EditableItem.BankName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>

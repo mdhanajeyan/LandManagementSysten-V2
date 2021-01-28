@@ -16,10 +16,17 @@ namespace LandBankManagement.Data.Services
         public async Task<Dictionary<int, string>> GetHobliOptions()
         {
             return await _dataSource.Hoblis.Where(x=>x.HobliIsActive).Select(x => new { x.HobliId, x.HobliName }).ToDictionaryAsync(t => t.HobliId, t => t.HobliName);
+        }  
+        public async Task<Dictionary<int, string>> GetHobliOptionsByTaluk(int talukId)
+        {
+            return await _dataSource.Hoblis.Where(x=>x.HobliIsActive).Where(x=>x.TalukId==talukId).Select(x => new { x.HobliId, x.HobliName }).ToDictionaryAsync(t => t.HobliId, t => t.HobliName);
         }
         public async Task<Dictionary<int, string>> GetVillageOptions()
         {
             return await _dataSource.Villages.Where(x=>x.VillageIsActive==true).Select(x => new { x.VillageId, x.VillageName }).ToDictionaryAsync(t => t.VillageId, t => t.VillageName);
+        } public async Task<Dictionary<int, string>> GetVillageOptionsByHobli(int hobliId)
+        {
+            return await _dataSource.Villages.Where(x=>x.VillageIsActive==true).Where(x=>x.HobliId== hobliId).Select(x => new { x.VillageId, x.VillageName }).ToDictionaryAsync(t => t.VillageId, t => t.VillageName);
         }
         public async Task<Dictionary<int, string>> GetCompanyOptions()
         {
@@ -54,10 +61,17 @@ namespace LandBankManagement.Data.Services
         public async Task<Dictionary<int, string>> GetCashOptions()
         {
             return await _dataSource.CashAccounts.Where(x=>x.IsCashAccountActive==true).Select(x => new { x.CashAccountId, x.CashAccountName }).ToDictionaryAsync(t => t.CashAccountId, t => t.CashAccountName);
+        } 
+        public async Task<Dictionary<int, string>> GetCashOptionsByCompany(int companyId)
+        {
+            return await _dataSource.CashAccounts.Where(x=>x.IsCashAccountActive==true).Where(x=>x.CompanyID==companyId).Select(x => new { x.CashAccountId, x.CashAccountName }).ToDictionaryAsync(t => t.CashAccountId, t => t.CashAccountName);
         }
         public async Task<Dictionary<int, string>> GetBankOptions()
         {
             return await _dataSource.BankAccounts.Where(x=>x.IsBankAccountActive).Select(x => new { x.BankAccountId, x.BankName }).ToDictionaryAsync(t => t.BankAccountId, t => t.BankName);
+        }
+        public async Task<Dictionary<int, string>> GetBankOptionsByCompany(int companyId){
+            return await _dataSource.BankAccounts.Where(x=>x.IsBankAccountActive).Where(x=>x.CompanyID==companyId).Select(x => new { x.BankAccountId, x.BankName ,x.AccountNumber}).ToDictionaryAsync(t => t.BankAccountId, t => t.BankName+" - "+t.AccountNumber);
         }
         public async Task<Dictionary<int, string>> GetVendorOptions()
         {

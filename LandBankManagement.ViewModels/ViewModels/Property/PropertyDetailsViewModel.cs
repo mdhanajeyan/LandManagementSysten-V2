@@ -202,12 +202,19 @@ namespace LandBankManagement.ViewModels
         {
             PropertyView.ShowProgressRing();
             CompanyOptions = await DropDownService.GetCompanyOptions();
-            HobliOptions = await DropDownService.GetHobliOptions();
+           // HobliOptions = await DropDownService.GetHobliOptions();
             TalukOptions = await DropDownService.GetTalukOptions();
-            VillageOptions = await DropDownService.GetVillageOptions();
+           // VillageOptions = await DropDownService.GetVillageOptions();
             DocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();
             PropertyTypeOptions = await DropDownService.GetPropertyTypeOptions();
             PropertyView.HideProgressRing();
+        }
+
+        public async Task LoadHobli() {
+            HobliOptions = await DropDownService.GetHobliOptionsByTaluk(Item.TalukId);
+        }
+        public async Task LoadVillage() {
+            VillageOptions = await DropDownService.GetVillageOptionsByHobli(Item.HobliId);
         }
 
         public async void GetParties() {
@@ -244,11 +251,37 @@ namespace LandBankManagement.ViewModels
         public void PreparePropertyName() {
             if (string.IsNullOrEmpty(Item.PropertyName))
             {
+                var partyName = "";
+                if (PartyList!=null) {
+                    if (PartyList.Count > 1)
+                        partyName = PartyList.Where(x => x.IsPrimaryParty == true).FirstOrDefault().PartyName;
+                    else
+                        partyName = PartyList[0].PartyName;
+                }
+
                 var village = VillageOptions.Where(x => x.Id == Item.VillageId).FirstOrDefault().Description;
                 Item.PropertyName = village + " - " + Item.SurveyNo;
+
+                if (partyName!="" && !Item.PropertyName.Contains(partyName))
+                    Item.PropertyName =partyName +" - "+ village + " - " + Item.SurveyNo;
+
                 RestartItem();
             }
         }
+
+        public void UpdatePropertyName(string party) {
+            if (Item.PropertyName == null || Item.PropertyName == "")
+                return;
+            var array = Item.PropertyName.Split('-');
+            var propertyName = "";
+            if (array.Length == 3)
+                 propertyName = party + " - " + array[1] + " - " + array[2];
+            else
+                propertyName = party + " - " + array[0] + " - " + array[1];
+            Item.PropertyName = propertyName;
+            RestartItem();
+        }
+
         public async void LoadPropertyById(int id) {
 
             var model = PropertyList.First(x => x.PropertyId == id);

@@ -20,9 +20,9 @@
                 </Grid.RowDefinitions>
           
             <controls:FluidGrid Grid.Row="0" Margin="0,30,10,0" Columns="2" ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
-                    <controls:FormComboBox  Header="Company / Individual *" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    <controls:FormComboBox x:Name="CompanyDDl"  Header="Company / Individual *" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" SelectionChanged="CompanyDDl_SelectionChanged"/>
                     <controls:FormComboBox  Header="Property Name *" ItemsSource="{x:Bind PropertyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PropertyId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
@@ -60,11 +60,9 @@
                 </StackPanel>
                 <StackPanel>
                         <controls:FormComboBox x:Name="cashCombo" Header="Cash *" ItemsSource="{x:Bind CashOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=CashVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.CashAccountId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                                           SelectedValuePath="Id" DisplayMemberPath="Description"  SelectionChanged="cashCombo_SelectionChanged"/>
                         <controls:FormComboBox x:Name="bankCombo" Header="Bank *" ItemsSource="{x:Bind BankOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=BankVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=TwoWay}"
-                                           SelectedValue="{x:Bind EditableItem.BankAccountId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" SelectionChanged="bankCombo_SelectionChanged"/>
                 </StackPanel>
              
                 <StackPanel Orientation="Vertical" >

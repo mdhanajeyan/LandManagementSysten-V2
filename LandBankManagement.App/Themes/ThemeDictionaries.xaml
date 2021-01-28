@@ -83,7 +83,7 @@
             <!--#endregion-->
             <!--<SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="Black"/>-->
             <!--<SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="#a3a0a0"/>-->
-            <SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="#757575"/>
+            <SolidColorBrush x:Key="TextControlTextBlockHeaderForeground" Color="#616161"/>
             <SolidColorBrush x:Key="DefaultBackground" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="LightBackground" Color="#424242" />
             <SolidColorBrush x:Key="BorderBrush" Color="White" />

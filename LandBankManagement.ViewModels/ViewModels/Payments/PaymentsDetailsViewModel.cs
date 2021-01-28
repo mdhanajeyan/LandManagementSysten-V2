@@ -144,6 +144,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
+            IsEditMode = true;
             Item = new PaymentModel() { PayeeTypeId=1,PaymentTypeId=1};
             Item.DateOfPayment = DateTime.Now;
             GetDropdowns();
@@ -183,12 +184,16 @@ namespace LandBankManagement.ViewModels
             ExpenseOptions = await DropDownService.GetExpenseHeadOptions();
             PartyOptions= await DropDownService.GetPartyOptions();
             PropertyOptions= await DropDownService.GetPropertyOptions();
-            DocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();
-            CashOptions = await DropDownService.GetCashOptions();
-            BankOptions = await DropDownService.GetBankOptions();
+            DocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();            
             PaymentsViewModel.HideProgressRing();
         }
-        
+
+        public async Task LoadBankAndCompany() {
+            if (Item.PayeeId == null || Item.PayeeId == 0)
+                return;
+            CashOptions = await DropDownService.GetCashOptionsByCompany(Item.PayeeId);
+            BankOptions = await DropDownService.GetBankOptionsByCompany(Item.PayeeId);
+        }
 
         public ICommand ExpenseCheckedCommand => new RelayCommand(OnExpenseRadioChecked);
         virtual protected void OnExpenseRadioChecked()

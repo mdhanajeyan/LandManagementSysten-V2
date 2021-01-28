@@ -41,7 +41,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100" >
+        <Popup x:Name="CostDetailsPopup"  IsOpen="{x:Bind ViewModel.PopupOpened,Mode=TwoWay}"  HorizontalOffset="100" VerticalOffset="-150" >
             <Popup.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform x:Name="scalreTransform"/>

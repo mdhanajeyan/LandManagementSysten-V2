@@ -26,5 +26,22 @@ namespace LandBankManagement.Views
             details.SetFocus();
         }
 
+        private async void FromCompanyDDL_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+           
+            await ViewModel.LoadFromBankAndCompany();
+
+        }
+
+        private async void ToCompanyDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+            await ViewModel.LoadToBankAndCompany();
+        }
     }
 }

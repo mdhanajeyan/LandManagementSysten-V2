@@ -12,6 +12,7 @@ namespace LandBankManagement.Models
         public int PropertyDocumentTypeId { get; set; }
 
         public string PropertyName { get; set; }
+        public string DocumentTypeName { get; set; }
         public string Party { get; set; }
         public string Village { get; set; }
         public string SurveyNo { get; set; }

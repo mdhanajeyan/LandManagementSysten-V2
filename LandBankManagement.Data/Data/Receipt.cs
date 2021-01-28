@@ -16,6 +16,7 @@ namespace LandBankManagement.Data
         public int PartyId { get; set; }
         public int PaymentTypeId { get; set; }
         public int DepositBankId { get; set; }
+        public int DepositCashId { get; set; }
         public DateTime DateOfPayment { get; set; }
         public decimal Amount { get; set; }
         public string Narration { get; set; }
@@ -25,6 +26,8 @@ namespace LandBankManagement.Data
 
         public string BuildSearchTerms() => $"{BankName}".ToLower();
         [NotMapped]
-        public string BankName { get; set; }
+        public string BankName { get; set; } 
+        [NotMapped]
+        public string CashName { get; set; }
     }
 }

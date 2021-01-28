@@ -119,12 +119,14 @@ namespace LandBankManagement.Services
                 PayeeId = source.PayeeId,
                 PayeePaymentType = source.PayeePaymentType,
                 PayeeBankId = source.PayeeBankId,
+                PayeeCashId=source.PayeeCashId,
                 DateOfPayment = source.DateOfPayment,
                 Amount = source.Amount.ToString(),
                 Narration = source.Narration,
                 ReceiverId = source.ReceiverId,
                 ReceiverPaymentType = source.ReceiverPaymentType,
                 ReceiverBankId = source.ReceiverBankId,
+                ReceiverCashId=source.ReceiverCashId,
                 FromAccountName=source.FromAccountName,
                 FromCompanyName=source.FromCompanyName,
                 ToAccountName=source.ToAccountName,
@@ -141,12 +143,14 @@ namespace LandBankManagement.Services
             target.PayeeId = source.PayeeId;
             target.PayeePaymentType = source.PayeePaymentType;
             target.PayeeBankId = source.PayeeBankId;
+            target.PayeeCashId = source.PayeeCashId;
             target.DateOfPayment = source.DateOfPayment.UtcDateTime;
             target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.Narration = source.Narration;
             target.ReceiverId = source.ReceiverId;
             target.ReceiverPaymentType = source.ReceiverPaymentType;
             target.ReceiverBankId = source.ReceiverBankId;
+            target.ReceiverCashId = source.ReceiverCashId;
         }
 
     }

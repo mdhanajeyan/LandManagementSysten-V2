@@ -10,4 +10,11 @@ namespace LandBankManagement.Models
         public string Description { get; set; }
         public bool IsSelected { get; set; }
     }
+
+    public class ComboBoxOptionsStringId : ObservableObject
+    {
+        public string Id { get; set; }
+        public string Description { get; set; }
+        public bool IsSelected { get; set; }
+    }
 }

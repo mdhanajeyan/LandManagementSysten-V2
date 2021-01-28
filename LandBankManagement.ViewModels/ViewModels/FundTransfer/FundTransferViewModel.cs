@@ -102,12 +102,11 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
-                ShowProgressRing();
-                var model = await FundTransferService.GetFundTransferAsync(selected.FundTransferId);
-                selected.Merge(model);
-                FundTransferDetails.Item = model;
-                FundTransferDetails.defaultSettings();
                 SelectedPivotIndex = 1;
+                ShowProgressRing();
+                FundTransferDetails.LoadSelectedFundTransfer(selected.FundTransferId);
+             
+                
             }
             catch (Exception ex)
             {

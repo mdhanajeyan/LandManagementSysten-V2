@@ -70,13 +70,13 @@ namespace LandBankManagement.Services
             long id = model.ReceiptId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var vendor =  new Receipt();
-                if (vendor != null)
+                var receipt =  new Receipt();
+                if (receipt != null)
                 {
-                    UpdateReceiptFromModel(vendor, model);
-                    vendor.ReceiptGuid = Guid.NewGuid();
-                    await dataService.AddReceiptAsync(vendor);
-                    model.Merge(await GetReceiptAsync(dataService, vendor.ReceiptId));
+                    UpdateReceiptFromModel(receipt, model);
+                    receipt.ReceiptGuid = Guid.NewGuid();
+                    await dataService.AddReceiptAsync(receipt);
+                    model.Merge(await GetReceiptAsync(dataService, receipt.ReceiptId));
                 }
                 return model;
             }
@@ -87,12 +87,12 @@ namespace LandBankManagement.Services
             long id = model.ReceiptId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                var vendor = id > 0 ? await dataService.GetReceiptAsync(model.ReceiptId) : new Receipt();
-                if (vendor != null)
+                var receipt = id > 0 ? await dataService.GetReceiptAsync(model.ReceiptId) : new Receipt();
+                if (receipt != null)
                 {
-                    UpdateReceiptFromModel(vendor, model);
-                    await dataService.UpdateReceiptAsync(vendor);
-                    model.Merge(await GetReceiptAsync(dataService, vendor.ReceiptId));
+                    UpdateReceiptFromModel(receipt, model);
+                    await dataService.UpdateReceiptAsync(receipt);
+                    model.Merge(await GetReceiptAsync(dataService, receipt.ReceiptId));
                 }
                 return model;
             }
@@ -100,10 +100,10 @@ namespace LandBankManagement.Services
 
         public async Task<int> DeleteReceiptAsync(ReceiptModel model)
         {
-            var vendor = new Receipt { ReceiptId = model.ReceiptId };
+            var receipt = new Receipt { ReceiptId = model.ReceiptId };
             using (var dataService = DataServiceFactory.CreateDataService())
             {
-                return await dataService.DeleteReceiptAsync(vendor);
+                return await dataService.DeleteReceiptAsync(receipt);
             }
         }
 
@@ -127,10 +127,12 @@ namespace LandBankManagement.Services
                 PartyId = source.PartyId,
                 PaymentTypeId = source.PaymentTypeId,
                 DepositBankId = source.DepositBankId,
+                DepositCashId = source.DepositCashId,
                 DateOfPayment = source.DateOfPayment,
                 Amount = source.Amount.ToString(),
                 Narration = source.Narration,
-                BankName=source.BankName
+                BankName=source.BankName,
+                CashName=source.CashName
             };
 
             return model;
@@ -145,6 +147,7 @@ namespace LandBankManagement.Services
             target.PartyId = source.PartyId;
             target.PaymentTypeId = source.PaymentTypeId;
             target.DepositBankId = source.DepositBankId;
+            target.DepositCashId = source.DepositCashId;
             target.DateOfPayment = source.DateOfPayment.UtcDateTime;
             target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.Narration = source.Narration;

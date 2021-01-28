@@ -23,5 +23,6 @@ namespace LandBankManagement.Views
         {
             details.SetFocus();
         }
+     
     }
 }

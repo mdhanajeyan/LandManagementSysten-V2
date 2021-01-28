@@ -10,7 +10,9 @@ namespace LandBankManagement.Services
     public interface IDropDownService
     {
         Task<ObservableCollection<ComboBoxOptions>> GetHobliOptions();
+        Task<ObservableCollection<ComboBoxOptions>> GetHobliOptionsByTaluk(int talukId);
         Task<ObservableCollection<ComboBoxOptions>> GetVillageOptions();
+        Task<ObservableCollection<ComboBoxOptions>> GetVillageOptionsByHobli(int hobliId);
         Task<ObservableCollection<ComboBoxOptions>> GetCompanyOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetTalukOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetAccountTypeOptions();
@@ -20,7 +22,9 @@ namespace LandBankManagement.Services
         Task<ObservableCollection<ComboBoxOptions>> GetPropertyOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetUnSoldPropertyOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetCashOptions();
+        Task<ObservableCollection<ComboBoxOptions>> GetCashOptionsByCompany(int companyId);
         Task<ObservableCollection<ComboBoxOptions>> GetBankOptions();
+        Task<ObservableCollection<ComboBoxOptions>> GetBankOptionsByCompany(int companyId);
         Task<ObservableCollection<ComboBoxOptions>> GetVendorOptions();
         ObservableCollection<ComboBoxOptions> GetReportingToOptions();
         ObservableCollection<ComboBoxOptions> GetGenderOptions();

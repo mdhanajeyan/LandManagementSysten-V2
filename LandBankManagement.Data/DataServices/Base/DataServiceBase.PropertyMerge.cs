@@ -62,13 +62,15 @@ namespace LandBankManagement.Data.Services
 
             var item = await (from pt in _dataSource.Properties.Where(x => x.PropertyId == propertyId) join
                                v in _dataSource.Villages on pt.VillageId equals v.VillageId join
-                              pdt in _dataSource.PropertyDocumentType on pt.PropertyId equals pdt.PropertyId 
+                              pdt in _dataSource.PropertyDocumentType on pt.PropertyId equals pdt.PropertyId join
+                              pd in _dataSource.DocumentTypes on pdt.DocumentTypeId equals pd.DocumentTypeId
                               where pdt.DocumentTypeId==DocumentTypeId
                               select new PropertyMergeList
                               {
                                   PropertyGuid = pt.PropertyGuid,
                                   PropertyDocumentTypeId=pdt.PropertyDocumentTypeId,
                                   PropertyName = pt.PropertyName,
+                                  DocumentTypeName=pd.DocumentTypeName,
                                   Village = v.VillageName,
                                   SurveyNo = pt.SurveyNo,
                                   LandArea = CalculateArea(pdt),
@@ -123,12 +125,14 @@ namespace LandBankManagement.Data.Services
                             from c in _dataSource.Companies.Where(x => x.CompanyID == pt.CompanyID).DefaultIfEmpty()
                             from v in _dataSource.Villages.Where(x => x.VillageId == pt.VillageId).DefaultIfEmpty()
                             from pdt in _dataSource.PropertyDocumentType.Where(x=>x.PropertyId==pt.PropertyId && x.PropertyDocumentTypeId==pm.PropertyDocumentTypeId).DefaultIfEmpty()
+                            from pd in _dataSource.DocumentTypes.Where(x=>x.DocumentTypeId==pdt.DocumentTypeId).DefaultIfEmpty()
                             select new PropertyMergeList
                             {
                                 PropertyMergeListId = pm.PropertyMergeListId,
                                 PropertyMergeGuid = merge.PropertyMergeGuid,
                                 PropertyGuid = pm.PropertyGuid,
                                 PropertyName = pt.PropertyName,
+                                DocumentTypeName=pd.DocumentTypeName,
                                 Village = v.VillageName,
                                 SurveyNo = pt.SurveyNo,
                                 LandArea = pdt.LandAreaInputAcres + "-" + pdt.LandAreaInputGuntas + "-" + pdt.LandAreaInputAanas,

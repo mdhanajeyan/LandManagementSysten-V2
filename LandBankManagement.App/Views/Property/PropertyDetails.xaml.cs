@@ -188,5 +188,33 @@ namespace LandBankManagement.Views
             var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
             ViewModel.ShiftDocumentType(identity);
         }
+
+        private void primaryParty_Checked(object sender, RoutedEventArgs e)
+        {
+            var partyName = ((RadioButton)sender).Tag.ToString();
+            ViewModel.UpdatePropertyName(partyName);
+        }
+
+        private async void TalukDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           await ViewModel.LoadHobli();
+        }
+
+        private async void HobliDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+            ViewModel.Item.HobliId = Convert.ToInt32(val);
+           await ViewModel.LoadVillage();
+        }
+
+        private void VillageDDL_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+            ViewModel.Item.VillageId = Convert.ToInt32(val);
+        }
     }
 }

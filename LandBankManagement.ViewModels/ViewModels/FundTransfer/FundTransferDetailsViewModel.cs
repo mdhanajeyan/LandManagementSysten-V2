@@ -21,33 +21,58 @@ namespace LandBankManagement.ViewModels
             get => _companyOptions;
             set => Set(ref _companyOptions, value);
         }
-      
-        //private ObservableCollection<ComboBoxOptions> _cashOptions = null;
-        //public ObservableCollection<ComboBoxOptions> CashOptions
-        //{
-        //    get => _cashOptions;
-        //    set => Set(ref _cashOptions, value);
-        //}
-        private ObservableCollection<ComboBoxOptions> _bankOptions = null;
-        public ObservableCollection<ComboBoxOptions> BankOptions
+
+        private ObservableCollection<ComboBoxOptionsStringId> _fromCashOptions = null;
+        public ObservableCollection<ComboBoxOptionsStringId> FromCashOptions
         {
-            get => _bankOptions;
-            set => Set(ref _bankOptions, value);
+            get => _fromCashOptions;
+            set => Set(ref _fromCashOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptionsStringId> _fromBankOptions = null;
+        public ObservableCollection<ComboBoxOptionsStringId> FromBankOptions
+        {
+            get => _fromBankOptions;
+            set => Set(ref _fromBankOptions, value);
+        } 
+        private ObservableCollection<ComboBoxOptionsStringId> _toCashOptions = null;
+        public ObservableCollection<ComboBoxOptionsStringId> ToCashOptions
+        {
+            get => _toCashOptions;
+            set => Set(ref _toCashOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptionsStringId> _toBankOptions = null;
+        public ObservableCollection<ComboBoxOptionsStringId> ToBankOptions
+        {
+            get => _toBankOptions;
+            set => Set(ref _toBankOptions, value);
         }
              
 
-        private bool _cashVisibility;
-        public bool CashVisibility
+        private bool _fromCashVisibility;
+        public bool FromCashVisibility
         {
-            get => _cashVisibility;
-            set => Set(ref _cashVisibility, value);
+            get => _fromCashVisibility;
+            set => Set(ref _fromCashVisibility, value);
         }
 
-        private bool _bankVisibility;
-        public bool BankVisibility
+        private bool _fromBankVisibility;
+        public bool FromBankVisibility
         {
-            get => _bankVisibility;
-            set => Set(ref _bankVisibility, value);
+            get => _fromBankVisibility;
+            set => Set(ref _fromBankVisibility, value);
+        }
+        private bool _toCashVisibility;
+        public bool ToCashVisibility
+        {
+            get => _toCashVisibility;
+            set => Set(ref _toCashVisibility, value);
+        }
+
+        private bool _toBankVisibility;
+        public bool ToBankVisibility
+        {
+            get => _toBankVisibility;
+            set => Set(ref _toBankVisibility, value);
         }
        
         private bool _isToCashChecked;
@@ -74,6 +99,35 @@ namespace LandBankManagement.ViewModels
             get => _isFromBankChecked;
             set => Set(ref _isFromBankChecked, value);
         }
+
+        private string _selectedFromBankId = "0";
+        public string SelectedFromBankId
+        {
+            get => _selectedFromBankId;
+            set=> Set(ref _selectedFromBankId, value);
+        }
+
+        private string _selectedFromCashId = "0";
+        public string SelectedFromCashId
+        {
+            get => _selectedFromCashId;
+            set => Set(ref _selectedFromCashId, value);
+        }
+        private string _selectedToBankId = "0";
+        public string SelectedToBankId
+        {
+            get => _selectedToBankId;
+            set => Set(ref _selectedToBankId, value);
+        }
+
+        private string _selectedToCashId = "0";
+        public string SelectedToCashId
+        {
+            get => _selectedToCashId;
+            set => Set(ref _selectedToCashId, value);
+        }
+        private int currentFromCompanyId { get; set; } = 0; 
+        private int currentToCompanyId { get; set; } = 0;
         private FundTransferViewModel FundTransferViewModel { get; set; }
         public FundTransferDetailsViewModel(IDropDownService dropDownService, IFundTransferService fundTransferService, IFilePickerService filePickerService, ICommonServices commonServices, FundTransferViewModel fundTransferViewModel) : base(commonServices)
         {
@@ -92,6 +146,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
+            IsEditMode = true;
             Item = new FundTransferModel() {  PayeePaymentType = 1,ReceiverPaymentType=1,DateOfPayment=DateTimeOffset.Now };
             GetDropdowns();
             defaultSettings();
@@ -125,12 +180,108 @@ namespace LandBankManagement.ViewModels
         {
             FundTransferViewModel.ShowProgressRing();
                CompanyOptions = await DropDownService.GetCompanyOptions();           
-            BankOptions =await DropDownService.GetBankOptions();
+           // BankOptions =await DropDownService.GetBankOptions();
             FundTransferViewModel.HideProgressRing();
-        }              
-      
+        }
+        private async Task<ObservableCollection<ComboBoxOptionsStringId>> GetBankList(int id,string type) {
+            if (type == "bank") {
+                var items = await DropDownService.GetBankOptionsByCompany(id);
+                var bankList = new ObservableCollection<ComboBoxOptionsStringId>();
+                foreach (var obj in items)
+                {
+                    bankList.Add(new ComboBoxOptionsStringId { Id = obj.Id.ToString(), Description = obj.Description });
+                }
+                return bankList;
+            }
+            else
+            {
+                var items = await DropDownService.GetCashOptionsByCompany(id);
+                var bankList = new ObservableCollection<ComboBoxOptionsStringId>();
+                foreach (var obj in items)
+                {
+                    bankList.Add(new ComboBoxOptionsStringId { Id = obj.Id.ToString(), Description = obj.Description });
+                }
+                return bankList;
+            }
+        }
 
-        public void Subscribe()
+        public async Task LoadFromBankAndCompany()
+        {
+            if ( Item.PayeeId == 0 || Item.PayeeId == currentFromCompanyId)
+                return;
+            SelectedFromCashId = "0";
+            SelectedFromBankId = "0";
+           
+            FromBankOptions =await GetBankList(Item.PayeeId,"bank");
+            FromCashOptions = await GetBankList(Item.PayeeId, "cash"); 
+            
+            currentFromCompanyId = Item.PayeeId;
+        }
+        public async Task LoadToBankAndCompany()
+        {
+            if ( Item.ReceiverId == 0 || Item.ReceiverId == currentToCompanyId)
+                return;
+            SelectedToCashId = "0";
+            SelectedToBankId = "0";
+            ToCashOptions = await GetBankList(Item.ReceiverId, "cash");
+            ToBankOptions = await GetBankList(Item.ReceiverId,"bank");
+          
+            currentToCompanyId = Item.ReceiverId;
+        }
+
+        public ICommand FromCashCheckedCommand => new RelayCommand(OnFromCashRadioChecked);
+        virtual protected void OnFromCashRadioChecked()
+        {
+            if (IsFromCashChecked)
+            {
+                FromCashVisibility = true;
+                FromBankVisibility = false;
+            }
+            else
+            {
+                FromCashVisibility = false;
+                FromBankVisibility = true;
+            }
+        } 
+        public ICommand ToCashCheckedCommand => new RelayCommand(OnToCashRadioChecked);
+        virtual protected void OnToCashRadioChecked()
+        {
+            if (IsToCashChecked)
+            {
+                ToCashVisibility = true;
+                ToBankVisibility = false;
+            }
+            else
+            {
+                ToCashVisibility = false;
+                ToBankVisibility = true;
+            }
+        }
+
+        public async void LoadSelectedFundTransfer(int id)
+        {
+            var model = await FundTransferService.GetFundTransferAsync(id);
+            Item.PayeeId = model.PayeeId;
+            Item.ReceiverId = model.ReceiverId;
+            Item.PayeePaymentType = model.PayeePaymentType;
+            Item.ReceiverPaymentType = model.ReceiverPaymentType;
+            await LoadFromBankAndCompany();
+            await LoadToBankAndCompany();
+            defaultSettings();
+            OnFromCashRadioChecked();
+            OnToCashRadioChecked();
+            Item = model;
+            if (Item.PayeeBankId > 0)
+                SelectedFromBankId = Item.PayeeBankId.ToString();
+            else
+                SelectedFromCashId = Item.PayeeCashId.ToString();
+            if (Item.ReceiverBankId > 0)
+                SelectedToBankId = Item.ReceiverBankId.ToString();
+            else
+                SelectedToCashId = Item.ReceiverCashId.ToString();
+        }
+
+            public void Subscribe()
         {
             MessageService.Subscribe<FundTransferDetailsViewModel, FundTransferModel>(this, OnDetailsMessage);
             MessageService.Subscribe<FundTransferListViewModel>(this, OnListMessage);
@@ -156,6 +307,11 @@ namespace LandBankManagement.ViewModels
                 else
                     model.ReceiverPaymentType = 2;
 
+                model.PayeeBankId = Convert.ToInt32(SelectedFromBankId);
+                model.PayeeCashId = Convert.ToInt32(SelectedFromCashId);
+                model.ReceiverBankId = Convert.ToInt32(SelectedToBankId);
+                model.ReceiverCashId = Convert.ToInt32(SelectedToCashId);
+
                 StartStatusMessage("Saving FundTransfer...");
 
                 if (model.FundTransferId <= 0)
@@ -180,6 +336,10 @@ namespace LandBankManagement.ViewModels
         {
             Item = new FundTransferModel() { PayeePaymentType = 1, ReceiverPaymentType = 1 ,DateOfPayment=DateTimeOffset.Now};
             defaultSettings();
+            SelectedFromBankId="0";
+            SelectedFromCashId = "0";
+            SelectedToBankId = "0";
+            SelectedToCashId = "0";
         }
         protected override async Task<bool> DeleteItemAsync(FundTransferModel model)
         {
@@ -214,10 +374,10 @@ namespace LandBankManagement.ViewModels
         override protected IEnumerable<IValidationConstraint<FundTransferModel>> GetValidationConstraints(FundTransferModel model)
         {
             yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Company", m => m.PayeeId);
-            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Bank", m => m.PayeeBankId);
+            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Bank/Cash", m => Convert.ToInt32(SelectedFromBankId) >0 || Convert.ToInt32(SelectedFromCashId)>0);
             yield return new ValidationConstraint<FundTransferModel>("Amount should not be empty", m => ValidateAmount(m));
             yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Company", m => m.ReceiverId);
-            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("To Bank", m => m.ReceiverBankId);
+            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("To Bank/Cash", m => Convert.ToInt32(SelectedToBankId) >0 || Convert.ToInt32(SelectedToCashId) >0);
            
         }
         private bool ValidateAmount(FundTransferModel model)

@@ -21,12 +21,14 @@ namespace LandBankManagement.Data.Services
                     PayeeId = model.PayeeId,
                     PayeePaymentType = model.PayeePaymentType,
                     PayeeBankId = model.PayeeBankId,
+                    PayeeCashId=model.PayeeCashId,
                     DateOfPayment = model.DateOfPayment,
                     Amount = model.Amount,
                     Narration = model.Narration,
                     ReceiverId = model.ReceiverId,
                     ReceiverPaymentType = model.ReceiverPaymentType,
                     ReceiverBankId = model.ReceiverBankId,
+                    ReceiverCashId=model.ReceiverCashId
                 };
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
@@ -43,8 +45,10 @@ namespace LandBankManagement.Data.Services
             IQueryable<FundTransfer> items = from fund in _dataSource.FundTransfers
                                              from fromComp in _dataSource.Companies.Where(x => x.CompanyID == fund.PayeeId).DefaultIfEmpty()
                                              from fromBank in _dataSource.BankAccounts.Where(x => x.BankAccountId == fund.PayeeBankId).DefaultIfEmpty()
+                                             from fromCash in _dataSource.CashAccounts.Where(x => x.CashAccountId == fund.PayeeCashId).DefaultIfEmpty()
                                              from toComp in _dataSource.Companies.Where(x => x.CompanyID == fund.ReceiverId).DefaultIfEmpty()
                                              from toBank in _dataSource.BankAccounts.Where(x => x.BankAccountId == fund.ReceiverBankId).DefaultIfEmpty()
+                                             from toCash in _dataSource.CashAccounts.Where(x => x.CashAccountId == fund.ReceiverCashId).DefaultIfEmpty()
                                              select new FundTransfer
                                              {
                                                  FundTransferId = fund.FundTransferId,
@@ -58,9 +62,9 @@ namespace LandBankManagement.Data.Services
                                                  ReceiverId = fund.ReceiverId,
                                                  ReceiverPaymentType = fund.ReceiverPaymentType,
                                                  ReceiverBankId = fund.ReceiverBankId,
-                                                 FromAccountName = fromBank.BankName,
+                                                 FromAccountName = fund.PayeeBankId>0? fromBank.BankName+" - "+fromBank.AccountNumber: fromCash.CashAccountName,
                                                  FromCompanyName = fromComp.Name,
-                                                 ToAccountName = fromBank.BankName,
+                                                 ToAccountName = fund.ReceiverBankId>0? toBank.BankName+" - "+toBank.AccountNumber:toCash.CashAccountName,
                                                  ToCompanyName = toComp.Name
                                              };
           
@@ -114,12 +118,14 @@ namespace LandBankManagement.Data.Services
                     PayeeId = source.PayeeId,
                     PayeePaymentType = source.PayeePaymentType,
                     PayeeBankId = source.PayeeBankId,
+                    PayeeCashId=source.PayeeCashId,
                     DateOfPayment = source.DateOfPayment,
                     Amount = source.Amount,
                     Narration = source.Narration,
                     ReceiverId = source.ReceiverId,
                     ReceiverPaymentType = source.ReceiverPaymentType,
                     ReceiverBankId = source.ReceiverBankId,
+                    ReceiverCashId=source.ReceiverCashId,
                     FromAccountName=source.FromAccountName,
                     FromCompanyName=source.FromCompanyName,
                     ToAccountName=source.ToAccountName,

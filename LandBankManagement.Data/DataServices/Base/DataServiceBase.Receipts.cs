@@ -1,4 +1,4 @@
-﻿using System;
+﻿//using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,6 +22,7 @@ namespace LandBankManagement.Data.Services
                 PartyId = model.PartyId,
                 PaymentTypeId = model.PaymentTypeId,
                 DepositBankId = model.DepositBankId,
+                DepositCashId = model.DepositCashId,
                 DateOfPayment = model.DateOfPayment,
                 Amount = model.Amount,
                 Narration = model.Narration,
@@ -55,10 +56,12 @@ namespace LandBankManagement.Data.Services
                     PartyId = source.PartyId,
                     PaymentTypeId = source.PaymentTypeId,
                     DepositBankId = source.DepositBankId,
+                    DepositCashId = source.DepositCashId,
                     DateOfPayment = source.DateOfPayment,
                     Amount = source.Amount,
                     BankName=source.BankName,
                     Narration = source.Narration,
+                    CashName=source.CashName
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -69,9 +72,10 @@ namespace LandBankManagement.Data.Services
         private IQueryable<Receipt> GetReceipts(DataRequest<Receipt> request)
         {
 
-            IQueryable<Receipt> items = from r in _dataSource.Receipts join 
-                                     b in _dataSource.BankAccounts on r.DepositBankId equals b.BankAccountId
-                                     select (new Receipt
+            IQueryable<Receipt> items = from r in _dataSource.Receipts  
+                                   from  b in _dataSource.BankAccounts.Where(x=>x.BankAccountId==r.DepositBankId).DefaultIfEmpty()
+                                   from  c in _dataSource.CashAccounts.Where(x=>x.CashAccountId==r.DepositCashId).DefaultIfEmpty()
+                                        select (new Receipt
                                      {
                                          ReceiptId=r.ReceiptId,
                                          ReceiptGuid=r.ReceiptGuid,
@@ -82,12 +86,13 @@ namespace LandBankManagement.Data.Services
                                         Amount=r.Amount,
                                         Narration=r.Narration,
                                          DepositBankId = r.DepositBankId,                                        
-                                         BankName = b.BankName
-                                     });
+                                         DepositCashId = r.DepositCashId,                                        
+                                         BankName = r.DepositBankId>0? b.BankName+" - "+b.AccountNumber: c.CashAccountName
+                                        });
            // IQueryable<Receipt> items = _dataSource.Receipts;
 
             // Query
-            if (!String.IsNullOrEmpty(request.Query))
+            if (!string.IsNullOrEmpty(request.Query))
             {
                 items = items.Where(r => r.BuildSearchTerms().Contains(request.Query.ToLower()));
             }
@@ -114,8 +119,8 @@ namespace LandBankManagement.Data.Services
         public async Task<int> GetReceiptsCountAsync(DataRequest<Receipt> request)
         {
             IQueryable<Receipt> items = from r in _dataSource.Receipts
-                                        join
-     b in _dataSource.BankAccounts on r.DepositBankId equals b.BankAccountId
+                                        from b in _dataSource.BankAccounts.Where(x => x.BankAccountId == r.DepositBankId).DefaultIfEmpty()
+                                        from c in _dataSource.CashAccounts.Where(x => x.CashAccountId == r.DepositCashId).DefaultIfEmpty()
                                         select (new Receipt
                                         {
                                             ReceiptId = r.ReceiptId,
@@ -127,11 +132,13 @@ namespace LandBankManagement.Data.Services
                                             Amount = r.Amount,
                                             Narration = r.Narration,
                                             DepositBankId = r.DepositBankId,
-                                            BankName = b.BankName
+                                            DepositCashId = r.DepositCashId,
+                                            BankName = b.BankName + " - " + b.AccountNumber,
+                                            CashName=c.CashAccountName
                                         });
 
             // Query
-            if (!String.IsNullOrEmpty(request.Query))
+            if (!string.IsNullOrEmpty(request.Query))
             {
                 items = items.Where(r => r.BuildSearchTerms().Contains(request.Query.ToLower()));
             }

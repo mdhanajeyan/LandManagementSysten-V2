@@ -14,12 +14,14 @@ namespace LandBankManagement.Data
         public int PayeeId { get; set; }
         public int PayeePaymentType { get; set; }
         public int PayeeBankId { get; set; }
+        public int PayeeCashId { get; set; }
         public DateTime DateOfPayment { get; set; }
         public decimal Amount { get; set; }
         public string Narration { get; set; }
         public int ReceiverId { get; set; }
         public int ReceiverPaymentType { get; set; }
         public int ReceiverBankId { get; set; }
+        public int ReceiverCashId { get; set; }
 
         [NotMapped]
         public string SearchTerms { get; set; }

@@ -69,9 +69,10 @@
                                          AlternatingRowStyle="{StaticResource alternatingRowStyle}" AlternationCount="2">
                             <sync:SfDataGrid.Columns>
                                 <sync:GridTextColumn HeaderText="Property Name" MappingName="PropertyName"/>
-                                <sync:GridTextColumn HeaderText="Party" MappingName="Party"/>
+                                <!--<sync:GridTextColumn HeaderText="Party" MappingName="Party"/>
                                 <sync:GridTextColumn HeaderText="Village" MappingName="Village"/>
-                                <sync:GridTextColumn HeaderText="Sy.No" MappingName="SurveyNo"/>
+                                <sync:GridTextColumn HeaderText="Sy.No" MappingName="SurveyNo"/>-->
+                                <sync:GridTextColumn HeaderText="Document Type" MappingName="DocumentTypeName"/>
                                 <sync:GridTextColumn HeaderText="Area" MappingName="LandArea"/>
                                 <sync:GridTextColumn HeaderText="Sale Value 1" MappingName="SaleValue1"/>
                                 <sync:GridTextColumn HeaderText="Sale Value 2" MappingName="SaleValue2"/>

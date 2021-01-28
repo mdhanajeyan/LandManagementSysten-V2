@@ -1,4 +1,5 @@
 ﻿using LandBankManagement.ViewModels;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -26,9 +27,21 @@ namespace LandBankManagement.Views
             details.SetFocus();
         }
 
-        private void DealPartiesDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void DealPartiesDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ViewModel.LoadDealParties();
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+
+           await ViewModel.LoadDealParties(Convert.ToInt32(val));
+        }
+
+        private async void CompanyDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+            await ViewModel.LoadBankAndCompany();
         }
     }
 }

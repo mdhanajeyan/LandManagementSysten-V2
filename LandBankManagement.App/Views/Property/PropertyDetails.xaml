@@ -22,14 +22,14 @@
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
 
-                    <controls:FormComboBox  Header="Taluk *" ItemsSource="{x:Bind TalukOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    <controls:FormComboBox x:Name="TalukDDl"  Header="Taluk *" ItemsSource="{x:Bind TalukOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.TalukId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
-                    <controls:FormComboBox  Header="Hobli *" ItemsSource="{x:Bind HobliOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValue="{x:Bind EditableItem.HobliId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
-                    <controls:FormComboBox  Header="Village *" ItemsSource="{x:Bind VillageOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValue="{x:Bind EditableItem.VillageId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" SelectionChanged="TalukDDl_SelectionChanged" />
+                    <controls:FormComboBox x:Name="HobliDDl" Header="Hobli *" ItemsSource="{x:Bind HobliOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           
+                                           SelectedValuePath="Id" DisplayMemberPath="Description"  SelectionChanged="HobliDDl_SelectionChanged"/>
+                    <controls:FormComboBox x:Name="VillageDDL"  Header="Village *" ItemsSource="{x:Bind VillageOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                          SelectionChanged="VillageDDL_SelectionChanged"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                     <controls:FormComboBox  Header="Document Type *" x:Name="DocumentType" IsEnabled="{x:Bind EnableDocType,Mode=TwoWay}" ItemsSource="{x:Bind DocumentTypeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectionChanged="DocumentType_SelectionChanged"
                                            SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
@@ -161,7 +161,7 @@
                                                         <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="30"/>
                                                 </Grid.ColumnDefinitions>
-                                                <RadioButton x:Name="primary" Grid.Column="0"  Tag="expense" GroupName="primary" IsChecked="{Binding IsPrimaryParty,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                                <RadioButton x:Name="primaryParty" Grid.Column="0"  Tag="{Binding PartyName}" GroupName="primary" IsChecked="{Binding IsPrimaryParty,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Checked="primaryParty_Checked">
                                                 </RadioButton>
                                                 <TextBlock Text="{Binding PartyName}" Grid.Column="1"   Height="35"  Foreground="#265fab" FontSize="16"  Padding="10 5 10 0" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" ></TextBlock>
                                                 <Button x:Name="Party_Delete" Tag="{Binding PartyId}" Grid.Column="2" Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Party_Delete_Click" HorizontalAlignment="Right">

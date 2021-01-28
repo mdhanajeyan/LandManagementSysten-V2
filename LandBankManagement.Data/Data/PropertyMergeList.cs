@@ -15,6 +15,8 @@ namespace LandBankManagement.Data
         [NotMapped]
         public string PropertyName { get; set; }
         [NotMapped]
+        public string DocumentTypeName { get; set; }
+        [NotMapped]
         public string Party { get; set; }
         [NotMapped]
         public string Village { get; set; }

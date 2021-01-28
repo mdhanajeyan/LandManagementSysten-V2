@@ -42,5 +42,29 @@ namespace LandBankManagement.Views
             var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
             ViewModel.DeletePaymentList(identity);
         }
+
+        private async void CompanyDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+           await ViewModel.LoadBankAndCompany();
+        }
+
+        private void cashCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+            ViewModel.Item.CashAccountId = Convert.ToInt32(val);
+        }
+
+        private void bankCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null)
+                return;
+            ViewModel.Item.BankAccountId = Convert.ToInt32(val);
+        }
     }
 }

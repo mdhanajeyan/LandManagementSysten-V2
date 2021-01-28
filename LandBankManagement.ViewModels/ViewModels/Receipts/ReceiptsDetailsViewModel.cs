@@ -23,11 +23,17 @@ namespace LandBankManagement.ViewModels
             get => _companyOptions;
             set => Set(ref _companyOptions, value);
         }
-        private ObservableCollection<ComboBoxOptions> _bankOptions = null;
-        public ObservableCollection<ComboBoxOptions> BankOptions
+        private ObservableCollection<ComboBoxOptionsStringId> _bankOptions = null;
+        public ObservableCollection<ComboBoxOptionsStringId> BankOptions
         {
             get => _bankOptions;
             set => Set(ref _bankOptions, value);
+        } 
+        private ObservableCollection<ComboBoxOptionsStringId> _cashOptions = null;
+        public ObservableCollection<ComboBoxOptionsStringId> CashOptions
+        {
+            get => _cashOptions;
+            set => Set(ref _cashOptions, value);
         }
         private ObservableCollection<ComboBoxOptions> _dealOptions = null;
         public ObservableCollection<ComboBoxOptions> DealOptions
@@ -36,18 +42,32 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _dealOptions, value);
         }
 
-        private ObservableCollection<ComboBoxOptions> _partyOptions = null;
-        public ObservableCollection<ComboBoxOptions> PartyOptions
+        private ObservableCollection<ComboBoxOptionsStringId> _partyOptions = null;
+        public ObservableCollection<ComboBoxOptionsStringId> PartyOptions
         {
             get => _partyOptions;
             set => Set(ref _partyOptions, value);
         }
 
-        private ObservableCollection<DealPartiesModel> _dealParties;
-        public ObservableCollection<DealPartiesModel> DealParties
+        private ObservableCollection<ComboBoxOptions> _dealParties;
+        public ObservableCollection<ComboBoxOptions> DealParties
         {
             get => _dealParties;
             set => Set(ref _dealParties, value);
+        }
+
+        private bool _cashVisibility;
+        public bool CashVisibility
+        {
+            get => _cashVisibility;
+            set => Set(ref _cashVisibility, value);
+        }
+
+        private bool _bankVisibility;
+        public bool BankVisibility
+        {
+            get => _bankVisibility;
+            set => Set(ref _bankVisibility, value);
         }
 
         private bool _isCashChecked;
@@ -62,8 +82,31 @@ namespace LandBankManagement.ViewModels
             get => _isBankChecked;
             set => Set(ref _isBankChecked, value);
         }
+        private string _selectedBankId ="0";
+        public string SelectedBankId
+        {
+            get => _selectedBankId;
+            set => Set(ref _selectedBankId, value);
+        }
+
+        private string _selectedCashId="0";
+        public string SelectedCashId
+        {
+            get => _selectedCashId;
+            set => Set(ref _selectedCashId, value);
+        }
+
+        private string _selectedPartyId = "0";
+        public string SelectedPartyId
+        {
+            get => _selectedPartyId;
+            set => Set(ref _selectedPartyId, value);
+        }
 
         private ReceiptsViewModel ReceiptsViewModel { get; set; }
+        private int currentCompanyId { get; set; } = 0;
+        private int currentDealId { get; set; } = 0;
+       
         public ReceiptsDetailsViewModel(IDropDownService dropDownService, IReceiptService receiptService, IFilePickerService filePickerService, ICommonServices commonServices, ReceiptsListViewModel villageListViewModel, ReceiptsViewModel receiptsViewModel, IDealService dealService) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -91,27 +134,106 @@ namespace LandBankManagement.ViewModels
         {
             ReceiptsViewModel.ShowProgressRing();
            // PartyOptions = await DropDownService.GetPartyOptions();
-            BankOptions = await DropDownService.GetBankOptions();
+           // BankOptions = await DropDownService.GetBankOptions();
             CompanyOptions = await DropDownService.GetCompanyOptions();
             DealOptions = await DropDownService.GetDealOptions();
             ReceiptsViewModel.HideProgressRing();           
         }
 
-        public async void LoadDealParties() {
-            PartyOptions = await DropDownService.GetDealPartiesOptions(Item.DealId);
+        private async Task<ObservableCollection<ComboBoxOptionsStringId>> GetBankList(int id, string type)
+        {
+            if (type == "bank")
+            {
+                var items = await DropDownService.GetBankOptionsByCompany(id);
+                var bankList = new ObservableCollection<ComboBoxOptionsStringId>();
+                foreach (var obj in items)
+                {
+                    bankList.Add(new ComboBoxOptionsStringId { Id = obj.Id.ToString(), Description = obj.Description });
+                }
+                return bankList;
+            }
+            if(type == "cash")
+            {
+                var items = await DropDownService.GetCashOptionsByCompany(id);
+                var bankList = new ObservableCollection<ComboBoxOptionsStringId>();
+                foreach (var obj in items)
+                {
+                    bankList.Add(new ComboBoxOptionsStringId { Id = obj.Id.ToString(), Description = obj.Description });
+                }
+                return bankList;
+            }
+            else  {
+                var items = await DropDownService.GetDealPartiesOptions(id);
+                var partyList = new ObservableCollection<ComboBoxOptionsStringId>();
+                foreach (var obj in items)
+                {
+                    partyList.Add(new ComboBoxOptionsStringId { Id = obj.Id.ToString(), Description = obj.Description });
+                }
+                return partyList;
+            }
+        }
+        public async Task LoadBankAndCompany()
+        {
+            if ( Item.PayeeId == 0|| Item.PayeeId == currentCompanyId)
+                return;
+            CashOptions = await GetBankList(Item.PayeeId,"cash");
+            BankOptions = await GetBankList(Item.PayeeId, "bank");
+            SelectedCashId = "0";
+            SelectedBankId = "0";
+            currentCompanyId = Item.PayeeId;
+        }
+
+        public async Task LoadDealParties(int dealId) {
+            if (dealId == 0 || dealId== currentDealId)
+                return;
+            PartyOptions = await GetBankList(dealId,"party");
+            currentDealId = dealId;
            // DealParties =await DealService.GetDealParties(Item.DealId);
         }
 
         public async void LoadSelectedReceipt(int id) {
             ReceiptsViewModel.ShowProgressRing();
             var model = await ReceiptsService.GetReceiptAsync(id);
-            Item = model;
+            Item.PayeeId = model.PayeeId;
+           await LoadBankAndCompany();
+           await LoadDealParties(model.DealId);
             if (model.PaymentTypeId == 1)
+            {
                 IsCashChecked = true;
+                OnCashRadioChecked();
+                //if (CashOptions.Count>1)
+                //SelectedCashId = Item.DepositCashId;
+            }
             else
+            {
                 IsBankChecked = true;
-            LoadDealParties();
+                OnCashRadioChecked();
+                //if (BankOptions.Count > 1)
+                //    SelectedBankId = Item.DepositBankId;
+            }
+             Item = model;
+            if(Item.DepositCashId>0)
+            SelectedCashId = Item.DepositCashId.ToString();
+            else
+            SelectedBankId = Item.DepositBankId.ToString();
+
+            SelectedPartyId = Item.PartyId.ToString();
             ReceiptsViewModel.HideProgressRing();
+        }
+
+        public ICommand CashCheckedCommand => new RelayCommand(OnCashRadioChecked);
+        virtual protected void OnCashRadioChecked()
+        {
+            if (IsCashChecked)
+            {
+                CashVisibility = true;
+                BankVisibility = false;
+            }
+            else
+            {
+                CashVisibility = false;
+                BankVisibility = true;
+            }
         }
 
         public void Subscribe()
@@ -136,6 +258,9 @@ namespace LandBankManagement.ViewModels
                 else
                     model.PaymentTypeId = 2;
 
+                model.DepositBankId =Convert.ToInt32( SelectedBankId);
+                model.DepositCashId = Convert.ToInt32(SelectedCashId);
+                model.PartyId = Convert.ToInt32(SelectedPartyId);
                 if (model.ReceiptId <= 0)
                     await ReceiptsService.AddReceiptAsync(model);
                 else
@@ -158,7 +283,9 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new ReceiptModel { DealId = 0, PaymentTypeId = 0, PayeeId = 0, DepositBankId = 0, DateOfPayment = DateTime.Now };
-            DealParties = new ObservableCollection<DealPartiesModel>();
+           // DealParties = new ObservableCollection<DealPartiesModel>();
+            SelectedBankId = "0";
+            SelectedCashId = "0";
         }
         protected override async Task<bool> DeleteItemAsync(ReceiptModel model)
         {
@@ -195,7 +322,7 @@ namespace LandBankManagement.ViewModels
         {
             yield return new ValidationConstraint<ReceiptModel>("Company must be selected", m => m.PayeeId > 0);
             yield return new ValidationConstraint<ReceiptModel>("Deal Name must be selected", m => m.DealId > 0);
-            yield return new ValidationConstraint<ReceiptModel>("Deposit Bank must be selected", m => m.DepositBankId > 0);
+            yield return new ValidationConstraint<ReceiptModel>("Deposit Bank / Cash must be selected", m => Convert.ToInt32(SelectedBankId) > 0 || Convert.ToInt32(SelectedCashId) > 0);
             yield return new RequiredConstraint<ReceiptModel>("Amount", m => m.Amount);
         }
 
