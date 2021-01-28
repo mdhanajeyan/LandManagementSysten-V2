@@ -15,7 +15,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:PropertyDetailsViewModel">
-            <controls:FluidGrid  Margin="0,0,0,20" Columns="3"  ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
+            <controls:FluidGrid  Margin="0,0,0,50" Columns="3"  ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
                
                 <controls:FluidGrid  Margin="0,30,0,0"  ColumnSpacing="20" ColumnSpan="2"  RowSpacing="12" HorizontalAlignment="Center">
                     <controls:FormComboBox  Header="Company / Individual *" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
@@ -377,7 +377,7 @@
         </DataTemplate>
     </UserControl.Resources>
    
-    <Grid ColumnSpacing="6"  Height="750" VerticalAlignment="Top"
+    <Grid ColumnSpacing="6"   VerticalAlignment="Top"
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
 

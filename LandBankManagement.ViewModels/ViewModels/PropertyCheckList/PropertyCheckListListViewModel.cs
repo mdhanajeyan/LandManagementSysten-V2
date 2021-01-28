@@ -56,6 +56,7 @@ namespace LandBankManagement.ViewModels
         }
         public void Unload()
         {
+            if(ViewModelArgs!=null)
             ViewModelArgs.Query = Query;
         }
 

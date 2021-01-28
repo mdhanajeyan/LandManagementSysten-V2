@@ -248,7 +248,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="6"  Height="770" VerticalAlignment="Top"
+    <Grid ColumnSpacing="6"   VerticalAlignment="Top"
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
 

@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <x:Double x:Key="CardPictureRadius">132</x:Double>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CompanyDetailsViewModel" >
-            <controls:FluidGrid Margin="0,12,0,0" Columns="3" ColumnSpacing="10" RowSpacing="12"  HorizontalAlignment="Center">
+            <controls:FluidGrid Margin="0,12,0,50" Columns="3" ColumnSpacing="10" RowSpacing="12"  HorizontalAlignment="Center">
                 <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"   ColumnSpacing="12" RowSpacing="12" HorizontalAlignment="Center" >
                 <controls:FormTextBox Header="Company Name *" MaxLength="150" Text="{x:Bind EditableItem.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
@@ -171,7 +171,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="8" Height="500" VerticalAlignment="Top"
+    <Grid ColumnSpacing="8"  VerticalAlignment="Top"
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">            
 
         <controls:Details x:Name="details" Grid.Column="0" Margin="20,20,20,20" 

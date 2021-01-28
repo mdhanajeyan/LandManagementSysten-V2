@@ -16,13 +16,13 @@
     <UserControl.Resources>
        
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:PropertyMergeDetailsViewModel">
-            <Grid>
+            <Grid Margin="0,0,0,50">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <controls:FluidGrid Grid.Row="0" Margin="0,30,10,0" Columns="2" ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
+                <controls:FluidGrid Grid.Row="0" Margin="0,30,10,50" Columns="2" ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
 
                     <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10" Margin="0 20 0 0">
                         <controls:FormComboBox x:Name="CompanyDDL" Header="Company / Individual" ItemsSource="{x:Bind CompanyOptions}" SelectionChanged="CompanyDDL_SelectionChanged"
@@ -62,7 +62,7 @@
                     </controls:FluidGrid>
 
                 </controls:FluidGrid>
-                <Grid Grid.Row="1" Grid.Column="1" >
+                <Grid Grid.Row="1" Grid.Column="1">
                     <Grid>
                         <sync:SfDataGrid x:Name="sfdataGrid" AutoGenerateColumns="False" ItemsSource="{x:Bind PropertyList,Mode=TwoWay}" ColumnSizer="Star" 
                                          HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource GridHeader}" RowStyle="{StaticResource GridRowStyle}"
@@ -172,7 +172,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="6"  Height="650" VerticalAlignment="Top"
+    <Grid ColumnSpacing="6" VerticalAlignment="Top"
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
 
@@ -180,7 +180,7 @@
 
         </Grid.ColumnDefinitions>
 
-        <controls:Details x:Name="details" Grid.Column="1" Margin="6,0,0,0"
+        <controls:Details x:Name="details"  Margin="6,0,0,0"
                           DetailsContent="{x:Bind ViewModel}"
                           DetailsTemplate="{StaticResource DetailsTemplate}"
                           IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"

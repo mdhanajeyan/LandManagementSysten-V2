@@ -13,7 +13,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:UserDetailsViewModel">
-            <controls:FluidGrid  Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
+            <controls:FluidGrid  Margin="0,30,0,50" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
                
                 <controls:FluidGrid Margin="0,30,0,0" Columns="2" ColumnSpacing="50" RowSpacing="12" HorizontalAlignment="Center">
 
@@ -72,7 +72,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="6"  Height="450" VerticalAlignment="Top"
+    <Grid ColumnSpacing="6"   VerticalAlignment="Top"
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
 

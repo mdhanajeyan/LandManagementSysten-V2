@@ -19,7 +19,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
           
-            <controls:FluidGrid Grid.Row="0" Margin="0,30,10,0" Columns="2" ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
+            <controls:FluidGrid Grid.Row="0" Margin="0,30,10,50" Columns="2" ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
                     <controls:FormComboBox x:Name="CompanyDDl"  Header="Company / Individual *" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" SelectionChanged="CompanyDDl_SelectionChanged"/>
@@ -159,7 +159,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="6"  Height="650" VerticalAlignment="Top"
+    <Grid ColumnSpacing="6"  VerticalAlignment="Top"
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
             

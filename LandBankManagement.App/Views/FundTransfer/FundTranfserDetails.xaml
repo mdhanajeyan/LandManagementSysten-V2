@@ -12,8 +12,8 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:FundTransferDetailsViewModel">
-            <controls:FluidGrid Margin="0,30,10,0" Columns="2" ColumnSpacing="30" RowSpacing="12" HorizontalAlignment="Center">
+        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:FundTransferDetailsViewModel" >
+            <controls:FluidGrid Margin="0,30,10,50" Columns="2" ColumnSpacing="30" RowSpacing="12" HorizontalAlignment="Center" >
                 <controls:FormComboBox x:Name="FromCompanyDDL" Header="From Company / Individual *" ItemsSource="{x:Bind CompanyOptions}"
                                            SelectedValue="{x:Bind EditableItem.PayeeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" SelectionChanged="FromCompanyDDL_SelectionChanged"/>
@@ -69,7 +69,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnSpacing="6"  Height="600" VerticalAlignment="Top"
+    <Grid ColumnSpacing="6" VerticalAlignment="Top" 
           Visibility="{x:Bind ViewModel.Item.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
 
