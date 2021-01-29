@@ -551,6 +551,15 @@ dt in _dataSource.DocumentTypes on pd.DocumentTypeId equals dt.DocumentTypeId
             }
         }
 
+        private decimal CalculateArea(decimal area, decimal guntas, decimal anas) {
+
+            var anasToGuntas = 40 / anas;
+            var guntasToAcres = (guntas + anasToGuntas) *Convert.ToDecimal( 0.024999977898914);
+            var acres = area + guntasToAcres;
+
+            return acres;
+        }
+
         public async Task<PropertyCostDetails> GetPropertyCostDetails(int propDocTypeId)
         {
             try
