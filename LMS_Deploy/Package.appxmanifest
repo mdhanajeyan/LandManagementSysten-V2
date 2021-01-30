@@ -8,8 +8,8 @@
 
   <Identity
     Name="LandManagementSystem"
-    Publisher="CN=madhu"
-    Version="0.4.2.0" />
+    Publisher="CN=&quot;LeanSys Pvt. Ltd. &quot;"
+    Version="0.7.6.0" />
 
   <Properties>
     <DisplayName>LMS_Deploy</DisplayName>
