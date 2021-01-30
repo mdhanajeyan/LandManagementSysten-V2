@@ -188,6 +188,7 @@ namespace LandBankManagement.Services
                 MergedBalancePayable1 = source.MergedBalancePayable1,
                 MergedBalancePayable2 = source.MergedBalancePayable2,
                 ForProposal = source.ForProposal,
+                FormattedTotalArea=source.FormattedTotalArea,
                 IsSold=source.IsSold
             };
             if (source.propertyMergeLists != null && source.propertyMergeLists.Count > 0)
@@ -254,6 +255,7 @@ namespace LandBankManagement.Services
             target.MergedBalancePayable1 = source.MergedBalancePayable1;
             target.MergedBalancePayable2 = source.MergedBalancePayable2;
             target.ForProposal = source.ForProposal;
+            target.FormattedTotalArea = source.FormattedTotalArea;
         }
     }
 }

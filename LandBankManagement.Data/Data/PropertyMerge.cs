@@ -18,6 +18,7 @@ namespace LandBankManagement.Data
         public decimal MergedBalancePayable1 { get; set; }
         public decimal MergedBalancePayable2 { get; set; }
         public bool ForProposal { get; set; }
+        public string FormattedTotalArea { get; set; }
         [NotMapped]
         public List<PropertyMergeList> propertyMergeLists { get; set; }
         [NotMapped]

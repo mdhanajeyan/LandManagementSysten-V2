@@ -20,7 +20,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>07EBE7B8BF28825145B2A85ABD57DFE978D7C1BD</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>18F9C1FC6226718BC03B51F91A464CDEF850B031</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxPackageDir>D:\AppPackages\</AppxPackageDir>
@@ -179,7 +179,6 @@
     <Compile Include="Controls\Toolbars\ToolbarCommon.cs" />
     <Compile Include="Controls\WindowTitle\WindowTitle.cs" />
     <Compile Include="Controls\WrapPanel\WrapPanel.cs" />
-    <Compile Include="Converters\AreaConvertor.cs" />
     <Compile Include="Converters\SfTreeGridAlternativeRowStyleConverter.cs" />
     <Compile Include="Converters\BindingTypeConverter.cs" />
     <Compile Include="Converters\BoolNegationConverter.cs" />

@@ -25,7 +25,8 @@ namespace LandBankManagement.Data.Services
                     MergedAmountPaid2 = model.MergedAmountPaid2,
                     MergedBalancePayable1 = model.MergedBalancePayable1,
                     MergedBalancePayable2 = model.MergedBalancePayable2,
-                    ForProposal = model.ForProposal
+                    ForProposal = model.ForProposal,
+                   FormattedTotalArea=model.FormattedTotalArea
                 };
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
@@ -205,6 +206,7 @@ namespace LandBankManagement.Data.Services
                                                    MergedBalancePayable1 = p.MergedBalancePayable1,
                                                    MergedBalancePayable2 = p.MergedBalancePayable2,
                                                    ForProposal = p.ForProposal,
+                                                   FormattedTotalArea=p.FormattedTotalArea,
                                                    IsSold = d == null ? false : true
                                                });
 

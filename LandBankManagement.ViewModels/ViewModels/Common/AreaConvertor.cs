@@ -2,7 +2,7 @@
 using LandBankManagement.Data.Data;
 using LandBankManagement.Extensions;
 
-namespace LandBankManagement.Converters
+namespace LandBankManagement.ViewModels
 {
     public class AreaConvertor
     {
