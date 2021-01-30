@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using LandBankManagement.Extensions;
 using LandBankManagement.Models;
 using LandBankManagement.Services;
 
@@ -184,13 +184,17 @@ namespace LandBankManagement.ViewModels
                     return false;
 
                 model.propertyMergeLists = PropertyList;
+                decimal totalArea=0 ;
                 foreach (var obj in model.propertyMergeLists) {
+                    var area = obj.TotalArea.Split('-');
+                    totalArea += AreaConvertor.AcreToSqft(Convert.ToDecimal(area[0])) + AreaConvertor.GuntasToSqft(Convert.ToDecimal(area[1])) + AreaConvertor.AanasToSqft(Convert.ToDecimal(area[2]));
+
                     model.MergedSaleValue1 = model.MergedSaleValue1 + Convert.ToDecimal(string.IsNullOrEmpty( obj.SaleValue1)?"0" : obj.SaleValue1);
                     model.MergedSaleValue2 = model.MergedSaleValue2 + Convert.ToDecimal(string.IsNullOrEmpty( obj.SaleValue2)?"0" : obj.SaleValue2);
                     model.MergedAmountPaid1 = model.MergedAmountPaid1 + Convert.ToDecimal(string.IsNullOrEmpty( obj.Amount1)?"0" : obj.Amount1);
                     model.MergedAmountPaid2 = model.MergedAmountPaid2 + Convert.ToDecimal(string.IsNullOrEmpty( obj.Amount2)?"0" : obj.Amount2);
                 }
-
+                model.MergedTotalArea = totalArea;
                 StartStatusMessage("Saving PropertyMerges...");
                 PropertyMergesViewModel.ShowProgressRing();
                 int mergeId = 0;

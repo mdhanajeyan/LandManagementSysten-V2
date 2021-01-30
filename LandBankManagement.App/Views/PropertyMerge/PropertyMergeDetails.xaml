@@ -73,7 +73,7 @@
                                 <sync:GridTextColumn HeaderText="Village" MappingName="Village"/>
                                 <sync:GridTextColumn HeaderText="Sy.No" MappingName="SurveyNo"/>-->
                                 <sync:GridTextColumn HeaderText="Document Type" MappingName="DocumentTypeName"/>
-                                <sync:GridTextColumn HeaderText="Area" MappingName="LandArea"/>
+                                <sync:GridTextColumn HeaderText="Area" MappingName="TotalArea"/>
                                 <sync:GridTextColumn HeaderText="Sale Value 1" MappingName="SaleValue1"/>
                                 <sync:GridTextColumn HeaderText="Sale Value 2" MappingName="SaleValue2"/>
                                 <sync:GridTextColumn HeaderText="Amount Paid 1" MappingName="Amount1"/>
