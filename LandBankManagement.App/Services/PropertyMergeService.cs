@@ -88,7 +88,8 @@ namespace LandBankManagement.Services
                     SaleValue1 = obj.SaleValue1,
                     SaleValue2 = obj.SaleValue2,
                     Amount1 = obj.Amount1,
-                    Amount2 = obj.Amount2
+                    Amount2 = obj.Amount2,
+                    TotalArea=obj.TotalArea
                 };
                 return model;
             }
@@ -211,7 +212,8 @@ namespace LandBankManagement.Services
                         SaleValue1 = obj.SaleValue1,
                         SaleValue2 = obj.SaleValue2,
                         Amount1 = obj.Amount1,
-                        Amount2 = obj.Amount2
+                        Amount2 = obj.Amount2,
+                        TotalArea=obj.TotalArea
                     });
 
                 }

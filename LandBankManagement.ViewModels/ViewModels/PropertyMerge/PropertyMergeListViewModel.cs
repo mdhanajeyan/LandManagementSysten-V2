@@ -85,6 +85,7 @@ namespace LandBankManagement.ViewModels
             {
                 PropertyMergeViewModel.ShowProgressRing();
                 Items = await GetItemsAsync();
+
             }
             catch (Exception ex)
             {

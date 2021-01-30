@@ -24,7 +24,7 @@
                     <!--<ColumnDefinition Width="10*"/>-->
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Merged Property*" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Merged Property" />
-                <TextBlock Grid.Column="1" Text="Total Area" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Total Area"/>
+                <TextBlock Grid.Column="1" Text="Total Area(Sqft)" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Total Area"/>
                 <TextBlock Grid.Column="2" Text="Sale Value 1" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Sale Value 1"/>
                 <TextBlock Grid.Column="3" Text="Sale Value 1" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Sale Value 1"/>
                 <TextBlock Grid.Column="4" Text="Amount Paid 1" Style="{StaticResource ColumnHeaderStyle}" ToolTipService.ToolTip="Amount Paid 1"/>

@@ -141,7 +141,10 @@ namespace LandBankManagement.Data.Services
                                 SaleValue1 = pdt.SaleValue1.ToString(),
                                 SaleValue2 = pdt.SaleValue2.ToString(),
                                 Amount1 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId == pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString(),
-                                Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId == pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString()
+                                Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId == pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString(),
+                                TotalArea=(pdt.LandAreaInputAcres+ pdt.AKarabAreaInputAcres+ pdt.BKarabAreaInputAcres)+" - "+ 
+                                (pdt.LandAreaInputGuntas + pdt.AKarabAreaInputGuntas + pdt.BKarabAreaInputGuntas)+" - "+ 
+                                (pdt.LandAreaInputAanas + pdt.AKarabAreaInputAanas + pdt.BKarabAreaInputAanas)
                             }).ToList();
 
                 foreach (var item in list) {

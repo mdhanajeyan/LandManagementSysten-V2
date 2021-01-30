@@ -36,5 +36,7 @@ namespace LandBankManagement.Data
         public string Amount1 { get; set; }
         [NotMapped]
         public string Amount2 { get; set; }
+        [NotMapped]
+        public string TotalArea { get; set; }
     }
 }

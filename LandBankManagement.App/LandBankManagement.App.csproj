@@ -181,7 +181,6 @@
     <Compile Include="Controls\WrapPanel\WrapPanel.cs" />
     <Compile Include="Converters\AreaConvertor.cs" />
     <Compile Include="Converters\SfTreeGridAlternativeRowStyleConverter.cs" />
-    <Compile Include="Extensions\AreaConvertorExtension.cs" />
     <Compile Include="Converters\BindingTypeConverter.cs" />
     <Compile Include="Converters\BoolNegationConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
