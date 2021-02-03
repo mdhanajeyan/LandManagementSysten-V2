@@ -104,9 +104,14 @@ namespace LandBankManagement.ViewModels
             try
             {
                 ShowProgressRing();
+                VillageDetials.ResetTalukOption();
+                VillageDetials.ResetHobliOption(null);
                 var model = await VillageService.GetVillageAsync(selected.VillageId);
+                VillageDetials.ChangeTalukOptions(model.TalukId);
+               // VillageDetials.ChangeHobliOptions( model.HobliId);
                 selected.Merge(model);
                 VillageDetials.Item = model;
+                VillageDetials.SelectedHobli = model.HobliId;
             }
             catch (Exception ex)
             {

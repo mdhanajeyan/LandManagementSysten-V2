@@ -5,10 +5,10 @@ namespace LandBankManagement.Models
 {
     public class HobliModel : ObservableObject
     {
-        static public HobliModel CreateEmpty() => new HobliModel { HobliId = 0,TalukId=0 ,HobliIsActive=true};
+        static public HobliModel CreateEmpty() => new HobliModel { HobliId = 0,TalukId="0" ,HobliIsActive=true};
         public int HobliId { get; set; }
         public Guid HobliGuid { get; set; }
-        public int TalukId { get; set; }
+        public string TalukId { get; set; }
         public string HobliName { get; set; }
         public string HobliGMapLink { get; set; }
         public bool HobliIsActive { get; set; }

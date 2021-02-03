@@ -29,7 +29,7 @@ namespace LandBankManagement.Data.Services
         };
             _dataSource.Entry(entity).State = EntityState.Added;
             int res = await _dataSource.SaveChangesAsync();
-            return res;
+            return entity.ReceiptId;
         }
 
         public async Task<Receipt> GetReceiptAsync(long id)

@@ -27,6 +27,13 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _vendorOptions, value);
         }
 
+        private ObservableCollection<ComboBoxOptions> _solutationOptions = null;
+        public ObservableCollection<ComboBoxOptions> SolutationOptions
+        {
+            get => _solutationOptions;
+            set => Set(ref _solutationOptions, value);
+        }
+
         public IPartyService PartyService { get; }
         public IDropDownService DropDownService { get; }
         public IFilePickerService FilePickerService { get; }
@@ -53,7 +60,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync(bool fromProeprty)
         {
-            Item = new PartyModel();
+            Item = new PartyModel { SalutationType = "1"};
             Item.IsPartyActive = true;
             IsEditMode = true;
             FromProperty = fromProeprty;
@@ -63,6 +70,7 @@ namespace LandBankManagement.ViewModels
         private async void getVendors() {
             PartyViewModel.ShowProgressRing();
             VendorOptions =await DropDownService.GetVendorOptions();
+            SolutationOptions = DropDownService.GetSalutationOptions();
             PartyViewModel.HideProgressRing();
         }
         public void Unload()
@@ -237,7 +245,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new PartyModel();
+            Item = new PartyModel { SalutationType="1"};
             Item.IsPartyActive = true;
             if (DocList != null)
                 DocList.Clear();
@@ -284,7 +292,7 @@ namespace LandBankManagement.ViewModels
         private bool ValidatePanNumber(PartyModel model)
         {
             if (string.IsNullOrEmpty(model.PAN))
-                return false;
+                return true;
             Regex regex = new Regex("([A-Z]){5}([0-9]){4}([A-Z]){1}$");
             if (!regex.IsMatch(model.PAN.Trim()))
             {
@@ -322,7 +330,7 @@ namespace LandBankManagement.ViewModels
         private bool ValidateAadhar(PartyModel model)
         {
             if (string.IsNullOrEmpty(model.AadharNo))
-                return false;
+                return true;
             if (model.AadharNo.Length < 10)
                 return false;
             Regex regex = new Regex(@"^(\d{12}|\d{16})$");

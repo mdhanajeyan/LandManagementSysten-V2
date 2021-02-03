@@ -128,9 +128,15 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> UpdateHobliAsync(Hobli model)
         {
-            _dataSource.Entry(model).State = EntityState.Modified;
-            int res = await _dataSource.SaveChangesAsync();
-            return res;
+            try
+            {
+                _dataSource.Entry(model).State = EntityState.Modified;
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public async Task<int> DeleteHobliAsync(Hobli model)

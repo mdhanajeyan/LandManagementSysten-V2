@@ -30,15 +30,35 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
-         public async Task<ObservableCollection<ComboBoxOptions>> GetHobliOptionsByTaluk(int talukId)
+
+        public async Task<ObservableCollection<ComboBoxOptions>> GetAllHobliOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetAllHobliOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = "0", Description = "" });
+                return list;
+            }
+        }
+
+        public async Task<ObservableCollection<ComboBoxOptions>> GetHobliOptionsByTaluk(int talukId)
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
             using (var dataService = DataServiceFactory.CreateDataService())
@@ -48,11 +68,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -67,11 +87,29 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
+                return list;
+            }
+        }
+        public async Task<ObservableCollection<ComboBoxOptions>> GetAllTalukOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models =await dataService.GetAllTalukOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id =obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -85,15 +123,34 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
 
-        } 
+        }
+        public async Task<ObservableCollection<ComboBoxOptions>> GetAllVillageOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetAllVillageOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = "0", Description = "" });
+                return list;
+            }
+
+        }
         public async Task<ObservableCollection<ComboBoxOptions>> GetVillageOptionsByHobli(int hobliId)
         {
             ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
@@ -104,11 +161,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
 
@@ -123,11 +180,29 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
+                return list;
+            }
+        }
+         public async Task<ObservableCollection<ComboBoxOptions>> GetAllCompanyOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models =await dataService.GetAllCompanyOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id =obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -142,11 +217,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -161,11 +236,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -179,11 +254,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -198,11 +273,30 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
+                return list;
+            }
+        }
+
+        public async Task<ObservableCollection<ComboBoxOptions>> GetAllDocumentTypeOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetAllDocumentTypeOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = "0", Description = "" });
                 return list;
             }
         }
@@ -217,11 +311,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -236,11 +330,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -255,11 +349,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -273,11 +367,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -292,11 +386,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         } 
@@ -310,11 +404,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -329,11 +423,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -347,11 +441,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -365,11 +459,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -384,7 +478,7 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
@@ -402,11 +496,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -420,11 +514,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -440,7 +534,7 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
@@ -458,7 +552,7 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
@@ -476,7 +570,7 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
@@ -493,11 +587,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -511,11 +605,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -530,11 +624,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -548,11 +642,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -566,11 +660,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }
@@ -585,11 +679,11 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id = obj.Key,
+                        Id =obj.Key.ToString(),
                         Description = obj.Value
                     });
                 }
-                list.Insert(0, new ComboBoxOptions { Id = 0, Description = "" });
+                list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
                 return list;
             }
         }

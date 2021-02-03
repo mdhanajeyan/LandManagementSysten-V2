@@ -15,30 +15,143 @@ namespace LandBankManagement.ViewModels
         public IPropertyService PropertyService { get; }
         public IFilePickerService FilePickerService { get; }
         public PropertyListViewModel PropertyListViewModel { get; }
+
+        private ObservableCollection<ComboBoxOptions> _activeCompanyOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveCompanyOptions
+
+        {
+            get => _activeCompanyOptions;
+            set => Set(ref _activeCompanyOptions, value);
+        }
+
         private ObservableCollection<ComboBoxOptions> _companyOptions = null;
         public ObservableCollection<ComboBoxOptions> CompanyOptions
+
         {
             get => _companyOptions;
             set => Set(ref _companyOptions, value);
         }
+
+        private ObservableCollection<ComboBoxOptions> _allCompanyOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllCompanyOptions
+
+        {
+            get => _allCompanyOptions;
+            set => Set(ref _allCompanyOptions, value);
+        }
+        private bool _showComp = true;
+        public bool ShowActiveCompany
+        {
+            get => _showComp;
+            set => Set(ref _showComp, value);
+        }
+
+        private bool _hideComp = false;
+        public bool ChangeCompany
+        {
+            get => _hideComp;
+            set => Set(ref _hideComp, value);
+        }
+
+
         private ObservableCollection<ComboBoxOptions> _documentTypeOptions = null;
         public ObservableCollection<ComboBoxOptions> DocumentTypeOptions
         {
             get => _documentTypeOptions;
             set => Set(ref _documentTypeOptions, value);
         }
+        private ObservableCollection<ComboBoxOptions> _activeDocumentTypeOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveDocumentTypeOptions
+        {
+            get => _activeDocumentTypeOptions;
+            set => Set(ref _activeDocumentTypeOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptions> _allDocumentTypeOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllDocumentTypeOptions
+        {
+            get => _allDocumentTypeOptions;
+            set => Set(ref _allDocumentTypeOptions, value);
+        }
+        private bool _showDocType = true;
+        public bool ShowActiveDocType
+        {
+            get => _showDocType;
+            set => Set(ref _showDocType, value);
+        }
+
+        private bool _hideDocType = false;
+        public bool ChangeDocType
+        {
+            get => _hideDocType;
+            set => Set(ref _hideDocType, value);
+        }
+
+
         private ObservableCollection<ComboBoxOptions> _talukOptions = null;
         public ObservableCollection<ComboBoxOptions> TalukOptions
         {
             get => _talukOptions;
             set => Set(ref _talukOptions, value);
         }
+        private ObservableCollection<ComboBoxOptions> _activeTalukOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveTalukOptions
+        {
+            get => _activeTalukOptions;
+            set => Set(ref _activeTalukOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptions> _allTalukOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllTalukOptions
+        {
+            get => _allTalukOptions;
+            set => Set(ref _allTalukOptions, value);
+        }
+        private bool _showTaluk = true;
+        public bool ShowActiveTaluk
+        {
+            get => _showTaluk;
+            set => Set(ref _showTaluk, value);
+        }
+
+        private bool _hideTaluk = false;
+        public bool ChangeTaluk
+        {
+            get => _hideTaluk;
+            set => Set(ref _hideTaluk, value);
+        }
+
+
         private ObservableCollection<ComboBoxOptions> _hobliOptions = null;
         public ObservableCollection<ComboBoxOptions> HobliOptions
         {
             get => _hobliOptions;
             set => Set(ref _hobliOptions, value);
         }
+        private ObservableCollection<ComboBoxOptions> _activeHobliOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveHobliOptions
+        {
+            get => _activeHobliOptions;
+            set => Set(ref _activeHobliOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptions> _AllHobliOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllHobliOptions
+        {
+            get => _AllHobliOptions;
+            set => Set(ref _AllHobliOptions, value);
+        }
+        private bool _showHobli = true;
+        public bool ShowActiveHobli
+        {
+            get => _showHobli;
+            set => Set(ref _showHobli, value);
+        }
+
+        private bool _hideHobli = false;
+        public bool ChangeHobli
+        {
+            get => _hideHobli;
+            set => Set(ref _hideHobli, value);
+        }
+
 
         private ObservableCollection<ComboBoxOptions> _villageOptions = null;
         public ObservableCollection<ComboBoxOptions> VillageOptions
@@ -46,6 +159,32 @@ namespace LandBankManagement.ViewModels
             get => _villageOptions;
             set => Set(ref _villageOptions, value);
         }
+        private ObservableCollection<ComboBoxOptions> _activeVillageOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveVillageOptions
+        {
+            get => _activeVillageOptions;
+            set => Set(ref _activeVillageOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptions> _allVillageOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllVillageOptions
+        {
+            get => _allVillageOptions;
+            set => Set(ref _allVillageOptions, value);
+        }
+        private bool _showVillage = true;
+        public bool ShowActiveVillage
+        {
+            get => _showVillage;
+            set => Set(ref _showVillage, value);
+        }
+
+        private bool _hideVillage = false;
+        public bool ChangeVillage
+        {
+            get => _hideVillage;
+            set => Set(ref _hideVillage, value);
+        }
+
 
         private ObservableCollection<ComboBoxOptions> _propertyTypeOptions = null;
         public ObservableCollection<ComboBoxOptions> PropertyTypeOptions
@@ -143,6 +282,12 @@ namespace LandBankManagement.ViewModels
             await GetDropdowns();
             if(fromParty)
             GetStoredItem();
+
+            ResetCompanyOption();
+            ResetTalukOption();
+            ResetHobliOption();
+            ResetVillageOption();
+            ResetDocumentTypeOption();
         }
         public void GetStoredItem() {
             var prop = PropertyService.GetStoredItems();
@@ -201,20 +346,135 @@ namespace LandBankManagement.ViewModels
         private async Task GetDropdowns()
         {
             PropertyView.ShowProgressRing();
-            CompanyOptions = await DropDownService.GetCompanyOptions();
-           // HobliOptions = await DropDownService.GetHobliOptions();
-            TalukOptions = await DropDownService.GetTalukOptions();
-           // VillageOptions = await DropDownService.GetVillageOptions();
-            DocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();
+            ActiveCompanyOptions = await DropDownService.GetCompanyOptions();
+            AllCompanyOptions = await DropDownService.GetAllCompanyOptions();
+            ActiveTalukOptions = await DropDownService.GetTalukOptions();
+            AllTalukOptions = await DropDownService.GetAllTalukOptions();
+            ActiveDocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();
+            AllDocumentTypeOptions = await DropDownService.GetAllDocumentTypeOptions();
+            AllHobliOptions= await DropDownService.GetAllHobliOptions();
+            ActiveHobliOptions= await DropDownService.GetHobliOptions();
+            AllVillageOptions= await DropDownService.GetAllVillageOptions();
+            ActiveVillageOptions= await DropDownService.GetVillageOptions();
             PropertyTypeOptions = await DropDownService.GetPropertyTypeOptions();
             PropertyView.HideProgressRing();
         }
 
+        public void ChangeCompanyOptions(string companyId)
+        {
+            var comp = ActiveCompanyOptions.Where(x => x.Id == companyId).FirstOrDefault();
+            if (comp != null)
+            {
+                ResetCompanyOption();
+                return;
+            }
+            CompanyOptions = AllCompanyOptions;
+            ShowActiveCompany = false;
+            ChangeCompany = true;
+        }
+
+        public void ResetCompanyOption()
+        {
+            CompanyOptions = ActiveCompanyOptions;
+            ShowActiveCompany = true;
+            ChangeCompany = false;
+        }
+
+        public void ChangeTalukOptions(string talukId)
+        {
+            var comp = ActiveTalukOptions.Where(x => x.Id == talukId).FirstOrDefault();
+            if (comp != null)
+            {
+                ResetTalukOption();
+                return;
+            }
+            TalukOptions = AllTalukOptions;
+            ShowActiveTaluk = false;
+            ChangeTaluk = true;
+        }
+
+        public void ResetTalukOption()
+        {
+            TalukOptions = ActiveTalukOptions;
+            ShowActiveTaluk = true;
+            ChangeTaluk = false;
+        }
+
+        public void ChangeHobliOptions(string hobliId)
+        {
+            var comp = ActiveHobliOptions.Where(x => x.Id == hobliId).FirstOrDefault();
+            if (comp != null)
+            {
+                ResetHobliOption();
+                return;
+            }
+            HobliOptions = AllHobliOptions;
+            ShowActiveHobli = false;
+            ChangeHobli = true;
+        }
+
+        public void ResetHobliOption()
+        {
+            HobliOptions = ActiveHobliOptions;
+            ShowActiveHobli = true;
+            ChangeHobli = false;
+        }
+
+        public void ChangeVillageOptions(string villageId)
+        {
+            var comp = ActiveVillageOptions.Where(x => x.Id == villageId).FirstOrDefault();
+            if (comp != null)
+            {
+                ResetVillageOption();
+                return;
+            }
+            VillageOptions = AllVillageOptions;
+            ShowActiveVillage = false;
+            ChangeVillage = true;
+        }
+
+        public void ResetVillageOption()
+        {
+            VillageOptions = ActiveVillageOptions;
+            ShowActiveVillage = true;
+            ChangeVillage = false;
+        }
+
+        public void ChangeDocumentTypeOptions(int docTypeId)
+        {
+            var comp = ActiveDocumentTypeOptions.Where(x => Convert.ToInt32(x.Id) == docTypeId).FirstOrDefault();
+            if (comp != null)
+            {
+                ResetDocumentTypeOption();
+                return;
+            }
+            DocumentTypeOptions = AllDocumentTypeOptions;
+            ShowActiveDocType = false;
+            ChangeDocType = true;
+        }
+
+        public void ResetDocumentTypeOption()
+        {
+            DocumentTypeOptions = ActiveDocumentTypeOptions;
+            ShowActiveDocType = true;
+            ChangeDocType = false;
+        }
+
         public async Task LoadHobli() {
-            HobliOptions = await DropDownService.GetHobliOptionsByTaluk(Item.TalukId);
+            var hobliId= Item.HobliId; 
+            int id = Convert.ToInt32(Item.TalukId);
+            HobliOptions = await DropDownService.GetHobliOptionsByTaluk(id);
+            Item.HobliId = hobliId;
+            ChangeHobliOptions(Item.HobliId);
         }
         public async Task LoadVillage() {
-            VillageOptions = await DropDownService.GetVillageOptionsByHobli(Item.HobliId);
+            var villageId= Item.VillageId;
+            int id = Convert.ToInt32(Item.HobliId);
+            var options = await DropDownService.GetVillageOptionsByHobli(id);
+           // if (VillageOptions.Where(x => x.Id == Item.VillageId).FirstOrDefault() == null)
+                VillageOptions = options;
+            Item.VillageId = villageId;
+           // ChangeVillageOptions(Item.VillageId);
         }
 
         public async void GetParties() {
@@ -232,14 +492,14 @@ namespace LandBankManagement.ViewModels
                 if (item.IsSelected) {
                     if (PartyList != null)
                     {
-                        var existParty = PartyList.Where(x => x.PartyId == item.Id).FirstOrDefault();
+                        var existParty = PartyList.Where(x => x.PartyId.ToString() == item.Id).FirstOrDefault();
                         if (existParty != null)
                             continue;
                     }
                     if (PartyList == null)
                         PartyList = new ObservableCollection<PropertyPartyModel>();
                     PartyList.Add(new PropertyPartyModel { 
-                    PartyId=item.Id,
+                    PartyId=Convert.ToInt32( item.Id),
                     PartyName=item.Description
                     });
                 }
@@ -287,7 +547,7 @@ namespace LandBankManagement.ViewModels
             var model = PropertyList.First(x => x.PropertyId == id);
             foreach (var propDocument in model.PropertyDocumentType)
             {
-                propDocument.DocumentType = DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId).First().Description;
+                propDocument.DocumentType = DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId.ToString()).First().Description;
                 if (propDocument.PropertyDocuments != null)
                 {
                     for (int i = 0; i < propDocument.PropertyDocuments.Count; i++)
@@ -334,7 +594,7 @@ namespace LandBankManagement.ViewModels
                 var isExist = PropertyDocumentTypeList.Where(x => x.DocumentTypeId == documentTypeId).FirstOrDefault();
                 if (isExist != null)
                 {
-                    EditableItem.DocumentTypeId = CurrentDocumentType.DocumentTypeId;
+                    EditableItem.DocumentTypeId = CurrentDocumentType.DocumentTypeId.ToString();
                     return;
                 }
             }
@@ -342,7 +602,7 @@ namespace LandBankManagement.ViewModels
             CurrentDocumentType = new PropertyDocumentTypeModel();
 
             CurrentDocumentType.DocumentTypeId = documentTypeId;
-            CurrentDocumentType.DocumentType = DocumentTypeOptions.Where(x => x.Id == documentTypeId).First().Description;
+            CurrentDocumentType.DocumentType = DocumentTypeOptions.Where(x => x.Id == documentTypeId.ToString()).First().Description;
             if (PropertyDocumentTypeList == null)
                 PropertyDocumentTypeList = new ObservableCollection<PropertyDocumentTypeModel>();
             PropertyDocumentTypeList.Add(CurrentDocumentType);
@@ -555,7 +815,7 @@ namespace LandBankManagement.ViewModels
 
         private void UpdateItemValues()
         {
-            EditableItem.DocumentTypeId = CurrentDocumentType.DocumentTypeId;
+            EditableItem.DocumentTypeId = CurrentDocumentType.DocumentTypeId.ToString();
             EditableItem.LandAreaInputAcres = CurrentDocumentType.LandAreaInputAcres;
             EditableItem.LandAreaInputGuntas = CurrentDocumentType.LandAreaInputGuntas;
             EditableItem.LandAreaInAcres = CurrentDocumentType.LandAreaInAcres;
@@ -592,7 +852,7 @@ namespace LandBankManagement.ViewModels
 
             foreach (var propDocument in model.PropertyDocumentType)
             {
-                propDocument.DocumentType = DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId).First().Description;
+                propDocument.DocumentType = DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId.ToString()).First().Description;
                 if (propDocument.PropertyDocuments != null)
                 {
                     for (int i = 0; i < propDocument.PropertyDocuments.Count; i++)
@@ -654,7 +914,7 @@ namespace LandBankManagement.ViewModels
         {
             EnableDocType = true;
             EnablePropertyName = true;
-            Item = new PropertyModel() { PropertyId = -1,  PropertyTypeId = 0, CompanyID = 0, TalukId = 0, HobliId = 0, VillageId = 0, DocumentTypeId = 0,DateOfExecution=DateTimeOffset.Now};
+            Item = new PropertyModel() { PropertyId = -1,  PropertyTypeId = "0", CompanyID = "0", TalukId = "0", HobliId = "0", VillageId = "0", DocumentTypeId = "0",DateOfExecution=DateTimeOffset.Now};
             PartySearchQuery = "";
             PartyOptions = null;
             PartyList = null;
@@ -662,6 +922,11 @@ namespace LandBankManagement.ViewModels
                 DocList.Clear();
             PropertyList = null;
             PropertyDocumentTypeList = null;
+            ResetCompanyOption();
+            ResetTalukOption();
+            ResetHobliOption();
+            ResetVillageOption();
+            ResetDocumentTypeOption();
         }
         protected override async Task<bool> DeleteItemAsync(PropertyModel model)
         {
@@ -716,13 +981,13 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<PropertyModel>> GetValidationConstraints(PropertyModel model)
         {
-            yield return new ValidationConstraint<PropertyModel>("Company must be selected", m => m.CompanyID > 0);
-            yield return new ValidationConstraint<PropertyModel>("Taluk must be selected", m => m.TalukId > 0);
-            yield return new ValidationConstraint<PropertyModel>("Hobli must be selected", m => m.HobliId > 0);
-            yield return new ValidationConstraint<PropertyModel>("Village must be selected", m => m.VillageId > 0);
-            yield return new ValidationConstraint<PropertyModel>("Document Type must be selected", m => m.DocumentTypeId > 0);
-            yield return new RequiredConstraint<PropertyModel>("Document No must be entered", m => m.DocumentNo);
-            yield return new ValidationConstraint<PropertyModel>("Property Type must be selected", m => m.PropertyTypeId > 0);
+            yield return new ValidationConstraint<PropertyModel>("Company must be selected", m =>Convert.ToInt32( m.CompanyID) > 0);
+            yield return new ValidationConstraint<PropertyModel>("Taluk must be selected", m =>Convert.ToInt32( m.TalukId) > 0);
+            yield return new ValidationConstraint<PropertyModel>("Hobli must be selected", m =>Convert.ToInt32( m.HobliId) > 0);
+            yield return new ValidationConstraint<PropertyModel>("Village must be selected", m =>Convert.ToInt32( m.VillageId) > 0);
+            yield return new ValidationConstraint<PropertyModel>("Document Type must be selected", m =>Convert.ToInt32( m.DocumentTypeId) > 0);
+            yield return new RequiredConstraint<PropertyModel>("Document No must be entered", m =>Convert.ToInt32( m.DocumentNo));
+            yield return new ValidationConstraint<PropertyModel>("Property Type must be selected", m =>Convert.ToInt32( m.PropertyTypeId) > 0);
             yield return new RequiredConstraint<PropertyModel>("Survey No", m => m.SurveyNo);          
             yield return new RequiredConstraint<PropertyModel>("Property Name", m => m.PropertyName);
         }

@@ -67,7 +67,6 @@ namespace LandBankManagement.Services
 
         public async Task<ReceiptModel> AddReceiptAsync(ReceiptModel model)
         {
-            long id = model.ReceiptId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var receipt =  new Receipt();
@@ -75,8 +74,8 @@ namespace LandBankManagement.Services
                 {
                     UpdateReceiptFromModel(receipt, model);
                     receipt.ReceiptGuid = Guid.NewGuid();
-                    await dataService.AddReceiptAsync(receipt);
-                    model.Merge(await GetReceiptAsync(dataService, receipt.ReceiptId));
+                  var id=  await dataService.AddReceiptAsync(receipt);
+                    model.Merge(await GetReceiptAsync(dataService, id));
                 }
                 return model;
             }
@@ -122,12 +121,12 @@ namespace LandBankManagement.Services
             {
                 ReceiptId = source.ReceiptId,
                 ReceiptGuid = source.ReceiptGuid,
-                PayeeId = source.PayeeId,
-                DealId = source.DealId,
-                PartyId = source.PartyId,
+                PayeeId = source.PayeeId.ToString(),
+                DealId = source.DealId.ToString(),
+                PartyId = source.PartyId.ToString(),
                 PaymentTypeId = source.PaymentTypeId,
-                DepositBankId = source.DepositBankId,
-                DepositCashId = source.DepositCashId,
+                DepositBankId = source.DepositBankId.ToString(),
+                DepositCashId = source.DepositCashId.ToString(),
                 DateOfPayment = source.DateOfPayment,
                 Amount = source.Amount.ToString(),
                 Narration = source.Narration,
@@ -142,12 +141,12 @@ namespace LandBankManagement.Services
         {
             target.ReceiptId = source.ReceiptId;
             target.ReceiptGuid = source.ReceiptGuid;
-            target.PayeeId = source.PayeeId;
-            target.DealId = source.DealId;
-            target.PartyId = source.PartyId;
+            target.PayeeId =Convert.ToInt32( source.PayeeId??"0");
+            target.DealId = Convert.ToInt32(source.DealId??"0");
+            target.PartyId = Convert.ToInt32(source.PartyId??"0");
             target.PaymentTypeId = source.PaymentTypeId;
-            target.DepositBankId = source.DepositBankId;
-            target.DepositCashId = source.DepositCashId;
+            target.DepositBankId = Convert.ToInt32(source.DepositBankId??"0");
+            target.DepositCashId = Convert.ToInt32(source.DepositCashId??"0");
             target.DateOfPayment = source.DateOfPayment.UtcDateTime;
             target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.Narration = source.Narration;

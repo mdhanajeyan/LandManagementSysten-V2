@@ -12,6 +12,14 @@ namespace LandBankManagement.ViewModels
 {
     public class BankAccountDetailsViewModel : GenericDetailsViewModel<BankAccountModel>
     {
+        private ObservableCollection<ComboBoxOptions> _activeCompanyOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveCompanyOptions
+
+        {
+            get => _activeCompanyOptions;
+            set => Set(ref _activeCompanyOptions, value);
+        }
+
         private ObservableCollection<ComboBoxOptions> _companyOptions = null;
         public ObservableCollection<ComboBoxOptions> CompanyOptions
 
@@ -20,12 +28,34 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _companyOptions, value);
         }
 
+        private ObservableCollection<ComboBoxOptions> _allCompanyOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllCompanyOptions
+
+        {
+            get => _allCompanyOptions;
+            set => Set(ref _allCompanyOptions, value);
+        }
+
         private ObservableCollection<ComboBoxOptions> _acctTypeOptions = null;
         public ObservableCollection<ComboBoxOptions> AcctTypeOptions
 
         {
             get => _acctTypeOptions;
             set => Set(ref _acctTypeOptions, value);
+        }
+
+        private bool _showComp = true;
+        public bool ShowActiveCompany
+        {
+            get => _showComp;
+            set => Set(ref _showComp, value);
+        }
+
+        private bool _hideComp = false;
+        public bool ChangeCompany
+        {
+            get => _hideComp;
+            set => Set(ref _hideComp, value);
         }
 
         public IBankAccountService BankAccountService { get; }
@@ -53,17 +83,38 @@ namespace LandBankManagement.ViewModels
         {
             Item = new BankAccountModel { IsBankAccountActive=true};
             
-            GetCompanyOption();
+            GetDropDownsOption();
+            ShowActiveCompany = true;
+            ChangeCompany = false;
         }
 
-        private async void GetCompanyOption()
+        private async void GetDropDownsOption()
         {
             BankAccountViewModel.ShowProgressRing();
-            CompanyOptions = await DropDownService.GetCompanyOptions();
+            ActiveCompanyOptions = await DropDownService.GetCompanyOptions();
+            AllCompanyOptions = await DropDownService.GetAllCompanyOptions();
             AcctTypeOptions = await DropDownService.GetAccountTypeOptions();
             BankAccountViewModel.HideProgressRing();
+            CompanyOptions = ActiveCompanyOptions;
         }
-       
+
+        public void ChangeCompanyOptions(string companyId) {
+            var comp = ActiveCompanyOptions.Where(x => x.Id== companyId ).FirstOrDefault();
+            if (comp != null)
+            {
+                ResetCompanyOption();
+                return;
+            }
+            CompanyOptions = AllCompanyOptions;
+            ShowActiveCompany = false;
+            ChangeCompany = true;
+        }
+
+        public void ResetCompanyOption() {
+            CompanyOptions = ActiveCompanyOptions;
+            ShowActiveCompany = true;
+            ChangeCompany = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<BankAccountDetailsViewModel, BankAccountModel>(this, OnDetailsMessage);
@@ -103,7 +154,8 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new BankAccountModel() { CompanyID = 0,IsBankAccountActive=true };
+            Item = new BankAccountModel() { CompanyID = "0",IsBankAccountActive=true };
+            ResetCompanyOption();
         }
         protected override async Task<bool> DeleteItemAsync(BankAccountModel model)
         {
@@ -136,10 +188,10 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<BankAccountModel>> GetValidationConstraints(BankAccountModel model)
         {
-            yield return new ValidationConstraint<BankAccountModel>("Comapny should not be empty", x =>x.CompanyID>0);
+            yield return new ValidationConstraint<BankAccountModel>("Comapny should not be empty", x =>Convert.ToInt32( x.CompanyID)>0);
             yield return new RequiredConstraint<BankAccountModel>("Bank Name", m => m.BankName);
             yield return new RequiredConstraint<BankAccountModel>("Branck Name", m => m.BranchName);
-            yield return new ValidationConstraint<BankAccountModel>("Type of account", m => m.AccountTypeId > 0);
+            yield return new ValidationConstraint<BankAccountModel>("Type of account", m =>Convert.ToInt32( m.AccountTypeId) > 0);
             yield return new RequiredConstraint<BankAccountModel>("Account Number", m => m.AccountNumber);           
             yield return new RequiredConstraint<BankAccountModel>("IFSC Code", m => m.IFSCCode);
         }

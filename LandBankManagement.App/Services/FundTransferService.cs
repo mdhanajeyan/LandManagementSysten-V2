@@ -22,7 +22,6 @@ namespace LandBankManagement.Services
 
         public async Task<FundTransferModel> AddFundTransferAsync(FundTransferModel model)
         {
-            long id = model.FundTransferId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var fundTransfer = new FundTransfer();
@@ -30,8 +29,8 @@ namespace LandBankManagement.Services
                 {
                     UpdateFundTransferFromModel(fundTransfer, model);
                     fundTransfer.FundTransferGuid = Guid.NewGuid();
-                    await dataService.AddFundTransferAsync(fundTransfer);
-                    model.Merge(await GetFundTransferAsync(dataService, fundTransfer.FundTransferId));
+                   var id= await dataService.AddFundTransferAsync(fundTransfer);
+                    model.Merge(await GetFundTransferAsync(dataService, id));
                 }
                 return model;
             }
@@ -116,14 +115,14 @@ namespace LandBankManagement.Services
             {
                 FundTransferId = source.FundTransferId,
                 FundTransferGuid = source.FundTransferGuid,
-                PayeeId = source.PayeeId,
+                PayeeId = source.PayeeId.ToString(),
                 PayeePaymentType = source.PayeePaymentType,
                 PayeeBankId = source.PayeeBankId,
                 PayeeCashId=source.PayeeCashId,
                 DateOfPayment = source.DateOfPayment,
                 Amount = source.Amount.ToString(),
                 Narration = source.Narration,
-                ReceiverId = source.ReceiverId,
+                ReceiverId = source.ReceiverId.ToString(),
                 ReceiverPaymentType = source.ReceiverPaymentType,
                 ReceiverBankId = source.ReceiverBankId,
                 ReceiverCashId=source.ReceiverCashId,
@@ -140,14 +139,14 @@ namespace LandBankManagement.Services
         {
             target.FundTransferId = source.FundTransferId;
             target.FundTransferGuid = source.FundTransferGuid;
-            target.PayeeId = source.PayeeId;
+            target.PayeeId = Convert.ToInt32(source.PayeeId);
             target.PayeePaymentType = source.PayeePaymentType;
             target.PayeeBankId = source.PayeeBankId;
             target.PayeeCashId = source.PayeeCashId;
             target.DateOfPayment = source.DateOfPayment.UtcDateTime;
             target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.Narration = source.Narration;
-            target.ReceiverId = source.ReceiverId;
+            target.ReceiverId = Convert.ToInt32(source.ReceiverId);
             target.ReceiverPaymentType = source.ReceiverPaymentType;
             target.ReceiverBankId = source.ReceiverBankId;
             target.ReceiverCashId = source.ReceiverCashId;

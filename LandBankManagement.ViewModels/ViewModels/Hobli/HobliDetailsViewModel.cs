@@ -18,6 +18,33 @@ namespace LandBankManagement.ViewModels
             get => _talukOptions;
             set => Set(ref _talukOptions, value);
         }
+        private ObservableCollection<ComboBoxOptions> _activeTalukOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveTalukOptions
+        {
+            get => _activeTalukOptions;
+            set => Set(ref _activeTalukOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptions> _allTalukOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllTalukOptions
+        {
+            get => _allTalukOptions;
+            set => Set(ref _allTalukOptions, value);
+        }
+
+        private bool _showTaluk = true;
+        public bool ShowActiveTaluk
+        {
+            get => _showTaluk;
+            set => Set(ref _showTaluk, value);
+        }
+
+        private bool _hideTaluk = false;
+        public bool ChangeTaluk
+        {
+            get => _hideTaluk;
+            set => Set(ref _hideTaluk, value);
+        }
+
         public IHobliService HobliService { get; }
         public IFilePickerService FilePickerService { get; }
       public IDropDownService DropDownService { get; }
@@ -43,18 +70,38 @@ namespace LandBankManagement.ViewModels
 
             Item = HobliModel.CreateEmpty();
              IsEditMode=true;
-           // TalukOptions = new ObservableCollection<ComboBoxOptions>();
-            //TalukOptions.Add(new ComboBoxOptions { Id = 1, Description = "test1" });
+           
              GetTaluks();
+            ShowActiveTaluk = true;
+            ChangeTaluk = false;
         }
 
         private async void GetTaluks() {
             HobliViewModel.ShowProgressRing();
-            var models =await DropDownService.GetTalukOptions();
+            ActiveTalukOptions = await DropDownService.GetTalukOptions();
+            AllTalukOptions = await DropDownService.GetAllTalukOptions();
             HobliViewModel.HideProgressRing();
-            TalukOptions = models;            
-        }       
+            TalukOptions = ActiveTalukOptions;
+        }
+        public void ChangeTalukOptions(int talukId)
+        {
+            var comp = ActiveTalukOptions.Where(x => Convert.ToInt32(x.Id) == talukId).FirstOrDefault();
+            if (comp != null)
+            {
+                ResetTalukOption();
+                return;
+            }
+            TalukOptions = AllTalukOptions;
+            ShowActiveTaluk = false;
+            ChangeTaluk = true;
+        }
 
+        public void ResetTalukOption()
+        {
+            TalukOptions = ActiveTalukOptions;
+            ShowActiveTaluk = true;
+            ChangeTaluk = false;
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<HobliDetailsViewModel, HobliModel>(this, OnDetailsMessage);
@@ -96,6 +143,7 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = HobliModel.CreateEmpty();
+            ResetTalukOption();
         }
         protected override async Task<bool> DeleteItemAsync(HobliModel model)
         {
@@ -134,7 +182,7 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<HobliModel>> GetValidationConstraints(HobliModel model)
         {
-            yield return new ValidationConstraint<HobliModel>("Taluk Must be selected", m => m.TalukId>0);
+            yield return new ValidationConstraint<HobliModel>("Taluk Must be selected", m =>Convert.ToInt32( m.TalukId)>0);
             yield return new RequiredConstraint<HobliModel>("Name", m => m.HobliName);
         }
 

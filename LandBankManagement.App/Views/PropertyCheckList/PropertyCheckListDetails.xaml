@@ -23,7 +23,88 @@
                 <controls:FluidGrid Grid.Row="0" Margin="0,0,0,20" Columns="3"  ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
 
                 <controls:FluidGrid  Margin="0,30,0,0"  ColumnSpacing="20" ColumnSpan="2"  RowSpacing="12" HorizontalAlignment="Center">
-                        <controls:FormComboBox  Header="Company / Individual *" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <controls:FormComboBox Grid.Column="0" x:Name="CompanyDDl" Header="Company / Individual *"  IsEnabled="{x:Bind ShowActiveCompany,Mode=TwoWay}" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                            <Button x:Name="ChangeCompany" Grid.Column="1" Visibility="{Binding ChangeCompany}" Click="ChangeCompany_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <controls:FormComboBox x:Name="TalukDDl"  Grid.Column="0" Header="Taluk *" ItemsSource="{x:Bind TalukOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ShowActiveTaluk,Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.TalukId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" SelectionChanged="TalukDDl_SelectionChanged" />
+
+                            <Button x:Name="ChangeTaluk" Grid.Column="1" Visibility="{Binding ChangeTaluk}" Click="ChangeTaluk_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <controls:FormComboBox x:Name="HobliDDl" Grid.Column="0" Header="Hobli *" ItemsSource="{x:Bind HobliOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ShowActiveHobli,Mode=TwoWay}"
+                                            SelectedValue="{x:Bind SelectedHobli, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description"  SelectionChanged="HobliDDl_SelectionChanged"/>
+
+                            <Button x:Name="ChangeHobli" Grid.Column="1" Visibility="{Binding ChangeHobli}" Click="ChangeHobli_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <controls:FormComboBox x:Name="VillageDDL" Grid.Column="0"  Header="Village *" ItemsSource="{x:Bind VillageOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{x:Bind ShowActiveVillage,Mode=TwoWay}"
+                                            SelectedValue="{x:Bind SelectedVillage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+
+                            <Button x:Name="ChangeVillage" Grid.Column="1" Visibility="{Binding ChangeVillage}" Click="ChangeVillage_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <controls:FormComboBox  Grid.Column="0" Header="Document Type *" x:Name="DocumentType" IsEnabled="{x:Bind ShowActiveDocType,Mode=TwoWay}" ItemsSource="{x:Bind DocumentTypeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                           SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+
+                            <Button x:Name="ResetDocType" Grid.Column="1" Visibility="{Binding ChangeDocType}" Click="ResetDocType_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+
+
+                        <!--<controls:FormComboBox  Header="Company / Individual *" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
 
@@ -38,7 +119,7 @@
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                         <controls:FormComboBox  Header="Document Type *" ItemsSource="{x:Bind DocumentTypeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />-->
 
                         <controls:FormComboBox  Header="Property Type *" ItemsSource="{x:Bind PropertyTypeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PropertyTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
@@ -57,7 +138,7 @@
                         <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10" Margin="0 20 0 0">
                             <controls:FormTextBox Header="Acres " Text="{x:Bind EditableItem.LandAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
                             <controls:FormTextBox Header="Guntas" Text="{x:Bind EditableItem.LandAreaInputGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
-                            <controls:FormTextBox Header="Anas" Text="{x:Bind EditableItem.LandAreaInputAanas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
+                            <controls:FormTextBox Header="Aanas" Text="{x:Bind EditableItem.LandAreaInputAanas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="AreaTextBox_LostFocus"/>
                         </controls:FluidGrid>
                        
                     <controls:FluidGrid  ColumnSpan="2" Columns="2" ColumnSpacing="10">
@@ -71,7 +152,7 @@
                         <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10" Margin="0 20 0 0">
                             <controls:FormTextBox Header="Acres " Text="{x:Bind EditableItem.AKarabAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  LostFocus="Akarab_LostFocus"/>
                             <controls:FormTextBox Header="Guntas" Text="{x:Bind EditableItem.AKarabAreaInputGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  LostFocus="Akarab_LostFocus"/>
-                            <controls:FormTextBox Header="Anas" Text="{x:Bind EditableItem.AKarabAreaInputAanas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Akarab_LostFocus"/>
+                            <controls:FormTextBox Header="Aanas" Text="{x:Bind EditableItem.AKarabAreaInputAanas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Akarab_LostFocus"/>
                         </controls:FluidGrid>
                        
                     <controls:FluidGrid  ColumnSpan="2" Columns="2" ColumnSpacing="10">
@@ -85,7 +166,7 @@
                         <controls:FluidGrid  ColumnSpan="2" Columns="3" ColumnSpacing="10" Margin="0 20 0 0">
                             <controls:FormTextBox Header="Acres " Text="{x:Bind EditableItem.BKarabAreaInputAcres, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
                             <controls:FormTextBox Header="Guntas" Text="{x:Bind EditableItem.BKarabAreaInputGuntas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
-                            <controls:FormTextBox Header="Anas" Text="{x:Bind EditableItem.BKarabAreaInputAanas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
+                            <controls:FormTextBox Header="Aanas" Text="{x:Bind EditableItem.BKarabAreaInputAanas, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Bkarab_LostFocus"/>
                         </controls:FluidGrid>
                       
                     <controls:FluidGrid  ColumnSpan="2" Columns="2" ColumnSpacing="10">

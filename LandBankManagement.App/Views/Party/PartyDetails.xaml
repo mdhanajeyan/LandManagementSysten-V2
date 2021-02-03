@@ -17,16 +17,24 @@
                 <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"  ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
                     <controls:FormTextBox Header="Party Name *" Text="{x:Bind EditableItem.PartyName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormTextBox Header="Party Alias" Text="{x:Bind EditableItem.PartyAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-
-                    <controls:FormTextBox Header="Son of / Daughter of / Wife of" MaxLength="4" Text="{x:Bind EditableItem.PartySalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35*"/>
+                            <ColumnDefinition Width="65*"/>
+                        </Grid.ColumnDefinitions>
+                        <controls:FormComboBox Grid.Column="0"  Header="Salutation" ItemsSource="{x:Bind SolutationOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{x:Bind EditableItem.SalutationType, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                        <controls:FormTextBox Grid.Column="1" Header="" Height="30" VerticalAlignment="Bottom" Text="{x:Bind EditableItem.PartySalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
                     <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
-                        <controls:FormTextBox Header="PAN *" MaxLength="10" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
-                        <controls:FormTextBox Header="Aadhaar No *" Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="12"/>
+                        <controls:FormTextBox Header="PAN " MaxLength="10" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
+                        <controls:FormTextBox Header="Aadhaar No " Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="12"/>
                     </controls:FluidGrid>
                     <controls:FormTextBox Header="GSTIN" MaxLength="15" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>
                     <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="100" />
-                    <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="10" />
                     <controls:FormTextBox Header="Address 1" Text="{x:Bind EditableItem.AddressLine1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormTextBox Header="Address 2" Text="{x:Bind EditableItem.AddressLine2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FluidGrid  ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60" >
@@ -46,8 +54,8 @@
                     <StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1" Margin="0 5 10 20" MinHeight="300">
                         <Grid Background="#81D4FA">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="80"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock  Grid.Column="0" Text="Uploaded Documents" Foreground="#fff" HorizontalAlignment="Left" Padding="10 5 0 0"  FontSize="15" FontWeight="Medium"/>
                             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" >

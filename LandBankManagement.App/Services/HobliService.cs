@@ -24,7 +24,6 @@ namespace LandBankManagement.Services
 
         public async Task<HobliModel> AddHobliAsync(HobliModel model)
         {
-            long id = model.TalukId;
             using (var dataService = DataServiceFactory.CreateDataService())
             {
                 var hobli = new Hobli();
@@ -134,7 +133,7 @@ namespace LandBankManagement.Services
                 HobliName = source.HobliName,
                 HobliGMapLink = source.HobliGMapLink,
                 HobliIsActive = source.HobliIsActive,
-                TalukId=source.TalukId,
+                TalukId=source.TalukId.ToString(),
                 TalukName=source.TalukName
             };
 
@@ -148,7 +147,7 @@ namespace LandBankManagement.Services
             target.HobliName = source.HobliName;
             target.HobliGMapLink = source.HobliGMapLink;
             target.HobliIsActive = source.HobliIsActive;
-            target.TalukId = source.TalukId;
+            target.TalukId =Convert.ToInt32( source.TalukId);
             target.TalukName = source.TalukName;
         }
        

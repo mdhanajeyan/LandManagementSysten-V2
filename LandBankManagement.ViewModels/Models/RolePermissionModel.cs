@@ -6,7 +6,7 @@
 
 
         public int RolePermissionId { get; set; }
-        public int RoleInfoId { get; set; }
+        public string RoleInfoId { get; set; }
         public int ScreenId { get; set; }
         public bool OptionId { get; set; }
         public bool CanView { get; set; }

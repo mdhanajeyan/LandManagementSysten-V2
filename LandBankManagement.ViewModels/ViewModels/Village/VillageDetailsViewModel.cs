@@ -22,11 +22,71 @@ namespace LandBankManagement.ViewModels
             get => _talukOptions;
             set => Set(ref _talukOptions, value);
         }
+        private ObservableCollection<ComboBoxOptions> _allTalukOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllTalukOptions
+        {
+            get => _allTalukOptions;
+            set => Set(ref _allTalukOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptions> _activeTalukOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveTalukOptions
+        {
+            get => _activeTalukOptions;
+            set => Set(ref _activeTalukOptions, value);
+        }
+
+        private bool _showTaluk = true;
+        public bool ShowActiveTaluk
+        {
+            get => _showTaluk;
+            set => Set(ref _showTaluk, value);
+        }
+
+        private bool _hideTaluk = false;
+        public bool ChangeTaluk
+        {
+            get => _hideTaluk;
+            set => Set(ref _hideTaluk, value);
+        }
+
+
         private ObservableCollection<ComboBoxOptions> _hobliOptions = null;
         public ObservableCollection<ComboBoxOptions> HobliOptions
         {
             get => _hobliOptions;
             set => Set(ref _hobliOptions, value);
+        } 
+        private ObservableCollection<ComboBoxOptions> _allHobliOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllHobliOptions
+        {
+            get => _allHobliOptions;
+            set => Set(ref _allHobliOptions, value);
+        }
+        private ObservableCollection<ComboBoxOptions> _activeHobliOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveHobliOptions
+        {
+            get => _activeHobliOptions;
+            set => Set(ref _activeHobliOptions, value);
+        }
+
+        private bool _showHobli = true;
+        public bool ShowActiveHobli
+        {
+            get => _showHobli;
+            set => Set(ref _showHobli, value);
+        }
+
+        private bool _hideHobli = false;
+        public bool ChangeHobli
+        {
+            get => _hideHobli;
+            set => Set(ref _hideHobli, value);
+        }
+        private string _selectedHobli = "0";
+        public string SelectedHobli
+        {
+            get => _selectedHobli;
+            set => Set(ref _selectedHobli, value);
         }
 
         private VillageViewModel VillageViewModel { get; set; }
@@ -52,23 +112,81 @@ namespace LandBankManagement.ViewModels
             Item.VillageIsActive = true;
             IsEditMode = true;
             VillageViewModel.ShowProgressRing();
-            GetTaluks();
-            GetHobli();
+            await GetDropdowns();
             VillageViewModel.HideProgressRing();
+            ResetTalukOption();
+         //   ResetHobliOption(null);
+            
         }
-        private async void GetTaluks()
+        private async Task GetDropdowns()
         {
-            var models = await DropDownService.GetTalukOptions();
-            TalukOptions = models;
-
+            ActiveTalukOptions = await DropDownService.GetTalukOptions();
+            AllTalukOptions = await DropDownService.GetAllTalukOptions();
+            ActiveHobliOptions = await DropDownService.GetHobliOptions();
+            AllHobliOptions = await DropDownService.GetAllHobliOptions();
         }
-        private async void GetHobli()
+       
+
+        public void ChangeHobliOptions(string hobliId)
         {
-            var models = await DropDownService.GetHobliOptions();
-            HobliOptions = models;
-
+            var comp = ActiveHobliOptions.Where(x =>x.Id == hobliId).FirstOrDefault();
+            if (comp != null|| hobliId==null)
+            {
+                ResetHobliOption(hobliId);
+                return;
+            }
+            HobliOptions = AllHobliOptions;
+            SelectedHobli = "0";
+            SelectedHobli = hobliId;
+            ShowActiveHobli = false;
+            ChangeHobli = true;
+           
         }
 
+        public void ResetHobliOption(string hobliId)
+        {
+            HobliOptions = ActiveHobliOptions;
+            ShowActiveHobli = true;
+            ChangeHobli = false;
+            if(hobliId!=null)
+                SelectedHobli = hobliId;
+        }
+
+        public void ChangeTalukOptions(string talukId)
+        {
+            var comp = ActiveTalukOptions.Where(x => x.Id == talukId).FirstOrDefault();
+            if (comp != null)
+            {
+                ResetTalukOption();
+                return;
+            }
+            TalukOptions = AllTalukOptions;
+            ShowActiveTaluk = false;
+            ChangeTaluk = true;
+        }
+
+        public void ResetTalukOption()
+        {
+            TalukOptions = ActiveTalukOptions;
+            ShowActiveTaluk = true;
+            ChangeTaluk = false;
+        }
+        public async Task LoadHobli()
+        {
+            var hobliId = Item.HobliId;
+            int id = Convert.ToInt32(Item.TalukId);
+            HobliOptions = await DropDownService.GetHobliOptionsByTaluk(id);
+            if (HobliOptions.Count <= 1)
+            {
+                ChangeHobliOptions(Item.HobliId);
+            }
+            else
+            {
+                SelectedHobli = "0";
+                SelectedHobli = hobliId;
+            }
+           // 
+        }
         public void Subscribe()
         {
             MessageService.Subscribe<VillageDetailsViewModel, VillageModel>(this, OnDetailsMessage);
@@ -94,6 +212,7 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Saving Village...");
                 VillageViewModel.ShowProgressRing();
+                model.HobliId = SelectedHobli;
                 if (model.VillageId <= 0)
                     await VillageService.AddVillageAsync(model);
                 else
@@ -116,7 +235,10 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new VillageModel() { TalukId = 0, HobliId = 0 ,VillageId=0,VillageIsActive=true};
+            Item = new VillageModel() { TalukId = "0", HobliId = "0" ,VillageId=0,VillageIsActive=true};
+            ResetTalukOption();
+            ResetHobliOption(null);
+            SelectedHobli = "0";
         }
         protected override async Task<bool> DeleteItemAsync(VillageModel model)
         {
@@ -157,8 +279,8 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<VillageModel>> GetValidationConstraints(VillageModel model)
         {
-            yield return new ValidationConstraint<VillageModel>("Taluk must be selected", m => m.TalukId>0);
-            yield return new ValidationConstraint<VillageModel>("Hobli must be selected", m => m.HobliId>0);
+            yield return new ValidationConstraint<VillageModel>("Taluk must be selected", m =>Convert.ToInt32( m.TalukId)>0);
+            yield return new ValidationConstraint<VillageModel>("Hobli must be selected", m =>Convert.ToInt32( SelectedHobli)>0);
             yield return new RequiredConstraint<VillageModel>("Village Name", m => m.VillageName);           
         }
 

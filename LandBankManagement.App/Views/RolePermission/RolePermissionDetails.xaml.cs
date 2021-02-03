@@ -29,7 +29,10 @@ namespace LandBankManagement.Views
 
         private void RoleDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var id = Convert.ToInt32(((ComboBox)sender).SelectedValue.ToString());
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null || val == "0")
+                return;
+            var id =Convert.ToInt32( val);
             if(id!=0)
             ViewModel.GetRolePermissionForRole(id);
         }

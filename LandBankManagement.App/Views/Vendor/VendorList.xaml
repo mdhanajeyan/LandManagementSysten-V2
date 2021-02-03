@@ -12,20 +12,20 @@
         <DataTemplate x:Key="HeaderTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="20*"/>
                     <ColumnDefinition Width="10*"/>
                     <ColumnDefinition Width="12*"/>
                     <ColumnDefinition Width="10*"/>
                     <ColumnDefinition Width="10*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>                
-                <TextBlock Grid.Column="1" Text="Name *" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="0" Text="Name *" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="1" Text="Alias Name *" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="2" Text="Email *" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="3" Text="Phone" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="4" Text="Address *" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="5" Text="City" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="6" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="5" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />
             </Grid>
         </DataTemplate>
 
@@ -33,23 +33,21 @@
             <Grid Height="32">
                 <Grid Visibility="{x:Bind IsEmpty, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="10*"/>
                         <ColumnDefinition Width="12*"/>
                         <ColumnDefinition Width="10*"/>
                         <ColumnDefinition Width="10*"/>
                         <ColumnDefinition Width="8*"/>
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" Margin="1" Padding="1">
-                        <!--<PersonPicture ProfilePicture="{x:Bind ThumbnailSource, Mode=OneWay, Converter={StaticResource ObjectToImageConverter}}" Width="28" Height="28" x:Phase="1" />-->
-                    </Border>
-                    <TextBlock Grid.Column="1" Text="{x:Bind VendorName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                   
+                    <TextBlock Grid.Column="0" Text="{x:Bind VendorName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="1" Text="{x:Bind VendorAlias, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="2" Text="{x:Bind email, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="3" Text="{x:Bind PhoneNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="4" Text="{x:Bind AddressLine1, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="5" Text="{x:Bind City, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <CheckBox Grid.Column="6" x:Name="isActive" IsEnabled="False"  IsChecked="{x:Bind IsVendorActive, Mode=TwoWay}"/>
+                    <CheckBox Grid.Column="5" x:Name="isActive" IsEnabled="False"  IsChecked="{x:Bind IsVendorActive, Mode=TwoWay}"/>
                 </Grid>
             </Grid>
         </DataTemplate>

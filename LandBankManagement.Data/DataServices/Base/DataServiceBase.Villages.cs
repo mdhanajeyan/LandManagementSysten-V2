@@ -41,10 +41,9 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<Village> GetVillages(DataRequest<Village> request)
         {
-            IQueryable<Village> items = from v in _dataSource.Villages
-                                        join
-       h in _dataSource.Hoblis on v.HobliId equals h.HobliId
-                                        join t in _dataSource.Taluks on h.TalukId equals t.TalukId
+            IQueryable<Village> items = from v in _dataSource.Villages join
+                                        h in _dataSource.Hoblis on v.HobliId equals h.HobliId join
+                                        t in _dataSource.Taluks on v.TalukId equals t.TalukId
                                         select (new Village
                                         {
                                             VillageId = v.VillageId,

@@ -47,7 +47,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new VendorModel { IsVendorActive = true, SalutationType =1};
+            Item = new VendorModel { IsVendorActive = true, SalutationType ="1"};
             Item.IsVendorActive = true;
             IsEditMode = true;
             SolutationOptions = DropdownService.GetSalutationOptions();
@@ -186,7 +186,7 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new VendorModel() { IsVendorActive=true,SalutationType=1};
+            Item = new VendorModel() { IsVendorActive=true,SalutationType="1"};
             if (DocList != null)
                 DocList.Clear();
         }
@@ -224,7 +224,6 @@ namespace LandBankManagement.ViewModels
         override protected IEnumerable<IValidationConstraint<VendorModel>> GetValidationConstraints(VendorModel model)
         {
             yield return new RequiredConstraint<VendorModel>("Name", m => m.VendorName);
-            yield return new RequiredConstraint<VendorModel>("Alias Name", m => m.VendorAlias);
             yield return new ValidationConstraint<VendorModel>("PAN Number is not Valid", x => ValidatePanNumber(x));
             yield return new ValidationConstraint<VendorModel>("Aadhar Number is not Valid", x => ValidateAadhar(x));
             yield return new ValidationConstraint<VendorModel>("Email is not Valid", x => ValidateEmail(x));

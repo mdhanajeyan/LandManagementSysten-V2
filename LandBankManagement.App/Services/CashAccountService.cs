@@ -118,7 +118,7 @@ namespace LandBankManagement.Services
                 CashAccountName = source.CashAccountName,
                 IsCashAccountActive = source.IsCashAccountActive,
                 AccountTypeId = source.AccountTypeId,
-                CompanyID = source.CompanyID,
+                CompanyID = source.CompanyID.ToString(),
                 CompanyName=source.CompanyName,
                 OpeningBalance=source.OpeningBalance.ToString()
             };
@@ -132,7 +132,7 @@ namespace LandBankManagement.Services
             target.CashAccountName = source.CashAccountName;
             target.IsCashAccountActive = source.IsCashAccountActive;
             target.AccountTypeId = source.AccountTypeId;
-            target.CompanyID = source.CompanyID;
+            target.CompanyID =Convert.ToInt32( source.CompanyID);
             target.OpeningBalance= Convert.ToDecimal(string.IsNullOrEmpty(source.OpeningBalance) ? "0" : source.OpeningBalance);
         }
     }

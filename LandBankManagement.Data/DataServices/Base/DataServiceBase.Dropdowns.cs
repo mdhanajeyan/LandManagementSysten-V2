@@ -10,13 +10,20 @@ namespace LandBankManagement.Data.Services
     {
         public async Task<Dictionary<int, string>> GetTalukOptions()
         {
-
             return await _dataSource.Taluks.Where(x=>x.TalukIsActive).Select(x => new { x.TalukId, x.TalukName }).ToDictionaryAsync(t => t.TalukId, t => t.TalukName);
+        }
+        public async Task<Dictionary<int, string>> GetAllTalukOptions()
+        {
+            return await _dataSource.Taluks.Select(x => new { x.TalukId, x.TalukName }).ToDictionaryAsync(t => t.TalukId, t => t.TalukName);
         }
         public async Task<Dictionary<int, string>> GetHobliOptions()
         {
             return await _dataSource.Hoblis.Where(x=>x.HobliIsActive).Select(x => new { x.HobliId, x.HobliName }).ToDictionaryAsync(t => t.HobliId, t => t.HobliName);
-        }  
+        }
+        public async Task<Dictionary<int, string>> GetAllHobliOptions()
+        {
+            return await _dataSource.Hoblis.Select(x => new { x.HobliId, x.HobliName }).ToDictionaryAsync(t => t.HobliId, t => t.HobliName);
+        }
         public async Task<Dictionary<int, string>> GetHobliOptionsByTaluk(int talukId)
         {
             return await _dataSource.Hoblis.Where(x=>x.HobliIsActive).Where(x=>x.TalukId==talukId).Select(x => new { x.HobliId, x.HobliName }).ToDictionaryAsync(t => t.HobliId, t => t.HobliName);
@@ -24,13 +31,23 @@ namespace LandBankManagement.Data.Services
         public async Task<Dictionary<int, string>> GetVillageOptions()
         {
             return await _dataSource.Villages.Where(x=>x.VillageIsActive==true).Select(x => new { x.VillageId, x.VillageName }).ToDictionaryAsync(t => t.VillageId, t => t.VillageName);
-        } public async Task<Dictionary<int, string>> GetVillageOptionsByHobli(int hobliId)
+        }
+        public async Task<Dictionary<int, string>> GetAllVillageOptions()
+        {
+            return await _dataSource.Villages.Select(x => new { x.VillageId, x.VillageName }).ToDictionaryAsync(t => t.VillageId, t => t.VillageName);
+        }
+
+        public async Task<Dictionary<int, string>> GetVillageOptionsByHobli(int hobliId)
         {
             return await _dataSource.Villages.Where(x=>x.VillageIsActive==true).Where(x=>x.HobliId== hobliId).Select(x => new { x.VillageId, x.VillageName }).ToDictionaryAsync(t => t.VillageId, t => t.VillageName);
         }
         public async Task<Dictionary<int, string>> GetCompanyOptions()
         {
             return await _dataSource.Companies.Where(x=>x.IsActive).Select(x => new { x.CompanyID, x.Name }).ToDictionaryAsync(t => t.CompanyID, t => t.Name);
+        }
+        public async Task<Dictionary<int, string>> GetAllCompanyOptions()
+        {
+            return await _dataSource.Companies.Select(x => new { x.CompanyID, x.Name }).ToDictionaryAsync(t => t.CompanyID, t => t.Name);
         }
         public async Task<Dictionary<int, string>> GetAccountTypeOptions()
         {
@@ -44,10 +61,15 @@ namespace LandBankManagement.Data.Services
         {
             return await _dataSource.Parties.Where(x=>x.IsPartyActive==true).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionaryAsync(t => t.PartyId, t => t.PartyFirstName);
         }
-        public async Task<Dictionary<int, string>> GetDocumentTypeOptions()
+        public async Task<Dictionary<int, string>> GetAllDocumentTypeOptions()
         {
             return await _dataSource.DocumentTypes.Select(x => new { x.DocumentTypeId, x.DocumentTypeName }).ToDictionaryAsync(t => t.DocumentTypeId, t => t.DocumentTypeName);
         }
+        public async Task<Dictionary<int, string>> GetDocumentTypeOptions()
+        {
+            return await _dataSource.DocumentTypes.Where(x=>x.IsDocumentTypeActive).Select(x => new { x.DocumentTypeId, x.DocumentTypeName }).ToDictionaryAsync(t => t.DocumentTypeId, t => t.DocumentTypeName);
+        }
+
         public async Task<Dictionary<int, string>> GetPropertyOptions()
         {
             return await _dataSource.Properties.Select(x => new { x.PropertyId, x.PropertyName }).ToDictionaryAsync(t => t.PropertyId, t => t.PropertyName);

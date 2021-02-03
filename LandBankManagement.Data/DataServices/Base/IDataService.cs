@@ -57,6 +57,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateTalukAsync(Taluk model);
         Task<int> DeleteTalukAsync(Taluk model);
         Task<Dictionary<int, string>> GetTalukOptions();
+        Task<Dictionary<int, string>> GetAllTalukOptions();
 
         Task<int> AddHobliAsync(Hobli model);
         Task<Hobli> GetHobliAsync(long id);
@@ -66,6 +67,7 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateHobliAsync(Hobli model);
         Task<int> DeleteHobliAsync(Hobli model);
         Task<Dictionary<int, string>> GetHobliOptions();
+        Task<Dictionary<int, string>> GetAllHobliOptions();
         Task<Dictionary<int, string>> GetHobliOptionsByTaluk(int talukId);
         Task<Dictionary<int, string>> GetVillageOptionsByHobli(int hobliId);
         Task<Dictionary<int, string>> GetAccountTypeOptions();
@@ -77,7 +79,9 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateVillageAsync(Village model);
         Task<int> DeleteVillageAsync(Village model);
         Task<Dictionary<int, string>> GetVillageOptions();
+        Task<Dictionary<int, string>> GetAllVillageOptions();
         Task<Dictionary<int, string>> GetCompanyOptions();
+        Task<Dictionary<int, string>> GetAllCompanyOptions();
         Task<int> AddAccountTypeAsync(AccountType model);
         Task<AccountType> GetAccountTypeAsync(long id);
         Task<IList<AccountType>> GetAccountTypesAsync(DataRequest<AccountType> request);
@@ -221,6 +225,7 @@ namespace LandBankManagement.Data.Services
         Task<Dictionary<int, string>> GetExpenseHeadOptions();
         Task<Dictionary<int, string>> GetPartyOptions();
         Task<Dictionary<int, string>> GetDocumentTypeOptions();
+        Task<Dictionary<int, string>> GetAllDocumentTypeOptions();
         Task<Dictionary<int, string>> GetPropertyOptions();
         Task<Dictionary<int, string>> GetCashOptions();
         Task<Dictionary<int, string>> GetCashOptionsByCompany(int companyId);

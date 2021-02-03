@@ -126,7 +126,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new ReceiptModel { DealId=0,PaymentTypeId=0,PayeeId=0,DepositBankId=0,DateOfPayment=DateTime.Now};
+            Item = new ReceiptModel { DealId="0",PaymentTypeId=0,PayeeId="0",DepositBankId="0",DateOfPayment=DateTime.Now};
             IsEditMode = true;
            await GetDropdowns();
         }
@@ -174,13 +174,15 @@ namespace LandBankManagement.ViewModels
         }
         public async Task LoadBankAndCompany()
         {
-            if ( Item.PayeeId == 0|| Item.PayeeId == currentCompanyId)
+            var payeeid = Convert.ToInt32(Item.PayeeId);
+            if (payeeid == 0|| payeeid == currentCompanyId)
                 return;
-            CashOptions = await GetBankList(Item.PayeeId,"cash");
-            BankOptions = await GetBankList(Item.PayeeId, "bank");
+            
+            CashOptions = await GetBankList(payeeid, "cash");
+            BankOptions = await GetBankList(payeeid, "bank");
             SelectedCashId = "0";
             SelectedBankId = "0";
-            currentCompanyId = Item.PayeeId;
+            currentCompanyId = payeeid;
         }
 
         public async Task LoadDealParties(int dealId) {
@@ -196,7 +198,7 @@ namespace LandBankManagement.ViewModels
             var model = await ReceiptsService.GetReceiptAsync(id);
             Item.PayeeId = model.PayeeId;
            await LoadBankAndCompany();
-           await LoadDealParties(model.DealId);
+           await LoadDealParties(Convert.ToInt32(model.DealId));
             if (model.PaymentTypeId == 1)
             {
                 IsCashChecked = true;
@@ -212,12 +214,12 @@ namespace LandBankManagement.ViewModels
                 //    SelectedBankId = Item.DepositBankId;
             }
              Item = model;
-            if(Item.DepositCashId>0)
-            SelectedCashId = Item.DepositCashId.ToString();
+            if(Convert.ToInt32( Item.DepositCashId)>0)
+            SelectedCashId = Item.DepositCashId;
             else
-            SelectedBankId = Item.DepositBankId.ToString();
+            SelectedBankId = Item.DepositBankId;
 
-            SelectedPartyId = Item.PartyId.ToString();
+            SelectedPartyId = Item.PartyId;
             ReceiptsViewModel.HideProgressRing();
         }
 
@@ -258,15 +260,16 @@ namespace LandBankManagement.ViewModels
                 else
                     model.PaymentTypeId = 2;
 
-                model.DepositBankId =Convert.ToInt32( SelectedBankId);
-                model.DepositCashId = Convert.ToInt32(SelectedCashId);
-                model.PartyId = Convert.ToInt32(SelectedPartyId);
+                model.DepositBankId =SelectedBankId;
+                model.DepositCashId = SelectedCashId;
+                model.PartyId =SelectedPartyId;
                 if (model.ReceiptId <= 0)
                     await ReceiptsService.AddReceiptAsync(model);
                 else
                     await ReceiptsService.UpdateReceiptAsync(model);
                 await ReceiptsListViewModel.RefreshAsync();
                 EndStatusMessage("Receipts saved");
+                LoadSelectedReceipt(model.ReceiptId);
                 LogInformation("Receipts", "Save", "Receipts saved successfully", $"Receipts {model.ReceiptId} '{model.PayeeId}' was saved successfully.");
                 return true;
             }
@@ -282,7 +285,8 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new ReceiptModel { DealId = 0, PaymentTypeId = 0, PayeeId = 0, DepositBankId = 0, DateOfPayment = DateTime.Now };
+            Item = new ReceiptModel { DealId = "0", PaymentTypeId = 0, PayeeId = "0", DepositBankId = "0", DateOfPayment = DateTime.Now };
+            PartyOptions = new ObservableCollection<ComboBoxOptionsStringId>();
            // DealParties = new ObservableCollection<DealPartiesModel>();
             SelectedBankId = "0";
             SelectedCashId = "0";
@@ -320,12 +324,15 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<ReceiptModel>> GetValidationConstraints(ReceiptModel model)
         {
-            yield return new ValidationConstraint<ReceiptModel>("Company must be selected", m => m.PayeeId > 0);
-            yield return new ValidationConstraint<ReceiptModel>("Deal Name must be selected", m => m.DealId > 0);
+            yield return new ValidationConstraint<ReceiptModel>("Company must be selected", m =>Convert.ToInt32( m.PayeeId) > 0);
+            yield return new ValidationConstraint<ReceiptModel>("Deal Name must be selected", m => Convert.ToInt32(m.DealId) > 0);
             yield return new ValidationConstraint<ReceiptModel>("Deposit Bank / Cash must be selected", m => Convert.ToInt32(SelectedBankId) > 0 || Convert.ToInt32(SelectedCashId) > 0);
-            yield return new RequiredConstraint<ReceiptModel>("Amount", m => m.Amount);
+            yield return new ValidationConstraint<ReceiptModel>("Amount", m => ValidateAmount( m));
         }
-
+        private bool ValidateAmount(ReceiptModel model)
+        {
+            return string.IsNullOrEmpty(model.Amount) ? false : Convert.ToDecimal(model.Amount) > 0;
+        }
         /*
          *  Handle external messages
          ****************************************************************/

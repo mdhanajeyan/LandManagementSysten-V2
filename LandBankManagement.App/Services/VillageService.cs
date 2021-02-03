@@ -129,8 +129,8 @@ namespace LandBankManagement.Services
             {
                 VillageId = source.VillageId,
                 VillageGuid = source.VillageGuid,
-                TalukId = source.TalukId,
-                HobliId = source.HobliId,
+                TalukId = source.TalukId.ToString(),
+                HobliId = source.HobliId.ToString(),
                 VillageName = source.VillageName,
                 VillageGMapLink = source.VillageGMapLink,
                 VillageIsActive = source.VillageIsActive,
@@ -145,8 +145,8 @@ namespace LandBankManagement.Services
         {
             target.VillageId = source.VillageId;
             target.VillageGuid = source.VillageGuid;
-            target.TalukId = source.TalukId;
-            target.HobliId = source.HobliId;
+            target.TalukId =Convert.ToInt32( source.TalukId);
+            target.HobliId =Convert.ToInt32( source.HobliId);
             target.VillageName = source.VillageName;
             target.VillageGMapLink = source.VillageGMapLink;
             target.VillageIsActive = source.VillageIsActive;

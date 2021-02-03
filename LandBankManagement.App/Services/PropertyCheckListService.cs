@@ -243,11 +243,11 @@ namespace LandBankManagement.Services
                 PropertyCheckListId = source.PropertyCheckListId,
                 PropertyGuid = source.PropertyGuid,
                 PropertyName = source.PropertyName,
-                TalukId = source.TalukId,
-                HobliId = source.HobliId,
-                VillageId = source.VillageId,
-                DocumentTypeId = source.DocumentTypeId,
-                PropertyTypeId = source.PropertyTypeId,
+                TalukId = source.TalukId.ToString(),
+                HobliId = source.HobliId.ToString(),
+                VillageId = source.VillageId.ToString(),
+                DocumentTypeId = source.DocumentTypeId.ToString(),
+                PropertyTypeId = source.PropertyTypeId.ToString(),
                 SurveyNo = source.SurveyNo,
                 PropertyGMapLink = source.PropertyGMapLink,
                 LandAreaInputAcres = source.LandAreaInputAcres.ToString(),
@@ -271,7 +271,7 @@ namespace LandBankManagement.Services
                 BKarabAreaInGuntas = source.BKarabAreaInGuntas.ToString(),
                 BKarabAreaInSqMts = source.BKarabAreaInSqMts.ToString(),
                 BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
-                CompanyID = source.CompanyID,
+                CompanyID = source.CompanyID.ToString(),
                 CompanyName = source.CompanyName,
                 VillageName = source.VillageName,
                 PropertyDescription =source.PropertyDescription,
@@ -292,11 +292,11 @@ namespace LandBankManagement.Services
                 PropertyCheckListId = source.PropertyCheckListId,
                 PropertyGuid = source.PropertyGuid,
                 PropertyName = source.PropertyName,
-                TalukId = source.TalukId,
-                HobliId = source.HobliId,
-                VillageId = source.VillageId,
-                DocumentTypeId = source.DocumentTypeId,
-                PropertyTypeId = source.PropertyTypeId,
+                TalukId = source.TalukId.ToString(),
+                HobliId = source.HobliId.ToString(),
+                VillageId = source.VillageId.ToString(),
+                DocumentTypeId = source.DocumentTypeId.ToString(),
+                PropertyTypeId = source.PropertyTypeId.ToString(),
                 SurveyNo = source.SurveyNo,
                 PropertyGMapLink = source.PropertyGMapLink,
                 LandAreaInputAcres = source.LandAreaInputAcres.ToString(),
@@ -320,7 +320,7 @@ namespace LandBankManagement.Services
                 BKarabAreaInGuntas = source.BKarabAreaInGuntas.ToString(),
                 BKarabAreaInSqMts = source.BKarabAreaInSqMts.ToString(),
                 BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
-                CompanyID = source.CompanyID,
+                CompanyID = source.CompanyID.ToString(),
                 CompanyName=source.CompanyName,
                 VillageName=source.VillageName,
                 PropertyDescription = source.PropertyDescription,
@@ -412,11 +412,11 @@ namespace LandBankManagement.Services
             target.PropertyCheckListId = source.PropertyCheckListId;
             target.PropertyGuid = source.PropertyGuid;
             target.PropertyName = source.PropertyName;
-            target.TalukId = source.TalukId;
-            target.HobliId = source.HobliId;
-            target.VillageId = source.VillageId;
-            target.DocumentTypeId = source.DocumentTypeId;
-            target.PropertyTypeId = source.PropertyTypeId;
+            target.TalukId =Convert.ToInt32( source.TalukId);
+            target.HobliId = Convert.ToInt32(source.HobliId);
+            target.VillageId = Convert.ToInt32(source.VillageId);
+            target.DocumentTypeId = Convert.ToInt32(source.DocumentTypeId);
+            target.PropertyTypeId = Convert.ToInt32(source.PropertyTypeId);
             target.SurveyNo = source.SurveyNo;
             target.PropertyGMapLink = source.PropertyGMapLink;
             target.LandAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
@@ -440,7 +440,7 @@ namespace LandBankManagement.Services
             target.BKarabAreaInGuntas = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInGuntas) ? "0" : source.BKarabAreaInGuntas);
             target.BKarabAreaInSqMts = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInSqMts) ? "0" : source.BKarabAreaInSqMts);
             target.BKarabAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInSqft) ? "0" : source.BKarabAreaInSqft);
-            target.CompanyID = source.CompanyID;
+            target.CompanyID = Convert.ToInt32(source.CompanyID);
             target.PropertyDescription = source.PropertyDescription;
             target.CheckListMaster = source.CheckListMaster;
 
@@ -510,6 +510,9 @@ namespace LandBankManagement.Services
             target.PropertyCheckListId = source.PropertyCheckListId;
             target.Mandatory = source.Mandatory;
             target.Delete = source.Delete;
+
+            if (source.Documents == null)
+                return;
 
             List<PropertyCheckListDocuments> docList = new List<PropertyCheckListDocuments>();
             foreach (var obj in source.Documents)

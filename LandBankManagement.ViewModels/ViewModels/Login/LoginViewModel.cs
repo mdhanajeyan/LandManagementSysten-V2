@@ -115,29 +115,34 @@ namespace LandBankManagement.ViewModels
 
         public async void LoginWithPassword()
         {
-           
-            if (loginProcessStarted)
-                return;
-            ShowProgressRing();
-             loginProcessStarted = true;
-            IsBusy = true;
-           
-            var result = ValidateInput();
-            if (result.IsOk)
+            try
             {
-                result = await LoginService.SignInWithPasswordAsync(UserName, Password);
+                if (loginProcessStarted)
+                    return;
+                ShowProgressRing();
+                loginProcessStarted = true;
+                IsBusy = true;
+
+                var result = ValidateInput();
                 if (result.IsOk)
                 {
-                    EnterApplication();
-                    loginProcessStarted = false;
-                    return;
-                }
+                    result = await LoginService.SignInWithPasswordAsync(UserName, Password);
+                    if (result.IsOk)
+                    {
+                        EnterApplication();
+                        loginProcessStarted = false;
+                        return;
+                    }
 
+                }
+                loginProcessStarted = false;
+                await DialogService.ShowAsync(result.Message, result.Description);
+                IsBusy = false;
+                HideProgressRing();
             }
-            loginProcessStarted = false;
-            await DialogService.ShowAsync(result.Message, result.Description);
-            IsBusy = false;
-            HideProgressRing();
+            catch (Exception ex) {
+                await DialogService.ShowAsync("Error", ex.Message +" --- stack trace :"+ex.StackTrace);
+            }
         }
 
         public async void LoginWithWindowHello()

@@ -10,8 +10,8 @@ namespace LandBankManagement.Models
         static public DealModel CreateEmpty() => new DealModel { DealId = -1, IsEmpty = true };
 
         public int DealId { get; set; }
-        public int PropertyMergeId { get; set; }
-        public int CompanyId { get; set; }
+        public string PropertyMergeId { get; set; }
+        public string CompanyId { get; set; }
         public decimal SaleValue1 { get; set; }
         public decimal SaleValue2 { get; set; }
 

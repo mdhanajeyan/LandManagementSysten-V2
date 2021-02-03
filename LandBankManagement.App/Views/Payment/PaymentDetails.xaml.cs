@@ -54,17 +54,17 @@ namespace LandBankManagement.Views
         private void cashCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var val = ((ComboBox)sender).SelectedValue;
-            if (val == null)
+            if (val == null|| val.ToString()=="0")
                 return;
-            ViewModel.Item.CashAccountId = Convert.ToInt32(val);
+            ViewModel.Item.CashAccountId = val.ToString();
         }
 
         private void bankCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var val = ((ComboBox)sender).SelectedValue;
-            if (val == null)
+            if (val == null ||val.ToString() == "0")
                 return;
-            ViewModel.Item.BankAccountId = Convert.ToInt32(val);
+            ViewModel.Item.BankAccountId = val.ToString();
         }
     }
 }

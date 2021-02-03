@@ -8,8 +8,8 @@ namespace LandBankManagement.Models
         static public VillageModel CreateEmpty() => new VillageModel { VillageId = -1, IsEmpty = true };
         public int VillageId { get; set; }
         public Guid VillageGuid { get; set; }
-        public int TalukId { get; set; }
-        public int HobliId { get; set; }
+        public string TalukId { get; set; }
+        public string HobliId { get; set; }
         public string VillageName { get; set; }
         public string VillageGMapLink { get; set; }
         public bool VillageIsActive { get; set; }

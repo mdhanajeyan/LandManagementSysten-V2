@@ -209,7 +209,8 @@ namespace LandBankManagement.Services
                 AddressLine1 = source.AddressLine1,
                 AddressLine2 = source.AddressLine2,
                 City = source.City,
-                PinCode = source.PinCode
+                PinCode = source.PinCode,
+                SalutationType=source.SalutationType.ToString()
             };
             if (source.PartyDocuments != null && source.PartyDocuments.Count > 0)
             {
@@ -250,6 +251,7 @@ namespace LandBankManagement.Services
             target.AddressLine2 = source.AddressLine2;
             target.City = source.City;
             target.PinCode = source.PinCode;
+            target.SalutationType =Convert.ToInt32( source.SalutationType??"0");
         }
 
         private void UpdateDocumentFromModel(PartyDocuments target, ImagePickerResult source)

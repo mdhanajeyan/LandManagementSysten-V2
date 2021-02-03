@@ -355,6 +355,7 @@ namespace LandBankManagement.Data.Services
                     {
                         if (vendor.CheckListVendorId == 0)
                         {
+                            vendor.PropertyCheckListId = res;
                             _dataSource.PropertyCheckListVendor.Add(vendor);
                         }
                     }

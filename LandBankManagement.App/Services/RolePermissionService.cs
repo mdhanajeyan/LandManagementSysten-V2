@@ -144,7 +144,7 @@ namespace LandBankManagement.Services
             var model = new RolePermissionModel()
             {
                 RolePermissionId = source.RolePermissionId,
-                RoleInfoId = source.RoleInfoId,
+                RoleInfoId = source.RoleInfoId.ToString(),
                 ScreenId = source.ScreenId,
                 OptionId = source.OptionId,
                 CanView = source.CanView,
@@ -157,7 +157,7 @@ namespace LandBankManagement.Services
         private void UpdateRolePermissionFromModel(RolePermission target, RolePermissionModel source)
         {
             target.RolePermissionId = 0;
-            target.RoleInfoId = source.RoleInfoId;
+            target.RoleInfoId = Convert.ToInt32(source.RoleInfoId??"0");
             target.ScreenId = source.ScreenId;
             target.OptionId = source.OptionId;
             target.CanView = source.CanView;

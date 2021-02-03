@@ -214,7 +214,7 @@ namespace LandBankManagement.Services
                 AadharNo = source.AadharNo,
                 GSTIN = source.GSTIN,
                 IsVendorActive = source.IsVendorActive,
-                SalutationType=source.SalutationType??0
+                SalutationType=(source.SalutationType??0).ToString()
             };
             if (source.VendorDocuments != null && source.VendorDocuments.Count > 0)
             {
@@ -260,7 +260,7 @@ namespace LandBankManagement.Services
             target.AadharNo = source.AadharNo;
             target.GSTIN = source.GSTIN;
             target.IsVendorActive = source.IsVendorActive;
-            target.SalutationType = source.SalutationType;
+            target.SalutationType =Convert.ToInt32( source.SalutationType??"0");
 
         }
 

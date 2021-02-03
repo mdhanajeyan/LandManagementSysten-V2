@@ -9,40 +9,40 @@ namespace LandBankManagement.Data.Services
 {
     partial class DataServiceBase
     {
-        //public async Task<int> AddPartyAsync(Party party)
-        //{
-        //    try
-        //    {
-        //        if (party == null)
-        //            return 0;
+        public async Task<int> AddPartyAsync(Party party)
+        {
+            try
+            {
+                if (party == null)
+                    return 0;
 
-        //        var entity = new Party()
-        //        {
-        //            PartyFirstName = party.PartyFirstName,
-        //            PartyGuid = party.PartyGuid,
-        //            PartyAlias = party.PartyAlias,
-        //            PartySalutation = party.PartySalutation,
-        //            AadharNo = party.AadharNo,
-        //            ContactPerson = party.ContactPerson,
-        //            PAN = party.PAN,
-        //            GSTIN = party.GSTIN,
-        //            email = party.email,
-        //            IsPartyActive = party.IsPartyActive,
-        //            PhoneNo = party.PhoneNo,
-        //            AddressLine1 = party.AddressLine1,
-        //            AddressLine2 = party.AddressLine2,
-        //            City = party.City,
-        //            PinCode = party.PinCode
-        //        };
-        //        _dataSource.Entry(entity).State = EntityState.Added;
-        //        int res = await _dataSource.SaveChangesAsync();
-        //        return res;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return 0;
-        //    }
-        //}
+                var entity = new Party()
+                {
+                    PartyFirstName = party.PartyFirstName,
+                    PartyGuid = party.PartyGuid,
+                    PartyAlias = party.PartyAlias,
+                    PartySalutation = party.PartySalutation,
+                    AadharNo = party.AadharNo,
+                    ContactPerson = party.ContactPerson,
+                    PAN = party.PAN,
+                    GSTIN = party.GSTIN,
+                    email = party.email,
+                    IsPartyActive = party.IsPartyActive,
+                    PhoneNo = party.PhoneNo,
+                    AddressLine1 = party.AddressLine1,
+                    AddressLine2 = party.AddressLine2,
+                    City = party.City,
+                    PinCode = party.PinCode
+                };
+                _dataSource.Entry(entity).State = EntityState.Added;
+                int res = await _dataSource.SaveChangesAsync();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
 
         public async Task<int> UpdatePartyAsync(Party party)
         {
@@ -119,7 +119,8 @@ namespace LandBankManagement.Data.Services
                     AddressLine1 = source.AddressLine1,
                     AddressLine2 = source.AddressLine2,
                     City = source.City,
-                    PinCode = source.PinCode
+                    PinCode = source.PinCode,
+                    SalutationType=source.SalutationType
                 })
                 .AsNoTracking()
                 .ToListAsync();

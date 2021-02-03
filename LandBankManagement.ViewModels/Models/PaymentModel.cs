@@ -11,19 +11,19 @@ namespace LandBankManagement.Models
 
         public int PaymentId { get; set; }
         public Guid PaymentGuid { get; set; }
-        public int PayeeId { get; set; }
+        public string PayeeId { get; set; }
         public int PayeeTypeId { get; set; }
-        public int ExpenseHeadId { get; set; }
-        public int PropertyId { get; set; }
-        public int PartyId { get; set; }
-        public int DocumentTypeId { get; set; }
+        public string ExpenseHeadId { get; set; }
+        public string PropertyId { get; set; }
+        public string PartyId { get; set; }
+        public string DocumentTypeId { get; set; }
         public int PaymentTypeId { get; set; }
         public DateTimeOffset DateOfPayment { get; set; }
         public string Amount { get; set; }
         public string ChequeNo { get; set; }
         public string Narration { get; set; }
-        public int CashAccountId { get; set; }
-        public int BankAccountId { get; set; }
+        public string CashAccountId { get; set; }
+        public string BankAccountId { get; set; }
         public bool PDC { get; set; }
         public ObservableCollection<PaymentListModel> PaymentListModel { get; set; }
         public string AccountName { get; set; }

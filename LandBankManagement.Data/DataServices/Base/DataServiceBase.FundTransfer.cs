@@ -31,8 +31,8 @@ namespace LandBankManagement.Data.Services
                     ReceiverCashId=model.ReceiverCashId
                 };
                 _dataSource.Entry(entity).State = EntityState.Added;
-                int res = await _dataSource.SaveChangesAsync();
-                return res;
+                 await _dataSource.SaveChangesAsync();
+                return entity.FundTransferId;
             }
             catch (Exception ex)
             {

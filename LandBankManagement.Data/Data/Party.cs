@@ -30,9 +30,10 @@ namespace LandBankManagement.Data
         public string AadharNo { get; set; }
         public bool IsPartyActive { get; set; }
         public string GSTIN { get; set; }
+        public int? SalutationType { get; set; }
         [NotMapped]
         public string SearchTerms { get; set; }
-        public string BuildSearchTerms() => $"{PartyId} {PartyFirstName} {email} {AddressLine1}".ToLower();
+        public string BuildSearchTerms() => $"{PartyId} {PartyFirstName} {PartyAlias} {email} {AddressLine1}".ToLower();
         [NotMapped]
         public  ICollection<PartyDocuments> PartyDocuments { get; set; }
     }

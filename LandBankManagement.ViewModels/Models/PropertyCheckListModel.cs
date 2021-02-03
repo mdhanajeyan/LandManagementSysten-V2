@@ -11,14 +11,14 @@ namespace LandBankManagement.Models
         static public PropertyCheckListModel CreateEmpty() => new PropertyCheckListModel { PropertyCheckListId = 0, IsEmpty = true };
         public int PropertyCheckListId { get; set; }
 
-        public int CompanyID { get; set; }
+        public string CompanyID { get; set; }
         public Guid PropertyGuid { get; set; }
         public string PropertyName { get; set; }
-        public int TalukId { get; set; }
-        public int HobliId { get; set; }
-        public int VillageId { get; set; }
-        public int DocumentTypeId { get; set; }
-        public int PropertyTypeId { get; set; }
+        public string TalukId { get; set; }
+        public string HobliId { get; set; }
+        public string VillageId { get; set; }
+        public string DocumentTypeId { get; set; }
+        public string PropertyTypeId { get; set; }
         public string SurveyNo { get; set; }
         public string PropertyGMapLink { get; set; }
         public string LandAreaInputAcres { get; set; }

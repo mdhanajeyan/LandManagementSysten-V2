@@ -52,21 +52,21 @@ namespace LandBankManagement.ViewModels
         }
 
 
-        private int _companyId ;
-        public int selectedCompany
+        private string _companyId="0" ;
+        public string selectedCompany
         {
             get => _companyId;
             set => Set(ref _companyId, value);
         }
 
-        private int _propertyId;
-        public int selectedProperty
+        private string _propertyId="0";
+        public string selectedProperty
         {
             get => _propertyId;
             set => Set(ref _propertyId, value);
         }
-        private int _documentTypeId;
-        public int selectedDocumentType
+        private string _documentTypeId="0";
+        public string selectedDocumentType
         {
             get => _documentTypeId;
             set => Set(ref _documentTypeId, value);
@@ -103,15 +103,17 @@ namespace LandBankManagement.ViewModels
         }
 
         public async Task GetDocumentType() {
-            if (selectedProperty == 0)
+            if (selectedProperty == "0"|| selectedProperty==null)
                 return;
-            PropertyDocumentOptions = await DropDownService.GetDocumentTypesByPropertyID(selectedProperty);
+            PropertyDocumentOptions = await DropDownService.GetDocumentTypesByPropertyID(Convert.ToInt32( selectedProperty));
         }
 
         public async Task LoadedSelectedProperty() {
-            if (selectedDocumentType > 0) {
+            if (selectedDocumentType == "0" || selectedDocumentType == null)
+                return;
+            if (Convert.ToInt32(selectedDocumentType) > 0) {
                 PropertyMergesViewModel.ShowProgressRing();
-                var model = await PropertyMergeService.GetPropertyListItemForProeprty(selectedProperty,selectedDocumentType);
+                var model = await PropertyMergeService.GetPropertyListItemForProeprty(Convert.ToInt32(selectedProperty), Convert.ToInt32(selectedDocumentType));
                 PropertyMergesViewModel.HideProgressRing();
                 if (CurrentProperty == null)
                     CurrentProperty = new PropertyMergeListModel();
@@ -120,8 +122,10 @@ namespace LandBankManagement.ViewModels
         }
 
         public async void LoadPropertyOptionByCompany() {
+            if (selectedCompany == "0" || selectedCompany == null)
+                return;
             PropertyMergesViewModel.ShowProgressRing();
-            PropertyOptions = await DropDownService.GetPropertyOptionsByCompanyID(selectedCompany);
+            PropertyOptions = await DropDownService.GetPropertyOptionsByCompanyID(Convert.ToInt32(selectedCompany));
             PropertyMergesViewModel.HideProgressRing();
         }
 
@@ -139,9 +143,9 @@ namespace LandBankManagement.ViewModels
 
             PropertyList.Add(CurrentProperty);
             CurrentProperty = new PropertyMergeListModel();
-            selectedProperty = 0;
-            selectedCompany = 0;
-            selectedDocumentType = 0;
+            selectedProperty = "0";
+            selectedCompany = "0";
+            selectedDocumentType = "0";
             var temp = PropertyDocumentOptions;
             PropertyDocumentOptions = null;
             PropertyDocumentOptions = temp;

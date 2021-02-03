@@ -99,10 +99,10 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Loading PropertyCheckList  List...");
                 var StatusList = new ObservableCollection<ComboBoxOptions>();
-                StatusList.Add(new ComboBoxOptions { Id = 0, Description = "" });
-                StatusList.Add(new ComboBoxOptions { Id = 1, Description = "Pending" });
-                StatusList.Add(new ComboBoxOptions { Id = 2, Description = "Dropped" });
-                StatusList.Add(new ComboBoxOptions { Id = 3, Description = "Procured" });
+                StatusList.Add(new ComboBoxOptions { Id = "0", Description = "" });
+                StatusList.Add(new ComboBoxOptions { Id = "1", Description = "Pending" });
+                StatusList.Add(new ComboBoxOptions { Id = "2", Description = "Dropped" });
+                StatusList.Add(new ComboBoxOptions { Id = "3", Description = "Procured" });
                 Status = StatusList;
                 PropertyCheckListViewModel.ShowProgressRing();
                 var modals = await GetItemsAsync();

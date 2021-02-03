@@ -102,13 +102,14 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                SelectedPivotIndex = 1;
                 ShowProgressRing();
                 var model = await PropertyMergeService.GetPropertyMergeAsync(selected.PropertyMergeId);
                 selected.Merge(model);
                 PropertyMergeDetails.Item = model;
                 
                 PropertyMergeDetails.PropertyList = model.propertyMergeLists;
-                SelectedPivotIndex = 1;
+               
             }
             catch (Exception ex)
             {

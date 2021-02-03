@@ -23,5 +23,10 @@ namespace LandBankManagement.Views
         {
             details.SetFocus();
         }
+
+        private void ChangeTaluk_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetTalukOption();
+        }
     }
 }

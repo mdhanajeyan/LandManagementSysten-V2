@@ -33,7 +33,7 @@ namespace LandBankManagement.Data
         public int? SalutationType { get; set; }
         [NotMapped]
         public string SearchTerms { get; set; }
-        public string BuildSearchTerms() => $"{VendorId} {VendorName} {email} {AddressLine1}".ToLower();
+        public string BuildSearchTerms() => $"{VendorId} {VendorName} {VendorAlias} {email} {AddressLine1}".ToLower();
         [NotMapped]
         public  ICollection<VendorDocuments> VendorDocuments { get; set; }
     }

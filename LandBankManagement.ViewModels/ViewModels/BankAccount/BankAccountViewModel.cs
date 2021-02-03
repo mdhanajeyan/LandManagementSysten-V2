@@ -106,6 +106,7 @@ namespace LandBankManagement.ViewModels
                 ShowProgressRing();
                 var model = await BankAccountService.GetBankAccountAsync(selected.BankAccountId);
                 selected.Merge(model);
+                BankAccountDetials.ChangeCompanyOptions(model.CompanyID);
                 BankAccountDetials.Item = model;
                 HideProgressRing();
             }

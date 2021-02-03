@@ -90,7 +90,7 @@ namespace LandBankManagement.ViewModels
                 if (RolePermissionList == null || RolePermissionList.Count == 0)
                     return false;
                 RolePermissionViewModel.ShowProgressRing();
-                if (RolePermissionList[0].RoleInfoId == 0)
+                if (Convert.ToInt32( RolePermissionList[0].RoleInfoId )== 0)
                 {
                     foreach (var rolePerm in RolePermissionList)
                     {
@@ -101,7 +101,7 @@ namespace LandBankManagement.ViewModels
                 await RolePermissionService.AddRolePermissionsAsync(RolePermissionList);
 
                 EndStatusMessage("Role Permission saved");
-                GetRolePermissionForRole(EditableItem.RoleInfoId);
+                GetRolePermissionForRole(Convert.ToInt32(EditableItem.RoleInfoId));
                 LogInformation("Role", "Save", "Role saved successfully", $"Role {model.RolePermissionId}  was saved successfully.");
                 return true;
             }
@@ -118,6 +118,7 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new RolePermissionModel();
+            RolePermissionList = new ObservableCollection<RolePermissionModel>();
         }
         protected override async Task<bool> DeleteItemAsync(RolePermissionModel model)
         {

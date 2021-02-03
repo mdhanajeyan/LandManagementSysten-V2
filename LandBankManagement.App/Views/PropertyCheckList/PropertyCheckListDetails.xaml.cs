@@ -192,5 +192,48 @@ namespace LandBankManagement.Views
             var CheckListId = Convert.ToInt32(((Button)sender).Tag.ToString());
             ViewModel.RemoveCheckListItem(CheckListId);
         }
+
+
+        private void ChangeCompany_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetCompanyOption();
+        }
+
+        private void ChangeTaluk_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetTalukOption();
+        }
+
+        private void ChangeHobli_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetHobliOption(null);
+        }
+
+        private void ChangeVillage_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetVillageOption(null);
+        }
+
+        private void ResetDocType_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetDocumentTypeOption();
+        }
+
+        private async void TalukDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null || val.ToString() == "0")
+                return;
+            await ViewModel.LoadHobli();
+        }
+
+        private async void HobliDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null || val.ToString() == "0")
+                return;
+            // ViewModel.Item.HobliId = val.ToString();
+            await ViewModel.LoadVillage();
+        }
     }
 }

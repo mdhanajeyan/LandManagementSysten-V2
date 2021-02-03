@@ -53,7 +53,7 @@ namespace LandBankManagement.Views
             var val = ((ComboBox)sender).SelectedValue;
             if (val == null)
                 return;
-            ViewModel.selectedDocumentType = Convert.ToInt32(val);
+            ViewModel.selectedDocumentType = val.ToString();
             await ViewModel.LoadedSelectedProperty();
         }
     }

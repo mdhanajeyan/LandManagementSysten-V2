@@ -197,15 +197,18 @@ namespace LandBankManagement.Views
 
         private async void TalukDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           await ViewModel.LoadHobli();
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null|| val.ToString()=="0")
+                return;
+            await ViewModel.LoadHobli();
         }
 
         private async void HobliDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var val = ((ComboBox)sender).SelectedValue;
-            if (val == null)
+            if (val == null || val.ToString() == "0")
                 return;
-            ViewModel.Item.HobliId = Convert.ToInt32(val);
+           // ViewModel.Item.HobliId = val.ToString();
            await ViewModel.LoadVillage();
         }
 
@@ -214,7 +217,32 @@ namespace LandBankManagement.Views
             var val = ((ComboBox)sender).SelectedValue;
             if (val == null)
                 return;
-            ViewModel.Item.VillageId = Convert.ToInt32(val);
+           // ViewModel.Item.VillageId = val.ToString();
+        }
+
+        private void ChangeCompany_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetCompanyOption();
+        }
+
+        private void ChangeTaluk_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetTalukOption();
+        }
+
+        private void ChangeHobli_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetHobliOption();
+        }
+
+        private void ChangeVillage_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetVillageOption();
+        }
+       
+        private void ResetDocType_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetDocumentTypeOption();
         }
     }
 }

@@ -159,19 +159,19 @@ namespace LandBankManagement.Services
             {
                 PaymentId = source.PaymentId,
                 PaymentGuid = source.PaymentGuid,
-                PayeeId = source.PayeeId,
+                PayeeId = source.PayeeId.ToString(),
                 PayeeTypeId = source.PayeeTypeId,
-                ExpenseHeadId = source.ExpenseHeadId,
-                PropertyId = source.PropertyId,
-                PartyId = source.PartyId,
-                DocumentTypeId = source.DocumentTypeId,
+                ExpenseHeadId = source.ExpenseHeadId.ToString(),
+                PropertyId = source.PropertyId.ToString(),
+                PartyId = source.PartyId.ToString(),
+                DocumentTypeId = source.DocumentTypeId.ToString(),
                 PaymentTypeId = source.PaymentTypeId,
                 DateOfPayment = source.DateOfPayment,
                 Amount = source.Amount.ToString(),
                 ChequeNo = source.ChequeNo,
                 Narration = source.Narration,
-                BankAccountId=source.BankAccountId??0,
-                CashAccountId=source.CashAccountId??0,
+                BankAccountId=(source.BankAccountId??0).ToString(),
+                CashAccountId=(source.CashAccountId??0).ToString(),
                 PDC=source.PDC,
                 AccountName=source.AccountName,
                 CompanyName=source.CompanyName,
@@ -220,19 +220,19 @@ namespace LandBankManagement.Services
         {
             target.PaymentId = source.PaymentId;
             target.PaymentGuid = source.PaymentGuid;
-            target.PayeeId = source.PayeeId;
+            target.PayeeId =Convert.ToInt32( source.PayeeId??"0");
             target.PayeeTypeId = source.PayeeTypeId;
-            target.ExpenseHeadId = source.ExpenseHeadId;
-            target.PropertyId = source.PropertyId;
-            target.PartyId = source.PartyId;
-            target.DocumentTypeId = source.DocumentTypeId;
+            target.ExpenseHeadId = Convert.ToInt32(source.ExpenseHeadId??"0");
+            target.PropertyId = Convert.ToInt32(source.PropertyId??"0");
+            target.PartyId = Convert.ToInt32(source.PartyId??"0");
+            target.DocumentTypeId = Convert.ToInt32(source.DocumentTypeId??"0");
             target.PaymentTypeId = source.PaymentTypeId;
             target.DateOfPayment = source.DateOfPayment.UtcDateTime;
             target.Amount = Convert.ToDecimal(string.IsNullOrEmpty(source.Amount) ? "0" : source.Amount);
             target.ChequeNo = source.ChequeNo;
             target.Narration = source.Narration;
-            target.BankAccountId = source.BankAccountId;
-            target.CashAccountId = source.CashAccountId;
+            target.BankAccountId = Convert.ToInt32(source.BankAccountId??"0");
+            target.CashAccountId = Convert.ToInt32(source.CashAccountId??"0");
             target.PDC = source.PDC;
             target.AccountName = source.AccountName;
         }

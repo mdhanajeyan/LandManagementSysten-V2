@@ -150,6 +150,8 @@ namespace LandBankManagement.ViewModels
             Item = new FundTransferModel() {  PayeePaymentType = 1,ReceiverPaymentType=1,DateOfPayment=DateTimeOffset.Now };
             GetDropdowns();
             defaultSettings();
+            OnFromCashRadioChecked();
+            OnToCashRadioChecked();
         }
         public void defaultSettings()
         {
@@ -207,26 +209,28 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadFromBankAndCompany()
         {
-            if ( Item.PayeeId == 0 || Item.PayeeId == currentFromCompanyId)
+            if (Convert.ToInt32( Item.PayeeId) == 0 || Convert.ToInt32(Item.PayeeId) == currentFromCompanyId)
                 return;
+            var payeeid = Convert.ToInt32(Item.PayeeId);
             SelectedFromCashId = "0";
             SelectedFromBankId = "0";
            
-            FromBankOptions =await GetBankList(Item.PayeeId,"bank");
-            FromCashOptions = await GetBankList(Item.PayeeId, "cash"); 
+            FromBankOptions =await GetBankList(payeeid, "bank");
+            FromCashOptions = await GetBankList(payeeid, "cash"); 
             
-            currentFromCompanyId = Item.PayeeId;
+            currentFromCompanyId = payeeid;
         }
         public async Task LoadToBankAndCompany()
         {
-            if ( Item.ReceiverId == 0 || Item.ReceiverId == currentToCompanyId)
+            if (Convert.ToInt32(Item.ReceiverId) == 0 || Convert.ToInt32(Item.ReceiverId) == currentToCompanyId)
                 return;
+            var receiverId = Convert.ToInt32(Item.ReceiverId);
             SelectedToCashId = "0";
             SelectedToBankId = "0";
-            ToCashOptions = await GetBankList(Item.ReceiverId, "cash");
-            ToBankOptions = await GetBankList(Item.ReceiverId,"bank");
+            ToCashOptions = await GetBankList(receiverId, "cash");
+            ToBankOptions = await GetBankList(receiverId, "bank");
           
-            currentToCompanyId = Item.ReceiverId;
+            currentToCompanyId = receiverId;
         }
 
         public ICommand FromCashCheckedCommand => new RelayCommand(OnFromCashRadioChecked);
@@ -313,12 +317,13 @@ namespace LandBankManagement.ViewModels
                 model.ReceiverCashId = Convert.ToInt32(SelectedToCashId);
 
                 StartStatusMessage("Saving FundTransfer...");
-
+                
                 if (model.FundTransferId <= 0)
                     await FundTransferService.AddFundTransferAsync(model);
                 else
                     await FundTransferService.UpdateFundTransferAsync(model);
                 EndStatusMessage("FundTransfer saved");
+                LoadSelectedFundTransfer(model.FundTransferId);
                 LogInformation("FundTransfer", "Save", "FundTransfer saved successfully", $"FundTransfer {model.FundTransferId}  was saved successfully.");
                 return true;
             }
@@ -373,11 +378,11 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<FundTransferModel>> GetValidationConstraints(FundTransferModel model)
         {
-            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Company", m => m.PayeeId);
-            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Bank/Cash", m => Convert.ToInt32(SelectedFromBankId) >0 || Convert.ToInt32(SelectedFromCashId)>0);
+            yield return new ValidationConstraint<FundTransferModel>("From Company", m => m.PayeeId!=null && Convert.ToInt32(m.PayeeId)>0);
+            yield return new ValidationConstraint<FundTransferModel>("From Bank/Cash", m => Convert.ToInt32(SelectedFromBankId) >0 || Convert.ToInt32(SelectedFromCashId)>0);
             yield return new ValidationConstraint<FundTransferModel>("Amount should not be empty", m => ValidateAmount(m));
-            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("From Company", m => m.ReceiverId);
-            yield return new RequiredGreaterThanZeroConstraint<FundTransferModel>("To Bank/Cash", m => Convert.ToInt32(SelectedToBankId) >0 || Convert.ToInt32(SelectedToCashId) >0);
+            yield return new ValidationConstraint<FundTransferModel>("To Company", m => m.ReceiverId!=null && Convert.ToInt32(m.ReceiverId) > 0);
+            yield return new ValidationConstraint<FundTransferModel>("To Bank/Cash", m => Convert.ToInt32(SelectedToBankId) >0 || Convert.ToInt32(SelectedToCashId) >0);
            
         }
         private bool ValidateAmount(FundTransferModel model)

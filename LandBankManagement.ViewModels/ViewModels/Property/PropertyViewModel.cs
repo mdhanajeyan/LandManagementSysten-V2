@@ -120,11 +120,12 @@ namespace LandBankManagement.ViewModels
                 PropertyDetials.PropertyList = modelList;
                 var model = modelList[0];
                 //selected.Merge(model);
+              
                 if (model.PropertyDocumentType == null)
                     return;
 
                 foreach (var propDocument in model.PropertyDocumentType) {
-                    propDocument.DocumentType = PropertyDetials.DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId).First().Description;
+                    propDocument.DocumentType = PropertyDetials.DocumentTypeOptions.Where(x =>Convert.ToInt32( x.Id) == propDocument.DocumentTypeId).First().Description;
                     if (propDocument.PropertyDocuments != null)
                     {
                         for (int i = 0; i < propDocument.PropertyDocuments.Count; i++)
@@ -134,6 +135,10 @@ namespace LandBankManagement.ViewModels
                     }
                 }
                 UpdateAreas(model, model.PropertyDocumentType[0]);
+                  PropertyDetials.ChangeCompanyOptions(model.CompanyID);
+                PropertyDetials.ChangeTalukOptions(model.TalukId);
+                PropertyDetials.ChangeHobliOptions(model.HobliId);
+                PropertyDetials.ChangeVillageOptions(model.VillageId);
                 PropertyDetials.Item = model;
                 PropertyDetials.PropertyDocumentTypeList = model.PropertyDocumentType;
                 PropertyDetials.CurrentDocumentType = model.PropertyDocumentType[0];
@@ -160,7 +165,7 @@ namespace LandBankManagement.ViewModels
             }
         }
         private void UpdateAreas(PropertyModel model, PropertyDocumentTypeModel source) {
-            model.DocumentTypeId = source.DocumentTypeId;
+            model.DocumentTypeId = source.DocumentTypeId.ToString();
             model.LandAreaInputAcres = source.LandAreaInputAcres;
             model.LandAreaInputGuntas = source.LandAreaInputGuntas;
             model.LandAreaInAcres = source.LandAreaInAcres;
@@ -185,6 +190,7 @@ namespace LandBankManagement.ViewModels
         }
         public async void LoadPropertyForNewDocumentType(int id)
         {
+            SelectedPivotIndex = 1;
             PropertyDetials.EnableDocType = true;
             PropertyDetials.EnablePropertyName = false;
             ShowProgressRing();
@@ -195,7 +201,7 @@ namespace LandBankManagement.ViewModels
 
             foreach (var propDocument in model.PropertyDocumentType)
             {
-                propDocument.DocumentType = PropertyDetials.DocumentTypeOptions.Where(x => x.Id == propDocument.DocumentTypeId).First().Description;
+                propDocument.DocumentType = PropertyDetials.DocumentTypeOptions.Where(x =>Convert.ToInt32( x.Id) == propDocument.DocumentTypeId).First().Description;
                 if (propDocument.PropertyDocuments != null)
                 {
                     for (int i = 0; i < propDocument.PropertyDocuments.Count; i++)
@@ -205,7 +211,11 @@ namespace LandBankManagement.ViewModels
                 }
             }
             UpdateAreas(model, model.PropertyDocumentType[0]);
-            model.DocumentTypeId = 0;
+            PropertyDetials.ChangeCompanyOptions(model.CompanyID);
+            PropertyDetials.ChangeTalukOptions(model.TalukId);
+            PropertyDetials.ChangeHobliOptions(model.HobliId);
+            PropertyDetials.ChangeVillageOptions(model.VillageId);
+            model.DocumentTypeId = "0";
             PropertyDetials.Item = model;
             PropertyDetials.PropertyDocumentTypeList = model.PropertyDocumentType;
             PropertyDetials.CurrentDocumentType = model.PropertyDocumentType[0];
@@ -231,7 +241,7 @@ namespace LandBankManagement.ViewModels
             //}
             //PropertyDetials.Item.PropertyId=0;
             //PropertyDetials.Item.GroupGuid =null;
-            SelectedPivotIndex = 1;
+           
         }
     }
 }

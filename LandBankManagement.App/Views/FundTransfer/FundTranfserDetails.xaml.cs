@@ -29,7 +29,7 @@ namespace LandBankManagement.Views
         private async void FromCompanyDDL_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var val = ((ComboBox)sender).SelectedValue;
-            if (val == null)
+            if (val == null|| val=="0")
                 return;
            
             await ViewModel.LoadFromBankAndCompany();
@@ -39,7 +39,7 @@ namespace LandBankManagement.Views
         private async void ToCompanyDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var val = ((ComboBox)sender).SelectedValue;
-            if (val == null)
+            if (val == null || val == "0")
                 return;
             await ViewModel.LoadToBankAndCompany();
         }

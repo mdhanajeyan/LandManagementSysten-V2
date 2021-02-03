@@ -15,7 +15,7 @@
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:TalukDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5" HorizontalAlignment="Center">
                 <controls:FormTextBox Header="Taluk Name *" Text="{x:Bind EditableItem.TalukName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="GMap Link" Text="{x:Bind EditableItem.TalukGMapLink, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="GMap Link" Text="{x:Bind EditableItem.TalukGMapLink, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" />
                 <CheckBox x:Name="isActive" Margin="10 20 0 0"  IsChecked="{x:Bind EditableItem.TalukIsActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >
                     <TextBlock Text="IsActive"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                 </CheckBox>

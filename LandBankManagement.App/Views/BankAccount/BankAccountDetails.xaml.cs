@@ -23,6 +23,10 @@ namespace LandBankManagement.Views
         {
             details.SetFocus();
         }
-     
+
+        private void ChangeCompany_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetCompanyOption();
+        }
     }
 }

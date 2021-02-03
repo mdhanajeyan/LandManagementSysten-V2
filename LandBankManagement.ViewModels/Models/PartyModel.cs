@@ -30,6 +30,7 @@ namespace LandBankManagement.Models
         public string AadharNo { get; set; }
         public bool IsPartyActive { get; set; }
         public string GSTIN { get; set; }
+        public string SalutationType { get; set; }
         public ObservableCollection<ImagePickerResult> partyDocuments { get; set; }
         public bool IsNew => PartyId <= 0;
 

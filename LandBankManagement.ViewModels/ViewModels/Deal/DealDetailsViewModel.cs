@@ -139,7 +139,7 @@ namespace LandBankManagement.ViewModels
 
         public async Task LoadAsync()
         {
-            Item = new DealModel { PropertyMergeId=0,CompanyId=0};
+            Item = new DealModel { PropertyMergeId="0",CompanyId="0"};
             GetDropdowns();
             IsEditMode = true;
             CurrentSchedule = new DealPayScheduleModel { ScheduleDate=DateTimeOffset.Now};
@@ -172,7 +172,7 @@ namespace LandBankManagement.ViewModels
                         DealPartyList = new ObservableCollection<DealPartiesModel>();
                     DealPartyList.Add(new DealPartiesModel
                     {
-                        PartyId = item.Id,
+                        PartyId =Convert.ToInt32( item.Id),
                         PartyName = item.Description
                     });
                 }

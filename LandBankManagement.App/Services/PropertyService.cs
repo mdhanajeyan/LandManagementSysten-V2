@@ -376,13 +376,13 @@ namespace LandBankManagement.Services
                 PropertyName = source.PropertyName,
                 GroupGuid=source.GroupGuid,
                 PartyId = source.PartyId,
-                TalukId = source.TalukId,
-                HobliId = source.HobliId,
-                VillageId = source.VillageId,
-                DocumentTypeId = source.DocumentTypeId,
+                TalukId = source.TalukId.ToString(),
+                HobliId = source.HobliId.ToString(),
+                VillageId = source.VillageId.ToString(),
+                DocumentTypeId = source.DocumentTypeId.ToString(),
                 DateOfExecution = source.DateOfExecution,
                 DocumentNo = source.DocumentNo,
-                PropertyTypeId = source.PropertyTypeId,
+                PropertyTypeId = source.PropertyTypeId.ToString(),
                 SurveyNo = source.SurveyNo,
                 PropertyGMapLink = source.PropertyGMapLink,
                 //LandAreaInputAcres = source.LandAreaInputAcres.ToString(),
@@ -408,7 +408,7 @@ namespace LandBankManagement.Services
                 //BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
                 //SaleValue1 = source.SaleValue1,
                 //SaleValue2 = source.SaleValue2,
-                CompanyID=source.CompanyID,
+                CompanyID=source.CompanyID.ToString(),
                 IsSold=source.IsSold
             };
 
@@ -424,13 +424,13 @@ namespace LandBankManagement.Services
                 PropertyName = source.PropertyName,
                 GroupGuid=source.GroupGuid,
                 PartyId = source.PartyId,
-                TalukId = source.TalukId,
-                HobliId = source.HobliId,
-                VillageId = source.VillageId,
-                DocumentTypeId = source.DocumentTypeId,
+                TalukId = source.TalukId.ToString(),
+                HobliId = source.HobliId.ToString(),
+                VillageId = source.VillageId.ToString(),
+                DocumentTypeId = source.DocumentTypeId.ToString(),
                 DateOfExecution = source.DateOfExecution,
                 DocumentNo = source.DocumentNo,
-                PropertyTypeId = source.PropertyTypeId,
+                PropertyTypeId = source.PropertyTypeId.ToString(),
                 SurveyNo = source.SurveyNo,
                 PropertyGMapLink = source.PropertyGMapLink,
                 //LandAreaInputAcres = source.LandAreaInputAcres.ToString(),
@@ -456,7 +456,7 @@ namespace LandBankManagement.Services
                 //BKarabAreaInSqft = source.BKarabAreaInSqft.ToString(),
                 //SaleValue1 = source.SaleValue1,
                 //SaleValue2 = source.SaleValue2,
-                CompanyID = source.CompanyID,
+                CompanyID = source.CompanyID.ToString(),
                 IsSold = source.IsSold
             };
 
@@ -533,13 +533,13 @@ namespace LandBankManagement.Services
             target.PropertyName = source.PropertyName;
             target.GroupGuid = source.GroupGuid;
             target.PartyId = source.PartyId;
-            target.TalukId = source.TalukId;
-            target.HobliId = source.HobliId;
-            target.VillageId = source.VillageId;
-            target.DocumentTypeId = source.DocumentTypeId;
+            target.TalukId = Convert.ToInt32( source.TalukId);
+            target.HobliId = Convert.ToInt32(source.HobliId);
+            target.VillageId = Convert.ToInt32(source.VillageId);
+            target.DocumentTypeId = Convert.ToInt32(source.DocumentTypeId);
             target.DateOfExecution = source.DateOfExecution.UtcDateTime;
             target.DocumentNo = source.DocumentNo;
-            target.PropertyTypeId = source.PropertyTypeId;
+            target.PropertyTypeId = Convert.ToInt32(source.PropertyTypeId);
             target.SurveyNo = source.SurveyNo;
             target.PropertyGMapLink = source.PropertyGMapLink;
             //target.LandAreaInputAcres = Convert.ToDecimal(string.IsNullOrEmpty(source.LandAreaInputAcres) ? "0" : source.LandAreaInputAcres);
@@ -565,7 +565,7 @@ namespace LandBankManagement.Services
             //target.BKarabAreaInSqft = Convert.ToDecimal(string.IsNullOrEmpty(source.BKarabAreaInSqft) ? "0" : source.BKarabAreaInSqft);
             //target.SaleValue1 = source.SaleValue1;
             //target.SaleValue2 = source.SaleValue2;
-            target.CompanyID = source.CompanyID;
+            target.CompanyID = Convert.ToInt32(source.CompanyID);
         }
 
         private void UpdatePropertyDocumentTypeFromModel(PropertyDocumentType target, PropertyDocumentTypeModel source)

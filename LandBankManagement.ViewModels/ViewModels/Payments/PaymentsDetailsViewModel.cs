@@ -189,10 +189,10 @@ namespace LandBankManagement.ViewModels
         }
 
         public async Task LoadBankAndCompany() {
-            if (Item.PayeeId == null || Item.PayeeId == 0)
+            if (Item.PayeeId == null || Item.PayeeId == "0")
                 return;
-            CashOptions = await DropDownService.GetCashOptionsByCompany(Item.PayeeId);
-            BankOptions = await DropDownService.GetBankOptionsByCompany(Item.PayeeId);
+            CashOptions = await DropDownService.GetCashOptionsByCompany(Convert.ToInt32( Item.PayeeId));
+            BankOptions = await DropDownService.GetBankOptionsByCompany(Convert.ToInt32(Item.PayeeId));
         }
 
         public ICommand ExpenseCheckedCommand => new RelayCommand(OnExpenseRadioChecked);
@@ -393,16 +393,16 @@ namespace LandBankManagement.ViewModels
         {
             yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Company", m => m.PayeeId);
             yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Proeprty Name", m => m.PropertyId);
-            yield return new ValidationConstraint<PaymentModel>("Expense head / Party must be selected", m => (m.ExpenseHeadId > 0 || m.PartyId>0));
+            yield return new ValidationConstraint<PaymentModel>("Expense head / Party must be selected", m => (Convert.ToInt32(m.ExpenseHeadId) > 0 || Convert.ToInt32(m.PartyId)>0));
             yield return new ValidationConstraint<PaymentModel>("Document Type must be selected", m => ValidateDocumentType(m));
-           yield return new ValidationConstraint<PaymentModel>("Cash / Bank must be selected", m => (m.CashAccountId > 0 || m.BankAccountId>0));
+           yield return new ValidationConstraint<PaymentModel>("Cash / Bank must be selected", m => (Convert.ToInt32(m.CashAccountId )> 0 || Convert.ToInt32(m.BankAccountId)>0));
             yield return new ValidationConstraint<PaymentModel>("Amount should not be empty", m => ValidateAmount(m));
             yield return new RequiredConstraint<PaymentModel>("Cheque / Ref No", m => m.ChequeNo);
             // yield return new ValidationConstraint<PaymentModel>("Expense head Or Party Not to be empty", x => ValidateExpenseHeadAndParty(x));
         }
 
         private bool ValidateExpenseHeadAndParty(PaymentModel model) {
-            return model.ExpenseHeadId > 0 || model.PartyId > 0;
+            return Convert.ToInt32(model.ExpenseHeadId) > 0 || Convert.ToInt32(model.PartyId) > 0;
         }
 
         private bool ValidateDocumentType(PaymentModel model)
@@ -410,12 +410,12 @@ namespace LandBankManagement.ViewModels
             if (IsExpenseChecked) {
                 return true;
             }
-            return model.DocumentTypeId > 0 ;
+            return Convert.ToInt32(model.DocumentTypeId) > 0 ;
         }
 
         private bool ValidateCashAndBank(PaymentModel model)
         {
-            return model.CashAccountId > 0 || model.BankAccountId > 0;
+            return Convert.ToInt32(model.CashAccountId) > 0 || Convert.ToInt32(model.BankAccountId) > 0;
         }
 
         private bool ValidateAmount(PaymentModel model)

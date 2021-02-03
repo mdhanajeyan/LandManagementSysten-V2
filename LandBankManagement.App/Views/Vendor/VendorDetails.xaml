@@ -16,7 +16,7 @@
             <controls:FluidGrid Margin="0,12,0,50" Columns="3" ColumnSpacing="40" RowSpacing="12"  HorizontalAlignment="Center">
                 <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"  ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
                     <controls:FormTextBox Header="Vendor Name *" Text="{x:Bind EditableItem.VendorName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
-                <controls:FormTextBox Header="Vendor Alias *" Text="{x:Bind EditableItem.VendorAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
+                <controls:FormTextBox Header="Vendor Alias " Text="{x:Bind EditableItem.VendorAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
                     <Grid >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="35*"/>
@@ -25,7 +25,7 @@
                         <controls:FormComboBox Grid.Column="0"  Header="Salutation" ItemsSource="{x:Bind SolutationOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.SalutationType, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                        <controls:FormTextBox Grid.Column="1" Header="" Height="30" VerticalAlignment="Bottom" MaxLength="4" Text="{x:Bind EditableItem.VendorSalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <controls:FormTextBox Grid.Column="1" Header="" Height="30" VerticalAlignment="Bottom" Text="{x:Bind EditableItem.VendorSalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                    
                 <controls:FormTextBox Header="PAN " Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
@@ -50,8 +50,8 @@
                     <StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1" Margin="0 5 10 20" MinHeight="300">
                         <Grid Background="#81D4FA">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="80"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock  Grid.Column="0" Text="Uploaded Documents" Foreground="#fff" HorizontalAlignment="Left" Padding="10 5 0 0"  FontSize="15" FontWeight="Medium"/>
                             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" >

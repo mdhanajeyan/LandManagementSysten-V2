@@ -6,7 +6,7 @@ namespace LandBankManagement.Models
 {
     public class ComboBoxOptions : ObservableObject
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Description { get; set; }
         public bool IsSelected { get; set; }
     }

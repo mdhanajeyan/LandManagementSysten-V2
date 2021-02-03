@@ -202,10 +202,10 @@ namespace LandBankManagement.Services
         {
             var model = new DealModel()
             {
-                PropertyMergeId = source.PropertyMergeId,
+                PropertyMergeId = source.PropertyMergeId.ToString(),
                 DealId = source.DealId,
                 DealName = source.DealName,
-                CompanyId = source.CompanyId,
+                CompanyId = source.CompanyId.ToString(),
                 SaleValue1 = source.SaleValue1,
                 SaleValue2 = source.SaleValue2,
                 Amount1 = source.Amount1,
@@ -250,8 +250,8 @@ namespace LandBankManagement.Services
         private void UpdateDealFromModel(Deal target, DealModel source)
         {
             target.DealId = source.DealId;
-            target.PropertyMergeId = source.PropertyMergeId;
-            target.CompanyId = source.CompanyId;            
+            target.PropertyMergeId =Convert.ToInt32( source.PropertyMergeId??"0");
+            target.CompanyId = Convert.ToInt32(source.CompanyId??"0");            
             target.SaleValue1 = source.SaleValue1;
             target.SaleValue2 = source.SaleValue2;           
         }

@@ -12,6 +12,14 @@ namespace LandBankManagement.ViewModels
 {
     public class CashAccountDetailsViewModel : GenericDetailsViewModel<CashAccountModel>
     {
+        private ObservableCollection<ComboBoxOptions> _activeCompanyOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveCompanyOptions
+
+        {
+            get => _activeCompanyOptions;
+            set => Set(ref _activeCompanyOptions, value);
+        }
+
         private ObservableCollection<ComboBoxOptions> _companyOptions = null;
         public ObservableCollection<ComboBoxOptions> CompanyOptions
 
@@ -19,6 +27,37 @@ namespace LandBankManagement.ViewModels
             get => _companyOptions;
             set => Set(ref _companyOptions, value);
         }
+
+        private ObservableCollection<ComboBoxOptions> _allCompanyOptions = null;
+        public ObservableCollection<ComboBoxOptions> AllCompanyOptions
+
+        {
+            get => _allCompanyOptions;
+            set => Set(ref _allCompanyOptions, value);
+        }
+
+        private ObservableCollection<ComboBoxOptions> _acctTypeOptions = null;
+        public ObservableCollection<ComboBoxOptions> AcctTypeOptions
+
+        {
+            get => _acctTypeOptions;
+            set => Set(ref _acctTypeOptions, value);
+        }
+
+        private bool _showComp = true;
+        public bool ShowActiveCompany
+        {
+            get => _showComp;
+            set => Set(ref _showComp, value);
+        }
+
+        private bool _hideComp = false;
+        public bool ChangeCompany
+        {
+            get => _hideComp;
+            set => Set(ref _hideComp, value);
+        }
+
 
         public ICashAccountService CashAccountService { get; }
         public IFilePickerService FilePickerService { get; }
@@ -44,13 +83,39 @@ namespace LandBankManagement.ViewModels
         public void Load()
         {
             Item = new CashAccountModel { IsCashAccountActive=true};
-            GetCompanyOption();
+            GetDropDownsOption();
+            ShowActiveCompany = true;
+            ChangeCompany = false;
         }
 
-        private async void GetCompanyOption() {
+        private async void GetDropDownsOption()
+        {
             CashAccountViewModel.ShowProgressRing();
-            CompanyOptions =await DropDownService.GetCompanyOptions();
+            ActiveCompanyOptions = await DropDownService.GetCompanyOptions();
+            AllCompanyOptions = await DropDownService.GetAllCompanyOptions();
+            AcctTypeOptions = await DropDownService.GetAccountTypeOptions();
             CashAccountViewModel.HideProgressRing();
+            CompanyOptions = ActiveCompanyOptions;
+        }
+
+        public void ChangeCompanyOptions(int companyId)
+        {
+            var comp = ActiveCompanyOptions.Where(x => Convert.ToInt32(x.Id) == companyId).FirstOrDefault();
+            if (comp != null)
+            {
+                ResetCompanyOption();
+                return;
+            }
+            CompanyOptions = AllCompanyOptions;
+            ShowActiveCompany = false;
+            ChangeCompany = true;
+        }
+
+        public void ResetCompanyOption()
+        {
+            CompanyOptions = ActiveCompanyOptions;
+            ShowActiveCompany = true;
+            ChangeCompany = false;
         }
         public void Subscribe()
         {
@@ -94,7 +159,8 @@ namespace LandBankManagement.ViewModels
         }
         protected override void ClearItem()
         {
-            Item = new CashAccountModel() { CompanyID = 0 ,IsCashAccountActive=true};
+            Item = new CashAccountModel() { CompanyID = "0" ,IsCashAccountActive=true};
+            ResetCompanyOption();
         }
         protected override async Task<bool> DeleteItemAsync(CashAccountModel model)
         {
@@ -129,7 +195,7 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<CashAccountModel>> GetValidationConstraints(CashAccountModel model)
         {
-            yield return new ValidationConstraint<CashAccountModel>("Company should not be empty", m => m.CompanyID>0);
+            yield return new ValidationConstraint<CashAccountModel>("Company should not be empty", m =>Convert.ToInt32( m.CompanyID)>0);
             yield return new RequiredConstraint<CashAccountModel>("Name", m => m.CashAccountName);         
 
         }

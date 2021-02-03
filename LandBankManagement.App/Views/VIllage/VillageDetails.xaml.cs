@@ -23,5 +23,23 @@ namespace LandBankManagement.Views
         {
             details.SetFocus();
         }
+
+        private void ChangeHobli_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetHobliOption(null);
+        }
+
+        private void ChangeTaluk_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetTalukOption();
+        }
+
+        private async void TalukDDl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null || val.ToString() == "0")
+                return;
+            await ViewModel.LoadHobli();
+        }
     }
 }
