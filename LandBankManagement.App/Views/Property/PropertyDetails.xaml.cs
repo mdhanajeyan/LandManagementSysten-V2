@@ -174,7 +174,10 @@ namespace LandBankManagement.Views
 
         private void DocumentType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var identity = Convert.ToInt32(((ComboBox)sender).SelectedValue.ToString());
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null || val.ToString() == "0")
+                return;
+            var identity = Convert.ToInt32(val);
             ViewModel.SetCurrentDocumentType(identity);
         }
 

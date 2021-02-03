@@ -111,7 +111,7 @@
                     <controls:FormTextBox x:Name="PropertyNameTxt" Header="Property Name *"  IsEnabled="{x:Bind EnablePropertyName,Mode=TwoWay}" Text="{x:Bind EditableItem.PropertyName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                   
                     <controls:FluidGrid  ColumnSpan="2" Columns="1" >
-                        <controls:FormTextBox Header="Google Map Link" Text="{x:Bind EditableItem.PropertyGMapLink, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <controls:FormTextBox Header="Google Map Link" Text="{x:Bind EditableItem.PropertyGMapLink, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
                     </controls:FluidGrid>
 
                     <controls:FluidGrid  ColumnSpan="2"  Margin="0 20 0 0">

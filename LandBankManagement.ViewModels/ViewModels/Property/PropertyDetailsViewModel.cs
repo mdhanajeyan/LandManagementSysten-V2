@@ -765,7 +765,7 @@ namespace LandBankManagement.ViewModels
         }
 
         public void CloneProperty() {
-            
+           
             var newItem = new PropertyModel();
             newItem.CompanyID = Item.CompanyID;
             newItem.TalukId = Item.TalukId;
