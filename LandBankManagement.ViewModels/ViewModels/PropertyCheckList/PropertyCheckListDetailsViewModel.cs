@@ -541,7 +541,7 @@ namespace LandBankManagement.ViewModels
             var hobliId = Item.HobliId;
             int id = Convert.ToInt32(Item.TalukId);
             HobliOptions = await DropDownService.GetHobliOptionsByTaluk(id);
-            if (HobliOptions.Count == 1 && hobliId == "0")
+            if (HobliOptions.Count == 1 &&( hobliId == "0" || hobliId == null))
                 return;
             var isExist = HobliOptions.Where(x => x.Id == hobliId).FirstOrDefault();
             var isValid = hobliId == null ? null : isExist;

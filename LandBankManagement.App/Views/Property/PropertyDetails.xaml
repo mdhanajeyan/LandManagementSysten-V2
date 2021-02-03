@@ -55,7 +55,7 @@
                             <ColumnDefinition Width="60"/>
                         </Grid.ColumnDefinitions>
                         <controls:FormComboBox x:Name="HobliDDl" Header="Hobli *" ItemsSource="{x:Bind HobliOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ShowActiveHobli,Mode=TwoWay}"
-                                            SelectedValue="{x:Bind EditableItem.HobliId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedValue="{x:Bind SelectedHobli, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description"  SelectionChanged="HobliDDl_SelectionChanged"/>
 
                         <Button x:Name="ChangeHobli" Grid.Column="1" Visibility="{Binding ChangeHobli}" Click="ChangeHobli_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
@@ -71,7 +71,7 @@
                             <ColumnDefinition Width="60"/>
                         </Grid.ColumnDefinitions>
                         <controls:FormComboBox x:Name="VillageDDL" Grid.Column="0"  Header="Village *" ItemsSource="{x:Bind VillageOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{x:Bind ShowActiveVillage,Mode=TwoWay}"
-                                            SelectedValue="{x:Bind EditableItem.VillageId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedValue="{x:Bind SelectedVillage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                SelectionChanged="VillageDDL_SelectionChanged"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />                        
 
@@ -306,7 +306,7 @@
                                                         <TextBlock Text="{x:Bind DocumentType}" HorizontalAlignment="Left" />
                                                     </Button>
 
-                                                    <Button x:Name="uploadBtn" Grid.Column="1"   Height="35" Margin="10 0 5 0"  Background="Transparent" Padding="5" Click="uploadBtn_Click" HorizontalAlignment="Right">
+                                                    <Button x:Name="uploadBtn" Grid.Column="1" Tag="{x:Bind DocumentTypeId}"  Height="35" Margin="10 0 5 0"  Background="Transparent" Padding="5" Click="uploadBtn_Click" HorizontalAlignment="Right">
                                                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE898;" Foreground="#fff"  HorizontalAlignment="Right"/>
                                                                 <Button.Resources>
                                                                     <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>

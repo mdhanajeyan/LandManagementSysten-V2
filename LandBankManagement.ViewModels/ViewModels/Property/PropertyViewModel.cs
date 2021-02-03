@@ -136,9 +136,9 @@ namespace LandBankManagement.ViewModels
                 }
                 UpdateAreas(model, model.PropertyDocumentType[0]);
                   PropertyDetials.ChangeCompanyOptions(model.CompanyID);
-                PropertyDetials.ChangeTalukOptions(model.TalukId);
-                PropertyDetials.ChangeHobliOptions(model.HobliId);
-                PropertyDetials.ChangeVillageOptions(model.VillageId);
+               // PropertyDetials.ChangeTalukOptions(model.TalukId);
+               // PropertyDetials.ChangeHobliOptions(model.HobliId);
+               // PropertyDetials.ChangeVillageOptions(model.VillageId);
                 PropertyDetials.Item = model;
                 PropertyDetials.PropertyDocumentTypeList = model.PropertyDocumentType;
                 PropertyDetials.CurrentDocumentType = model.PropertyDocumentType[0];
@@ -190,6 +190,11 @@ namespace LandBankManagement.ViewModels
         }
         public async void LoadPropertyForNewDocumentType(int id)
         {
+            PropertyDetials.ResetCompanyOption();
+            PropertyDetials.ResetTalukOption();
+            PropertyDetials.ResetHobliOption(null);
+            PropertyDetials.ResetVillageOption(null);
+
             SelectedPivotIndex = 1;
             PropertyDetials.EnableDocType = true;
             PropertyDetials.EnablePropertyName = false;

@@ -257,6 +257,21 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _enablePropertyName, value);
         }
 
+
+        private string _selectedHobli = "0";
+        public string SelectedHobli
+        {
+            get => _selectedHobli;
+            set => Set(ref _selectedHobli, value);
+        }
+
+        private string _selectedVillage = "0";
+        public string SelectedVillage
+        {
+            get => _selectedVillage;
+            set => Set(ref _selectedVillage, value);
+        }
+
         public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel propertyListViewModel, PropertyViewModel propertyView) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -285,8 +300,8 @@ namespace LandBankManagement.ViewModels
 
             ResetCompanyOption();
             ResetTalukOption();
-            ResetHobliOption();
-            ResetVillageOption();
+            ResetHobliOption(null);
+            ResetVillageOption(null);
             ResetDocumentTypeOption();
         }
         public void GetStoredItem() {
@@ -403,41 +418,50 @@ namespace LandBankManagement.ViewModels
         public void ChangeHobliOptions(string hobliId)
         {
             var comp = ActiveHobliOptions.Where(x => x.Id == hobliId).FirstOrDefault();
-            if (comp != null)
+            if (comp != null || hobliId == null)
             {
-                ResetHobliOption();
+                ResetHobliOption(hobliId);
                 return;
             }
             HobliOptions = AllHobliOptions;
+            SelectedHobli = "0";
+            SelectedHobli = hobliId;
             ShowActiveHobli = false;
             ChangeHobli = true;
         }
 
-        public void ResetHobliOption()
+        public void ResetHobliOption(string hobliId)
         {
             HobliOptions = ActiveHobliOptions;
             ShowActiveHobli = true;
             ChangeHobli = false;
+            if (hobliId != null)
+                SelectedHobli = hobliId;
         }
 
         public void ChangeVillageOptions(string villageId)
         {
             var comp = ActiveVillageOptions.Where(x => x.Id == villageId).FirstOrDefault();
-            if (comp != null)
+            if (comp != null || villageId == null)
             {
-                ResetVillageOption();
+                ResetVillageOption(villageId);
                 return;
             }
             VillageOptions = AllVillageOptions;
+            SelectedVillage = "0";
+            SelectedVillage = villageId;
             ShowActiveVillage = false;
             ChangeVillage = true;
+
         }
 
-        public void ResetVillageOption()
+        public void ResetVillageOption(string villageId)
         {
             VillageOptions = ActiveVillageOptions;
             ShowActiveVillage = true;
             ChangeVillage = false;
+            if (villageId != null)
+                SelectedVillage = villageId;
         }
 
         public void ChangeDocumentTypeOptions(int docTypeId)
@@ -461,20 +485,39 @@ namespace LandBankManagement.ViewModels
         }
 
         public async Task LoadHobli() {
-            var hobliId= Item.HobliId; 
+            var hobliId = Item.HobliId;
             int id = Convert.ToInt32(Item.TalukId);
             HobliOptions = await DropDownService.GetHobliOptionsByTaluk(id);
-            Item.HobliId = hobliId;
-            ChangeHobliOptions(Item.HobliId);
+            if (HobliOptions.Count == 1 &&( hobliId == "0"|| hobliId==null))
+                return;
+            var isExist = HobliOptions.Where(x => x.Id == hobliId).FirstOrDefault();
+            var isValid = hobliId == null ? null : isExist;
+            if (HobliOptions.Count <= 1 || isValid == null)
+            {
+                ChangeHobliOptions(hobliId);
+            }
+            else
+            {
+                SelectedHobli = "0";
+                SelectedHobli = hobliId;
+            }
         }
         public async Task LoadVillage() {
-            var villageId= Item.VillageId;
-            int id = Convert.ToInt32(Item.HobliId);
-            var options = await DropDownService.GetVillageOptionsByHobli(id);
-           // if (VillageOptions.Where(x => x.Id == Item.VillageId).FirstOrDefault() == null)
-                VillageOptions = options;
-            Item.VillageId = villageId;
-           // ChangeVillageOptions(Item.VillageId);
+            var villageId = Item.VillageId;
+            VillageOptions = await DropDownService.GetVillageOptionsByHobli(Convert.ToInt32(SelectedHobli));
+            if (VillageOptions.Count == 1 && (villageId == "0" || villageId == null))
+                return;
+            var isExist = VillageOptions.Where(x => x.Id == villageId).FirstOrDefault();
+            var isValid = villageId == null ? null : isExist;
+            if (VillageOptions.Count <= 1 && isValid == null)
+            {
+                ChangeVillageOptions(villageId);
+            }
+            else
+            {
+                SelectedVillage = "0";
+                SelectedVillage = villageId;
+            }
         }
 
         public async void GetParties() {
@@ -519,7 +562,7 @@ namespace LandBankManagement.ViewModels
                         partyName = PartyList[0].PartyName;
                 }
 
-                var village = VillageOptions.Where(x => x.Id == Item.VillageId).FirstOrDefault().Description;
+                var village = VillageOptions.Where(x => x.Id == SelectedVillage).FirstOrDefault().Description;
                 Item.PropertyName = village + " - " + Item.SurveyNo;
 
                 if (partyName!="" && !Item.PropertyName.Contains(partyName))
@@ -612,8 +655,6 @@ namespace LandBankManagement.ViewModels
             CurrentDocumentType = PropertyDocumentTypeList.Where(x => x.DocumentTypeId == documentTypeId).First();
             UpdateItemValues();
         }
-
-
 
         public ICommand EditPictureCommand => new RelayCommand(OnEditFile);
         public async void OnEditFile()
@@ -765,7 +806,8 @@ namespace LandBankManagement.ViewModels
                 //}
 
                 model.PropertyDocumentType = PropertyDocumentTypeList;
-
+                model.HobliId = SelectedHobli;
+                model.VillageId = SelectedVillage;
                 if (model.PropertyId <= 0)
                     model = await PropertyService.AddPropertyAsync(model,PropertyDocumentTypeList, DocList);
                 else
@@ -924,8 +966,8 @@ namespace LandBankManagement.ViewModels
             PropertyDocumentTypeList = null;
             ResetCompanyOption();
             ResetTalukOption();
-            ResetHobliOption();
-            ResetVillageOption();
+            ResetHobliOption(null);
+            ResetVillageOption(null);
             ResetDocumentTypeOption();
         }
         protected override async Task<bool> DeleteItemAsync(PropertyModel model)
@@ -983,8 +1025,8 @@ namespace LandBankManagement.ViewModels
         {
             yield return new ValidationConstraint<PropertyModel>("Company must be selected", m =>Convert.ToInt32( m.CompanyID) > 0);
             yield return new ValidationConstraint<PropertyModel>("Taluk must be selected", m =>Convert.ToInt32( m.TalukId) > 0);
-            yield return new ValidationConstraint<PropertyModel>("Hobli must be selected", m =>Convert.ToInt32( m.HobliId) > 0);
-            yield return new ValidationConstraint<PropertyModel>("Village must be selected", m =>Convert.ToInt32( m.VillageId) > 0);
+            yield return new ValidationConstraint<PropertyModel>("Hobli must be selected", m =>Convert.ToInt32(SelectedHobli) > 0);
+            yield return new ValidationConstraint<PropertyModel>("Village must be selected", m =>Convert.ToInt32(SelectedVillage) > 0);
             yield return new ValidationConstraint<PropertyModel>("Document Type must be selected", m =>Convert.ToInt32( m.DocumentTypeId) > 0);
             yield return new RequiredConstraint<PropertyModel>("Document No must be entered", m =>Convert.ToInt32( m.DocumentNo));
             yield return new ValidationConstraint<PropertyModel>("Property Type must be selected", m =>Convert.ToInt32( m.PropertyTypeId) > 0);

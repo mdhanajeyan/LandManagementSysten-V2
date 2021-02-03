@@ -180,11 +180,15 @@ namespace LandBankManagement.Views
 
         private void uploadBtn_Click(object sender, RoutedEventArgs e)
         {
+            var identity = ((Button)sender).Tag.ToString();
+            if (ViewModel.Item.DocumentTypeId!=identity)
+                ViewModel.SetCurrentDocumentType(Convert.ToInt32( identity));
             ViewModel.OnEditFile();
         }
 
         private void changeDocType_Click(object sender, RoutedEventArgs e)
         {
+
             var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
             ViewModel.ShiftDocumentType(identity);
         }
@@ -232,12 +236,12 @@ namespace LandBankManagement.Views
 
         private void ChangeHobli_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.ResetHobliOption();
+            ViewModel.ResetHobliOption(null);
         }
 
         private void ChangeVillage_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.ResetVillageOption();
+            ViewModel.ResetVillageOption(null);
         }
        
         private void ResetDocType_Click(object sender, RoutedEventArgs e)

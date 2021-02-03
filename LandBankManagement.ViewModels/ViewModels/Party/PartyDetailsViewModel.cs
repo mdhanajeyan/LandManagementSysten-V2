@@ -97,7 +97,8 @@ namespace LandBankManagement.ViewModels
                 AddressLine1 = model.AddressLine1,
                 AddressLine2 = model.AddressLine2,
                 City = model.City,
-                PinCode = model.PinCode
+                PinCode = model.PinCode,
+                SalutationType=model.SalutationType
             };
                
             DocList = model.VendorDocuments;
