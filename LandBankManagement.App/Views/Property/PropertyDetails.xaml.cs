@@ -182,7 +182,7 @@ namespace LandBankManagement.Views
         {
             var identity = ((Button)sender).Tag.ToString();
             if (ViewModel.Item.DocumentTypeId!=identity)
-                ViewModel.SetCurrentDocumentType(Convert.ToInt32( identity));
+                ViewModel.ShiftDocumentType(Convert.ToInt32(identity));
             ViewModel.OnEditFile();
         }
 

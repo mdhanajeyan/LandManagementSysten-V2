@@ -136,6 +136,9 @@ namespace LandBankManagement.Data.Services
 
         public async Task<int> DeletePartyAsync(Party model)
         {
+            var isReferenced = _dataSource.PropertyParty.Where(x => x.PartyId == model.PartyId).FirstOrDefault();
+            if (isReferenced != null)
+                return -1;
             _dataSource.Parties.Remove(model);
             return await _dataSource.SaveChangesAsync();
         }

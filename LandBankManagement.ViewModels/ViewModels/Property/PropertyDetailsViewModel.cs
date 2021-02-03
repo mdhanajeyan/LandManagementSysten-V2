@@ -637,7 +637,7 @@ namespace LandBankManagement.ViewModels
                 var isExist = PropertyDocumentTypeList.Where(x => x.DocumentTypeId == documentTypeId).FirstOrDefault();
                 if (isExist != null)
                 {
-                    EditableItem.DocumentTypeId = CurrentDocumentType.DocumentTypeId.ToString();
+                    EditableItem.DocumentTypeId = CurrentDocumentType.DocumentTypeId.ToString();                    
                     return;
                 }
             }

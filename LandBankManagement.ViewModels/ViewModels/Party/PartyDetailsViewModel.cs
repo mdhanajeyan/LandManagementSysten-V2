@@ -257,7 +257,12 @@ namespace LandBankManagement.ViewModels
             {
                 StartStatusMessage("Deleting Party...");
                 PartyViewModel.ShowProgressRing();
-                await PartyService.DeletePartyAsync(model);
+               var status= await PartyService.DeletePartyAsync(model);
+                if (status == -1) {
+                    await DialogService.ShowAsync("Error", "Party is in Use", "Ok");
+                    EndStatusMessage("Party is not deleted");
+                    return false;
+                }
                 EndStatusMessage("Party deleted");
                 ClearItem();
                 LogWarning("Party", "Delete", "Party deleted", $"Party {model.PartyId} '{model.PartyName}' was deleted.");
