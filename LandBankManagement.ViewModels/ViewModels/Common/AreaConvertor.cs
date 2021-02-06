@@ -8,16 +8,16 @@ namespace LandBankManagement.ViewModels
     {
         public static Area ConvertArea(decimal acres, decimal guntas, decimal aanas)
         {
-            var totalGuntas = acres.AcreToGuntas() + guntas + aanas.AanasToGunta();
-           
-            var totalSqFt = totalGuntas.GuntasToSqft();
+            var totalSqFt = acres.AcreToSqft() + guntas.GuntasToSqft() + aanas.AanasToSqft();
+            
+            
             var area = new Area()
             {
-                Acres = totalSqFt.SqftToAcres(),
-                Guntas = totalSqFt.SqftToGuntas(),
+                Acres = acres,
+                Guntas = guntas,
+                Anas = aanas,
+                SqFt = totalSqFt,
                 SqMeters = totalSqFt.SqftToSqMts(),
-                Anas=aanas,
-                SqFt = totalSqFt
             };
 
             if (area.Anas >= 16)
