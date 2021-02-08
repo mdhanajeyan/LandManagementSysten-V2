@@ -176,7 +176,8 @@ namespace LandBankManagement.Services
                 AccountName=source.AccountName,
                 CompanyName=source.CompanyName,
                 DocumentTypeName=source.DocumentTypeName,
-                PropertyName=source.PropertyName
+                PropertyName=source.PropertyName,
+                GroupId=source.GroupId.ToString()
         };
             if (source.PaymentLists!=null && source.PaymentLists.Count > 0)
             {
@@ -235,6 +236,7 @@ namespace LandBankManagement.Services
             target.CashAccountId = Convert.ToInt32(source.CashAccountId??"0");
             target.PDC = source.PDC;
             target.AccountName = source.AccountName;
+            target.GroupId = Convert.ToInt32(source.GroupId);
         }
     }
 }

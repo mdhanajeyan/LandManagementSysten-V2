@@ -22,6 +22,7 @@ namespace LandBankManagement.Data
         public string Narration { get; set; }
         public int? CashAccountId { get; set; }
         public int? BankAccountId { get; set; }
+        public int? GroupId { get; set; }
         public bool PDC { get; set; }
 
         [NotMapped]

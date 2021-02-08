@@ -53,18 +53,35 @@ namespace LandBankManagement.Views
 
         private void cashCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var val = ((ComboBox)sender).SelectedValue;
-            if (val == null|| val.ToString()=="0")
-                return;
-            ViewModel.Item.CashAccountId = val.ToString();
+            //var val = ((ComboBox)sender).SelectedValue;
+            //if (val == null|| val.ToString()=="0")
+            //    return;
+            //ViewModel.Item.CashAccountId = val.ToString();
         }
 
         private void bankCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //var val = ((ComboBox)sender).SelectedValue;
+            //if (val == null ||val.ToString() == "0")
+            //    return;
+            //ViewModel.Item.BankAccountId = val.ToString();
+        }
+
+        private async void PropertyDll_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
             var val = ((ComboBox)sender).SelectedValue;
-            if (val == null ||val.ToString() == "0")
+            if (val == null || val.ToString() == "0")
                 return;
-            ViewModel.Item.BankAccountId = val.ToString();
+           await ViewModel.LoadDocumentTypedByProperty();
+           // await ViewModel.LoadParty();
+        }
+
+        private async void Groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var val = ((ComboBox)sender).SelectedValue;
+            if (val == null || val.ToString() == "0")
+                return;
+            await ViewModel.LoadParty();
         }
     }
 }

@@ -119,8 +119,17 @@ namespace LandBankManagement.ViewModels
             //}
             //if (!anyNew)
             //    return;
+            var totalAmt1 = Convert.ToDecimal(TotalAmount1);
+            var totalAmt2 = Convert.ToDecimal(TotalAmount2);
+            var sale1 = Convert.ToDecimal(Item.SaleValue1);
+            var sale2 = Convert.ToDecimal(Item.SaleValue2);
+            if (totalAmt1 != sale1 || totalAmt2 != sale2)
+            {
+                await DialogService.ShowAsync("Error", "Total of Sale values and payment schedule values should be equal", "Ok");
+                return;
+            }
 
-            var status= await PropertyService.AddPropPaySchedule(Item.PropertyDocumentTypeId,PaymentScheduleList.ToList(),Convert.ToDecimal( Item.SaleValue1), Convert.ToDecimal(Item.SaleValue2));
+            var status= await PropertyService.AddPropPaySchedule(Item.PropertyDocumentTypeId,PaymentScheduleList.ToList(), sale1, sale2);
             if(status>0)
                 await DialogService.ShowAsync("Success", "Cost Details saved successfully", "Ok");
             else

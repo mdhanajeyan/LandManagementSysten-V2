@@ -31,6 +31,7 @@ namespace LandBankManagement.Models
         public string CompanyName { get; set; }
         public string PropertyName { get; set; }
         public string DocumentTypeName { get; set; }
+        public string GroupId { get; set; }
         public override void Merge(ObservableObject source)
         {
             if (source is PaymentModel model)

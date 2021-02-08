@@ -1,4 +1,5 @@
-﻿using LandBankManagement.Controls;
+﻿using LandBankManagement.Common;
+using LandBankManagement.Controls;
 using LandBankManagement.Models;
 using LandBankManagement.ViewModels;
 using System;
@@ -31,13 +32,15 @@ namespace LandBankManagement.Views
         public PropertyCheckListList()
         {
             this.InitializeComponent();
+            this.sfdataGrid.CellRenderers.Remove("ComboBox");
+            //customized combobox cell renderer is added.
+            this.sfdataGrid.CellRenderers.Add("ComboBox", new ComboBoxRenderer());
         }       
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             var identity = Convert.ToInt32(((Button)sender).Tag.ToString());
             ViewModel.SaveStatusAndRemarks(identity);
-           
         }
 
         private async void EditProperty_Click(object sender, RoutedEventArgs e)

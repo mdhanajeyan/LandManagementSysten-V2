@@ -46,6 +46,14 @@ namespace LandBankManagement.ViewModels
             get => _documentTypeOptions;
             set => Set(ref _documentTypeOptions, value);
         }
+
+        private ObservableCollection<ComboBoxOptions> _activeDocumentTypeOptions = null;
+        public ObservableCollection<ComboBoxOptions> ActiveDocumentTypeOptions
+        {
+            get => _activeDocumentTypeOptions;
+            set => Set(ref _activeDocumentTypeOptions, value);
+        }
+       
         private ObservableCollection<ComboBoxOptions> _cashOptions = null;
         public ObservableCollection<ComboBoxOptions> CashOptions
         {
@@ -57,6 +65,13 @@ namespace LandBankManagement.ViewModels
         {
             get => _bankOptions;
             set => Set(ref _bankOptions, value);
+        }
+
+        private ObservableCollection<ComboBoxOptions> _groupsOptions = null;
+        public ObservableCollection<ComboBoxOptions> GroupsOptions
+        {
+            get => _groupsOptions;
+            set => Set(ref _groupsOptions, value);
         }
 
         private ObservableCollection<PaymentListModel> _paymentList = null;
@@ -125,7 +140,34 @@ namespace LandBankManagement.ViewModels
             get => _isBankChecked;
             set => Set(ref _isBankChecked, value);
         }
-         
+
+        private string _selectedDocType;
+        public string SelectedDocType
+        {
+            get => _selectedDocType;
+            set => Set(ref _selectedDocType, value);
+        }
+
+        private string _selectedBank;
+        public string SelectedBank
+        {
+            get => _selectedBank;
+            set => Set(ref _selectedBank, value);
+        }
+        private string _selectedCash;
+        public string SelectedCash
+        {
+            get => _selectedCash;
+            set => Set(ref _selectedCash, value);
+        }
+
+        private string _selectedParty;
+        public string SelectedParty
+        {
+            get => _selectedParty;
+            set => Set(ref _selectedParty, value);
+        }
+
         private PaymentsViewModel PaymentsViewModel { get; set; }
         public PaymentsDetailsViewModel(IDropDownService dropDownService, IPaymentService villageService, IFilePickerService filePickerService, ICommonServices commonServices, PaymentsViewModel paymentsViewModel) : base(commonServices)
         {
@@ -147,7 +189,7 @@ namespace LandBankManagement.ViewModels
             IsEditMode = true;
             Item = new PaymentModel() { PayeeTypeId=1,PaymentTypeId=1};
             Item.DateOfPayment = DateTime.Now;
-            GetDropdowns();
+           await GetDropdowns();
             defaultSettings();
         }
         public void defaultSettings() {
@@ -177,14 +219,15 @@ namespace LandBankManagement.ViewModels
             CurrentPayment = new PaymentListModel { DateOfPayment = DateTimeOffset.Now };
         }
 
-        private async void GetDropdowns()
+        private async Task GetDropdowns()
         {
             PaymentsViewModel.ShowProgressRing();
            CompanyOptions =await DropDownService.GetCompanyOptions();
             ExpenseOptions = await DropDownService.GetExpenseHeadOptions();
-            PartyOptions= await DropDownService.GetPartyOptions();
+            //PartyOptions= await DropDownService.GetPartyOptions();
             PropertyOptions= await DropDownService.GetPropertyOptions();
-            DocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();            
+            GroupsOptions= await DropDownService.GetGroupsOptionsForParty();
+            ActiveDocumentTypeOptions = await DropDownService.GetDocumentTypeOptions();           
             PaymentsViewModel.HideProgressRing();
         }
 
@@ -195,19 +238,63 @@ namespace LandBankManagement.ViewModels
             BankOptions = await DropDownService.GetBankOptionsByCompany(Convert.ToInt32(Item.PayeeId));
         }
 
+        public async Task LoadDocumentTypedByProperty() {
+            if (!IsExpenseChecked &&(Item.PropertyId != null && Item.PropertyId != "0") )
+            DocumentTypeOptions = await DropDownService.GetDocumentTypesByPropertyID(Convert.ToInt32(Item.PropertyId));
+            PartyOptions = await DropDownService.GetPartyOptionsByProperty(Convert.ToInt32(Item.PropertyId));
+        }
+
+        public async Task LoadParty()
+        {
+            //if (!IsExpenseChecked && (Item.PropertyId != null && Item.PropertyId != "0"))
+            //PartyOptions = await DropDownService.GetPartyOptionsByProperty(Convert.ToInt32(Item.PropertyId));
+            if (!IsExpenseChecked && (Item.GroupId != null && Item.GroupId != "0"))
+            {
+                var items = await DropDownService.GetPartyOptionsByGroup(Convert.ToInt32(Item.GroupId));
+                PartyOptions = items;
+            }
+            if (Item.PartyId != null && Item.PartyId != "0" && PartyOptions!=null)
+            {
+                SelectedParty = null;
+                SelectedParty = Item.PartyId;
+            }
+        }
+
         public ICommand ExpenseCheckedCommand => new RelayCommand(OnExpenseRadioChecked);
-        virtual protected void OnExpenseRadioChecked()
+        virtual protected async void OnExpenseRadioChecked()
         {
             if (IsExpenseChecked)
             {
+                DocumentTypeOptions = ActiveDocumentTypeOptions;
                 ExpenseVisibility = true;
                 PartyVisibility = false;
             }
-            else {
+            else {               
+                await LoadDocumentTypedByProperty();
                 ExpenseVisibility = false;
                 PartyVisibility = true;
             }            
         }
+
+        public async Task LoadDocTypes() {
+            if (IsExpenseChecked)
+            {
+                DocumentTypeOptions = ActiveDocumentTypeOptions;
+                ExpenseVisibility = true;
+                PartyVisibility = false;
+            }
+            else
+            {
+                await LoadDocumentTypedByProperty();
+                ExpenseVisibility = false;
+                PartyVisibility = true;
+            }
+        }
+
+        public void ReloadBankAndCash() {
+            
+        }
+
         public ICommand CashCheckedCommand => new RelayCommand(OnCashRadioChecked);
         virtual protected void OnCashRadioChecked()
         {
@@ -300,6 +387,10 @@ namespace LandBankManagement.ViewModels
 
                 StartStatusMessage("Saving Payments...");
                 PaymentsViewModel.ShowProgressRing();
+                model.DocumentTypeId = SelectedDocType;
+                model.PartyId = SelectedParty;
+                model.BankAccountId = SelectedBank;
+                model.CashAccountId = SelectedCash;
                 int paymentId = 0;
                 if (model.PaymentId <= 0)
                     paymentId = await PaymentsService.AddPaymentAsync(model);
@@ -362,6 +453,9 @@ namespace LandBankManagement.ViewModels
             Item = new PaymentModel() { PayeeTypeId = 1, PaymentTypeId = 1,DateOfPayment=DateTimeOffset.Now };
             PaymentList = new ObservableCollection<PaymentListModel>();
             defaultSettings();
+            SelectedBank = "0";
+            SelectedCash = "0";
+            SelectedParty = "0";
         }
         protected override async Task<bool> DeleteItemAsync(PaymentModel model)
         {
@@ -391,11 +485,11 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<PaymentModel>> GetValidationConstraints(PaymentModel model)
         {
-            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Company", m => m.PayeeId);
-            yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Proeprty Name", m => m.PropertyId);
-            yield return new ValidationConstraint<PaymentModel>("Expense head / Party must be selected", m => (Convert.ToInt32(m.ExpenseHeadId) > 0 || Convert.ToInt32(m.PartyId)>0));
+            yield return new ValidationConstraint<PaymentModel>("Company must be selected", m => Convert.ToInt32(m.PayeeId)>0);
+            yield return new ValidationConstraint<PaymentModel>("Proeprty Name must be selected", m => Convert.ToInt32(m.PropertyId)>0);
+            yield return new ValidationConstraint<PaymentModel>("Expense head / Party must be selected", m => (Convert.ToInt32(m.ExpenseHeadId) > 0 || Convert.ToInt32(SelectedParty)>0));
             yield return new ValidationConstraint<PaymentModel>("Document Type must be selected", m => ValidateDocumentType(m));
-           yield return new ValidationConstraint<PaymentModel>("Cash / Bank must be selected", m => (Convert.ToInt32(m.CashAccountId )> 0 || Convert.ToInt32(m.BankAccountId)>0));
+           yield return new ValidationConstraint<PaymentModel>("Cash / Bank must be selected", m => (Convert.ToInt32(SelectedBank )> 0 || Convert.ToInt32(SelectedCash)>0));
             yield return new ValidationConstraint<PaymentModel>("Amount should not be empty", m => ValidateAmount(m));
             yield return new RequiredConstraint<PaymentModel>("Cheque / Ref No", m => m.ChequeNo);
             // yield return new ValidationConstraint<PaymentModel>("Expense head Or Party Not to be empty", x => ValidateExpenseHeadAndParty(x));
@@ -410,7 +504,7 @@ namespace LandBankManagement.ViewModels
             if (IsExpenseChecked) {
                 return true;
             }
-            return Convert.ToInt32(model.DocumentTypeId) > 0 ;
+            return Convert.ToInt32(SelectedDocType) > 0 ;
         }
 
         private bool ValidateCashAndBank(PaymentModel model)

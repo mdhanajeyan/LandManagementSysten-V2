@@ -32,7 +32,12 @@ namespace LandBankManagement.Data.Services
                     AddressLine1 = party.AddressLine1,
                     AddressLine2 = party.AddressLine2,
                     City = party.City,
-                    PinCode = party.PinCode
+                    PinCode = party.PinCode,
+                    GroupId=party.GroupId,
+                    BankName=party.BankName,
+                    Branch=party.Branch,
+                    IFSCCode=party.IFSCCode,
+                    AccountNumber=party.AccountNumber
                 };
                 _dataSource.Entry(entity).State = EntityState.Added;
                 int res = await _dataSource.SaveChangesAsync();
@@ -120,7 +125,13 @@ namespace LandBankManagement.Data.Services
                     AddressLine2 = source.AddressLine2,
                     City = source.City,
                     PinCode = source.PinCode,
-                    SalutationType=source.SalutationType
+                    SalutationType=source.SalutationType,
+                    GroupId=source.GroupId??0,
+                    GroupName=source.GroupName,
+                    BankName=source.BankName,
+                    Branch=source.Branch,
+                    IFSCCode=source.IFSCCode,
+                    AccountNumber=source.AccountNumber
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -168,6 +179,7 @@ namespace LandBankManagement.Data.Services
         public async Task<int> GetPartiesCountAsync(DataRequest<Party> request)
         {
             IQueryable<Party> items = _dataSource.Parties;
+           
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -186,7 +198,35 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<Party> GetParties(DataRequest<Party> request)
         {
-            IQueryable<Party> items = _dataSource.Parties;
+            //IQueryable<Party> items = _dataSource.Parties;
+            IQueryable<Party> items = from p in _dataSource.Parties
+                                      from g in _dataSource.Groups.Where(x=>x.GroupId==p.GroupId).DefaultIfEmpty()
+                                      select new Party
+                                      {
+                                          PartyId = p.PartyId,
+                                          PartyFirstName = p.PartyFirstName,
+                                          PartyGuid = p.PartyGuid,
+                                          PartyAlias = p.PartyAlias,
+                                          PartySalutation = p.PartySalutation,
+                                          AadharNo = p.AadharNo,
+                                          ContactPerson = p.ContactPerson,
+                                          PAN = p.PAN,
+                                          GSTIN = p.GSTIN,
+                                          email = p.email,
+                                          IsPartyActive = p.IsPartyActive,
+                                          PhoneNo = p.PhoneNo,
+                                          AddressLine1 = p.AddressLine1,
+                                          AddressLine2 = p.AddressLine2,
+                                          City = p.City,
+                                          PinCode = p.PinCode,
+                                          SalutationType = p.SalutationType,
+                                          GroupId = p.GroupId??0,
+                                          GroupName = (p.GroupId == null || p.GroupId == 0) ? "" : g.GroupName,
+                                          BankName = p.BankName,
+                                          Branch = p.Branch,
+                                          IFSCCode = p.IFSCCode,
+                                          AccountNumber = p.AccountNumber,
+                                      };
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))

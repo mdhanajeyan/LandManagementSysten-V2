@@ -105,15 +105,31 @@ namespace LandBankManagement.ViewModels
                 SelectedPivotIndex = 1;
                 var model = await PaymentsService.GetPaymentAsync(selected.PaymentId);
                 selected.Merge(model);
+                
+                var docType = model.DocumentTypeId;
+                var partyId = model.PartyId;
+                PaymentsDetails.Item.PropertyId = model.PropertyId;
+                PaymentsDetails.SelectedDocType = docType;
                 PaymentsDetails.Item = model;
-               
+                PaymentsDetails.defaultSettings();
                 //for (int i = 0; i < model.PaymentListModel.Count; i++)
                 //{
                 //    model.PaymentListModel[i].identity = i + 1;
                 //}
                 //PaymentsDetails.PaymentList = model.PaymentListModel;
-                PaymentsDetails.defaultSettings();
-                
+
+
+               await  PaymentsDetails.LoadDocTypes();
+                PaymentsDetails.SelectedDocType = "0";
+                PaymentsDetails.SelectedDocType = docType;
+                await PaymentsDetails.LoadBankAndCompany();
+                PaymentsDetails.SelectedBank = "0";
+               PaymentsDetails.SelectedBank = model.BankAccountId;
+                PaymentsDetails.SelectedCash = "0";
+                PaymentsDetails.SelectedCash = model.CashAccountId;
+                await PaymentsDetails.LoadParty();
+                PaymentsDetails.SelectedParty = "0";
+               PaymentsDetails.SelectedParty = partyId;
             }
             catch (Exception ex)
             {

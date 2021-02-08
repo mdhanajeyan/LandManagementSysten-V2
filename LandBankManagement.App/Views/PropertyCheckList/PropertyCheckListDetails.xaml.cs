@@ -5,6 +5,7 @@ using System;
 using LandBankManagement.Converters;
 using LandBankManagement.Services;
 using Windows.UI.Xaml.Media;
+using System.Drawing;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -80,13 +81,13 @@ namespace LandBankManagement.Views
                 if (guntas > 40 && !IsAnyContentDialogOpen())
                 {
                     await ViewModel.ValidationMeassge("Land Area Gundas Shoud not be greater than 40");
-                    ViewModel.EditableItem.LandAreaInputGuntas = "0";
+                    ViewModel.EditableItem.LandAreaInputGuntas = "";
                     return;
                 }
-                if (anas > 16 && !IsAnyContentDialogOpen())
+                if (anas >= 16 && !IsAnyContentDialogOpen())
                 {
-                    await ViewModel.ValidationMeassge("Land Area Anas Shoud not be greater than 16");
-                    ViewModel.EditableItem.LandAreaInputAanas = "0";
+                    await ViewModel.ValidationMeassge("Land Area Aanas Shoud not be greater than 16");
+                    ViewModel.EditableItem.LandAreaInputAanas = "";
                     return;
                 }
                 var result = AreaConvertor.ConvertArea(area, guntas, anas);
@@ -101,13 +102,13 @@ namespace LandBankManagement.Views
                 if (guntas > 40 && !IsAnyContentDialogOpen())
                 {
                     await ViewModel.ValidationMeassge("Akarab Gundas Shoud not be greater than 40");
-                    ViewModel.EditableItem.AKarabAreaInputGuntas = "0";
+                    ViewModel.EditableItem.AKarabAreaInputGuntas = "";
                     return;
                 }
-                if (anas > 16 && !IsAnyContentDialogOpen())
+                if (anas >= 16 && !IsAnyContentDialogOpen())
                 {
-                    await ViewModel.ValidationMeassge("Akarab Anas Shoud not be greater than 16");
-                    ViewModel.EditableItem.AKarabAreaInputAanas = "0";
+                    await ViewModel.ValidationMeassge("Akarab Aanas Shoud not be greater than 16");
+                    ViewModel.EditableItem.AKarabAreaInputAanas = "";
                     return;
                 }
                 var result = AreaConvertor.ConvertArea(area, guntas, anas);
@@ -121,13 +122,13 @@ namespace LandBankManagement.Views
                 if (guntas > 40 && !IsAnyContentDialogOpen())
                 {
                     await ViewModel.ValidationMeassge("Bkarab Gundas Shoud not be greater than 40");
-                    ViewModel.EditableItem.BKarabAreaInputGuntas = "0";
+                    ViewModel.EditableItem.BKarabAreaInputGuntas = "";
                     return;
                 }
-                if (anas > 16 && !IsAnyContentDialogOpen())
+                if (anas >= 16 && !IsAnyContentDialogOpen())
                 {
-                    await ViewModel.ValidationMeassge("Bkarab Anas Shoud not be greater than 16");
-                    ViewModel.EditableItem.BKarabAreaInputAanas = "0";
+                    await ViewModel.ValidationMeassge("Bkarab Aanas Shoud not be greater than 16");
+                    ViewModel.EditableItem.BKarabAreaInputAanas = "";
                     return;
                 }
                 var result = AreaConvertor.ConvertArea(area, guntas, anas);
@@ -234,6 +235,20 @@ namespace LandBankManagement.Views
                 return;
             // ViewModel.Item.HobliId = val.ToString();
             await ViewModel.LoadVillage();
+        }
+
+        private void primaryVendor_Checked(object sender, RoutedEventArgs e)
+        {
+          
+        }
+
+        private void partySearch_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchPopup_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+        {
         }
     }
 }

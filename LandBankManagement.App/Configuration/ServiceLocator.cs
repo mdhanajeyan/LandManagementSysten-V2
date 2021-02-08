@@ -55,6 +55,7 @@ namespace LandBankManagement
             serviceCollection.AddScoped<ICommonServices, CommonServices>();
             serviceCollection.AddScoped<IPropertyMergeService, PropertyMergeService>();
             serviceCollection.AddScoped<IDealService, DealService>();
+            serviceCollection.AddScoped<IGroupsService, GroupsService>();
 
             serviceCollection.AddTransient<LoginViewModel>();
             serviceCollection.AddTransient<ShellViewModel>();
@@ -114,6 +115,8 @@ namespace LandBankManagement
             serviceCollection.AddTransient<ValidateConnectionViewModel>();
             serviceCollection.AddTransient<CreateDatabaseViewModel>();
             serviceCollection.AddTransient<PropertyCheckListReportViewModel>();
+            serviceCollection.AddTransient<GroupsViewModel>();
+            serviceCollection.AddTransient<GroupsDetailsViewModel>();
 
             _rootServiceProvider = serviceCollection.BuildServiceProvider();
         }

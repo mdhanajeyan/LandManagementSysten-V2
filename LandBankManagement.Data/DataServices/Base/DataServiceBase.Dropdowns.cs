@@ -61,6 +61,31 @@ namespace LandBankManagement.Data.Services
         {
             return await _dataSource.Parties.Where(x=>x.IsPartyActive==true).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionaryAsync(t => t.PartyId, t => t.PartyFirstName);
         }
+
+        public async Task<Dictionary<int, string>> GetPartyOptionsByProperty(int propertyId)
+        {
+            var models = await (from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == propertyId)
+                               from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
+                               select new
+                               {                                   
+                                   PartyId = party.PartyId,
+                                   PartyName = party.PartyFirstName,
+                               }).ToDictionaryAsync(t => t.PartyId, t => t.PartyName);
+            return models;
+        }
+
+        public async Task<Dictionary<int, string>> GetPartyOptionsByGroup(int groupId)
+        {
+            var models = await (from party in _dataSource.Parties.Where(x => x.GroupId == groupId )
+                                select new
+                                {
+                                    PartyId = party.PartyId,
+                                    PartyName = party.PartyFirstName,
+                                }).ToDictionaryAsync(t => t.PartyId, t => t.PartyName);
+            return models;
+        }
+
+
         public async Task<Dictionary<int, string>> GetAllDocumentTypeOptions()
         {
             return await _dataSource.DocumentTypes.Select(x => new { x.DocumentTypeId, x.DocumentTypeName }).ToDictionaryAsync(t => t.DocumentTypeId, t => t.DocumentTypeName);
@@ -115,7 +140,21 @@ namespace LandBankManagement.Data.Services
             list.Add(2, "Female");
             return list;
         }
-
+        public Dictionary<int, string> GetGroupsTypeOptions()
+        {
+            Dictionary<int, string> list = new Dictionary<int, string>();
+            list.Add(1, "Party");
+            list.Add(2, "Vendor");
+            return list;
+        }
+        public async Task<Dictionary<int, string>> GetGroupsOptions()
+        {
+            return await _dataSource.Groups.Select(x => new { x.GroupId, x.GroupName }).ToDictionaryAsync(t => t.GroupId, t => t.GroupName);
+        }
+        public async Task<Dictionary<int, string>> GetGroupsOptionsForParty()
+        {
+            return await _dataSource.Groups.Where(x=>x.GroupType==1).Select(x => new { x.GroupId, x.GroupName }).ToDictionaryAsync(t => t.GroupId, t => t.GroupName);
+        }
         public async  Task<Dictionary<int, string>> GetPartyOptions(string party)
         {
             return await _dataSource.Parties.Where(x=>x.PartyFirstName.Contains(party)).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionaryAsync(t => t.PartyId, t => t.PartyFirstName);

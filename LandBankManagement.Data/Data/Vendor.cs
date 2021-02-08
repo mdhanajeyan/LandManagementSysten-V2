@@ -31,6 +31,13 @@ namespace LandBankManagement.Data
         public string GSTIN { get; set; }
         public bool IsVendorActive { get; set; }
         public int? SalutationType { get; set; }
+        public int? GroupId { get; set; }
+        public string BankName { get; set; }
+        public string Branch { get; set; }
+        public string IFSCCode { get; set; }
+        public string AccountNumber { get; set; }
+               [NotMapped]
+        public string GroupName { get; set; }
         [NotMapped]
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() => $"{VendorId} {VendorName} {VendorAlias} {email} {AddressLine1}".ToLower();

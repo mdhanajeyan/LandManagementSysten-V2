@@ -123,6 +123,14 @@ namespace LandBankManagement.Data.Services
         Task<int> UpdateDocumentTypeAsync(DocumentType model);
         Task<int> DeleteDocumentTypeAsync(DocumentType model);
 
+        Task<int> AddGroupsAsync(Groups model);
+        Task<Groups> GetGroupsAsync(long id);
+        Task<IList<Groups>> GetGroupsAsync(DataRequest<Groups> request);
+        Task<IList<Groups>> GetGroupsAsync(int skip, int take, DataRequest<Groups> request);
+        Task<int> GetGroupsCountAsync(DataRequest<Groups> request);
+        Task<int> UpdateGroupsAsync(Groups model);
+        Task<int> DeleteGroupsAsync(Groups model);
+
 
         Task<int> AddPropertyAsync(Property model);
         Task<Property> GetPropertyAsync(long id);
@@ -224,6 +232,7 @@ namespace LandBankManagement.Data.Services
 
         Task<Dictionary<int, string>> GetExpenseHeadOptions();
         Task<Dictionary<int, string>> GetPartyOptions();
+        Task<Dictionary<int, string>> GetPartyOptionsByProperty(int propertyId);
         Task<Dictionary<int, string>> GetDocumentTypeOptions();
         Task<Dictionary<int, string>> GetAllDocumentTypeOptions();
         Task<Dictionary<int, string>> GetPropertyOptions();
@@ -234,6 +243,8 @@ namespace LandBankManagement.Data.Services
         Task<Dictionary<int, string>> GetVendorOptions();
         Dictionary<int, string> GetReportingToOptions();
         Dictionary<int, string> GetGenderOptions();
+        Dictionary<int, string> GetGroupsTypeOptions();
+        Task<Dictionary<int, string>> GetGroupsOptions();
         Task<Dictionary<int, string>> GetPartyOptions(string party);
         Task<Dictionary<int, string>> GetPropertyTypeOptions();
         Task<Dictionary<int, string>> GetRoleOptions();
@@ -246,7 +257,8 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetSalutationOptions();
         Task<Dictionary<int, string>> GetDocumentTypesByPropertyID(int propertyId);
         Task<Dictionary<int, string>> GetDealPartiesOptions(int dealId);
-
+        Task<Dictionary<int, string>> GetPartyOptionsByGroup(int groupId);
+        Task<Dictionary<int, string>> GetGroupsOptionsForParty();
         Task<int> AddPropertyCheckListAsync(PropertyCheckList model);
         Task<PropertyCheckList> GetPropertyCheckListAsync(long id);
         Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(DataRequest<PropertyCheckList> request);

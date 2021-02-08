@@ -67,12 +67,13 @@
             <RowDefinition Height="40" />
             <RowDefinition/>
         </Grid.RowDefinitions>
+        
         <controls:ListSearchToolBar Grid.Row="0"
            
             Query="{x:Bind ViewModel.Query, Mode=TwoWay}"
             QuerySubmitted="OnQuerySubmitted"
             ButtonClick="OnToolbarClick" />
-        <sync:SfDataGrid x:Name="sfdataGrid" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" ColumnSizer="Star" 
+        <sync:SfDataGrid x:Name="sfdataGrid" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" ColumnSizer="Star" EditTrigger="OnTap"
                                          HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource GridHeader}" RowStyle="{StaticResource GridRowStyle}"
                                          AlternatingRowStyle="{StaticResource alternatingRowStyle}" AlternationCount="2">
         <sync:SfDataGrid.Columns>
@@ -80,7 +81,7 @@
                 <sync:GridTextColumn HeaderText="Village" MappingName="VillageName"/>
                 <sync:GridTextColumn HeaderText="Property Name *" MappingName="PropertyName"/>
                 <sync:GridTextColumn HeaderText="Survey No *" MappingName="SurveyNo"/>
-                <sync:GridComboBoxColumn HeaderText="Status" ItemsSource="{x:Bind ViewModel.Status,Mode=TwoWay}" AllowEditing="True" DisplayMemberPath="Description"
+                <sync:GridComboBoxColumn HeaderText="Status" ItemsSource="{x:Bind ViewModel.Status,Mode=TwoWay}" AllowEditing="True" DisplayMemberPath="Description" 
                                          SelectedValuePath="Id" MappingName="Status"/>
                 <sync:GridTextColumn HeaderText="Remarks" MappingName="Remarks" AllowEditing="True"/>
                 <sync:GridTemplateColumn HeaderText="" MappingName="PropertyGuid" Width="50" >

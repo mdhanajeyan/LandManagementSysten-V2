@@ -51,6 +51,7 @@ namespace LandBankManagement.Data.Services
         DbSet<DealParties> DealParties { get; }
         DbSet<DealPaySchedule> DealPaySchedule { get; }
         DbSet<PropertyDocumentType> PropertyDocumentType { get; }
+        DbSet<Groups> Groups { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 

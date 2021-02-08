@@ -210,7 +210,13 @@ namespace LandBankManagement.Services
                 AddressLine2 = source.AddressLine2,
                 City = source.City,
                 PinCode = source.PinCode,
-                SalutationType=source.SalutationType.ToString()
+                SalutationType=source.SalutationType.ToString(),
+                GroupId=source.GroupId.ToString(),
+                GroupName=source.GroupName,
+                BankName=source.BankName,
+                BranchName=source.Branch,
+                IFSCCode=source.IFSCCode,
+                AccountNumber=source.AccountNumber
             };
             if (source.PartyDocuments != null && source.PartyDocuments.Count > 0)
             {
@@ -252,6 +258,12 @@ namespace LandBankManagement.Services
             target.City = source.City;
             target.PinCode = source.PinCode;
             target.SalutationType =Convert.ToInt32( source.SalutationType??"0");
+            target.GroupId =Convert.ToInt32( source.GroupId);
+            target.GroupName = source.GroupName;
+            target.BankName = source.BankName;
+            target.Branch = source.BranchName;
+            target.IFSCCode = source.IFSCCode;
+            target.AccountNumber = source.AccountNumber;
         }
 
         private void UpdateDocumentFromModel(PartyDocuments target, ImagePickerResult source)

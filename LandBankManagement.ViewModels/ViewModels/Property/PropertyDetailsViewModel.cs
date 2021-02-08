@@ -272,6 +272,27 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _selectedVillage, value);
         }
 
+        private bool _popupOpened = false;
+        public bool PopupOpened
+        {
+            get => _popupOpened;
+            set => Set(ref _popupOpened, value);
+        }
+
+        private bool _noRecords = true;
+        public bool NoRecords
+        {
+            get => _noRecords;
+            set => Set(ref _noRecords, value);
+        }
+
+        private bool _showParties = false;
+        public bool ShowParties
+        {
+            get => _showParties;
+            set => Set(ref _showParties, value);
+        }
+
         public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel propertyListViewModel, PropertyViewModel propertyView) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -523,10 +544,22 @@ namespace LandBankManagement.ViewModels
         public async void GetParties() {
             PropertyView.ShowProgressRing();
             PartyOptions =await DropDownService.GetPartyOptions(PartySearchQuery);
+            if (PartyOptions == null|| PartyOptions.Count==0)
+            {
+                ShowParties = false;
+                NoRecords = true;
+            }
+            else
+            {
+                ShowParties = true;
+                NoRecords = false;
+            }
+            PopupOpened = true;
             PropertyView.HideProgressRing();
         }
 
         public void PreparePartyList() {
+            PopupOpened = false;
             if (PartyOptions == null)
                 return;
 
@@ -547,6 +580,8 @@ namespace LandBankManagement.ViewModels
                     });
                 }
             }
+            if (PartyList.Count == 1)
+                PartyList[0].IsPrimaryParty = true;
             PartyOptions = null;
             PartySearchQuery = "";
         }

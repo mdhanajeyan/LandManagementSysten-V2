@@ -485,6 +485,47 @@ namespace LandBankManagement.Services
                 return list;
             }
         }
+
+        public async Task<ObservableCollection<ComboBoxOptions>> GetPartyOptionsByProperty(int propertyId)
+        {
+
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetPartyOptionsByProperty(propertyId);
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = "0", Description = "" });
+                return list;
+            }
+        }
+        public async Task<ObservableCollection<ComboBoxOptions>> GetPartyOptionsByGroup(int groupId)
+        {
+
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetPartyOptionsByGroup(groupId);
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = "0", Description = "" });
+                return list;
+            }
+        }
+
+        
         public async Task<ObservableCollection<ComboBoxOptions>> GetPropertyTypeOptions()
         {
 
@@ -684,6 +725,61 @@ namespace LandBankManagement.Services
                     });
                 }
                 list.Insert(0, new ComboBoxOptions { Id="0", Description = "" });
+                return list;
+            }
+        }
+
+        public ObservableCollection<ComboBoxOptions> GetGroupsTypeOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = dataService.GetGroupsTypeOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = "0", Description = "" });
+                return list;
+            }
+        }
+        public async Task<ObservableCollection<ComboBoxOptions>> GetGroupsOptions()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetGroupsOptions();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = "0", Description = "" });
+                return list;
+            }
+        }
+        public async Task<ObservableCollection<ComboBoxOptions>> GetGroupsOptionsForParty()
+        {
+            ObservableCollection<ComboBoxOptions> list = new ObservableCollection<ComboBoxOptions>();
+            using (var dataService = DataServiceFactory.CreateDataService())
+            {
+                var models = await dataService.GetGroupsOptionsForParty();
+                foreach (var obj in models)
+                {
+                    list.Add(new ComboBoxOptions
+                    {
+                        Id = obj.Key.ToString(),
+                        Description = obj.Value
+                    });
+                }
+                list.Insert(0, new ComboBoxOptions { Id = "0", Description = "" });
                 return list;
             }
         }

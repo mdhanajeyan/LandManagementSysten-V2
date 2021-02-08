@@ -30,7 +30,14 @@ namespace LandBankManagement.Data
         public string AadharNo { get; set; }
         public bool IsPartyActive { get; set; }
         public string GSTIN { get; set; }
+        public int? GroupId { get; set; }
+        public string BankName { get; set; }
+        public string Branch { get; set; }
+        public string IFSCCode { get; set; }
+        public string AccountNumber { get; set; }
         public int? SalutationType { get; set; }
+        [NotMapped]
+        public string GroupName { get; set; }
         [NotMapped]
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() => $"{PartyId} {PartyFirstName} {PartyAlias} {email} {AddressLine1}".ToLower();

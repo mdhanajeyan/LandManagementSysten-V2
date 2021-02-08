@@ -33,7 +33,11 @@ namespace LandBankManagement.Services
         Task<ObservableCollection<ComboBoxOptions>> GetVendorOptions();
         ObservableCollection<ComboBoxOptions> GetReportingToOptions();
         ObservableCollection<ComboBoxOptions> GetGenderOptions();
+        ObservableCollection<ComboBoxOptions> GetGroupsTypeOptions();
+        Task<ObservableCollection<ComboBoxOptions>> GetGroupsOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetPartyOptions(string party);
+        Task<ObservableCollection<ComboBoxOptions>> GetPartyOptionsByProperty(int propertyId);
+        Task<ObservableCollection<ComboBoxOptions>>  GetPartyOptionsByGroup(int groupId);
         Task<ObservableCollection<ComboBoxOptions>> GetPropertyTypeOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetRoleOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetVendorOptions(string vendor);
@@ -45,5 +49,6 @@ namespace LandBankManagement.Services
         ObservableCollection<ComboBoxOptions> GetSalutationOptions();
         Task<ObservableCollection<ComboBoxOptions>> GetDocumentTypesByPropertyID(int propertyId);
         Task<ObservableCollection<ComboBoxOptions>> GetDealPartiesOptions(int dealId);
+        Task<ObservableCollection<ComboBoxOptions>> GetGroupsOptionsForParty();
     }
 }

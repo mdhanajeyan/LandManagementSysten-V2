@@ -31,7 +31,8 @@ namespace LandBankManagement.Data.Services
                     Narration = model.Narration,
                     PDC = model.PDC,
                     BankAccountId = model.BankAccountId,
-                    CashAccountId = model.CashAccountId
+                    CashAccountId = model.CashAccountId,
+                    GroupId=model.GroupId
                 };
                 //entity.Amount = model.PaymentLists.Sum(x => x.Amount);
                 _dataSource.Entry(entity).State = EntityState.Added;
@@ -114,7 +115,8 @@ namespace LandBankManagement.Data.Services
                     AccountName=source.AccountName,
                     CompanyName=source.CompanyName,
                    PropertyName=source.PropertyName,
-                   DocumentTypeName=source.DocumentTypeName
+                   DocumentTypeName=source.DocumentTypeName,
+                    GroupId=source.GroupId
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -154,7 +156,8 @@ namespace LandBankManagement.Data.Services
                                             AccountName = (pay.PaymentTypeId ==1) ? ch.CashAccountName : bk.BankName,
                                             CompanyName=c.Name,
                                             DocumentTypeName=d.DocumentTypeName,
-                                            PropertyName=py.PropertyName
+                                            PropertyName=py.PropertyName,
+                                            GroupId=pay.GroupId??0
                                         };
             //  IQueryable<Payment> items =  _dataSource.Payments;
             // Query

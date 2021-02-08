@@ -27,6 +27,12 @@ namespace LandBankManagement.ViewModels
             get => _solutationOptions;
             set => Set(ref _solutationOptions, value);
         }
+        private ObservableCollection<ComboBoxOptions> _groupOptions = null;
+        public ObservableCollection<ComboBoxOptions> GroupOptions
+        {
+            get => _groupOptions;
+            set => Set(ref _groupOptions, value);
+        }
 
         public IVendorService VendorService { get; }
         public IDropDownService DropdownService { get; }
@@ -51,6 +57,7 @@ namespace LandBankManagement.ViewModels
             Item.IsVendorActive = true;
             IsEditMode = true;
             SolutationOptions = DropdownService.GetSalutationOptions();
+            GroupOptions = await DropdownService.GetGroupsOptions();
         }
         public void Unload()
         {

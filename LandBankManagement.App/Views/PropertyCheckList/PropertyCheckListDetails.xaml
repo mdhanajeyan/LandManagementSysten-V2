@@ -14,12 +14,15 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:PropertyCheckListDetailsViewModel">
+        
+
+        <DataTemplate x:Key="DetailsTemplate"  x:DataType="viewmodels:PropertyCheckListDetailsViewModel">
             <Grid Margin="0 ,0,0,50">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+                
                 <controls:FluidGrid Grid.Row="0" Margin="0,0,0,20" Columns="3"  ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
 
                 <controls:FluidGrid  Margin="0,30,0,0"  ColumnSpacing="20" ColumnSpan="2"  RowSpacing="12" HorizontalAlignment="Center">
@@ -187,31 +190,80 @@
                                 </Button>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1"  Margin="0 0 10 20">
-                                <Grid Background="#81D4FA">
+                                <Grid Background="#81D4FA" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
-                                <controls:FormTextBox Text="{x:Bind VendorSearchQuery, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.ColumnSpan="3" Height="20" Margin="10 3 5 3"/>
+                                    <Popup x:Name="SearchPopup" IsOpen="{x:Bind PopupOpened,Mode=TwoWay}"  Margin="10 50 0 0" IsLightDismissEnabled="True" >
+                                        <Popup.Resources>
+                                            <ThemeShadow x:Name="borderShadow"/>
+                                        </Popup.Resources>
+                                       
+                                        <Grid x:Name="PopupContainer" Shadow="{StaticResource borderShadow}" Translation="0,0,20" Background="#fff">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="No Vendors found" Grid.Column="0" Visibility="{Binding NoRecords,Mode=TwoWay}" Padding="10" FontWeight="Medium" Foreground="#757575"/>
+                                                <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="200" Grid.Row="0" Visibility="{Binding ShowVendors,Mode=TwoWay}">
+
+                                                <ListView  ItemsSource="{x:Bind VendorOptions,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style TargetType="ListViewItem">
+                                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid   HorizontalAlignment="Stretch" MinWidth="200">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="40"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Text="{Binding Description}" Grid.Column="0"  Foreground="#265fab" FontSize="16"  TextWrapping="Wrap" ></TextBlock>
+
+                                                                <CheckBox x:Name="isAdmin" Grid.Column="1" Foreground="#265fab" IsChecked="{Binding IsSelected,Mode=TwoWay}" >
+                                                                </CheckBox>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </ScrollViewer>
+                                                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Visibility="{Binding ShowVendors,Mode=TwoWay}">
+                                                <Button x:Name="AddParty" Height="35" Width="35"   Background="#42A5F5" Margin="5"  Click="AddParty_Click" HorizontalAlignment="Right" >
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <!--<TextBlock Text="Submit"/>-->
+                                                        <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE73E;" Foreground="#fff"  HorizontalAlignment="Left"/>
+                                                    </StackPanel>
+                                                    <Button.Resources>
+                                                        <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                                    </Button.Resources>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Popup>
+
+                                    <controls:FormTextBox x:Name="searchTxt" Text="{x:Bind VendorSearchQuery, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.ColumnSpan="3" Height="20" Margin="10 3 5 3"/>
                                 <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button x:Name="partySearch" Height="35"   Background="Transparent" Padding="5"  Click="partySearch_Click"  Margin="0 0 5 0">
+                                    <Button x:Name="partySearch" Height="35"   Background="Transparent" Padding="5"  Click="partySearch_Click"  Margin="0 0 5 0" ManipulationMode="All" ManipulationDelta="partySearch_ManipulationDelta">
                                         <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE721;" Foreground="#fff"  HorizontalAlignment="Left" Margin="5 0 0 0"/>
                                         <Button.Resources>
                                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                         </Button.Resources>
                                     </Button>
-                                    <Button x:Name="AddParty" Height="35"   Background="Transparent" Padding="5"  Click="AddParty_Click" >
+                                    <!--<Button x:Name="AddParty" Height="35"   Background="Transparent" Padding="5"  Click="AddParty_Click" >
                                         <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE710;" Foreground="#fff"  HorizontalAlignment="Left"/>
                                         <Button.Resources>
                                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                         </Button.Resources>
-                                    </Button>
+                                    </Button>-->
                                 </StackPanel>
                             </Grid>
 
-                            <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="200" >
+                            <!--<ScrollViewer VerticalScrollMode="Enabled" MaxHeight="200" >
                                 <ListView x:Name="searchListView" ItemsSource="{x:Bind VendorOptions,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
@@ -236,7 +288,7 @@
                                 </ListView>
                             </ScrollViewer>
 
-                                <TextBlock Text="Selected Vendor" Margin="10 30 0 0" Foreground="#757575" FontSize="18" FontWeight="Bold"/>
+                                <TextBlock Text="Selected Vendor" Margin="10 30 0 0" Foreground="#757575" FontSize="18" FontWeight="Bold"/>-->
 
                             <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500"  Margin="0 20 0 0">
                                 <ListView x:Name="partyListView" ItemsSource="{x:Bind VendorList,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
@@ -249,11 +301,13 @@
                                         <DataTemplate>
                                             <Grid  HorizontalAlignment="Stretch">
                                                 <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="20"/>
                                                     <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="30"/>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Text="{Binding VendorName}" Grid.Column="0" Grid.ColumnSpan="2"  Height="35"  Foreground="#265fab" FontSize="16"  Padding="10 5 10 0" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" ></TextBlock>
+                                                    <RadioButton x:Name="primaryVendor" Grid.Column="0"  Tag="{Binding VendorId}" GroupName="primary" IsChecked="{Binding IsPrimaryVendor,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Checked="primaryVendor_Checked">
+                                                    </RadioButton>
+                                                    <TextBlock Text="{Binding VendorName}" Grid.Column="1" Grid.ColumnSpan="2"  Height="35"  Foreground="#265fab" FontSize="16"  Padding="10 5 10 0" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" ></TextBlock>
                                                 <Button x:Name="Party_Delete" Tag="{Binding VendorId}" Grid.Column="2" Height="35"  Background="Transparent" Padding="10 5 0 5"  Click="Party_Delete_Click" HorizontalAlignment="Right">
                                                     <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE74D;" Foreground="Red"  HorizontalAlignment="Right"/>
                                                     <Button.Resources>

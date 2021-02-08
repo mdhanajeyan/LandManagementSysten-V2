@@ -9,7 +9,7 @@ namespace LandBankManagement.Models
         public int CheckListVendorId { get; set; }
         public int VendorId { get; set; }
         public int PropertyCheckListId { get; set; }
-
+        public bool? IsPrimaryVendor { get; set; }
         public string VendorName { get; set; }
     }
 }

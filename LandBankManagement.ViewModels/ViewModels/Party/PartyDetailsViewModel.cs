@@ -42,6 +42,13 @@ namespace LandBankManagement.ViewModels
         public IVendorService VendorService { get; }
         private bool FromProperty { get; set; }
        public IPropertyService PropertyService { get; }
+
+        private ObservableCollection<ComboBoxOptions> _groupOptions = null;
+        public ObservableCollection<ComboBoxOptions> GroupOptions
+        {
+            get => _groupOptions;
+            set => Set(ref _groupOptions, value);
+        }
         public PartyDetailsViewModel(IPartyService partyService, IFilePickerService filePickerService, ICommonServices commonServices, PartyListViewModel partyListViewModel,IDropDownService dropDownService,IVendorService vendorService, PartyViewModel partyViewModel, IPropertyService propertyService) : base(commonServices)
         {
             PartyService = partyService;
@@ -71,6 +78,7 @@ namespace LandBankManagement.ViewModels
             PartyViewModel.ShowProgressRing();
             VendorOptions =await DropDownService.GetVendorOptions();
             SolutationOptions = DropDownService.GetSalutationOptions();
+            GroupOptions = await DropDownService.GetGroupsOptions();
             PartyViewModel.HideProgressRing();
         }
         public void Unload()

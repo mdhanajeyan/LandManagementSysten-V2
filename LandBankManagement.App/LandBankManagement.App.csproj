@@ -130,6 +130,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ComboBoxRenderer.cs" />
     <Compile Include="Common\GridLengths.cs" />
     <Compile Include="Common\Infrastructure\ReportViewerHelper.cs" />
     <Compile Include="Common\VirtualCollection\VirtualCollection.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="ReportViewers\PropertyCheckListReportViewer.cs" />
     <Compile Include="Services\CashAccountService.cs" />
     <Compile Include="Services\DealService.cs" />
+    <Compile Include="Services\GroupsService.cs" />
     <Compile Include="Services\PropertyCheckListService.cs" />
     <Compile Include="Services\PropertyMergeService.cs" />
     <Compile Include="Services\RolePermissionService.cs" />
@@ -242,6 +244,7 @@
     <Compile Include="Services\VillageService.cs" />
     <Compile Include="Services\VirtualCollections\AccountTypeCollection.cs" />
     <Compile Include="Services\VirtualCollections\DealCollection.cs" />
+    <Compile Include="Services\VirtualCollections\GroupsCollection.cs" />
     <Compile Include="Services\VirtualCollections\PropertyCheckListCollection.cs" />
     <Compile Include="Services\VirtualCollections\PropertyMergeCollection.cs" />
     <Compile Include="Services\VirtualCollections\RolePermissionCollection.cs" />
@@ -370,6 +373,15 @@
     </Compile>
     <Compile Include="Views\FundTransfer\FundTransferList.xaml.cs">
       <DependentUpon>FundTransferList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\GroupsDetails.xaml.cs">
+      <DependentUpon>GroupsDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\GroupsList.xaml.cs">
+      <DependentUpon>GroupsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\GroupsView.xaml.cs">
+      <DependentUpon>GroupsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Hobli\HobliDetails.xaml.cs">
       <DependentUpon>HobliDetails.xaml</DependentUpon>
@@ -825,6 +837,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Groups\GroupsDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\GroupsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\GroupsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Hobli\HobliDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1117,6 +1141,7 @@
   <ItemGroup>
     <None Include="Properties\DataSources\LandBankManagement.Models.PropertyCheckListModel.datasource" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

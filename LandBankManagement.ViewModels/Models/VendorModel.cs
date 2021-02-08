@@ -29,6 +29,12 @@ namespace LandBankManagement.Models
         public string GSTIN { get; set; }
         public bool IsVendorActive { get; set; }
         public string SalutationType { get; set; }
+        public string GroupId { get; set; }
+        public string BankName { get; set; }
+        public string BranchName { get; set; }
+        public string IFSCCode { get; set; }
+        public string AccountNumber { get; set; }
+        public string GroupName { get; set; }
         public ObservableCollection<ImagePickerResult> VendorDocuments { get; set; }
         public bool IsNew => VendorId <= 0;
         public override void Merge(ObservableObject source)
@@ -66,6 +72,12 @@ namespace LandBankManagement.Models
                 IsVendorActive = source.IsVendorActive;
                 VendorDocuments = source.VendorDocuments;
                 SalutationType = source.SalutationType;
+                GroupId = source.GroupId;
+                GroupName = source.GroupName;
+                BankName = source.BankName;
+                BranchName = source.BranchName;
+                IFSCCode = source.IFSCCode;
+                AccountNumber = source.AccountNumber;
             }
         }
     }

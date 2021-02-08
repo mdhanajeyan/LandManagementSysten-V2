@@ -119,7 +119,26 @@ namespace LandBankManagement.ViewModels
             get => _saleTotal;
             set => Set(ref _saleTotal, value);
         }
+        private bool _popupOpened = false;
+        public bool PopupOpened
+        {
+            get => _popupOpened;
+            set => Set(ref _popupOpened, value);
+        }
 
+        private bool _noRecords = true;
+        public bool NoRecords
+        {
+            get => _noRecords;
+            set => Set(ref _noRecords, value);
+        }
+
+        private bool _showParties = false;
+        public bool ShowParties
+        {
+            get => _showParties;
+            set => Set(ref _showParties, value);
+        }
 
         private DealViewModel DealsViewModel { get; set; }
         public DealDetailsViewModel(IDropDownService dropDownService, IDealService dealService, IFilePickerService filePickerService, ICommonServices commonServices, DealViewModel dealViewModel) : base(commonServices)
@@ -155,12 +174,25 @@ namespace LandBankManagement.ViewModels
         public async void GetParties()
         {
             DealsViewModel.ShowProgressRing();
+
             PartyOptions =await DropDownService.GetPartyOptions(PartySearchQuery);
+            if (PartyOptions == null || PartyOptions.Count == 0)
+            {
+                ShowParties = false;
+                NoRecords = true;
+            }
+            else
+            {
+                ShowParties = true;
+                NoRecords = false;
+            }
+            PopupOpened = true;
             DealsViewModel.HideProgressRing();
         }
 
         public void PreparePartyList()
         {
+            PopupOpened = false;
             if (PartyOptions == null)
                 return;
 

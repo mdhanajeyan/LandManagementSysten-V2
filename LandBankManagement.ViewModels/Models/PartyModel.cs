@@ -31,6 +31,12 @@ namespace LandBankManagement.Models
         public bool IsPartyActive { get; set; }
         public string GSTIN { get; set; }
         public string SalutationType { get; set; }
+        public string GroupId { get; set; }
+        public string BankName { get; set; }
+        public string BranchName { get; set; }
+        public string IFSCCode { get; set; }
+        public string AccountNumber { get; set; }
+        public string GroupName { get; set; }
         public ObservableCollection<ImagePickerResult> partyDocuments { get; set; }
         public bool IsNew => PartyId <= 0;
 
@@ -64,6 +70,12 @@ namespace LandBankManagement.Models
                 City = source.City;
                 PinCode = source.PinCode;
                 partyDocuments = source.partyDocuments;
+                GroupId = source.GroupId;
+                GroupName = source.GroupName;
+                BankName = source.BankName;
+                BranchName = source.BranchName;
+                IFSCCode = source.IFSCCode;
+                AccountNumber = source.AccountNumber;
             }
         }
 

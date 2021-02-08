@@ -175,6 +175,7 @@ namespace LandBankManagement.Data.Services
                 select(  new PropertyCheckListVendor { PropertyCheckListId=pv.PropertyCheckListId,
                 CheckListVendorId=pv.CheckListVendorId,
                 VendorId=pv.VendorId,
+                IsPrimaryVendor=pv.IsPrimaryVendor,
                 VendorName=v.VendorName})).ToList();
                 return list;
             }
@@ -357,6 +358,9 @@ namespace LandBankManagement.Data.Services
                         {
                             vendor.PropertyCheckListId = res;
                             _dataSource.PropertyCheckListVendor.Add(vendor);
+                        }
+                        else {
+                            _dataSource.PropertyCheckListVendor.Update(vendor);
                         }
                     }
                 }

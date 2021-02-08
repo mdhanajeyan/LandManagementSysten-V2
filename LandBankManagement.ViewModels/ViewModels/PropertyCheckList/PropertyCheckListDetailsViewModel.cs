@@ -296,6 +296,28 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _selectedVillage, value);
         }
 
+        private bool _popupOpened = false;
+        public bool PopupOpened
+        {
+            get => _popupOpened;
+            set => Set(ref _popupOpened, value);
+        }
+
+        private bool _noRecords = true;
+        public bool NoRecords
+        {
+            get => _noRecords;
+            set => Set(ref _noRecords, value);
+        }
+
+        private bool _showVendors = false;
+        public bool ShowVendors
+        {
+            get => _showVendors;
+            set => Set(ref _showVendors, value);
+        }
+
+
         private PropertyCheckListViewModel PropertyCheckListViewModel { get; set; }
         public PropertyCheckListDetailsViewModel(IDropDownService dropDownService, IPropertyCheckListService propertyCheckListService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyCheckListListViewModel propertyCheckListListViewModel, PropertyCheckListViewModel propertyCheckListViewModel) : base(commonServices)
         {
@@ -375,29 +397,32 @@ namespace LandBankManagement.ViewModels
        public void loadAcres(Area area,string type) {
 
             if (type == "Area")
-            {             
-                   Item.LandAreaInAcres = Math.Round(area.Acres,2).ToString();
-                   Item.LandAreaInGuntas =Math.Round( area.Guntas,2).ToString();
-                Item.LandAreaInputAanas = Math.Round(area.Anas, 2).ToString();
-                   Item.LandAreaInSqft = Math.Round(area.SqFt,2).ToString();
-                   Item.LandAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
+            {
+                Item.LandAreaInAcres = Math.Round(area.Acres, 2).ToString();
+                Item.LandAreaInGuntas = Math.Round(area.Guntas, 2).ToString();
+                var areaAnas = Math.Round(area.Anas, 2).ToString();
+                Item.LandAreaInputAanas = (areaAnas == "0" )? "" : areaAnas;
+                Item.LandAreaInSqft = Math.Round(area.SqFt, 2).ToString();
+                Item.LandAreaInSqMts = Math.Round(area.SqMeters, 2).ToString();
             }
             if (type == "AKarab")
             {
-                    Item.AKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
-                    Item.AKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
-                Item.AKarabAreaInputAanas = Math.Round(area.Anas, 2).ToString();
-                    Item.AKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
-                    Item.AKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
-              
+                Item.AKarabAreaInAcres = Math.Round(area.Acres, 2).ToString();
+                Item.AKarabAreaInGuntas = Math.Round(area.Guntas, 2).ToString();
+                var akrabAnas = Math.Round(area.Anas, 2).ToString();
+                Item.AKarabAreaInputAanas = (akrabAnas == "0") ? "" : akrabAnas;
+                Item.AKarabAreaInSqft = Math.Round(area.SqFt, 2).ToString();
+                Item.AKarabAreaInSqMts = Math.Round(area.SqMeters, 2).ToString();
+
             }
             if (type == "BKarab")
             {
-                    Item.BKarabAreaInAcres = Math.Round(area.Acres,2).ToString();
-                    Item.BKarabAreaInGuntas = Math.Round(area.Guntas,2).ToString();
-                Item.BKarabAreaInputAanas = Math.Round(area.Anas, 2).ToString();
-                    Item.BKarabAreaInSqft = Math.Round(area.SqFt,2).ToString();
-                    Item.BKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
+                Item.BKarabAreaInAcres = Math.Round(area.Acres, 2).ToString();
+                Item.BKarabAreaInGuntas = Math.Round(area.Guntas, 2).ToString();
+                var bkrabAnas = Math.Round(area.Anas, 2).ToString();
+                Item.BKarabAreaInputAanas = (bkrabAnas == "0") ? "" : bkrabAnas;
+                Item.BKarabAreaInSqft = Math.Round(area.SqFt, 2).ToString();
+                Item.BKarabAreaInSqMts = Math.Round(area.SqMeters, 2).ToString();
             }
             RestartItem();
         }
@@ -683,10 +708,22 @@ namespace LandBankManagement.ViewModels
         public async void GetVendors() {
             PropertyCheckListViewModel.ShowProgressRing();
             VendorOptions = await DropDownService.GetVendorOptions(VendorSearchQuery);
+            if (VendorOptions == null|| VendorOptions.Count==0)
+            {
+                ShowVendors = false;
+                NoRecords = true;
+            }
+            else
+            {
+                ShowVendors = true;
+                NoRecords = false;
+            }
+            PopupOpened = true;
             PropertyCheckListViewModel.HideProgressRing();
         }
 
         public void PrepareVendorList() {
+            PopupOpened = false;
             if (VendorOptions == null)
                 return;
 
@@ -700,6 +737,9 @@ namespace LandBankManagement.ViewModels
                     VendorName=item.Description
                     });
                 }
+            }
+            if (VendorList.Count == 1) {
+                VendorList[0].IsPrimaryVendor = true;
             }
         }
 
@@ -875,18 +915,19 @@ namespace LandBankManagement.ViewModels
             //    }
             //    model.PropertyCheckListDocuments = docList;
             //}
-            var vendorList = new ObservableCollection<PropertyCheckListVendorModel>();
-            if (VendorList != null)
-            {
-                foreach (var obj in VendorList)
-                {
-                    if (obj.CheckListVendorId == 0)
-                    {
-                        vendorList.Add(obj);
-                    }
-                }
-                model.PropertyCheckListVendors = vendorList;
-            }
+            model.PropertyCheckListVendors = VendorList;
+            //var vendorList = new ObservableCollection<PropertyCheckListVendorModel>();
+            //if (VendorList != null)
+            //{
+            //    foreach (var obj in VendorList)
+            //    {
+            //        if (obj.CheckListVendorId == 0)
+            //        {
+            //            vendorList.Add(obj);
+            //        }
+            //    }
+            //    model.PropertyCheckListVendors = vendorList;
+            //}
 
             //var checklist = new ObservableCollection<CheckListOfPropertyModel>();
             //if (CheckList != null)
@@ -913,6 +954,7 @@ namespace LandBankManagement.ViewModels
             PropertyCheckListViewModel.ShowProgressRing();
             var items= PropertyCheckListService.GetPropertyCheckListVendors(id);
             PropertyCheckListViewModel.HideProgressRing();
+            if(items==null)
             VendorList = new ObservableCollection<PropertyCheckListVendorModel>(items);            
         }
 

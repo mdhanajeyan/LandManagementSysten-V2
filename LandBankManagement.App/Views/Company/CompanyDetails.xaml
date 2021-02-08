@@ -16,7 +16,7 @@
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CompanyDetailsViewModel" >
             <controls:FluidGrid Margin="0,12,0,50" Columns="3" ColumnSpacing="10" RowSpacing="12"  HorizontalAlignment="Center">
                 <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"   ColumnSpacing="12" RowSpacing="12" HorizontalAlignment="Center" >
-                <controls:FormTextBox Header="Company Name *" MaxLength="150" Text="{x:Bind EditableItem.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:FormTextBox Header="Company / Individual *" MaxLength="150" Text="{x:Bind EditableItem.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
                     <controls:FormTextBox Header="PAN" MaxLength="10" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" AcceptsReturn="True"  />
                     <controls:FormTextBox Header="GSTIN" MaxLength="15" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"/>

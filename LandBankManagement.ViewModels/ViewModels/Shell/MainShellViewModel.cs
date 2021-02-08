@@ -33,6 +33,7 @@ namespace LandBankManagement.ViewModels
                  new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
                  new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel)){Screen=NavigationScreen.PropertyType},
                  new NavigationItem(0xF8A5, "Document Type", typeof(DocumentTypeViewModel)){Screen=NavigationScreen.DocumentType},
+                 new NavigationItem(0xE902, "Groups", typeof(GroupsViewModel)){Screen=NavigationScreen.Groups},
                 
 
             }
@@ -218,6 +219,9 @@ namespace LandBankManagement.ViewModels
                     break;
                 case "PropertyCheckListReportViewModel":
                     NavigationService.Navigate(viewModel, new PropertyCheckListReportArgs());
+                    break; 
+                case "GroupsViewModel":
+                    NavigationService.Navigate(viewModel, new GroupsListArgs());
                     break;
                 default:
                     throw new NotImplementedException();

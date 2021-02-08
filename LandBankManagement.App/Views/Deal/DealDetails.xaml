@@ -60,26 +60,74 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition  Width="50"/>
                                 </Grid.ColumnDefinitions>
+                                <Popup x:Name="SearchPopup" IsOpen="{x:Bind PopupOpened,Mode=TwoWay}"  Margin="10 50 0 0" IsLightDismissEnabled="True" >
+                                    <Popup.Resources>
+                                        <ThemeShadow x:Name="borderShadow"/>
+                                    </Popup.Resources>
+
+                                    <Grid x:Name="PopupContainer" Shadow="{StaticResource borderShadow}" Translation="0,0,20" Background="#fff">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="No Parties found" Grid.Column="0" Visibility="{Binding NoRecords,Mode=TwoWay}" Padding="10" FontWeight="Medium" Foreground="#757575"/>
+                                        <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="200" Grid.Row="0" Visibility="{Binding ShowParties,Mode=TwoWay}">
+
+                                            <ListView  ItemsSource="{x:Bind PartyOptions,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid   HorizontalAlignment="Stretch" MinWidth="200">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="40"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{Binding Description}" Grid.Column="0"  Foreground="#265fab" FontSize="16"  TextWrapping="Wrap" ></TextBlock>
+
+                                                            <CheckBox x:Name="isAdmin" Grid.Column="1" Foreground="#265fab" IsChecked="{Binding IsSelected,Mode=TwoWay}" >
+                                                            </CheckBox>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                        </ScrollViewer>
+                                        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Visibility="{Binding ShowParties,Mode=TwoWay}">
+                                            <Button x:Name="AddParty" Height="35" Width="35"   Background="#42A5F5" Margin="5"  Click="AddParty_Click" HorizontalAlignment="Right" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <!--<TextBlock Text="Submit"/>-->
+                                                    <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE73E;" Foreground="#fff"  HorizontalAlignment="Left"/>
+                                                </StackPanel>
+                                                <Button.Resources>
+                                                    <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
+                                                </Button.Resources>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Popup>
                                 <controls:FormTextBox Text="{x:Bind PartySearchQuery, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.ColumnSpan="3" Height="20" Margin="10 3 5 3"/>
-                                <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center"  Grid.ColumnSpan="3" Height="20" Margin="10 3 5 3">
                                     <Button x:Name="partySearch" Height="35"   Background="Transparent" Padding="5"  Click="partySearch_Click"  Margin="0 0 5 0">
                                         <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE721;" Foreground="#fff"  HorizontalAlignment="Left" Margin="5 0 0 0"/>
                                         <Button.Resources>
                                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                         </Button.Resources>
                                     </Button>
-                                    <Button x:Name="AddParty" Height="35"   Background="Transparent" Padding="5"  Click="AddParty_Click" >
+                                    <!--<Button x:Name="AddParty" Height="35"   Background="Transparent" Padding="5"  Click="AddParty_Click" >
                                         <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE710;" Foreground="#fff"  HorizontalAlignment="Left"/>
                                         <Button.Resources>
                                             <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                                         </Button.Resources>
-                                    </Button>
+                                    </Button>-->
                                 </StackPanel>
                             </Grid>
 
-                            <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="200" >
+                            <!--<ScrollViewer VerticalScrollMode="Enabled" MaxHeight="200" >
                                 <ListView x:Name="searchListView" ItemsSource="{x:Bind PartyOptions,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
@@ -102,9 +150,9 @@
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
-                            </ScrollViewer>
+                            </ScrollViewer>-->
 
-                            <TextBlock Text="Selected Parties" Margin="10 30 0 0" Foreground="#757575" FontSize="18" FontWeight="Bold"/>
+                            <!--<TextBlock Text="Selected Parties" Margin="10 30 0 0" Foreground="#757575" FontSize="18" FontWeight="Bold"/>-->
 
                             <ScrollViewer VerticalScrollMode="Enabled" MaxHeight="500"  Margin="0 20 0 0">
                                 <ListView x:Name="partyListView" ItemsSource="{x:Bind DealPartyList,Mode=TwoWay}"  Margin="0 0 0 15"  Background="#fbfafa">

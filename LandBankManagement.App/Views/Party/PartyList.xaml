@@ -12,20 +12,21 @@
         <DataTemplate x:Key="HeaderTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
                     <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="25*"/>
                     <ColumnDefinition Width="12*"/>
                     <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="20*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>                
                 <TextBlock Grid.Column="0" Text="Name *" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="Party Alias *" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="2" Text="Email *" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="3" Text="Phone" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="4" Text="Address *" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="5" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="2" Text="Group " Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="3" Text="Email *" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="4" Text="Phone" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="5" Text="Address *" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="6" Text="IsActive" Style="{StaticResource ColumnHeaderStyle}" />
             </Grid>
         </DataTemplate>
 
@@ -33,21 +34,22 @@
             <Grid Height="32">
                 <Grid Visibility="{x:Bind IsEmpty, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="15*"/>
                         <ColumnDefinition Width="12*"/>
                         <ColumnDefinition Width="10*"/>
-                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="8*"/>
                     </Grid.ColumnDefinitions>
                     
                     <TextBlock Grid.Column="0" Text="{x:Bind PartyName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="1" Text="{x:Bind PartyAlias, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="2" Text="{x:Bind email, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="3" Text="{x:Bind PhoneNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <TextBlock Grid.Column="4" Text="{x:Bind AddressLine1, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                    <CheckBox Grid.Column="5" x:Name="isActive" IsEnabled="False"  IsChecked="{x:Bind IsPartyActive, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" Text="{x:Bind GroupName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="3" Text="{x:Bind email, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="4" Text="{x:Bind PhoneNo, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <TextBlock Grid.Column="5" Text="{x:Bind AddressLine1, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                    <CheckBox Grid.Column="6" x:Name="isActive" IsEnabled="False"  IsChecked="{x:Bind IsPartyActive, Mode=TwoWay}" />
                 </Grid>
             </Grid>
         </DataTemplate>

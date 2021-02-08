@@ -133,7 +133,13 @@ namespace LandBankManagement.Data.Services
                     AadharNo = source.AadharNo,
                     GSTIN = source.GSTIN,
                     IsVendorActive = source.IsVendorActive,
-                    SalutationType=source.SalutationType
+                    SalutationType=source.SalutationType,
+                    GroupId = source.GroupId??0,
+                    GroupName = source.GroupName,
+                    BankName = source.BankName,
+                    Branch = source.Branch,
+                    IFSCCode = source.IFSCCode,
+                    AccountNumber = source.AccountNumber
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -155,7 +161,40 @@ namespace LandBankManagement.Data.Services
 
         private IQueryable<Vendor> GetVendors(DataRequest<Vendor> request)
         {
-            IQueryable<Vendor> items = _dataSource.Vendors;
+            //IQueryable<Vendor> items = _dataSource.Vendors;
+            IQueryable<Vendor> items = from v in _dataSource.Vendors
+                                       from g in _dataSource.Groups.Where(x=>x.GroupId==v.GroupId).DefaultIfEmpty()
+                                       select new Vendor
+                                       {
+                                           VendorId = v.VendorId,
+                                           VendorGuid = v.VendorGuid,
+                                           VendorSalutation = v.VendorSalutation,
+                                           VendorLastName = v.VendorLastName,
+                                           VendorName = v.VendorName,
+                                           VendorAlias = v.VendorAlias,
+                                           RelativeName = v.RelativeName,
+                                           RelativeLastName = v.RelativeLastName,
+                                           RelativeSalutation = v.RelativeSalutation,
+                                           ContactPerson = v.ContactPerson,
+                                           AddressLine1 = v.AddressLine1,
+                                           AddressLine2 = v.AddressLine2,
+                                           City = v.City,
+                                           PinCode = v.PinCode,
+                                           PhoneNoIsdCode = v.PhoneNoIsdCode,
+                                           PhoneNo = v.PhoneNo,
+                                           email = v.email,
+                                           PAN = v.PAN,
+                                           AadharNo = v.AadharNo,
+                                           GSTIN = v.GSTIN,
+                                           IsVendorActive = v.IsVendorActive,
+                                           SalutationType = v.SalutationType,
+                                           GroupId = v.GroupId??0,
+                                           GroupName =(v.GroupId==null || v.GroupId==0)?"": g.GroupName,
+                                           BankName = v.BankName,
+                                           Branch = v.Branch,
+                                           IFSCCode = v.IFSCCode,
+                                           AccountNumber = v.AccountNumber
+                                       };
 
             // Query
             if (!String.IsNullOrEmpty(request.Query))
@@ -185,7 +224,7 @@ namespace LandBankManagement.Data.Services
         public async Task<int> GetVendorsCountAsync(DataRequest<Vendor> request)
         {
             IQueryable<Vendor> items = _dataSource.Vendors;
-
+          
             // Query
             if (!String.IsNullOrEmpty(request.Query))
             {
