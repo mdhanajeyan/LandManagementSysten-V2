@@ -89,7 +89,19 @@ namespace LandBankManagement.Views
                     ViewModel.SelectedItem = navigationView.SettingsItem;
                     break;
                 default:
-                    ViewModel.SelectedItem = ViewModel.Items.Where(r => r.ViewModel == targetType).FirstOrDefault();
+                    var selectedItem = ViewModel.Items.Where(r => r.ViewModel == targetType).FirstOrDefault();
+                    if (selectedItem == null)
+                    {
+                        foreach (var item in ViewModel.Items)
+                        {
+                            if (item.Children != null)
+                                selectedItem = item.Children.Where(r => r.ViewModel == targetType).FirstOrDefault();
+
+                            if (selectedItem != null) break;
+                        }
+
+                    }
+                    ViewModel.SelectedItem = selectedItem;
                     break;
             }
             UpdateBackButton();
@@ -97,7 +109,7 @@ namespace LandBankManagement.Views
 
         private void UpdateBackButton()
         {
-          //  NavigationViewBackButton.IsEnabled = _navigationService.CanGoBack;
+            //  NavigationViewBackButton.IsEnabled = _navigationService.CanGoBack;
         }
 
         private async void OnLogoff(object sender, RoutedEventArgs e)
@@ -116,7 +128,7 @@ namespace LandBankManagement.Views
 
         private void CtrlF_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-           // controlsSearchBox.Focus(FocusState.Programmatic);
+            // controlsSearchBox.Focus(FocusState.Programmatic);
         }
 
         private void ReportViewer_ReportError(object sender, ReportErrorEventArgs e)
