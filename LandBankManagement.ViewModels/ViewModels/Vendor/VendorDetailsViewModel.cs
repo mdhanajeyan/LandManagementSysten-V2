@@ -177,12 +177,14 @@ namespace LandBankManagement.ViewModels
                 else
                     await VendorService.UpdateVendorAsync(model, DocList);
                 DocList = model.VendorDocuments;
+                ShowPopup("success", "Vendor is Saved");
                 EndStatusMessage("Vendor saved");
                 LogInformation("Vendor", "Save", "Vendor saved successfully", $"Vendor {model.VendorId} '{model.VendorName}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Vendor is not Saved");
                 StatusError($"Error saving Vendor: {ex.Message}");
                 LogException("Vendor", "Save", ex);
                 return false;
@@ -205,12 +207,14 @@ namespace LandBankManagement.ViewModels
                 VendorViewModel.ShowProgressRing();
                 await VendorService.DeleteVendorAsync(model);
                 ClearItem();
+                ShowPopup("success", "Vendor is deleted");
                 EndStatusMessage("Vendor deleted");
                 LogWarning("Vendor", "Delete", "Vendor deleted", $"Vendor {model.VendorId} '{model.VendorName}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Vendor is not deleted");
                 StatusError($"Error deleting Vendor: {ex.Message}");
                 LogException("Vendor", "Delete", ex);
                 return false;

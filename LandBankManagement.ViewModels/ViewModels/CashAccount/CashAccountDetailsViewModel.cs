@@ -141,6 +141,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await CashAccountService.UpdateCashAccountAsync(model);
                 ClearItem();
+                ShowPopup("success", "Cash Account details is Saved");
                 CashAccountViewModel.HideProgressRing();
                 await CashAccountListViewModel.RefreshAsync();
                 EndStatusMessage("CashAccount saved");
@@ -149,6 +150,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Cash Account details is not Saved");
                 StatusError($"Error saving CashAccount: {ex.Message}");
                 LogException("CashAccount", "Save", ex);
                 return false;
@@ -170,6 +172,7 @@ namespace LandBankManagement.ViewModels
                 CashAccountViewModel.ShowProgressRing();
                 await CashAccountService.DeleteCashAccountAsync(model);
                 ClearItem();
+                ShowPopup("success", "Cash Account details is deleted");
                 await CashAccountListViewModel.RefreshAsync();
                 EndStatusMessage("CashAccount deleted");
                 LogWarning("CashAccount", "Delete", "CashAccount deleted", $"CashAccount {model.CashAccountId} '{model.CashAccountName}' was deleted.");
@@ -177,6 +180,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Cash Account details is not deleted");
                 StatusError($"Error deleting CashAccount: {ex.Message}");
                 LogException("CashAccount", "Delete", ex);
                 return false;

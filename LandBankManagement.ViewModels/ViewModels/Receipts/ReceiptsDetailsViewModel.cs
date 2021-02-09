@@ -268,6 +268,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await ReceiptsService.UpdateReceiptAsync(model);
                 await ReceiptsListViewModel.RefreshAsync();
+                ShowPopup("success", "Receipt is Saved");
                 EndStatusMessage("Receipts saved");
                 LoadSelectedReceipt(model.ReceiptId);
                 LogInformation("Receipts", "Save", "Receipts saved successfully", $"Receipts {model.ReceiptId} '{model.PayeeId}' was saved successfully.");
@@ -275,6 +276,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Receipt is  not Saved");
                 StatusError($"Error saving Receipts: {ex.Message}");
                 LogException("Receipts", "Save", ex);
                 return false;
@@ -300,12 +302,14 @@ namespace LandBankManagement.ViewModels
                 await ReceiptsService.DeleteReceiptAsync(model);
                 ClearItem();
                 await ReceiptsListViewModel.RefreshAsync();
+                ShowPopup("success", "Receipt is deleted");
                 EndStatusMessage("Receipts deleted");
                 LogWarning("Receipts", "Delete", "Receipts deleted", $"Taluk {model.ReceiptId} '{model.PayeeId}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Receipt is not deleted");
                 StatusError($"Error deleting Receipts: {ex.Message}");
                 LogException("Receipts", "Delete", ex);
                 return false;

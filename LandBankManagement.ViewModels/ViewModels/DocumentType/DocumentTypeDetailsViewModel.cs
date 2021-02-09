@@ -88,7 +88,7 @@ namespace LandBankManagement.ViewModels
                     await DocumentTypeService.AddDocumentTypeAsync(model);
                 else
                     await DocumentTypeService.UpdateDocumentTypeAsync(model);
-
+                ShowPopup("success", "Document Type is Saved");
                 await DocumentTypeListViewModel.RefreshAsync();
                 ClearItem();
                 EndStatusMessage("DocumentType saved");
@@ -97,6 +97,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Document Type is not Saved");
                 StatusError($"Error saving Party: {ex.Message}");
                 LogException("Party", "Save", ex);
                 return false;
@@ -117,6 +118,7 @@ namespace LandBankManagement.ViewModels
                 DocumentTypeViewModel.ShowProgressRing();
                 await DocumentTypeService.DeleteDocumentTypeAsync(model);
                 ClearItem();
+                ShowPopup("success", "Document Type is deleted");
                 await DocumentTypeListViewModel.RefreshAsync();
                 EndStatusMessage("DocumentType deleted");
                 LogWarning("DocumentType", "Delete", "DocumentType deleted", $"DocumentType {model.DocumentTypeId} '{model.DocumentTypeName}' was deleted.");
@@ -124,6 +126,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Document Type is not deleted");
                 StatusError($"Error deleting DocumentType: {ex.Message}");
                 LogException("DocumentType", "Delete", ex);
                 return false;

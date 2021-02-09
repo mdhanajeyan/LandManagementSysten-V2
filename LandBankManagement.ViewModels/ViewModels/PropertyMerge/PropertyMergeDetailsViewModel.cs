@@ -72,6 +72,50 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _documentTypeId, value);
         }
 
+        private string _totalSale1 = "0";
+        public string TotalSale1
+        {
+            get => _totalSale1;
+            set => Set(ref _totalSale1, value);
+        }
+        private string _totalSale2 = "0";
+        public string TotalSale2
+        {
+            get => _totalSale2;
+            set => Set(ref _totalSale2, value);
+        }
+        private string _totalAmount1 = "0";
+        public string TotalAmount1
+        {
+            get => _totalAmount1;
+            set => Set(ref _totalAmount1, value);
+        }
+        private string _totalAmount2 = "0";
+        public string TotalAmount2
+        {
+            get => _totalAmount2;
+            set => Set(ref _totalAmount2, value);
+        }
+        private string _totalBalance1 = "0";
+        public string TotalBalance1        {
+            get => _totalBalance1;
+            set => Set(ref _totalBalance1, value);
+        }
+        private string _totalBalance2 = "0";
+        public string TotalBalance2
+        {
+            get => _totalBalance2;
+            set => Set(ref _totalBalance2, value);
+        }
+
+        private string _expense = "0";
+        public string Expense
+        {
+            get => _expense;
+            set => Set(ref _expense, value);
+        }
+
+
         private PropertyMergeViewModel PropertyMergesViewModel { get; set; }
         public PropertyMergeDetailsViewModel(IDropDownService dropDownService, IPropertyMergeService propertMergeService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyMergeViewModel propertyMergeViewModel) : base(commonServices)
         {
@@ -114,6 +158,9 @@ namespace LandBankManagement.ViewModels
             if (Convert.ToInt32(selectedDocumentType) > 0) {
                 PropertyMergesViewModel.ShowProgressRing();
                 var model = await PropertyMergeService.GetPropertyListItemForProeprty(Convert.ToInt32(selectedProperty), Convert.ToInt32(selectedDocumentType));
+                var area = model.LandArea.Split('-');
+                var calculatedArea = AreaConvertor.ConvertArea(Convert.ToDecimal( area[0]), Convert.ToDecimal(area[1]), Convert.ToDecimal(area[2]));
+                model.LandArea = calculatedArea.Acres + " - " + calculatedArea.Guntas + " - " + calculatedArea.Anas;
                 PropertyMergesViewModel.HideProgressRing();
                 if (CurrentProperty == null)
                     CurrentProperty = new PropertyMergeListModel();
@@ -149,7 +196,37 @@ namespace LandBankManagement.ViewModels
             var temp = PropertyDocumentOptions;
             PropertyDocumentOptions = null;
             PropertyDocumentOptions = temp;
-            
+
+            CalculateTotalValues();
+        }
+
+        public void CalculateTotalValues()
+        {
+
+            decimal sal1 = 0;
+            decimal sal2 = 0;
+            decimal amt1 = 0;
+            decimal amt2 = 0;
+            decimal bal1 = 0;
+            decimal bal2 = 0;
+            decimal expense = 0;
+            foreach (var item in PropertyList)
+            {
+                sal1 += Convert.ToDecimal(item.SaleValue1);
+                sal2 += Convert.ToDecimal(item.SaleValue2);
+                amt1 += Convert.ToDecimal(item.Amount1);
+                amt2 += Convert.ToDecimal(item.Amount2);
+                bal1 += Convert.ToDecimal(item.Balance1);
+                bal2 += Convert.ToDecimal(item.Balance2);
+                expense += Convert.ToDecimal(item.Expense);
+            }
+            TotalSale1 = sal1.ToString();
+            TotalSale2 = sal2.ToString();
+            TotalAmount1 = amt1.ToString();
+            TotalAmount2 = amt2.ToString();
+            TotalBalance1 = bal1.ToString();
+            TotalBalance2 = bal2.ToString();
+            Expense = expense.ToString();
         }
 
         public void Subscribe()
@@ -177,6 +254,7 @@ namespace LandBankManagement.ViewModels
             var newList = PropertyList;
             PropertyList = null;
             PropertyList = newList;
+            CalculateTotalValues();
         }
 
 
@@ -192,17 +270,17 @@ namespace LandBankManagement.ViewModels
                 decimal totalGuntas = 0;
                 decimal totalAnas = 0;
                 foreach (var obj in model.propertyMergeLists) {
-                    var area = obj.TotalArea.Split('-');
-                    //totalArea += AreaConvertor.AcreToSqft(Convert.ToDecimal(area[0])) + AreaConvertor.GuntasToSqft(Convert.ToDecimal(area[1])) + AreaConvertor.AanasToSqft(Convert.ToDecimal(area[2]));
+                    var area = obj.LandArea.Split('-');
                     totalArea += Convert.ToDecimal(area[0]);
                     totalGuntas += Convert.ToDecimal(area[1]);
                     totalAnas += Convert.ToDecimal(area[2]);
-
 
                     model.MergedSaleValue1 = model.MergedSaleValue1 + Convert.ToDecimal(string.IsNullOrEmpty( obj.SaleValue1)?"0" : obj.SaleValue1);
                     model.MergedSaleValue2 = model.MergedSaleValue2 + Convert.ToDecimal(string.IsNullOrEmpty( obj.SaleValue2)?"0" : obj.SaleValue2);
                     model.MergedAmountPaid1 = model.MergedAmountPaid1 + Convert.ToDecimal(string.IsNullOrEmpty( obj.Amount1)?"0" : obj.Amount1);
                     model.MergedAmountPaid2 = model.MergedAmountPaid2 + Convert.ToDecimal(string.IsNullOrEmpty( obj.Amount2)?"0" : obj.Amount2);
+                    model.MergedBalancePayable1 = model.MergedBalancePayable1 + Convert.ToDecimal(string.IsNullOrEmpty( obj.Balance1)?"0" : obj.Balance2);
+                    model.MergedBalancePayable2 = model.MergedBalancePayable2 + Convert.ToDecimal(string.IsNullOrEmpty( obj.Balance2)?"0" : obj.Balance2);
                 }
 
                var finalArea = AreaConvertor.ConvertArea(totalArea, totalGuntas, totalAnas);
@@ -218,13 +296,14 @@ namespace LandBankManagement.ViewModels
                 var item = await PropertyMergeService.GetPropertyMergeAsync(mergeId == 0 ? model.PropertyMergeId : mergeId);
                 Item = item;
                 PropertyList = item.propertyMergeLists;
-
+                ShowPopup("success", "Property Merge is Saved");
                 EndStatusMessage("PropertyMerges saved");
                 LogInformation("PropertyMerges", "Save", "PropertyMerges saved successfully", $"PropertyMerges {model.PropertyMergeId}  was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Property Merge is not Saved");
                 StatusError($"Error saving PropertyMerges: {ex.Message}");
                 LogException("PropertyMerges", "Save", ex);
                 return false;
@@ -237,6 +316,13 @@ namespace LandBankManagement.ViewModels
         {
             Item = new PropertyMergeModel() ;
             PropertyList = new ObservableCollection<PropertyMergeListModel>();
+            TotalSale1 = "";
+            TotalSale2 = "";
+            TotalAmount1 = "";
+            TotalAmount2 = "";
+            TotalBalance1 = "";
+            TotalBalance2 = "";
+            Expense ="";
         }
         protected override async Task<bool> DeleteItemAsync(PropertyMergeModel model)
         {
@@ -254,6 +340,7 @@ namespace LandBankManagement.ViewModels
                     StatusError($"This property is not deleted ");
                     return false;
                 }
+                ShowPopup("success", "Property Merge is deleted");
                 ClearItem();
                 EndStatusMessage("PropertyMerges deleted");
                 LogWarning("PropertyMerges", "Delete", "PropertyMerges deleted", $"Taluk {model.PropertyMergeId}  was deleted.");
@@ -261,6 +348,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Property Merge is not deleted");
                 StatusError($"Error deleting PropertyMerges: {ex.Message}");
                 LogException("PropertyMerges", "Delete", ex);
                 return false;

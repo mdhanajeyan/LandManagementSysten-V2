@@ -70,12 +70,14 @@ namespace LandBankManagement.ViewModels
                     await RoleService.UpdateRoleAsync(model);
                 ClearItem();
                 await RoleListViewModel.RefreshAsync();
+                ShowPopup("success", "Role is Saved");
                 EndStatusMessage("Role saved");
                 LogInformation("Role", "Save", "Role saved successfully", $"Role {model.RoleId} '{model.Name}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Role is not Saved");
                 StatusError($"Error saving Role: {ex.Message}");
                 LogException("Role", "Save", ex);
                 return false;
@@ -97,12 +99,14 @@ namespace LandBankManagement.ViewModels
                 await RoleService.DeleteRoleAsync(model);
                 ClearItem();
                 await RoleListViewModel.RefreshAsync();
+                ShowPopup("success", "Role is deleted");
                 EndStatusMessage("Role deleted");
                 LogWarning("Role", "Delete", "Role deleted", $"Taluk {model.RoleId} '{model.Name}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Role is not deleted");
                 StatusError($"Error deleting Role: {ex.Message}");
                 LogException("Role", "Delete", ex);
                 return false;

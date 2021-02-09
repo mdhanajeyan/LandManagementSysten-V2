@@ -89,6 +89,9 @@ namespace LandBankManagement.Services
                     SaleValue2 = obj.SaleValue2,
                     Amount1 = obj.Amount1,
                     Amount2 = obj.Amount2,
+                    Expense=obj.Expense,
+                    Balance1=obj.Balance1,
+                    Balance2=obj.Balance2,
                     TotalArea=obj.TotalArea
                 };
                 return model;
@@ -214,6 +217,9 @@ namespace LandBankManagement.Services
                         SaleValue2 = obj.SaleValue2,
                         Amount1 = obj.Amount1,
                         Amount2 = obj.Amount2,
+                        Expense=obj.Expense,
+                        Balance1=obj.Balance1,
+                        Balance2=obj.Balance2,
                         TotalArea=obj.TotalArea
                     });
 
@@ -240,6 +246,9 @@ namespace LandBankManagement.Services
             target.SaleValue2 = source.SaleValue2;
             target.Amount1 = source.Amount1;
             target.Amount2 = source.Amount2;
+            target.Expense = source.Expense;
+            target.Balance1 = source.Balance1;
+            target.Balance2 = source.Balance2;
         }
 
         private void UpdatePropertyMergeFromModel(PropertyMerge target, PropertyMergeModel source)

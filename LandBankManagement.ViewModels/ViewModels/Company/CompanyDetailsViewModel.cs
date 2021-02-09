@@ -168,12 +168,14 @@ namespace LandBankManagement.ViewModels
                     await CompanyService.UpdateCompanyAsync(model, DocList);
 
                 DocList = model.CompanyDocuments;
+                ShowPopup("success", "Company saved");
                 EndStatusMessage("Company saved");                             
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
-            {              
+            {
+                ShowPopup("error", "Unable to save company");
                 StatusError($"Error saving Company: {ex.Message}");
                 LogException("Company", "Save", ex);
                 return false;
@@ -184,7 +186,7 @@ namespace LandBankManagement.ViewModels
         }
 
         protected override void ClearItem()
-        {
+        {           
             Item = new CompanyModel() { IsActive = true };
             if (DocList!=null)
             DocList.Clear();
@@ -205,13 +207,15 @@ namespace LandBankManagement.ViewModels
                     EndStatusMessage(result.Message);
                     return true;
                 }
-                ClearItem();              
+                ClearItem();
+                ShowPopup("success", "Company is deleted");
                 EndStatusMessage("Company deleted");
                 LogWarning("Company", "Delete", "Company deleted", $"Company {model.CompanyID} '{model.Name}' was deleted.");
                 return true;
             }
             catch (Exception ex)
-            {               
+            {
+                ShowPopup("error", "Company is not deleted");
                 StatusError($"Error deleting Company: {ex.Message}");
                 LogException("Company", "Delete", ex);
                 return false;

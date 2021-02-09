@@ -90,6 +90,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await CheckListService.UpdateCheckListAsync(model);
                 EndStatusMessage("CheckList saved");
+                ShowPopup("success", "CheckList details is Saved");
                 await CheckListListViewModel.RefreshAsync();
                 ClearItem();
                 LogInformation("CheckList", "Save", "CheckList saved successfully", $"CheckList {model.CheckListId} '{model.CheckListName}' was saved successfully.");
@@ -97,6 +98,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "CheckList details is not Saved");
                 StatusError($"Error saving CheckList: {ex.Message}");
                 LogException("CheckList", "Save", ex);
                 return false;
@@ -118,6 +120,7 @@ namespace LandBankManagement.ViewModels
                 CheckListViewModel.ShowProgressRing();
                 await CheckListService.DeleteCheckListAsync(model);
                 await CheckListListViewModel.RefreshAsync();
+                ShowPopup("success", "CheckList details is deleted");
                 ClearItem();
                 EndStatusMessage("CheckList deleted");
                 LogWarning("CheckList", "Delete", "CheckList deleted", $"CheckList {model.CheckListId} '{model.CheckListName}' was deleted.");
@@ -125,6 +128,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "CheckList details is not deleted");
                 StatusError($"Error deleting CheckList: {ex.Message}");
                 LogException("CheckList", "Delete", ex);
                 return false;

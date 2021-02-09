@@ -271,7 +271,7 @@ namespace LandBankManagement.ViewModels
             ScheduleList.RemoveAt(inx - 1);
 
             DealsViewModel.HideProgressRing();
-
+            CalculateTotalAMounts();
             EndStatusMessage("Payment deleted");
 
         }
@@ -309,13 +309,14 @@ namespace LandBankManagement.ViewModels
                 //var item = await DealService.GetDealAsync(mergeId == 0 ? model.DealId : mergeId);
                 //Item = item;
                 //PropertyList = item.propertyMergeLists;
-
+                ShowPopup("success", "Deal details is Saved");
                 EndStatusMessage("Deals saved");
                 LogInformation("Deals", "Save", "Deals saved successfully", $"Deals {model.DealId}  was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Deal details is not Saved");
                 StatusError($"Error saving Deals: {ex.Message}");
                 LogException("Deals", "Save", ex);
                 return false;
@@ -344,6 +345,7 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Deals...");
                 DealsViewModel.ShowProgressRing();
                 await DealService.DeleteDealAsync(model);
+                ShowPopup("success", "Deal details is deleted");
                 ClearItem();
                 EndStatusMessage("Deals deleted");
                 LogWarning("Deals", "Delete", "Deals deleted", $"Taluk {model.DealId}  was deleted.");
@@ -351,6 +353,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Deal details is not deleted");
                 StatusError($"Error deleting Deals: {ex.Message}");
                 LogException("Deals", "Delete", ex);
                 return false;
@@ -367,7 +370,13 @@ namespace LandBankManagement.ViewModels
 
         override protected IEnumerable<IValidationConstraint<DealModel>> GetValidationConstraints(DealModel model)
         {
-            yield return new RequiredGreaterThanZeroConstraint<DealModel>("Deal Name", m => m.DealName);
+            yield return new ValidationConstraint<DealModel>("Deal Name must be selected", m => Convert.ToInt32(m.PropertyMergeId) > 0);
+            yield return new ValidationConstraint<DealModel>("Company must be selected", m => Convert.ToInt32(m.CompanyId) > 0);
+            yield return new ValidationConstraint<DealModel>("Sale value 1 must be entered", m => Convert.ToDecimal(Sale1) > 0);
+            yield return new ValidationConstraint<DealModel>("Sale value 2 must be entered", m => Convert.ToDecimal(Sale2) > 0);
+            yield return new ValidationConstraint<DealModel>("Total of Amount 1 must be equal to Sale value 1", m => Convert.ToDecimal(Sale1)== Convert.ToDecimal(TotalAmount1??"0"));
+            yield return new ValidationConstraint<DealModel>("Total of Amount 2 must be equal to Sale value 2", m => Convert.ToDecimal(Sale2)== Convert.ToDecimal(TotalAmount2??"0"));
+           
 
         }
 

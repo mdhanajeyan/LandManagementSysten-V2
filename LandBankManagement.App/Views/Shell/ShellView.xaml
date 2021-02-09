@@ -12,8 +12,9 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
+            
             <Grid Grid.Row="0">
+                
                 <Frame x:Name="frame" IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=OneWay}">
                     <Frame.ContentTransitions>
                         <TransitionCollection>

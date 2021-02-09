@@ -219,12 +219,14 @@ namespace LandBankManagement.ViewModels
                     await VillageService.UpdateVillageAsync(model);
                 ClearItem();
                 await VillageListViewModel.RefreshAsync();
+                ShowPopup("success", "Village is Saved");
                 EndStatusMessage("Village saved");
                 LogInformation("Village", "Save", "Village saved successfully", $"Village {model.VillageId} '{model.VillageName}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Village is not Saved");
                 StatusError($"Error saving Village: {ex.Message}");
                 LogException("Village", "Save", ex);
                 return false;
@@ -253,6 +255,7 @@ namespace LandBankManagement.ViewModels
                     EndStatusMessage(result.Message);
                     return true;
                 }
+                ShowPopup("success", "Village is deleted");
                 ClearItem();
                 await VillageListViewModel.RefreshAsync();
                 EndStatusMessage("Village deleted");
@@ -261,6 +264,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Village is not deleted");
                 StatusError($"Error deleting Village: {ex.Message}");
                 LogException("Village", "Delete", ex);
                 return false;

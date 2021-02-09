@@ -77,37 +77,24 @@ namespace LandBankManagement.Data.Services
                                   LandArea = CalculateArea(pdt),
                                   SaleValue1 = pdt.SaleValue1.ToString(),
                                   SaleValue2 = pdt.SaleValue2.ToString(),
-                                  Amount1 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId==pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString(),
-                                  Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId == pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString(),
+                                  Amount1 = _dataSource.Payments.Where(x => x.PropertyId == pt.PropertyId && x.PayeeTypeId==2 && x.PaymentTypeId==2 && x.DocumentTypeId==DocumentTypeId).Sum(x => x.Amount).ToString(),
+                                  Amount2 = _dataSource.Payments.Where(x => x.PropertyId == pt.PropertyId && x.PayeeTypeId == 2 && x.PaymentTypeId == 1 && x.DocumentTypeId == DocumentTypeId).Sum(x => x.Amount).ToString(),
+                                  Expense = _dataSource.Payments.Where(x => x.PropertyId == pt.PropertyId && x.PayeeTypeId == 1 ).Sum(x => x.Amount).ToString(),
                                   Party = string.Join(",", partyName)
                               }).FirstOrDefaultAsync();
 
-            //var item = await (from pt in _dataSource.Properties.Where(x => x.PropertyId == propertyId)
-            //                  from v in _dataSource.Villages.Where(x => x.VillageId == pt.VillageId).DefaultIfEmpty()
-
-            //                  select new PropertyMergeList
-            //                  {
-            //                      PropertyGuid = pt.PropertyGuid,
-            //                      PropertyName = pt.PropertyName,
-            //                      Village = v.VillageName,
-            //                      SurveyNo = pt.SurveyNo,
-            //                      LandArea = CalculateArea(pt),
-            //                      SaleValue1 = pt.SaleValue1.ToString(),
-            //                      SaleValue2 = pt.SaleValue2.ToString(),
-            //                      Amount1 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId).Sum(x => x.Amount1).ToString(),
-            //                      Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId).Sum(x => x.Amount1).ToString(),
-            //                        Party=string.Join(",", partyName)
-            //                  }).FirstOrDefaultAsync();
+            item.Balance1 =(Convert.ToDecimal( item.SaleValue1) - Convert.ToDecimal(item.Amount1)).ToString();
+            item.Balance2 = (Convert.ToDecimal(item.SaleValue2) - Convert.ToDecimal(item.Amount2)).ToString();
             return item;
 
         }
 
         private string CalculateArea(PropertyDocumentType pt) {
             var area = pt.LandAreaInputAcres + pt.AKarabAreaInputAcres + pt.BKarabAreaInputAcres;
-            var AKharab = pt.LandAreaInputGuntas + pt.AKarabAreaInputGuntas + pt.BKarabAreaInputGuntas;
-            var BKharab = pt.LandAreaInputAanas + pt.AKarabAreaInputAanas + pt.BKarabAreaInputAanas;
-            return area + " - " + AKharab +
-                                  " - " + BKharab;
+            var guntas = pt.LandAreaInputGuntas + pt.AKarabAreaInputGuntas + pt.BKarabAreaInputGuntas;
+            var anas = pt.LandAreaInputAanas + pt.AKarabAreaInputAanas + pt.BKarabAreaInputAanas;
+
+            return area + " - " + guntas + " - " + anas;
         }
         public async Task<PropertyMerge> GetPropertyMergeAsync(long id)
         {
@@ -136,19 +123,17 @@ namespace LandBankManagement.Data.Services
                                 DocumentTypeName=pd.DocumentTypeName,
                                 Village = v.VillageName,
                                 SurveyNo = pt.SurveyNo,
-                                LandArea = pdt.LandAreaInputAcres + "-" + pdt.LandAreaInputGuntas + "-" + pdt.LandAreaInputAanas,
-                                AKarab = pdt.AKarabAreaInputAcres + "-" + pdt.AKarabAreaInputGuntas + "-" + pdt.AKarabAreaInputAanas,
-                                BKarab = pdt.BKarabAreaInputAcres + "-" + pdt.BKarabAreaInputGuntas + "-" + pdt.BKarabAreaInputAanas,
+                                LandArea = CalculateArea(pdt),
                                 SaleValue1 = pdt.SaleValue1.ToString(),
                                 SaleValue2 = pdt.SaleValue2.ToString(),
-                                Amount1 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId == pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString(),
-                                Amount2 = _dataSource.PropPaySchedules.Where(x => x.PropertyId == pt.PropertyId && x.PropertyDocumentTypeId == pdt.PropertyDocumentTypeId).Sum(x => x.Amount1).ToString(),
-                                TotalArea=(pdt.LandAreaInputAcres+ pdt.AKarabAreaInputAcres+ pdt.BKarabAreaInputAcres)+" - "+ 
-                                (pdt.LandAreaInputGuntas + pdt.AKarabAreaInputGuntas + pdt.BKarabAreaInputGuntas)+" - "+ 
-                                (pdt.LandAreaInputAanas + pdt.AKarabAreaInputAanas + pdt.BKarabAreaInputAanas)
+                                Amount1 = _dataSource.Payments.Where(x => x.PropertyId == pt.PropertyId && x.PayeeTypeId == 2 && x.PaymentTypeId == 2 && x.DocumentTypeId == pdt.DocumentTypeId).Sum(x => x.Amount).ToString(),
+                                Amount2 = _dataSource.Payments.Where(x => x.PropertyId == pt.PropertyId && x.PayeeTypeId == 2 && x.PaymentTypeId == 1 && x.DocumentTypeId == pdt.DocumentTypeId).Sum(x => x.Amount).ToString(),
+                                Expense = _dataSource.Payments.Where(x => x.PropertyId == pt.PropertyId && x.PayeeTypeId == 1).Sum(x => x.Amount).ToString(),
                             }).ToList();
 
                 foreach (var item in list) {
+                    item.Balance1 = (Convert.ToDecimal(item.SaleValue1) - Convert.ToDecimal(item.Amount1)).ToString();
+                    item.Balance2 = (Convert.ToDecimal(item.SaleValue2) - Convert.ToDecimal(item.Amount2)).ToString();
                     var propertyparty = await _dataSource.PropertyParty.Where(x => x.PropertyGuid == item.PropertyGuid).ToListAsync();
                     if (propertyparty != null)
                     {
@@ -158,11 +143,7 @@ namespace LandBankManagement.Data.Services
                             item.Party = _dataSource.Parties.Where(x => x.PartyId == propertyparty.Where(p => p.IsPrimaryParty == true).Select(s => s.PartyId).First()).Select(s => s.PartyFirstName).First();
                     }
 
-                    //var partyname = await (from p in _dataSource.Properties.Where(x=>x.PropertyGuid==item.PropertyGuid)
-                    //    from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == p.PropertyId)
-                    //    from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
-                    //    select party.PartyFirstName).ToListAsync();
-                    //item.Party = string.Join(",", partyname);
+                   
                 }
 
                 merge.propertyMergeLists = list;

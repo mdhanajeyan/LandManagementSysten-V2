@@ -198,6 +198,7 @@ namespace LandBankManagement.ViewModels
             SelectedPivotIndex = 1;
             PropertyDetials.EnableDocType = true;
             PropertyDetials.EnablePropertyName = false;
+           
             ShowProgressRing();
             var model = await PropertyService.GetPropertyAsync(id);
             HideProgressRing();
@@ -225,7 +226,10 @@ namespace LandBankManagement.ViewModels
             PropertyDetials.PropertyDocumentTypeList = model.PropertyDocumentType;
             PropertyDetials.CurrentDocumentType = model.PropertyDocumentType[0];
             await PropertyDetials.GetPropertyParties(model.PropertyId);
-
+            PropertyDetials.ShowActiveCompany = false; // freeze on new doc type
+            PropertyDetials.ShowActiveTaluk = false;
+            PropertyDetials.ShowActiveHobli = false;
+            PropertyDetials.ShowActiveVillage = false;
             //model.DocumentTypeId = 0;
             //PropertyDetials.Item = model;
             //await PropertyDetials.GetPropertyParties(model.PropertyId);
@@ -246,7 +250,7 @@ namespace LandBankManagement.ViewModels
             //}
             //PropertyDetials.Item.PropertyId=0;
             //PropertyDetials.Item.GroupGuid =null;
-           
+
         }
     }
 }

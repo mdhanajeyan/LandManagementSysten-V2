@@ -88,6 +88,7 @@ namespace LandBankManagement.ViewModels
                     await PropertyTypeService.AddPropertyTypeAsync(model);
                 else
                     await PropertyTypeService.UpdatePropertyTypeAsync(model);
+                ShowPopup("success", "Property Type is Saved");
                 await PropertyTypeList.RefreshAsync();
                 ClearItem();
                 EndStatusMessage("PropertyType saved");
@@ -96,6 +97,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Property Type is not Saved");
                 StatusError($"Error saving PropertyType: {ex.Message}");
                 LogException("PropertyType", "Save", ex);
                 return false;
@@ -116,6 +118,7 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting PropertyType...");
                 PropertyTypeViewModel.ShowProgressRing();
                 await PropertyTypeService.DeletePropertyTypeAsync(model);
+                ShowPopup("success", "Property Type is deleted");
                 await PropertyTypeList.RefreshAsync();
                 ClearItem();
                 EndStatusMessage("PropertyType deleted");
@@ -124,6 +127,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Property Type is not Deleted");
                 StatusError($"Error deleting PropertyType: {ex.Message}");
                 LogException("PropertyType", "Delete", ex);
                 return false;

@@ -124,6 +124,7 @@ namespace LandBankManagement.ViewModels
                 }
                 else
                     await HobliService.UpdateHobliAsync(model);
+                ShowPopup("success", "Hobli is Saved");
                 await HobliListViewModel.RefreshAsync();
                 ClearItem();
                 EndStatusMessage("Hobli saved");
@@ -132,6 +133,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Hobli is not Saved");
                 StatusError($"Error saving Hobli: {ex.Message}");
                 LogException("Hobli", "Save", ex);
                 return false;
@@ -158,6 +160,7 @@ namespace LandBankManagement.ViewModels
                     EndStatusMessage(result.Message);
                     return true;
                 }
+                ShowPopup("success", "Hobli is deleted");
                 await HobliListViewModel.RefreshAsync();
                 ClearItem();
                 EndStatusMessage("Hobli deleted");
@@ -166,6 +169,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Hobli is not deleted");
                 StatusError($"Error deleting Hobli: {ex.Message}");
                 LogException("Hobli", "Delete", ex);
                 return false;

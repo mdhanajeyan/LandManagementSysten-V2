@@ -87,7 +87,7 @@ namespace LandBankManagement.ViewModels
                     await ExpenseHeadService.AddExpenseHeadAsync(model);
                 else
                     await ExpenseHeadService.UpdateExpenseHeadAsync(model);
-
+                ShowPopup("success", "Expense Head is Saved");
                 await ExpenseHeadListViewModel.RefreshAsync();
                 ClearItem();
                 EndStatusMessage("ExpenseHead saved");
@@ -96,6 +96,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Expense Head is not Saved");
                 StatusError($"Error saving Party: {ex.Message}");
                 LogException("Party", "Save", ex);
                 return false;
@@ -115,6 +116,7 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting ExpenseHead...");
                 ExpenseHeadViewModel.ShowProgressRing();
                 await ExpenseHeadService.DeleteExpenseHeadAsync(model);
+                ShowPopup("success", "Expense Head is deleted");
                 ClearItem();
                 await ExpenseHeadListViewModel.RefreshAsync();
                 EndStatusMessage("ExpenseHead deleted");
@@ -123,6 +125,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Expense Head is not deleted");
                 StatusError($"Error deleting ExpenseHead: {ex.Message}");
                 LogException("ExpenseHead", "Delete", ex);
                 return false;

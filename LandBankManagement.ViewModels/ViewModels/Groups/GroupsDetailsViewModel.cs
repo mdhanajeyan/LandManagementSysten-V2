@@ -100,7 +100,7 @@ namespace LandBankManagement.ViewModels
                     await GroupsService.AddGroupsAsync(model);
                 else
                     await GroupsService.UpdateGroupsAsync(model);
-
+                ShowPopup("success", "Group is Saved");
                 await GroupsListViewModel.RefreshAsync();
                 ClearItem();
                 EndStatusMessage("Groups saved");
@@ -109,6 +109,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Group is not Saved");
                 StatusError($"Error saving Party: {ex.Message}");
                 LogException("Party", "Save", ex);
                 return false;
@@ -129,6 +130,7 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Groups...");
                 GroupsViewModel.ShowProgressRing();
                 await GroupsService.DeleteGroupsAsync(model);
+                ShowPopup("success", "Group is deleted");
                 ClearItem();
                 await GroupsListViewModel.RefreshAsync();
                 EndStatusMessage("Groups deleted");
@@ -137,6 +139,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Group is not deleted");
                 StatusError($"Error deleting Groups: {ex.Message}");
                 LogException("Groups", "Delete", ex);
                 return false;

@@ -64,8 +64,12 @@
                 </controls:FluidGrid>
                 <Grid Grid.Row="1" Grid.Column="1">
                     <Grid>
-                        <sync:SfDataGrid x:Name="sfdataGrid" AutoGenerateColumns="False" ItemsSource="{x:Bind PropertyList,Mode=TwoWay}" ColumnSizer="Star" 
-                                         HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource GridHeader}" RowStyle="{StaticResource GridRowStyle}"
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <sync:SfDataGrid Grid.Row="0" x:Name="sfdataGrid" AutoGenerateColumns="False" ItemsSource="{x:Bind PropertyList,Mode=TwoWay}" ColumnSizer="Star" 
+                                         HeaderRowHeight="40"  HeaderStyle="{StaticResource GridHeader}" RowStyle="{StaticResource GridRowStyle}"
                                          AlternatingRowStyle="{StaticResource alternatingRowStyle}" AlternationCount="2">
                             <sync:SfDataGrid.Columns>
                                 <sync:GridTextColumn HeaderText="Property Name" MappingName="PropertyName"/>
@@ -73,11 +77,14 @@
                                 <sync:GridTextColumn HeaderText="Village" MappingName="Village"/>
                                 <sync:GridTextColumn HeaderText="Sy.No" MappingName="SurveyNo"/>-->
                                 <sync:GridTextColumn HeaderText="Document Type" MappingName="DocumentTypeName"/>
-                                <sync:GridTextColumn HeaderText="Area" MappingName="LandArea"/>
+                                <sync:GridTextColumn HeaderText="Area" MappingName="LandArea"  ShowToolTip="True"/>
                                 <sync:GridTextColumn HeaderText="Sale Value 1" MappingName="SaleValue1"/>
                                 <sync:GridTextColumn HeaderText="Sale Value 2" MappingName="SaleValue2"/>
                                 <sync:GridTextColumn HeaderText="Amount Paid 1" MappingName="Amount1"/>
                                 <sync:GridTextColumn HeaderText="Amount Paid 2" MappingName="Amount2"/>
+                                <sync:GridTextColumn HeaderText="Balance 1" MappingName="Balance1"/>
+                                <sync:GridTextColumn HeaderText="Balance 2" MappingName="Balance2"/>
+                                <sync:GridTextColumn HeaderText="Expense" MappingName="Expense"/>
                                 <sync:GridTemplateColumn HeaderText="" MappingName="PropertyGuid" Width="40" >
                                     <sync:GridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -92,6 +99,28 @@
                                 </sync:GridTemplateColumn>
                             </sync:SfDataGrid.Columns>
                         </sync:SfDataGrid>
+                        <Grid Grid.Row="1" Margin="0 10 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="3" Text="{x:Bind TotalSale1,Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="4" Text="{x:Bind TotalSale2,Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="5" Text="{x:Bind TotalAmount1,Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="6" Text="{x:Bind TotalAmount2,Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="7" Text="{x:Bind TotalBalance1,Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="8" Text="{x:Bind TotalBalance2,Mode=TwoWay}"/>
+                            <TextBlock Grid.Column="9" Text="{x:Bind Expense,Mode=TwoWay}"/>
+                        </Grid>
                     </Grid>
                     <!--<Grid  HorizontalAlignment="Stretch" Margin="10 0 10 30" BorderBrush="#B3E5FC" BorderThickness="2">
                         <Grid.RowDefinitions>

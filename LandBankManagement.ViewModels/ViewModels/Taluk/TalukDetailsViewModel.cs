@@ -95,6 +95,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await TalukService.UpdateTalukAsync(model);
                 ClearItem();
+                ShowPopup("success", "Taluk is Saved");
                 EndStatusMessage("Taluk saved");
                 LogInformation("Taluk", "Save", "Taluk saved successfully", $"Taluk {model.TalukName} '{model.TalukName}' was saved successfully.");
                 await TalukListViewModel.RefreshAsync();
@@ -102,6 +103,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Taluk is not Saved");
                 StatusError($"Error saving Taluk: {ex.Message}");
                 LogException("Taluk", "Save", ex);
                 return false;
@@ -129,12 +131,14 @@ namespace LandBankManagement.ViewModels
                 }
                 ClearItem();
                 await TalukListViewModel.RefreshAsync();
+                ShowPopup("success", "Taluk is deleted");
                 EndStatusMessage("Taluk deleted");
                 LogWarning("Taluk", "Delete", "Taluk deleted", $"Taluk {model.TalukId} '{model.TalukName}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Taluk is not deleted");
                 StatusError($"Error deleting Taluk: {ex.Message}");
                 LogException("Taluk", "Delete", ex);
                 return false;

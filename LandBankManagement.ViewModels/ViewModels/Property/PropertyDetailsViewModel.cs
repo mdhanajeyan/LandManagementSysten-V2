@@ -851,12 +851,14 @@ namespace LandBankManagement.ViewModels
                 SaveParties(model);
                 ReloadProperty(model.GroupGuid.Value, model.PropertyId);
                 // await GetPropertyParties(model.PropertyId);
+                ShowPopup("success", "Property is Saved");
                 EndStatusMessage("Property saved");
                 LogInformation("Property", "Save", "Property saved successfully", $"Property {model.PropertyId} '{model.PropertyName}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Property is not Saved");
                 StatusError($"Error saving Property: {ex.Message}");
                 LogException("Property", "Save", ex);
                 return false;
@@ -945,6 +947,8 @@ namespace LandBankManagement.ViewModels
             UpdateItemValues();
             await GetPropertyParties(model.PropertyId);
             EnableDocType = false;
+            
+            
             //DocList = model.PropertyDocuments;
             //if (model.PropertyDocuments != null)
             //{
@@ -1028,7 +1032,7 @@ namespace LandBankManagement.ViewModels
                         return true;
                     }
                 }
-
+                ShowPopup("success", "Property is deleted");
                 ClearItem();
                 await PropertyListViewModel.RefreshAsync();
                 EndStatusMessage("Property deleted");
@@ -1037,6 +1041,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Property is not deleted");
                 StatusError($"Error deleting Property: {ex.Message}");
                 LogException("Property", "Delete", ex);
                 return false;

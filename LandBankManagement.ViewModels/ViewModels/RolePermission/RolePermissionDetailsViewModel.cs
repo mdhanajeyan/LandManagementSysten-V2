@@ -99,7 +99,7 @@ namespace LandBankManagement.ViewModels
                 }
                 StartStatusMessage("Saving Role Permission...");
                 await RolePermissionService.AddRolePermissionsAsync(RolePermissionList);
-
+                ShowPopup("success", "Role Permission is Saved");
                 EndStatusMessage("Role Permission saved");
                 GetRolePermissionForRole(Convert.ToInt32(EditableItem.RoleInfoId));
                 LogInformation("Role", "Save", "Role saved successfully", $"Role {model.RolePermissionId}  was saved successfully.");
@@ -107,6 +107,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("success", "Role Permission is not Saved");
                 StatusError($"Error saving RolePermission: {ex.Message}");
                 LogException("Role", "Save", ex);
                 return false;

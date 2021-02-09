@@ -106,7 +106,7 @@
                     <controls:FormTextBox Header="Document No *" Text="{x:Bind EditableItem.DocumentNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormComboBox  Header="Property Type *" ItemsSource="{x:Bind PropertyTypeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.PropertyTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" IsEnabled="{x:Bind EnablePropertyName,Mode=TwoWay}"/>
                     <controls:FormTextBox x:Name="SurveyNoTxt" Header="Survey No *"  IsEnabled="{x:Bind EnablePropertyName,Mode=TwoWay}" Text="{x:Bind EditableItem.SurveyNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="SurveyNoTxt_LostFocus" />
                     <controls:FormTextBox x:Name="PropertyNameTxt" Header="Property Name *"  IsEnabled="{x:Bind EnablePropertyName,Mode=TwoWay}" Text="{x:Bind EditableItem.PropertyName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                   

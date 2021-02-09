@@ -139,6 +139,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await BankAccountService.UpdateBankAccountAsync(model);
                 ClearItem();
+                ShowPopup("success", "BankAccount details is saved");
                 BankAccountViewModel.HideProgressRing();
                 await BankAccountListViewModel.RefreshAsync();
                 EndStatusMessage("BankAccount saved");
@@ -147,6 +148,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "BankAccount details is not saved");
                 StatusError($"Error saving BankAccount: {ex.Message}");
                 LogException("BankAccount", "Save", ex);
                 return false;
@@ -167,12 +169,14 @@ namespace LandBankManagement.ViewModels
                 ClearItem();
                 BankAccountViewModel.HideProgressRing();
                 await BankAccountListViewModel.RefreshAsync();
+                ShowPopup("success", "BankAccount details is deleted");
                 EndStatusMessage("BankAccount deleted");
                 LogWarning("BankAccount", "Delete", "BankAccount deleted", $"BankAccount {model.BankAccountId} '{model.AccountNumber}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "BankAccount details is not deleted");
                 StatusError($"Error deleting BankAccount: {ex.Message}");
                 LogException("BankAccount", "Delete", ex);
                 return false;

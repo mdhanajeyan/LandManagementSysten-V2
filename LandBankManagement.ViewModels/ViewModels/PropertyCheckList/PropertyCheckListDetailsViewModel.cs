@@ -878,6 +878,7 @@ namespace LandBankManagement.ViewModels
                     id = await PropertyCheckListService.AddPropertyCheckListAsync(model);
                 else
                     id = await PropertyCheckListService.UpdatePropertyCheckListAsync(model);
+                ShowPopup("success", "Property CheckList is Saved");
                 model = new PropertyCheckListModel() { PropertyCheckListId = -1, PropertyTypeId = "0", CompanyID = "0", TalukId = "0", HobliId = "0", VillageId = "0", DocumentTypeId = "0" };
                 EndStatusMessage("Property CheckList saved");
                 ClearItem();
@@ -894,6 +895,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Property CheckList is not Saved");
                 StatusError($"Error saving Property CheckList: {ex.Message}");
                 LogException("Property CheckList", "Save", ex);
                 return false;
@@ -983,6 +985,7 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting Property checklist...");
                 PropertyCheckListViewModel.ShowProgressRing();
                 await PropertyCheckListService.DeletePropertyCheckListAsync(model);
+                ShowPopup("success", "Property CheckList is deleted");
                 ClearItem();
                 //await PropertyCheckListListViewModel.RefreshAsync();
                 EndStatusMessage("Property deleted");
@@ -991,6 +994,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Property CheckList is not deleted");
                 StatusError($"Error deleting Property checklist: {ex.Message}");
                 LogException("Property checklist", "Delete", ex);
                 return false;

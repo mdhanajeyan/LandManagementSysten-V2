@@ -146,6 +146,9 @@ namespace LandBankManagement.Views
 
             LogService.WriteAsync(Data.LogType.Error, errorLog, "Bold Reports", e.Exception);
         }
-
+        private void Popup_closeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ClosePopup();
+        }
     }
 }

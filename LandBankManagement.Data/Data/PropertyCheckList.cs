@@ -60,6 +60,8 @@ namespace LandBankManagement.Data
         public string CompanyName { get; set; }
         [NotMapped]
         public string VillageName { get; set; }
+        [NotMapped]
+        public string TotalArea { get; set; }
 
         public string BuildSearchTerms() => $"{CompanyName} {SurveyNo} {PropertyName} ".ToLower();
     }

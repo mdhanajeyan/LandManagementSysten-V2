@@ -81,6 +81,7 @@
                 <sync:GridTextColumn HeaderText="Village" MappingName="VillageName"/>
                 <sync:GridTextColumn HeaderText="Property Name *" MappingName="PropertyName"/>
                 <sync:GridTextColumn HeaderText="Survey No *" MappingName="SurveyNo"/>
+                <sync:GridTextColumn HeaderText="Area" MappingName="TotalArea"/>
                 <sync:GridComboBoxColumn HeaderText="Status" ItemsSource="{x:Bind ViewModel.Status,Mode=TwoWay}" AllowEditing="True" DisplayMemberPath="Description" 
                                          SelectedValuePath="Id" MappingName="Status"/>
                 <sync:GridTextColumn HeaderText="Remarks" MappingName="Remarks" AllowEditing="True"/>

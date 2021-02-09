@@ -322,6 +322,7 @@ namespace LandBankManagement.ViewModels
                     await FundTransferService.AddFundTransferAsync(model);
                 else
                     await FundTransferService.UpdateFundTransferAsync(model);
+                ShowPopup("success", "Fund Transfer is Saved");
                 EndStatusMessage("FundTransfer saved");
                 LoadSelectedFundTransfer(model.FundTransferId);
                 LogInformation("FundTransfer", "Save", "FundTransfer saved successfully", $"FundTransfer {model.FundTransferId}  was saved successfully.");
@@ -329,6 +330,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Fund Transfer is not Saved");
                 StatusError($"Error saving FundTransfer: {ex.Message}");
                 LogException("FundTransfer", "Save", ex);
                 return false;
@@ -353,6 +355,7 @@ namespace LandBankManagement.ViewModels
                 StartStatusMessage("Deleting FundTransfer...");
                 FundTransferViewModel.ShowProgressRing();
                 await FundTransferService.DeleteFundTransferAsync(model);
+                ShowPopup("success", "Fund Transfer is deleted");
                 ClearItem();
                 EndStatusMessage("FundTransfer deleted");
                 LogWarning("FundTransfer", "Delete", "FundTransfer deleted", $"Taluk {model.FundTransferId}  was deleted.");
@@ -360,6 +363,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Fund Transfer is not deleted");
                 StatusError($"Error deleting FundTransfer: {ex.Message}");
                 LogException("FundTransfer", "Delete", ex);
                 return false;

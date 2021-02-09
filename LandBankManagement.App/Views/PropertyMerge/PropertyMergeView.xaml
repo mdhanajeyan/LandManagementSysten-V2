@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="ListHeaderTemplate">
             <StackPanel Margin="6,4,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="Property Merge" FontSize="18" />
+                <TextBlock Text="Proposal" FontSize="18" />
                 <TextBlock Text="{Binding}" FontSize="18" Foreground="Gray" />
             </StackPanel>
         </DataTemplate>
@@ -29,7 +29,7 @@
             <PivotItem >
                 <PivotItem.Header>
                     <PivotHeaderItem  >
-                        <TextBlock Text="Property Merge List" FontWeight="Bold" FontSize="17" ></TextBlock>
+                        <TextBlock Text="Proposal List" FontWeight="Bold" FontSize="17" ></TextBlock>
                     </PivotHeaderItem>
                 </PivotItem.Header>
                 <Grid >
@@ -45,7 +45,7 @@
             <PivotItem >
                 <PivotItem.Header>
                     <PivotHeaderItem  >
-                        <TextBlock Text="Property Merge Details" FontWeight="Bold"  FontSize="17"></TextBlock>
+                        <TextBlock Text="Proposal Details" FontWeight="Bold"  FontSize="17"></TextBlock>
                     </PivotHeaderItem>
                 </PivotItem.Header>
                 <Grid>

@@ -58,5 +58,6 @@ namespace LandBankManagement.Views
             var context = ServiceLocator.Current.GetService<IContextService>();
             await ApplicationViewSwitcher.SwitchAsync(context.MainViewID);
         }
+
     }
 }

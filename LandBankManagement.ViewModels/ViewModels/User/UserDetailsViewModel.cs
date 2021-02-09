@@ -87,12 +87,14 @@ namespace LandBankManagement.ViewModels
                 await UserRoleService.AddUserRoleForUserAsync(RoleList.ToList(), model.UserInfoId == 0 ? userID : model.UserInfoId);
 
                 reloadUser(model.UserInfoId == 0 ? userID : model.UserInfoId);
+                ShowPopup("success", "User is Saved");
                 EndStatusMessage("User saved");
                 LogInformation("User", "Save", "User saved successfully", $"User {model.UserInfoId} '{model.UserName}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "User is not Saved");
                 StatusError($"Error saving User: {ex.Message}");
                 LogException("User", "Save", ex);
                 return false;
@@ -122,12 +124,14 @@ namespace LandBankManagement.ViewModels
                 await UserService.DeleteUserInfoAsync(model);
                 ClearItem();
                 await UserListViewModel.RefreshAsync();
+                ShowPopup("success", "User is deleted");
                 EndStatusMessage("User deleted");
                 LogWarning("User", "Delete", "User deleted", $"Taluk {model.UserInfoId} '{model.UserName}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "User is not deleted");
                 StatusError($"Error deleting User: {ex.Message}");
                 LogException("User", "Delete", ex);
                 return false;

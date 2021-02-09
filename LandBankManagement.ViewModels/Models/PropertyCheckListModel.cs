@@ -49,7 +49,7 @@ namespace LandBankManagement.Models
         public string Remarks { get; set; }
         public string CompanyName { get; set; }
         public string VillageName { get; set; }
-
+        public string TotalArea { get; set; }
         public bool IsNew => PropertyCheckListId <= 0;
         public ObservableCollection<PropertyCheckListDocumentsModel> PropertyCheckListDocuments { get; set; }
         public ObservableCollection<CheckListOfPropertyModel> CheckListOfProperties { get; set; }
@@ -107,6 +107,7 @@ namespace LandBankManagement.Models
                 VillageName = source.VillageName;
                 Remarks = source.Remarks;
                 Status = source.Status;
+                TotalArea = source.TotalArea;
             }
         }
 

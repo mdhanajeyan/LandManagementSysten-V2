@@ -299,7 +299,10 @@ namespace LandBankManagement.Data.Services
                                        CompanyName = c.Name,
                                        VillageName = v.VillageName,
                                        Status = r.Status,
-                                       Remarks = r.Remarks
+                                       Remarks = r.Remarks,
+                                       TotalArea = (r.LandAreaInputAcres + r.AKarabAreaInputAcres + r.BKarabAreaInputAcres) + " - " +
+                                (r.LandAreaInputGuntas + r.AKarabAreaInputGuntas + r.BKarabAreaInputGuntas) + " - " +
+                                (r.LandAreaInputAanas + r.AKarabAreaInputAanas + r.BKarabAreaInputAanas)
                                    }).ToList();
 
                 return finalResult;

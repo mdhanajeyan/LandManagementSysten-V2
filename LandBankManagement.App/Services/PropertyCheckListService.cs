@@ -278,7 +278,8 @@ namespace LandBankManagement.Services
                 PropertyDescription =source.PropertyDescription,
                 CheckListMaster=source.CheckListMaster,
                 Remarks=source.Remarks,
-                Status=source.Status
+                Status=source.Status,
+                TotalArea=source.TotalArea
             };
 
            
@@ -325,7 +326,8 @@ namespace LandBankManagement.Services
                 CompanyName=source.CompanyName,
                 VillageName=source.VillageName,
                 PropertyDescription = source.PropertyDescription,
-                CheckListMaster = source.CheckListMaster
+                CheckListMaster = source.CheckListMaster,
+                TotalArea=source.TotalArea
             };
             //if (source.PropertyCheckListDocuments != null && source.PropertyCheckListDocuments.Count > 0)
             //{

@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 namespace LandBankManagement.ViewModels
 {
     public class ViewModelBase : ObservableObject
@@ -38,8 +39,9 @@ namespace LandBankManagement.ViewModels
         public bool IsMainView => ContextService.IsMainView;
 
         virtual public string Title => String.Empty;
-    
 
+       
+       
         public async void LogInformation(string source, string action, string message, string description)
         {
             await LogService.WriteAsync(LogType.Information, source, action, message, description);
@@ -69,6 +71,18 @@ namespace LandBankManagement.ViewModels
         {
             _stopwatch.Stop();
             StatusMessage($"{message} ({_stopwatch.Elapsed.TotalSeconds:#0.000} seconds)");
+        }
+
+        public void ShowPopup(string status, string message) {
+            if(status=="success")
+            MessageService.Send(this, "PopupSuccessMessage", message);
+            if (status == "error")
+                MessageService.Send(this, "PopupErrorMessage", message);
+            //StatusColor = status;
+            // PopupMessage = message;
+            //ShowPopupMessage = true;
+            //Task.Delay(10000);
+            // ShowPopupMessage = false;
         }
 
         public void StatusReady()

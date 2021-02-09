@@ -396,7 +396,7 @@ namespace LandBankManagement.ViewModels
                     paymentId = await PaymentsService.AddPaymentAsync(model);
                 else
                     await PaymentsService.UpdatePaymentAsync(model);
-
+                ShowPopup("success", "Payment is Saved");
                 var item = await PaymentsService.GetPaymentAsync(paymentId == 0 ? model.PaymentId : paymentId);
                 Item = item;
                // PaymentList = item.PaymentListModel;
@@ -407,6 +407,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Payment is not Saved");
                 StatusError($"Error saving Payments: {ex.Message}");
                 LogException("Payments", "Save", ex);
                 return false;
@@ -465,12 +466,14 @@ namespace LandBankManagement.ViewModels
                 PaymentsViewModel.ShowProgressRing();
                 await PaymentsService.DeletePaymentAsync(model);
                 ClearItem();
+                ShowPopup("success", "Payment is deleted");
                 EndStatusMessage("Payments deleted");
                 LogWarning("Payments", "Delete", "Payments deleted", $"Taluk {model.PaymentId}  was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Payment is not deleted");
                 StatusError($"Error deleting Payments: {ex.Message}");
                 LogException("Payments", "Delete", ex);
                 return false;

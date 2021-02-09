@@ -234,7 +234,7 @@ namespace LandBankManagement.ViewModels
                     await PartyService.AddPartyAsync(model, DocList);
                 else
                     await PartyService.UpdatePartyAsync(model, DocList);
-
+                ShowPopup("success", "Party is Saved");
                 DocList = model.partyDocuments;
                 EndStatusMessage("Party saved");
                 if (FromProperty) {
@@ -246,6 +246,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Party is not Saved");
                 StatusError($"Error saving Party: {ex.Message}");
                 LogException("Party", "Save", ex);
                 return false;
@@ -271,6 +272,7 @@ namespace LandBankManagement.ViewModels
                     EndStatusMessage("Party is not deleted");
                     return false;
                 }
+                ShowPopup("success", "Party is deleted");
                 EndStatusMessage("Party deleted");
                 ClearItem();
                 LogWarning("Party", "Delete", "Party deleted", $"Party {model.PartyId} '{model.PartyName}' was deleted.");
@@ -278,6 +280,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                ShowPopup("error", "Party is not deleted");
                 StatusError($"Error deleting Party: {ex.Message}");
                 LogException("Party", "Delete", ex);
                 return false;

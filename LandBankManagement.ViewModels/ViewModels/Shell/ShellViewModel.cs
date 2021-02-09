@@ -49,6 +49,34 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _isError, value);
         }
 
+        private bool _showSuccessPopupMessage = false;
+        public bool ShowSuccessPopupMessage
+        {
+            get => _showSuccessPopupMessage;
+            set => Set(ref _showSuccessPopupMessage, value);
+        }
+        private bool _showErrorPopupMessage = false;
+        public bool ShowErrorPopupMessage
+        {
+            get => _showErrorPopupMessage;
+            set => Set(ref _showErrorPopupMessage, value);
+        }
+
+        private string _popupMessage;
+        public string PopupMessage
+        {
+            get => _popupMessage;
+            set => Set(ref _popupMessage, value);
+        }
+
+        private string _statusColor;
+        public string StatusColor
+        {
+            get => _statusColor;
+            set => Set(ref _statusColor, value);
+        }
+
+
         public ShellArgs ViewModelArgs { get; protected set; }
 
         virtual public Task LoadAsync(ShellArgs args)
@@ -128,6 +156,19 @@ namespace LandBankManagement.ViewModels
                         IsEnabled = message == "EnableAllViews";
                         SetStatus(status);
                     });
+                    break;
+                case "PopupSuccessMessage":
+                  
+                    PopupMessage = status;
+                    ShowSuccessPopupMessage = true;
+                    await Task.Delay(TimeSpan.FromSeconds(7));
+                    ShowSuccessPopupMessage = false;
+                    break;
+                case "PopupErrorMessage":
+                    PopupMessage = status;
+                    ShowErrorPopupMessage = true;
+                    await Task.Delay(TimeSpan.FromSeconds(7));
+                    ShowErrorPopupMessage = false;
                     break;
             }
         }
