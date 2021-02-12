@@ -106,7 +106,11 @@ namespace LandBankManagement.ViewModels
                 AddressLine2 = model.AddressLine2,
                 City = model.City,
                 PinCode = model.PinCode,
-                SalutationType=model.SalutationType
+                SalutationType=model.SalutationType,
+                BankName=model.BankName,
+                BranchName=model.BranchName,
+                AccountNumber=model.AccountNumber,
+                IFSCCode=model.IFSCCode
             };
                
             DocList = model.VendorDocuments;
