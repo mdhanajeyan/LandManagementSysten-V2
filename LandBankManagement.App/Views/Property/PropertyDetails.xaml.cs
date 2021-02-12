@@ -5,6 +5,7 @@ using System;
 using LandBankManagement.Converters;
 using LandBankManagement.Services;
 using Windows.UI.Xaml.Media;
+using System.Linq;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -250,6 +251,13 @@ namespace LandBankManagement.Views
         private void ResetDocType_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ResetDocumentTypeOption();
+        }
+
+        private void LandArea_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
+        {
+            sender.Text = new String(sender.Text.Where(x => char.IsDigit(x) || x == '.').ToArray());
+            sender.SelectionStart = sender.Text.Length;
+
         }
     }
 }

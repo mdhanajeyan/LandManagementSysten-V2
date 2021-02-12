@@ -1,5 +1,6 @@
 ﻿using LandBankManagement.ViewModels;
 using System;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 namespace LandBankManagement.Views
@@ -57,6 +58,12 @@ namespace LandBankManagement.Views
         private void saleValue_LostFocus(object sender, RoutedEventArgs e)
         {
             ViewModel.CalculateSaleValue();
+        }
+
+        private void salevalue2_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
+        {
+            sender.Text = new String(sender.Text.Where(x=>char.IsDigit(x)||x=='.' ).ToArray());
+            sender.SelectionStart = sender.Text.Length;
         }
     }
 }

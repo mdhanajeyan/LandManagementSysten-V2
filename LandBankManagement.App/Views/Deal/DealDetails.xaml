@@ -36,13 +36,13 @@
                             <StackPanel HorizontalAlignment="Stretch">
                                 <TextBlock Text="Sale Value 1 :" Foreground="{StaticResource TextControlTextBlockHeaderForeground}" HorizontalAlignment="Right" />
                             </StackPanel>
-                            <TextBox x:Name="saleValue" Text="{x:Bind Sale1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="20" BorderBrush="#a3a0a0" BorderThickness="0.5" LostFocus="saleValue_LostFocus"/>
+                            <TextBox x:Name="saleValue" Text="{x:Bind Sale1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="20" BorderBrush="#a3a0a0" BorderThickness="0.5" LostFocus="saleValue_LostFocus" TextChanging="salevalue2_TextChanging"/>
                         </controls:FluidGrid>
                         <controls:FluidGrid  ColumnSpan="2" Columns="2" ColumnSpacing="10" Margin="0 20 0 0">
                             <StackPanel HorizontalAlignment="Stretch">
                                 <TextBlock Text="Sale Value 2 :" Foreground="{StaticResource TextControlTextBlockHeaderForeground}"  HorizontalAlignment="Right"/>
                             </StackPanel>
-                            <TextBox Text="{x:Bind Sale2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderBrush="#a3a0a0" BorderThickness="0.5" LostFocus="saleValue_LostFocus"/>
+                            <TextBox x:Name="salevalue2" Text="{x:Bind Sale2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" BorderBrush="#a3a0a0" BorderThickness="0.5" LostFocus="saleValue_LostFocus" TextChanging="salevalue2_TextChanging"/>
                         </controls:FluidGrid>
                         <controls:FluidGrid  ColumnSpan="2" Columns="2" ColumnSpacing="10" Margin="0 20 0 0">
                             <StackPanel HorizontalAlignment="Stretch">
@@ -197,8 +197,8 @@
                         <CalendarDatePicker  BorderBrush="#cfcbca" BorderThickness="1" x:Name="paymentDateCalender" HorizontalAlignment="Stretch" Date="{x:Bind CurrentSchedule.ScheduleDate,Mode=TwoWay,Converter={StaticResource DateTimeOffsetConverter},UpdateSourceTrigger=PropertyChanged}" DateFormat="{}{day.integer}/{month.integer}/{year.full}" Style="{StaticResource CalendarPickerStyle}"/>
                         </StackPanel>
                         <controls:FormTextBox Header="Description " Text="{x:Bind CurrentSchedule.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <controls:FormTextBox x:Name="Amount" Header="Amount 1 " Text="{x:Bind CurrentSchedule.Amount1,Converter={StaticResource DecimalConverter}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Amount_LostFocus"/>
-                        <controls:FormTextBox Header="Amount2" Text="{x:Bind CurrentSchedule.Amount2,Converter={StaticResource DecimalConverter}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Amount_LostFocus"/>
+                        <controls:FormTextBox x:Name="Amount" Header="Amount 1 " Text="{x:Bind CurrentSchedule.Amount1,Converter={StaticResource DecimalConverter}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Amount_LostFocus" TextChanging="salevalue2_TextChanging"/>
+                        <controls:FormTextBox Header="Amount2" Text="{x:Bind CurrentSchedule.Amount2,Converter={StaticResource DecimalConverter}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" LostFocus="Amount_LostFocus" TextChanging="salevalue2_TextChanging"/>
                     </controls:FluidGrid>
 
                     <controls:FluidGrid  ColumnSpan="2" Columns="1" ColumnSpacing="10" Margin="0 20 0 0" HorizontalAlignment="Center">

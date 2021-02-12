@@ -226,9 +226,15 @@ namespace LandBankManagement.ViewModels
         }
 
         public void CalculateSaleValue() {
-            Item.SaleValue1 = string.IsNullOrEmpty(Sale1) ? 0 : Convert.ToDecimal(Sale1);
-            Item.SaleValue2 = string.IsNullOrEmpty(Sale2) ? 0 : Convert.ToDecimal(Sale2);
-            SaleTotal = (Item.SaleValue1 + Item.SaleValue2).ToString();
+            try
+            {
+                Item.SaleValue1 = string.IsNullOrEmpty(Sale1) ? 0 : Convert.ToDecimal(Sale1);
+                Item.SaleValue2 = string.IsNullOrEmpty(Sale2) ? 0 : Convert.ToDecimal(Sale2);
+                SaleTotal = (Item.SaleValue1 + Item.SaleValue2).ToString();
+            }
+            catch (Exception ex) {
+                DialogService.ShowAsync("", "Please enter the correct sale value","OK");
+            }
         }
         private void CalculateTotalAMounts()
         {
@@ -375,11 +381,9 @@ namespace LandBankManagement.ViewModels
             yield return new ValidationConstraint<DealModel>("Sale value 1 must be entered", m => Convert.ToDecimal(Sale1) > 0);
             yield return new ValidationConstraint<DealModel>("Sale value 2 must be entered", m => Convert.ToDecimal(Sale2) > 0);
             yield return new ValidationConstraint<DealModel>("Total of Amount 1 must be equal to Sale value 1", m => Convert.ToDecimal(Sale1)== Convert.ToDecimal(TotalAmount1??"0"));
-            yield return new ValidationConstraint<DealModel>("Total of Amount 2 must be equal to Sale value 2", m => Convert.ToDecimal(Sale2)== Convert.ToDecimal(TotalAmount2??"0"));
-           
+            yield return new ValidationConstraint<DealModel>("Total of Amount 2 must be equal to Sale value 2", m => Convert.ToDecimal(Sale2)== Convert.ToDecimal(TotalAmount2??"0"));         
 
         }
-
 
         /*
          *  Handle external messages

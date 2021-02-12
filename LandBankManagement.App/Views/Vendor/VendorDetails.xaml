@@ -40,7 +40,7 @@
                     <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="6"/>
                     <controls:FormTextBox Header="City / VIllage" Text="{x:Bind EditableItem.City, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="120" />
                 </controls:FluidGrid>
-                    <controls:FormComboBox Grid.Column="0"  Header="Salutation" ItemsSource="{x:Bind GroupOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    <controls:FormComboBox Grid.Column="0"  Header="Group" ItemsSource="{x:Bind GroupOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.GroupId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                     <controls:FormTextBox Header="Bank Name" Text="{x:Bind EditableItem.BankName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
