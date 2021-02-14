@@ -259,7 +259,8 @@ namespace LandBankManagement.Data.Services
         Task<Dictionary<int, string>> GetDealPartiesOptions(int dealId);
         Task<Dictionary<int, string>> GetPartyOptionsByGroup(int groupId);
         Task<Dictionary<int, string>> GetGroupsOptionsForParty();
-        Task<int> AddPropertyCheckListAsync(PropertyCheckList model);
+        Task<Dictionary<int, string>> GetGroupsOptionsForVendor();
+         Task<int> AddPropertyCheckListAsync(PropertyCheckList model);
         Task<PropertyCheckList> GetPropertyCheckListAsync(long id);
         Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(DataRequest<PropertyCheckList> request);
         Task<IList<PropertyCheckList>> GetPropertyCheckListAsync(int skip, int take, DataRequest<PropertyCheckList> request);

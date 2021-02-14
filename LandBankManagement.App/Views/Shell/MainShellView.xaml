@@ -302,8 +302,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Popup IsOpen="{x:Bind ViewModel.ShowSuccessPopupMessage,Mode=TwoWay}" MinWidth="200" Height="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin=" 0 30 0 0">
-            <Grid  Background="#00913b" MinWidth="200">
+        <Popup IsOpen="{x:Bind ViewModel.ShowSuccessPopupMessage,Mode=TwoWay}" MinWidth="350" Height="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin=" 0 30 0 0">
+            <Grid  Background="#aeea00" MinWidth="350" BorderBrush="#98cc03" BorderThickness="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="Auto"/>
@@ -314,11 +314,11 @@
                         <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                     </Button.Resources>
                 </Button>
-                <TextBlock Padding="20" Grid.Row="1" Text="{x:Bind ViewModel.PopupMessage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Foreground="#fff" FontSize="15" FontWeight="Medium" />
+                <TextBlock Padding="20 5 20 20" Grid.Row="1" Text="{x:Bind ViewModel.PopupMessage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Foreground="#18541b" FontSize="15" FontWeight="Medium" />
             </Grid>
         </Popup>
-        <Popup IsOpen="{x:Bind ViewModel.ShowErrorPopupMessage,Mode=TwoWay}" MinWidth="200" Height="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin=" 0 30 0 0">
-            <Grid  Background="#f93154" MinWidth="200">
+        <Popup IsOpen="{x:Bind ViewModel.ShowErrorPopupMessage,Mode=TwoWay}" MinWidth="350" Height="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin=" 0 30 0 0">
+            <Grid  Background="#f93154" MinWidth="350" BorderBrush="#980b24" BorderThickness="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="Auto"/>

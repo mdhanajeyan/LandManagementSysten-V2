@@ -22,6 +22,7 @@ namespace LandBankManagement.ViewModels
             Children = new ObservableCollection<NavigationItem>
             {
                  new NavigationItem(0xf1ad, "Company", typeof(CompanyViewModel)){Screen=NavigationScreen.Company},
+                   new NavigationItem(0xE902, "Groups", typeof(GroupsViewModel)){Screen=NavigationScreen.Groups},
                  new NavigationItem(0xf21d, "Vendor", typeof(VendorViewModel)){Screen=NavigationScreen.Vendor},
                  new NavigationItem(0xf263, "Party", typeof(PartyViewModel)){Screen=NavigationScreen.Party},
                  new NavigationItem(0xf19c, "Bank", typeof(BankAccountViewModel)){Screen=NavigationScreen.Bank},
@@ -32,9 +33,7 @@ namespace LandBankManagement.ViewModels
                  new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel)){Screen=NavigationScreen.Village},
                  new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
                  new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel)){Screen=NavigationScreen.PropertyType},
-                 new NavigationItem(0xF8A5, "Document Type", typeof(DocumentTypeViewModel)){Screen=NavigationScreen.DocumentType},
-                 new NavigationItem(0xE902, "Groups", typeof(GroupsViewModel)){Screen=NavigationScreen.Groups},
-                
+                 new NavigationItem(0xF8A5, "Document Type", typeof(DocumentTypeViewModel)){Screen=NavigationScreen.DocumentType}               
 
             }
         };

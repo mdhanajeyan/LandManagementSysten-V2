@@ -155,6 +155,10 @@ namespace LandBankManagement.Data.Services
         {
             return await _dataSource.Groups.Where(x=>x.GroupType==1).Select(x => new { x.GroupId, x.GroupName }).ToDictionaryAsync(t => t.GroupId, t => t.GroupName);
         }
+        public async Task<Dictionary<int, string>> GetGroupsOptionsForVendor()
+        {
+            return await _dataSource.Groups.Where(x => x.GroupType == 2).Select(x => new { x.GroupId, x.GroupName }).ToDictionaryAsync(t => t.GroupId, t => t.GroupName);
+        }
         public async  Task<Dictionary<int, string>> GetPartyOptions(string party)
         {
             return await _dataSource.Parties.Where(x=>x.PartyFirstName.Contains(party)).Select(x => new { x.PartyId, x.PartyFirstName }).ToDictionaryAsync(t => t.PartyId, t => t.PartyFirstName);

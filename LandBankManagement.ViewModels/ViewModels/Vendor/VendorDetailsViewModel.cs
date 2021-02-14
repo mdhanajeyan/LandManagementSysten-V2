@@ -57,7 +57,7 @@ namespace LandBankManagement.ViewModels
             Item.IsVendorActive = true;
             IsEditMode = true;
             SolutationOptions = DropdownService.GetSalutationOptions();
-            GroupOptions = await DropdownService.GetGroupsOptions();
+            GroupOptions = await DropdownService.GetGroupsOptionsForVendor();
         }
         public void Unload()
         {
