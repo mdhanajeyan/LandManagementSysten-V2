@@ -50,7 +50,7 @@ namespace LandBankManagement
             NavigationService.Register<DashboardViewModel, DashboardView>();
 
             NavigationService.Register<CompanyViewModel, CompanyView>();
-            NavigationService.Register<CompanyDetailsViewModel, CompanyView>();
+            
             NavigationService.Register<CompanyReportViewModel, CompanyReportView>();
 
             NavigationService.Register<AppLogsViewModel, AppLogsView>();
@@ -58,10 +58,9 @@ namespace LandBankManagement
             NavigationService.Register<SettingsViewModel, SettingsView>();
 
             NavigationService.Register<VendorViewModel, VendorView>();
-            NavigationService.Register<VendorDetailsViewModel, VendorView>();
-
+            
             NavigationService.Register<PartyViewModel, PartyView>();
-            NavigationService.Register<PartyDetailsViewModel, PartyView>();
+            
             NavigationService.Register<ExpenseHeadViewModel, ExpenseHeadView>();
             NavigationService.Register<TalukViewModel, TalukView>();
             NavigationService.Register<HobliViewModel, HobliView>();
