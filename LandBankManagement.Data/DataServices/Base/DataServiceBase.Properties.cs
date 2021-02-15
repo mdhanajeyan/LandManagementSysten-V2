@@ -323,7 +323,8 @@ dt in _dataSource.DocumentTypes on pd.DocumentTypeId equals dt.DocumentTypeId
                                             BKarabAreaInSqMts = pd.BKarabAreaInSqMts,
                                             BKarabAreaInSqft = pd.BKarabAreaInSqft,
                                             SaleValue1 = pd.SaleValue1,
-                                            SaleValue2 = pd.SaleValue2
+                                            SaleValue2 = pd.SaleValue2,
+                                            LandArea=CalculateArea(pd)
                                         }).ToList();
 
                 prop.PropertyDocumentType = propDocumentTypes;
@@ -331,7 +332,7 @@ dt in _dataSource.DocumentTypes on pd.DocumentTypeId equals dt.DocumentTypeId
 
             return records;
         }
-
+      
         public async Task<int> GetPropertiesCountAsync(DataRequest<Property> request)
         {
             IQueryable<Property> items = _dataSource.Properties;
@@ -549,16 +550,7 @@ dt in _dataSource.DocumentTypes on pd.DocumentTypeId equals dt.DocumentTypeId
             catch (Exception ex) {
                 throw ex;
             }
-        }
-
-        private decimal CalculateArea(decimal area, decimal guntas, decimal anas) {
-
-            var anasToGuntas = 40 / anas;
-            var guntasToAcres = (guntas + anasToGuntas) *Convert.ToDecimal( 0.024999977898914);
-            var acres = area + guntasToAcres;
-
-            return acres;
-        }
+        }       
 
         public async Task<PropertyCostDetails> GetPropertyCostDetails(int propDocTypeId)
         {

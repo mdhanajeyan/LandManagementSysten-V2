@@ -37,6 +37,8 @@ namespace LandBankManagement.Data
         [NotMapped]
         public string DocumentTypeName { get; set; }
         [NotMapped]
+        public string LandArea { get; set; }
+        [NotMapped]
         public IList<PropertyDocuments> PropertyDocuments { get; set; }
     }
 }

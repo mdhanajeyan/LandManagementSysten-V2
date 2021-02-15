@@ -35,6 +35,7 @@ namespace LandBankManagement.Models
         public string BKarabAreaInSqft { get; set; }
         public decimal SaleValue1 { get; set; }
         public decimal SaleValue2 { get; set; }
+        public string LandArea { get; set; }
         public ObservableCollection<ImagePickerResult> PropertyDocuments { get; set; }
     }
 }

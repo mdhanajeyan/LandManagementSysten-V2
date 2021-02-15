@@ -167,12 +167,14 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="80"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="Property Name" Grid.Column="0" Padding="20 7 0 0"/>
                                     <TextBlock Text="Document No" Grid.Column="1" Padding="20 7 0 0"/>
                                     <TextBlock Text="Survey No" Grid.Column="2" Padding="20 7 0 0"/>
-                                    <TextBlock Text="Add Document Type" Grid.Column="3" Padding="0 7 0 0"/>
+                                    <TextBlock Text="Area" Grid.Column="3" Padding="20 7 0 0"/>
+                                    <TextBlock Text="Add Document Type" Grid.Column="4" Padding="0 7 0 0"/>
 
                                 </Grid>
 
@@ -213,11 +215,16 @@
                                                 <DataTemplate>
                                                     <Grid  HorizontalAlignment="Stretch" BorderBrush="#78909C" BorderThickness="1 0 1 1">
                                                         <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="*"/>                                                           
+                                                            <ColumnDefinition Width="*"/>                                                           
+                                                            <ColumnDefinition Width="*"/>                                                           
+                                                            <ColumnDefinition Width="*"/>                                                           
+                                                            <ColumnDefinition Width="*"/>                                                           
                                                             <ColumnDefinition Width="80"/>
                                                         </Grid.ColumnDefinitions>
                                                         <TextBlock Text="{Binding DocumentType}" Grid.Column="0" Foreground="#757575"   FontSize="16"  Padding="30 10 5 0"  TextTrimming="CharacterEllipsis"  HorizontalAlignment="Left"></TextBlock>
-                                                        <Button x:Name="CostDetails" Grid.Column="1"  Tag="{Binding Path=PropertyDocumentTypeId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="CostDetails_Click" ToolTipService.ToolTip="Cost Details">
+                                                        <TextBlock Text="{Binding LandArea}" Grid.Column="3" Foreground="#757575"   FontSize="16"  Padding="10 10 5 0"  TextTrimming="CharacterEllipsis"  HorizontalAlignment="Left"></TextBlock>
+                                                        <Button x:Name="CostDetails" Grid.Column="5"  Tag="{Binding Path=PropertyDocumentTypeId}"  Width="35" Height="35"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Center" Click="CostDetails_Click" ToolTipService.ToolTip="Cost Details">
                                                             <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE825;" Foreground="#757575" FontWeight="Medium"  HorizontalAlignment="Left"/>
                                                             <Button.Resources>
                                                                 <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>

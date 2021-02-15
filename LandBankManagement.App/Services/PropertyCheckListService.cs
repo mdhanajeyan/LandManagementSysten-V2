@@ -281,8 +281,10 @@ namespace LandBankManagement.Services
                 Status=source.Status,
                 TotalArea=source.TotalArea
             };
+            var area = model.TotalArea.Split('-');
+            var calculatedArea = LandBankManagement.AreaConvertor.ConvertArea(Convert.ToDecimal(area[0]), Convert.ToDecimal(area[1]), Convert.ToDecimal(area[2]));
+            model.TotalArea = calculatedArea.Acres + " - " + calculatedArea.Guntas + " - " + calculatedArea.Anas;
 
-           
 
             return model;
         }
