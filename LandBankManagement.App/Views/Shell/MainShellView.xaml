@@ -303,16 +303,19 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Popup IsOpen="{x:Bind ViewModel.ShowSuccessPopupMessage,Mode=TwoWay}" MinWidth="350" Height="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin=" 0 30 0 0">
-            <Grid  Background="#aeea00" MinWidth="350" BorderBrush="#98cc03" BorderThickness="2">
+            <Grid  Background="#ace607" MinWidth="350" BorderBrush="#98cc03" BorderThickness="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Button  Grid.Column="0"  Width="30" Height="30"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Popup_closeBtn_Click">
+                <Button  Grid.Column="0"  Width="30" Height="30"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Popup_closeBtn_Click" ToolTipService.ToolTip="Close ( Shift + x )">
                     <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE8BB;" Foreground="#fff" FontWeight="Normal"  HorizontalAlignment="Left"/>
                     <Button.Resources>
                         <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                     </Button.Resources>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="x" Modifiers="Shift"/>
+                    </Button.KeyboardAccelerators>
                 </Button>
                 <TextBlock Padding="20 5 20 20" Grid.Row="1" Text="{x:Bind ViewModel.PopupMessage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Foreground="#18541b" FontSize="15" FontWeight="Medium" />
             </Grid>
@@ -323,11 +326,14 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Button  Grid.Column="0"  Width="30" Height="30"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Popup_closeBtn_Click">
+                <Button  Grid.Column="0"  Width="30" Height="30"  Background="Transparent" Padding="5 5 5 5"  HorizontalAlignment="Right" Click="Popup_closeBtn_Click" ToolTipService.ToolTip="Close ( Shift + x )">
                     <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xE8BB;" Foreground="#fff" FontWeight="Normal"  HorizontalAlignment="Left"/>
                     <Button.Resources>
                         <CornerRadius x:Key="ControlCornerRadius">15</CornerRadius>
                     </Button.Resources>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="x" Modifiers="Shift"/>
+                    </Button.KeyboardAccelerators>
                 </Button>
                 <TextBlock Padding="10" Grid.Row="1" Text="{x:Bind ViewModel.PopupMessage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Foreground="#fff"  FontSize="15" FontWeight="Medium" />
             </Grid>

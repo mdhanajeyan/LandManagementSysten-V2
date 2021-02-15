@@ -32,6 +32,8 @@ namespace LandBankManagement.Services
             return CurrentProperty;
         }
         public void AddParty(PropertyPartyModel propertyPartyModel) {
+            if (CurrentProperty.PartyList == null)
+                CurrentProperty.PartyList = new ObservableCollection<PropertyPartyModel>();
             CurrentProperty.PartyList.Add(propertyPartyModel);
         }
 

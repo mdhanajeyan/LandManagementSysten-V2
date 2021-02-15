@@ -78,7 +78,7 @@ namespace LandBankManagement.ViewModels
             PartyViewModel.ShowProgressRing();
             VendorOptions =await DropDownService.GetVendorOptions();
             SolutationOptions = DropDownService.GetSalutationOptions();
-            GroupOptions = await DropDownService.GetGroupsOptions();
+            GroupOptions = await DropDownService.GetGroupsOptionsForParty();
             PartyViewModel.HideProgressRing();
         }
         public void Unload()
