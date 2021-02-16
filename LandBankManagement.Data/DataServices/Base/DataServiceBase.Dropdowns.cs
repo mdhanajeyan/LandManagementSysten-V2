@@ -159,17 +159,20 @@ namespace LandBankManagement.Data.Services
         {
             return await _dataSource.Groups.Where(x => x.GroupType == 2).Select(x => new { x.GroupId, x.GroupName }).ToDictionaryAsync(t => t.GroupId, t => t.GroupName);
         }
-        public async  Task<Dictionary<string, string>> GetPartyOptions(string party)
+        public async  Task<List<DropDownList>> GetPartyOptions(string party)
         {
-            var Parties = await _dataSource.Parties.Where(x=>x.PartyFirstName.Contains(party))
-                .Select(x => new {x.PartyId, x.PartyFirstName })
-                .ToDictionaryAsync(t => "Party " + t.PartyId, t => t.PartyFirstName);
+            var Parties = await _dataSource.Parties.Where(x => x.PartyFirstName.Contains(party))
+                .Select(x => new DropDownList { Id = x.PartyId, Description = x.PartyFirstName })
+                .ToListAsync();
 
-           var PartyGroups = await _dataSource.Groups.Where(x => x.GroupName.Contains(party))
-                .Select(x => new { x.GroupId, x.GroupName })
-                .ToDictionaryAsync(t => "Group "+ t.GroupId, t => t.GroupName);
-
-           return (Dictionary<string, string>)Parties.Concat(PartyGroups);
+            var PartyGroups = await _dataSource.Groups.Where(x => x.GroupType == 1 && x.GroupName.Contains(party))
+                 .Select(x => new DropDownList { Id = x.GroupId, Description = "Group- " + x.GroupName }).ToListAsync();
+               
+            if (Parties.Count == 0)
+                return PartyGroups;
+            else
+                PartyGroups.ToList().ForEach(x => Parties.Add(x));
+           return Parties;
         }
 
         public async Task<Dictionary<int, string>> GetPropertyTypeOptions()
@@ -182,9 +185,30 @@ namespace LandBankManagement.Data.Services
             return await _dataSource.Roles.Select(x => new { x.RoleId, x.Name }).ToDictionaryAsync(t => t.RoleId, t => t.Name);
         }
 
-        public async Task<Dictionary<int, string>> GetVendorOptions(string party)
+        public async Task<List<DropDownList>> GetVendorOptions(string vendor)
         {
-            return await _dataSource.Vendors.Where(x => x.VendorName.Contains(party)).Select(x => new { x.VendorId, x.VendorName }).ToDictionaryAsync(t => t.VendorId, t => t.VendorName);
+            var vendors = await _dataSource.Vendors.Where(x => x.VendorName.Contains(vendor))
+               .Select(x => new DropDownList { Id = x.VendorId, Description = "Vendor- " + x.VendorName }).ToListAsync();
+
+            var vendorGroups = await _dataSource.Groups.Where(x => x.GroupType == 2 && x.GroupName.Contains(vendor))
+                 .Select(x => new DropDownList { Id = x.GroupId, Description = "Group- " + x.GroupName }).ToListAsync();
+            if (vendors.Count == 0)
+                return vendorGroups;
+            else
+                vendorGroups.ForEach(x => vendors.Add(x));
+            return vendors;
+            //var vendors = await _dataSource.Vendors.Where(x => x.VendorName.Contains(vendor))
+            //    .Select(x => new { x.VendorId, x.VendorName }).ToDictionaryAsync(t => t.VendorId.ToString(), t => "Vendor- " + t.VendorName);
+
+            //var vendorGroups = await _dataSource.Groups.Where(x => x.GroupType == 2 && x.GroupName.Contains(vendor))
+            //     .Select(x => new { x.GroupId, x.GroupName })
+            //     .ToDictionaryAsync(t => t.GroupId.ToString(), t => "Group- " + t.GroupName);
+            //if (vendors.Count == 0)
+            //    return vendorGroups;
+            //else
+            //    vendorGroups.ToList().ForEach(x => vendors.Add(x.Key, x.Value));
+            //return vendors;
+            // return await _dataSource.Vendors.Where(x => x.VendorName.Contains(party)).Select(x => new { x.VendorId, x.VendorName }).ToDictionaryAsync(t => t.VendorId, t => t.VendorName);
         }
 
         public async Task<Dictionary<int, string>> GetCheckListOptions()

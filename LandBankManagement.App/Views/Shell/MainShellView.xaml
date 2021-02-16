@@ -303,7 +303,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Popup IsOpen="{x:Bind ViewModel.ShowSuccessPopupMessage,Mode=TwoWay}" MinWidth="350" Height="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin=" 0 30 0 0">
-            <Grid  Background="#ace607" MinWidth="350" BorderBrush="#98cc03" BorderThickness="2">
+            <Grid  Background="#B3E5FC" MinWidth="350" BorderBrush="#81D4FA" BorderThickness="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="Auto"/>
@@ -317,7 +317,7 @@
                         <KeyboardAccelerator Key="x" Modifiers="Shift"/>
                     </Button.KeyboardAccelerators>
                 </Button>
-                <TextBlock Padding="20 5 20 20" Grid.Row="1" Text="{x:Bind ViewModel.PopupMessage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Foreground="#18541b" FontSize="15" FontWeight="Medium" />
+                <TextBlock Padding="20 5 20 20" Grid.Row="1" Text="{x:Bind ViewModel.PopupMessage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Foreground="#01579B" FontSize="15" FontWeight="Medium" />
             </Grid>
         </Popup>
         <Popup IsOpen="{x:Bind ViewModel.ShowErrorPopupMessage,Mode=TwoWay}" MinWidth="350" Height="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin=" 0 30 0 0">

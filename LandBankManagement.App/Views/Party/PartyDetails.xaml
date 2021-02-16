@@ -47,14 +47,14 @@
                     <controls:FormTextBox Header="Bank Name" Text="{x:Bind EditableItem.BankName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormTextBox Header="Branch Name" Text="{x:Bind EditableItem.BranchName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <controls:FormTextBox Header="Account Number" Text="{x:Bind EditableItem.AccountNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox x:Name="accountNo" Header="Account Number" Text="{x:Bind EditableItem.AccountNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TextChanging="accountNo_TextChanging" />
                     <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsPartyActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
                         <TextBlock Text="IsActive"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                     </CheckBox>
                 </controls:FluidGrid>
                 <controls:FluidGrid Margin="0,12,0,0" Columns="1" ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
                     <controls:FluidGrid  Columns="1" ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Left">
-                        <controls:FormComboBox x:Name="VendorList" Header="Copy From Vendor Master" ItemsSource="{x:Bind VendorOptions}" Margin="0 0 10 0"
+                        <controls:FormComboBox x:Name="VendorList" Header="Copy From Vendor Master" ItemsSource="{x:Bind VendorOptions}" Margin="0 0 10 0" SelectedValue="{x:Bind SelectedVendor,Mode=TwoWay}"
                                           SelectionChanged="VendorList_SelectionChanged"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                     </controls:FluidGrid>

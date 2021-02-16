@@ -245,10 +245,10 @@ namespace LandBankManagement.Data.Services
         Dictionary<int, string> GetGenderOptions();
         Dictionary<int, string> GetGroupsTypeOptions();
         Task<Dictionary<int, string>> GetGroupsOptions();
-        Task<Dictionary<int, string>> GetPartyOptions(string party);
+        Task<List<DropDownList>> GetPartyOptions(string party);
         Task<Dictionary<int, string>> GetPropertyTypeOptions();
         Task<Dictionary<int, string>> GetRoleOptions();
-        Task<Dictionary<int, string>> GetVendorOptions(string party);
+        Task<List<DropDownList>> GetVendorOptions(string vendor);
         Task<Dictionary<int, string>> GetCheckListOptions();
         Task<Dictionary<int, string>> GetPropertyCheckListOptions();
         Task<Dictionary<int, string>> GetPropertyMergeOptions();

@@ -87,6 +87,8 @@ namespace LandBankManagement.ViewModels
         {
             if (Item.CompanyID > 0)
             {
+                if (DocList == null)
+                    return;
 
                 List<ImagePickerResult> docs = new List<ImagePickerResult>();
                 foreach (var doc in DocList)
@@ -168,6 +170,13 @@ namespace LandBankManagement.ViewModels
                     await CompanyService.UpdateCompanyAsync(model, DocList);
 
                 DocList = model.CompanyDocuments;
+                if (DocList != null)
+                {
+                    for (int i = 0; i < DocList.Count; i++)
+                    {
+                        DocList[i].Identity = i + 1;
+                    }
+                }
                 ShowPopup("success", "Company saved");
                 EndStatusMessage("Company saved");                             
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");

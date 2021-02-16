@@ -1,4 +1,6 @@
 ﻿using LandBankManagement.ViewModels;
+using System;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -27,6 +29,13 @@ namespace LandBankManagement.Views
         private void ChangeCompany_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ResetCompanyOption();
+        }
+
+        private void accountNo_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
+        {
+            sender.Text = new String(sender.Text.Where(x => char.IsDigit(x)).ToArray());
+            sender.SelectionStart = sender.Text.Length;
+
         }
     }
 }

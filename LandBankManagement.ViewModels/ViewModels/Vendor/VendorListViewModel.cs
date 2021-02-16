@@ -18,6 +18,7 @@ namespace LandBankManagement.ViewModels
         {
             OrderBy = r => r.VendorName;
         }
+        public bool FromPropertyCheckList { get; set; } = false;
         public int SelectedPageIndex { get; set; } = 0;
         public bool IsEmpty { get; set; }
 

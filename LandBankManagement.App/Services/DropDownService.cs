@@ -478,8 +478,8 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id =obj.Key.ToString(),
-                        Description = obj.Value
+                        Id =obj.Id.ToString(),
+                        Description = obj.Description
                     });
                 }
                 return list;
@@ -575,8 +575,8 @@ namespace LandBankManagement.Services
                 {
                     list.Add(new ComboBoxOptions
                     {
-                        Id =obj.Key.ToString(),
-                        Description = obj.Value
+                        Id =obj.Id.ToString(),
+                        Description = obj.Description
                     });
                 }
                 return list;

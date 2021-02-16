@@ -26,5 +26,8 @@ namespace LandBankManagement.Services
         Task<ObservableCollection<PropertyCheckListDocumentsModel>> GetDocuments(Guid propertyGuid);
         Task<ObservableCollection<CheckListOfPropertyModel>> GetCheckListOfProperty(int id);
         Task<int> DeleteCheckListOfPropertyAsync(int checkListPropertyId);
+        void StoreItems(PropertyCheckListContainer data);
+        PropertyCheckListContainer GetStoredItems();
+        void AddVendor(PropertyCheckListVendorModel propertyVendorModel);
     }
 }

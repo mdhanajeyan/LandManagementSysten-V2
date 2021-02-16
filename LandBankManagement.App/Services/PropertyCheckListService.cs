@@ -14,13 +14,28 @@ namespace LandBankManagement.Services
     {
         public IDataServiceFactory DataServiceFactory { get; }
         public ILogService LogService { get; }
-
+        public PropertyCheckListContainer CurrentPropertyCheckList { get; set; }
         public PropertyCheckListService(IDataServiceFactory dataServiceFactory, ILogService logService)
         {
             DataServiceFactory = dataServiceFactory;
             LogService = logService;
         }
+        public void StoreItems(PropertyCheckListContainer data)
+        {
+            CurrentPropertyCheckList = data;
+        }
 
+        public PropertyCheckListContainer GetStoredItems()
+        {
+            return CurrentPropertyCheckList;
+        }
+
+        public void AddVendor(PropertyCheckListVendorModel propertyVendorModel)
+        {
+            if (CurrentPropertyCheckList.VendorList == null)
+                CurrentPropertyCheckList.VendorList = new ObservableCollection<PropertyCheckListVendorModel>();
+            CurrentPropertyCheckList.VendorList.Add(propertyVendorModel);
+        }
         public async Task<int> AddPropertyCheckListAsync(PropertyCheckListModel model)
         {
             using (var dataService = DataServiceFactory.CreateDataService())

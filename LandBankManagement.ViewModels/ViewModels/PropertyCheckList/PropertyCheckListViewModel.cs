@@ -36,7 +36,11 @@ namespace LandBankManagement.ViewModels
 
         public async void LoadAsync(PropertyCheckListListArgs args)
         {
-           await PropertyCheckListDetials.LoadAsync();
+            if (args.FromVendor)
+            {
+                SelectedPivotIndex = 1;
+            }
+            await PropertyCheckListDetials.LoadAsync(args.FromVendor);
            await ViewModelList.LoadAsync(args);
         }
         int noOfApiCalls = 0;

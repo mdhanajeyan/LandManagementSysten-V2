@@ -38,12 +38,15 @@ namespace LandBankManagement.ViewModels
         public IDropDownService DropdownService { get; }
         public IFilePickerService FilePickerService { get; }
         private VendorViewModel VendorViewModel { get; set; }
-        public VendorDetailsViewModel(IVendorService vendorService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropdownService, VendorViewModel vendorViewModel) : base(commonServices)
+        private bool FromPropertyCheckList { get; set; }
+        IPropertyCheckListService PropertyCheckListService { get; set; }
+        public VendorDetailsViewModel(IVendorService vendorService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropdownService, VendorViewModel vendorViewModel, IPropertyCheckListService propertyCheckListService) : base(commonServices)
         {
             VendorService = vendorService;
             FilePickerService = filePickerService;
             VendorViewModel = vendorViewModel;
             DropdownService = dropdownService;
+            PropertyCheckListService = propertyCheckListService;
         }
 
         override public string Title => (Item?.IsNew ?? true) ? "New Vendor" : TitleEdit;
@@ -51,11 +54,12 @@ namespace LandBankManagement.ViewModels
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
-        public async Task LoadAsync()
+        public async Task LoadAsync(bool fromProeprtyCheckList)
         {
             Item = new VendorModel { IsVendorActive = true, SalutationType ="1"};
             Item.IsVendorActive = true;
             IsEditMode = true;
+            FromPropertyCheckList = fromProeprtyCheckList;
             SolutationOptions = DropdownService.GetSalutationOptions();
             GroupOptions = await DropdownService.GetGroupsOptionsForVendor();
         }
@@ -105,6 +109,8 @@ namespace LandBankManagement.ViewModels
         {
             if (Item.VendorId > 0)
             {
+                if (DocList == null) 
+                    return;
 
                 List<ImagePickerResult> docs = new List<ImagePickerResult>();
                 foreach (var doc in DocList)
@@ -177,8 +183,20 @@ namespace LandBankManagement.ViewModels
                 else
                     await VendorService.UpdateVendorAsync(model, DocList);
                 DocList = model.VendorDocuments;
+                if (DocList != null)
+                {
+                    for (int i = 0; i < DocList.Count; i++)
+                    {
+                        DocList[i].Identity = i + 1;
+                    }
+                }
                 ShowPopup("success", "Vendor is Saved");
                 EndStatusMessage("Vendor saved");
+                if (FromPropertyCheckList)
+                {
+                    PropertyCheckListService.AddVendor(new PropertyCheckListVendorModel { VendorId = Item.VendorId, VendorName = Item.VendorName });
+                    NavigationService.Navigate(typeof(PropertyViewModel), new PropertyListArgs { FromParty = true });
+                }
                 LogInformation("Vendor", "Save", "Vendor saved successfully", $"Vendor {model.VendorId} '{model.VendorName}' was saved successfully.");
                 return true;
             }
@@ -240,6 +258,7 @@ namespace LandBankManagement.ViewModels
             yield return new ValidationConstraint<VendorModel>("Email is not Valid", x => ValidateEmail(x));
             yield return new ValidationConstraint<VendorModel>("Phone Number is not Valid", x => ValidatePhone(x));
             yield return new ValidationConstraint<VendorModel>("Pin Code is not Valid", x => ValidatePinCode(x));
+            yield return new ValidationConstraint<VendorModel>("Account Number is not valid", x =>(x.AccountNumber==null || x.AccountNumber.Length == 0 )|| (x.AccountNumber.Length >= 9 && x.AccountNumber.Length <= 18));
             //yield return new RequiredConstraint<CompanyModel>("Email", m => m.Email);
             //yield return new RequiredConstraint<CompanyModel>("Phone Number", m => m.PhoneNo);
 
@@ -284,7 +303,7 @@ namespace LandBankManagement.ViewModels
 
         private bool ValidateAadhar(VendorModel model)
         {
-            if (string.IsNullOrEmpty(model.AadharNo))
+            if (string.IsNullOrEmpty(model.AadharNo) || model.AadharNo.Trim() == "")
                 return true;
             if (model.AadharNo.Length < 10)
                 return false;

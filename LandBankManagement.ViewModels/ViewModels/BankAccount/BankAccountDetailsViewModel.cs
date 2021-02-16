@@ -196,7 +196,7 @@ namespace LandBankManagement.ViewModels
             yield return new RequiredConstraint<BankAccountModel>("Bank Name", m => m.BankName);
             yield return new RequiredConstraint<BankAccountModel>("Branck Name", m => m.BranchName);
             yield return new ValidationConstraint<BankAccountModel>("Type of account", m =>Convert.ToInt32( m.AccountTypeId) > 0);
-            yield return new RequiredConstraint<BankAccountModel>("Account Number", m => m.AccountNumber);           
+            yield return new ValidationConstraint<BankAccountModel>("Account Number", m => m.AccountNumber.Length>=9 &&  m.AccountNumber.Length <= 18);           
             yield return new RequiredConstraint<BankAccountModel>("IFSC Code", m => m.IFSCCode);
         }
 

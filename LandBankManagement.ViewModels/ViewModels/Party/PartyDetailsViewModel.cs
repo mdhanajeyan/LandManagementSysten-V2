@@ -34,6 +34,13 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _solutationOptions, value);
         }
 
+        private string _selectedVendor = null;
+        public string SelectedVendor
+        {
+            get => _selectedVendor;
+            set => Set(ref _selectedVendor, value);
+        }
+
         public IPartyService PartyService { get; }
         public IDropDownService DropDownService { get; }
         public IFilePickerService FilePickerService { get; }
@@ -240,6 +247,13 @@ namespace LandBankManagement.ViewModels
                     await PartyService.UpdatePartyAsync(model, DocList);
                 ShowPopup("success", "Party is Saved");
                 DocList = model.partyDocuments;
+                if (DocList != null)
+                {
+                    for (int i = 0; i < DocList.Count; i++)
+                    {
+                        DocList[i].Identity = i + 1;
+                    }
+                }
                 EndStatusMessage("Party saved");
                 if (FromProperty) {
                     PropertyService.AddParty(new PropertyPartyModel { PartyId = Item.PartyId, PartyName = Item.PartyName });
@@ -260,6 +274,7 @@ namespace LandBankManagement.ViewModels
         protected override void ClearItem()
         {
             Item = new PartyModel { SalutationType="1"};
+            SelectedVendor = "0";
             Item.IsPartyActive = true;
             if (DocList != null)
                 DocList.Clear();
@@ -309,6 +324,7 @@ namespace LandBankManagement.ViewModels
             yield return new ValidationConstraint<PartyModel>("Email is not Valid", x => ValidateEmail(x));
             yield return new ValidationConstraint<PartyModel>("Phone Number is not Valid", x => ValidatePhone(x));
             yield return new ValidationConstraint<PartyModel>("Pin Code is not Valid", x => ValidatePinCode(x));
+            yield return new ValidationConstraint<PartyModel>("Account Number is not valid", x => (x.AccountNumber == null ||x.AccountNumber.Length==0 )|| (x.AccountNumber.Length >= 9 && x.AccountNumber.Length <= 18));
         }
         private bool ValidatePanNumber(PartyModel model)
         {
@@ -350,7 +366,7 @@ namespace LandBankManagement.ViewModels
 
         private bool ValidateAadhar(PartyModel model)
         {
-            if (string.IsNullOrEmpty(model.AadharNo))
+            if (string.IsNullOrEmpty(model.AadharNo)|| model.AadharNo.Trim()=="")
                 return true;
             if (model.AadharNo.Length < 10)
                 return false;

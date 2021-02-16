@@ -29,7 +29,7 @@ namespace LandBankManagement.Views
             ViewModel.Subscribe();
             var arg = (e.Parameter as VendorListArgs);
             ViewModel.SelectedPivotIndex = arg.SelectedPageIndex;
-            await ViewModel.VendorDetails.LoadAsync();
+            await ViewModel.VendorDetails.LoadAsync(arg.FromPropertyCheckList);
             await ViewModel.LoadAsync(e.Parameter as VendorListArgs);
            
         }

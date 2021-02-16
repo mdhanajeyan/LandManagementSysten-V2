@@ -334,11 +334,13 @@ namespace LandBankManagement.ViewModels
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
-        public async Task LoadAsync()
+        public async Task LoadAsync(bool fromVendor)
         {
             Item = new PropertyCheckListModel() { PropertyCheckListId = -1, PropertyTypeId = "0", CompanyID = "0", TalukId = "0", HobliId = "0", VillageId = "0", DocumentTypeId = "0" };
             IsEditMode = true;
             await GetDropdowns();
+            if (fromVendor)
+                GetStoredItem();
 
             ResetCompanyOption();
             ResetTalukOption();
@@ -348,6 +350,25 @@ namespace LandBankManagement.ViewModels
             //  PrepareCheckList();
         }
 
+        public void GetStoredItem()
+        {
+            var prop = PropertyCheckListService.GetStoredItems();
+            if (prop != null)
+            {
+                Item = prop.Item;
+                CheckList = prop.CheckList;
+                VendorList = prop.VendorList;
+            }
+        }
+        public void storeItems()
+        {
+            var property = new PropertyCheckListContainer
+            {
+                Item = Item,
+               CheckList=CheckList
+            };
+            PropertyCheckListService.StoreItems(property);
+        }
         public async Task LoadPropertyCheckList(int id) {
             ResetCompanyOption();
             ResetTalukOption();

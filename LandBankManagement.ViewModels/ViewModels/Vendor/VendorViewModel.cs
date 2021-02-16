@@ -25,11 +25,11 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _progressRingActive, value);
         }
 
-        public VendorViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IVendorService vendorService,IDropDownService dropDownService) : base(commonServices) {
+        public VendorViewModel(ICommonServices commonServices, IFilePickerService filePickerService, IVendorService vendorService,IDropDownService dropDownService,IPropertyCheckListService propertyCheckListService) : base(commonServices) {
 
             VendorService = vendorService;
             VendorList = new VendorListViewModel(vendorService, commonServices,this);
-            VendorDetails = new VendorDetailsViewModel(vendorService, filePickerService, commonServices, dropDownService,this);
+            VendorDetails = new VendorDetailsViewModel(vendorService, filePickerService, commonServices, dropDownService,this, propertyCheckListService);
         }
 
         public async Task LoadAsync(VendorListArgs args)
@@ -114,6 +114,7 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                SelectedPivotIndex = 1;
                 ShowProgressRing();
                 var model = await VendorService.GetVendorAsync(selected.VendorId);
                 selected.Merge(model);
@@ -126,7 +127,7 @@ namespace LandBankManagement.ViewModels
                         VendorDetails.DocList[i].Identity = i + 1;
                     }
                 }
-                SelectedPivotIndex = 1;
+                
             }
             catch (Exception ex)
             {

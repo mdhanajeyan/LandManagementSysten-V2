@@ -163,7 +163,8 @@ namespace LandBankManagement.Views
 
         private void Add_vendor_Click(object sender, RoutedEventArgs e)
         {
-             NavigationService.Navigate(typeof(VendorViewModel) ,new VendorListArgs { SelectedPageIndex=1});
+            ViewModel.storeItems();
+            NavigationService.Navigate(typeof(VendorViewModel) ,new VendorListArgs { SelectedPageIndex=1,FromPropertyCheckList=true});
         }
 
         private void fromMasterRB_Checked(object sender, RoutedEventArgs e)

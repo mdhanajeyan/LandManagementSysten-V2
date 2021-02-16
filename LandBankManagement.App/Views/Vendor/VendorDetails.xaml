@@ -15,6 +15,13 @@
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:VendorDetailsViewModel" >
             <controls:FluidGrid Margin="0,12,0,50" Columns="3" ColumnSpacing="40" RowSpacing="12"  HorizontalAlignment="Center">
                 <controls:FluidGrid Margin="0,12,0,0" ColumnSpan="2"  ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
+                    
+                        <controls:FormComboBox  Header="Group" ItemsSource="{x:Bind GroupOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{x:Bind EditableItem.GroupId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />                
+                  
+                </controls:FluidGrid>
+                <controls:FluidGrid ColumnSpan="2"  ColumnSpacing="12" RowSpacing="12"  HorizontalAlignment="Center">
                     <controls:FormTextBox Header="Vendor Name *" Text="{x:Bind EditableItem.VendorName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
                 <controls:FormTextBox Header="Vendor Alias " Text="{x:Bind EditableItem.VendorAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
                     <Grid >
@@ -27,12 +34,18 @@
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
                         <controls:FormTextBox Grid.Column="1" Header="" Height="30" VerticalAlignment="Bottom" Text="{x:Bind EditableItem.VendorSalutation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
+                    <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <controls:FormTextBox Header="PAN " Margin="0 0 3 0" Grid.Column="0" Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
+                        <controls:FormTextBox Header="GSTIN" Margin="3 0 0 0" Grid.Column="1" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="15"/>
+                    </Grid>
                    
-                <controls:FormTextBox Header="PAN " Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
-                <controls:FormTextBox Header="Aadhaar No " Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  MaxLength="12"/>
-                <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="15"/>
-                <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="100"/>
+                    <controls:FormTextBox Header="Aadhaar No " Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  MaxLength="12"/>
+                    <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="100"/>
                 <controls:FormTextBox Header="Phone" Text="{x:Bind EditableItem.PhoneNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="10"/>
                     <controls:FormTextBox Header="Address 1" Text="{x:Bind EditableItem.AddressLine1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
                 <controls:FormTextBox Header="Address 2" Text="{x:Bind EditableItem.AddressLine2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
@@ -40,13 +53,11 @@
                     <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PinCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="6"/>
                     <controls:FormTextBox Header="City / VIllage" Text="{x:Bind EditableItem.City, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="120" />
                 </controls:FluidGrid>
-                    <controls:FormComboBox Grid.Column="0"  Header="Group" ItemsSource="{x:Bind GroupOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValue="{x:Bind EditableItem.GroupId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                   
                     <controls:FormTextBox Header="Bank Name" Text="{x:Bind EditableItem.BankName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormTextBox Header="Branch Name" Text="{x:Bind EditableItem.BranchName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     <controls:FormTextBox Header="IFSC Code" Text="{x:Bind EditableItem.IFSCCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    <controls:FormTextBox Header="Account Number" Text="{x:Bind EditableItem.AccountNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <controls:FormTextBox  x:Name="accountNo" Header="Account Number" Text="{x:Bind EditableItem.AccountNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TextChanging="accountNo_TextChanging"/>
                     <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsVendorActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >
                         <TextBlock Text="IsActive"  Foreground="{StaticResource TextControlTextBlockHeaderForeground}" FontSize="15"/>
                 </CheckBox>
