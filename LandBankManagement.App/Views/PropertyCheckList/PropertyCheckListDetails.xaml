@@ -320,8 +320,12 @@
                                     </ListView.ItemTemplate>
                                 </ListView>
                             </ScrollViewer>
+                                
                         </StackPanel>
-
+                            <StackPanel Orientation="Vertical" Background="#E1F5FE" BorderBrush="#1E88E5" BorderThickness="1" Padding="10" Margin="0 0 10 0">
+                                <TextBlock Text="Total Area" Foreground="#1565C0" Margin="0 0 0 10" FontWeight="Medium"/>
+                                <TextBlock Text="{Binding TotalArea,Mode=TwoWay}" Foreground="#1565C0"/>
+                            </StackPanel>
 
                             <!--<StackPanel Orientation="Vertical" BorderBrush="#81D4FA" BorderThickness="1"  Margin="0 0 10 20" MinHeight="200">
                                 <Grid Background="#81D4FA">

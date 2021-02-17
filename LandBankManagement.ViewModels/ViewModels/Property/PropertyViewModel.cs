@@ -145,6 +145,7 @@ namespace LandBankManagement.ViewModels
                 await PropertyDetials.GetPropertyParties(model.PropertyId);
 
                 PropertyDetials.EnableDocType = false;
+                PropertyDetials.CalculateTotalArea();
                 //  PropertyDetials.DocList = model.PropertyDocuments;
 
                 //if (model.PropertyDocuments != null)
@@ -230,6 +231,7 @@ namespace LandBankManagement.ViewModels
             PropertyDetials.ShowActiveTaluk = false;
             PropertyDetials.ShowActiveHobli = false;
             PropertyDetials.ShowActiveVillage = false;
+           
             //model.DocumentTypeId = 0;
             //PropertyDetials.Item = model;
             //await PropertyDetials.GetPropertyParties(model.PropertyId);

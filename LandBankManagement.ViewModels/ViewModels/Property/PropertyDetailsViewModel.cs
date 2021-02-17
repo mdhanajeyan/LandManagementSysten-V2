@@ -293,6 +293,14 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _showParties, value);
         }
 
+        private string _totalArea;
+        public string TotalArea
+        {
+            get => _totalArea;
+            set => Set(ref _totalArea, value);
+        }
+
+
         public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel propertyListViewModel, PropertyViewModel propertyView) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -373,6 +381,23 @@ namespace LandBankManagement.ViewModels
                 Item.BKarabAreaInSqMts = Math.Round(area.SqMeters,2).ToString();
             }
             RestartItem();
+            CalculateTotalArea();
+        }
+
+        private string formatString(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return "0";
+            else
+                return value;
+        }
+        public void CalculateTotalArea()
+        {
+            var totalAcre = Convert.ToDecimal(formatString(Item.LandAreaInAcres)) + Convert.ToDecimal(formatString(Item.AKarabAreaInAcres)) + Convert.ToDecimal(formatString(Item.BKarabAreaInAcres));
+            var totalGundas = Convert.ToDecimal(formatString(Item.LandAreaInGuntas)) + Convert.ToDecimal(formatString(Item.AKarabAreaInGuntas)) + Convert.ToDecimal(formatString(Item.BKarabAreaInGuntas));
+            var totalAnas = Convert.ToDecimal(formatString(Item.LandAreaInputAanas)) + Convert.ToDecimal(formatString(Item.AKarabAreaInputAanas)) + Convert.ToDecimal(formatString(Item.BKarabAreaInputAanas));
+            var area = AreaConvertor.ConvertArea(totalAcre, totalGundas, totalAnas);
+            TotalArea = area.Acres.ToString() + "-" + area.Guntas.ToString() + "-" + area.Anas.ToString();
         }
         private void RestartItem() {
             var old = Item;
@@ -920,6 +945,7 @@ namespace LandBankManagement.ViewModels
             var temp = EditableItem;
             EditableItem = null;
             EditableItem = temp;
+            CalculateTotalArea();
         }
 
         private async Task ReloadProperty(Guid guid,int propertId) {
@@ -1008,6 +1034,7 @@ namespace LandBankManagement.ViewModels
             ResetHobliOption(null);
             ResetVillageOption(null);
             ResetDocumentTypeOption();
+            TotalArea = "";
         }
         protected override async Task<bool> DeleteItemAsync(PropertyModel model)
         {

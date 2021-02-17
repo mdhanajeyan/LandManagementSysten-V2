@@ -525,10 +525,12 @@ namespace LandBankManagement.Services
             target.BKarabAreaInSqft = source.BKarabAreaInSqft.ToString();
             target.SaleValue1 = source.SaleValue1;
             target.SaleValue2 = source.SaleValue2;
-
-              var area = source.LandArea.Split('-');
-                var calculatedArea = LandBankManagement.AreaConvertor.ConvertArea(Convert.ToDecimal( area[0]), Convert.ToDecimal(area[1]), Convert.ToDecimal(area[2]));
-            target.LandArea  = calculatedArea.Acres + " - " + calculatedArea.Guntas + " - " + calculatedArea.Anas;
+            if (source.LandArea != null && source.LandArea != "")
+            {
+                var area = source.LandArea.Split('-');
+                var calculatedArea = LandBankManagement.AreaConvertor.ConvertArea(Convert.ToDecimal(area[0]), Convert.ToDecimal(area[1]), Convert.ToDecimal(area[2]));
+                target.LandArea = calculatedArea.Acres + " - " + calculatedArea.Guntas + " - " + calculatedArea.Anas;
+            }
            
         }
 
