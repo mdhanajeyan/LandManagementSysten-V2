@@ -195,7 +195,7 @@ namespace LandBankManagement.ViewModels
                 if (FromPropertyCheckList)
                 {
                     PropertyCheckListService.AddVendor(new PropertyCheckListVendorModel { VendorId = Item.VendorId, VendorName = Item.VendorName });
-                    NavigationService.Navigate(typeof(PropertyViewModel), new PropertyListArgs { FromParty = true });
+                    NavigationService.Navigate(typeof(PropertyCheckListViewModel), new PropertyCheckListListArgs { FromVendor = true });
                 }
                 LogInformation("Vendor", "Save", "Vendor saved successfully", $"Vendor {model.VendorId} '{model.VendorName}' was saved successfully.");
                 return true;
