@@ -387,7 +387,8 @@ namespace LandBankManagement.ViewModels
             var model = await PropertyCheckListService.GetPropertyCheckListAsync(id);
             var hobliId = model.HobliId;
             var villageId = model.VillageId;
-           // Item = null;
+            // Item = null;
+            ChangeCompanyOptions(model.CompanyID);
             Item = model;           
             VendorList = model.PropertyCheckListVendors;
             if (model.CheckListOfProperties != null) {

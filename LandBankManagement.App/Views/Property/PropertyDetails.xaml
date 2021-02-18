@@ -18,7 +18,12 @@
             <controls:FluidGrid  Margin="0,0,0,50" Columns="3"  ColumnSpacing="20" RowSpacing="12" HorizontalAlignment="Center">
                
                 <controls:FluidGrid  Margin="0,30,0,0"  ColumnSpacing="20" ColumnSpan="2"  RowSpacing="12" HorizontalAlignment="Center">
-                    <Grid>
+                    <StackPanel Orientation="Vertical">
+                        <controls:FormComboBox  x:Name="CompanyDDl" Header="Company / Individual *"  IsEnabled="{x:Bind ShowActiveCompany,Mode=TwoWay}" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                    </StackPanel>
+                    <!--<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="60"/>
@@ -31,9 +36,15 @@
                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
                             </StackPanel>
                         </Button>
-                    </Grid>
+                    </Grid>-->
 
-                    <Grid>
+                    <StackPanel Orientation="Vertical">
+                        <controls:FormComboBox x:Name="TalukDDl"  Header="Taluk *" ItemsSource="{x:Bind TalukOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ShowActiveTaluk,Mode=TwoWay}"
+                                           SelectedValue="{x:Bind EditableItem.TalukId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" SelectionChanged="TalukDDl_SelectionChanged" />
+
+                    </StackPanel>
+                    <!--<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="60"/>
@@ -47,9 +58,14 @@
                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
                             </StackPanel>
                         </Button>
-                    </Grid>
+                    </Grid>-->
+                    <StackPanel Orientation="Vertical">
+                        <controls:FormComboBox x:Name="HobliDDl" Header="Hobli *" ItemsSource="{x:Bind HobliOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{x:Bind ShowActiveHobli,Mode=TwoWay}"
+                                            SelectedValue="{x:Bind SelectedHobli, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description"  SelectionChanged="HobliDDl_SelectionChanged"/>
 
-                    <Grid>
+                    </StackPanel>
+                    <!--<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="60"/>
@@ -63,9 +79,14 @@
                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
                             </StackPanel>
                         </Button>
-                    </Grid>
-
-                    <Grid>
+                    </Grid>-->
+                    <StackPanel Orientation="Vertical">
+                        <controls:FormComboBox x:Name="VillageDDL" Grid.Column="0"  Header="Village *" ItemsSource="{x:Bind VillageOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{x:Bind ShowActiveVillage,Mode=TwoWay}"
+                                            SelectedValue="{x:Bind SelectedVillage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                               SelectionChanged="VillageDDL_SelectionChanged"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
+                    </StackPanel>
+                    <!--<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="60"/>
@@ -80,9 +101,14 @@
                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
                             </StackPanel>
                         </Button>
-                    </Grid>
+                    </Grid>-->
+                    <StackPanel Orientation="Vertical">
+                        <controls:FormComboBox  Header="Document Type *" x:Name="DocumentType" IsEnabled="{x:Bind EnableDocType,Mode=TwoWay}" ItemsSource="{x:Bind DocumentTypeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectionChanged="DocumentType_SelectionChanged"
+                                           SelectedValue="{x:Bind EditableItem.DocumentTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="Id" DisplayMemberPath="Description" />
 
-                    <Grid>
+                    </StackPanel>
+                    <!--<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="60"/>
@@ -96,7 +122,7 @@
                                 <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
                             </StackPanel>
                         </Button>
-                    </Grid>
+                    </Grid>-->
                     
                    
                     <StackPanel Orientation="Vertical">
