@@ -552,6 +552,8 @@
     <Content Include="Assets\BadgeLogo.scale-150.png" />
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\eminent-16.png" />
+    <Content Include="Assets\eminent-20.png" />
     <Content Include="Assets\Eminent-logo.png" />
     <Content Include="Assets\Equinox-1.jpeg" />
     <Content Include="Assets\Equinox.jpeg" />

@@ -106,7 +106,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(CompanyModel selected)
+        public async Task PopulateDetails(CompanyModel selected)
         {
             try
             {

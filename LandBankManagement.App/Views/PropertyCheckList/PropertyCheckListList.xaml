@@ -73,11 +73,11 @@
             Query="{x:Bind ViewModel.Query, Mode=TwoWay}"
             QuerySubmitted="OnQuerySubmitted"
             ButtonClick="OnToolbarClick" />
-        <sync:SfDataGrid x:Name="sfdataGrid" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" ColumnSizer="Star" EditTrigger="OnTap"
-                                         HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource GridHeader}" RowStyle="{StaticResource GridRowStyle}"
-                                         AlternatingRowStyle="{StaticResource alternatingRowStyle}" AlternationCount="2">
+        <sync:SfDataGrid x:Name="sfdataGrid" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" ColumnSizer="Star" EditTrigger="OnTap"  AllowFiltering="False" AllowSorting="False"
+                                         HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource GridHeader}" RowStyle="{StaticResource GridRowStyle}" 
+                                         AlternatingRowStyle="{StaticResource alternatingRowStyle}" AlternationCount="2" BorderBrush="#9E9E9E">
         <sync:SfDataGrid.Columns>
-                <sync:GridTextColumn HeaderText="Company Name" MappingName="CompanyName"/>
+                <sync:GridTextColumn HeaderText="Company Name" MappingName="CompanyName" />
                 <sync:GridTextColumn HeaderText="Village" MappingName="VillageName"/>
                 <sync:GridTextColumn HeaderText="Property Name *" MappingName="PropertyName"/>
                 <sync:GridTextColumn HeaderText="Survey No *" MappingName="SurveyNo"/>

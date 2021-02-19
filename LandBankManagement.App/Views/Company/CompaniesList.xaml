@@ -6,9 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:LandBankManagement.Models"
     xmlns:controls="using:LandBankManagement.Controls"
+      xmlns:sync="using:Syncfusion.UI.Xaml.Grid" 
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <DataTemplate x:Key="HeaderTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -42,7 +43,7 @@
                         <ColumnDefinition Width="8*"/>
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column="0" Margin="1" Padding="1">
-                        <!--<PersonPicture ProfilePicture="{x:Bind ThumbnailSource, Mode=OneWay, Converter={StaticResource ObjectToImageConverter}}" Width="28" Height="28" x:Phase="1" />-->
+                        --><!--<PersonPicture ProfilePicture="{x:Bind ThumbnailSource, Mode=OneWay, Converter={StaticResource ObjectToImageConverter}}" Width="28" Height="28" x:Phase="1" />--><!--
                     </Border>
                     <TextBlock Grid.Column="1" Text="{x:Bind Name, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                     <TextBlock Grid.Column="2" Text="{x:Bind Email, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
@@ -53,9 +54,9 @@
                 </Grid>
             </Grid>
         </DataTemplate>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
 
-    <controls:DataListWithSearch ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+    <!--<controls:DataListWithSearch ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
                        NewLabel="New Company"
                        SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
                        HeaderTemplate="{StaticResource HeaderTemplate}"
@@ -71,5 +72,33 @@
                        SelectItemsCommand="{x:Bind ViewModel.SelectItemsCommand}"
                        DeselectItemsCommand="{x:Bind ViewModel.DeselectItemsCommand}"
                        SelectRangesCommand="{x:Bind ViewModel.SelectRangesCommand}"
-                       DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}" />
+                       DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}" />-->
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <controls:ListSearchToolBar Grid.Row="0"
+           
+            Query="{x:Bind ViewModel.Query, Mode=TwoWay}"
+            QuerySubmitted="OnQuerySubmitted"
+            ButtonClick="OnToolbarClick" />
+        <sync:SfDataGrid x:Name="sfdataGrid" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" ColumnSizer="Star" EditTrigger="OnTap" AllowFiltering="False" AllowSorting="False"
+                                         HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource GridHeader}" RowStyle="{StaticResource GridRowStyle}" SelectionMode="Single"
+                                         AlternatingRowStyle="{StaticResource alternatingRowStyle}" AlternationCount="2" BorderBrush="#9E9E9E" SelectionChanged="sfdataGrid_SelectionChanged">
+            <sync:SfDataGrid.Columns>
+                <sync:GridTextColumn HeaderText="Name *" MappingName="Name"/>
+                <sync:GridTextColumn HeaderText="Email *" MappingName="Email"/>
+                <sync:GridTextColumn HeaderText="Phone" MappingName="PhoneNo"/>
+                <sync:GridTextColumn HeaderText="Address *" MappingName="AddressLine1"/>
+                <sync:GridTextColumn HeaderText="City" MappingName="City"/>
+                <sync:GridTextColumn HeaderText="IsActive" MappingName="IsActive"/>               
+            </sync:SfDataGrid.Columns>
+        </sync:SfDataGrid>
+
+      
+    </Grid>
 </UserControl>

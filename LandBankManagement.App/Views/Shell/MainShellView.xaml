@@ -13,14 +13,26 @@
 
     <Page.Resources>
         <DataTemplate x:Key="NavigationViewMenuItem" x:DataType="viewmodels:NavigationItem">
-            <muxc:NavigationViewItem Content="{x:Bind Label}"
+            <muxc:NavigationViewItem 
+                                     FontWeight="{x:Bind FontWeight}"
+                                     MenuItemsSource="{x:Bind Children}"
+                                     SelectsOnInvoked="{x:Bind CanInvoke}">
+                <StackPanel Orientation="Horizontal">
+                    <Image  Source="ms-appx:///Assets/eminent-20.png"  Visibility="{x:Bind IsLogo}"                          
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Stretch="Uniform" />
+                    <fa:FontAwesome Glyph="{x:Bind Glyph}" Visibility="{x:Bind IsGlyph}" ></fa:FontAwesome>                  
+                    <TextBlock Text="{x:Bind Label}" Margin="10 0 0 0"/>
+                </StackPanel>
+            </muxc:NavigationViewItem>
+            <!--<muxc:NavigationViewItem Content="{x:Bind Label}"
                                      FontWeight="{x:Bind FontWeight}"
                                      MenuItemsSource="{x:Bind Children}"
                                      SelectsOnInvoked="{x:Bind CanInvoke}">
                 <muxc:NavigationViewItem.Icon>
                     <fa:FontAwesome Glyph="{x:Bind Glyph}"></fa:FontAwesome>
                 </muxc:NavigationViewItem.Icon>
-            </muxc:NavigationViewItem>
+            </muxc:NavigationViewItem>-->
         </DataTemplate>
 
         <DataTemplate x:Name="NavigationViewItemProfile" x:DataType="models:UserInfoModel">
@@ -182,7 +194,7 @@
                 OpticalMarginAlignment="TrimSideBearings" />
                             <Rectangle x:Name="SelectedPipe"
                 Fill="{ThemeResource PivotHeaderItemSelectedPipeFill}"
-                Height="2"
+                Height="4"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Stretch"
                 Margin="0,0,0,2"/>

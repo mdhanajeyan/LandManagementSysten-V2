@@ -21,6 +21,8 @@ namespace LandBankManagement.ViewModels
             Glyph = char.ConvertFromUtf32(glyph).ToString();
             CanInvoke = false;
             FontWeight = "Bold";
+            IsLogo = false;
+            IsGlyph = true;
 
         }
         public NavigationItem(Type viewModel)
@@ -31,6 +33,16 @@ namespace LandBankManagement.ViewModels
         {
             Label = label;
             Glyph = char.ConvertFromUtf32(glyph).ToString();
+            IsGlyph = true;
+            IsLogo = false;
+        }
+
+        public NavigationItem(int glyph, string label,bool isGlyph,bool isLogo, Type viewModel) : this(viewModel)
+        {
+            Label = label;
+            Glyph = char.ConvertFromUtf32(glyph).ToString();
+            IsGlyph = isGlyph;
+            IsLogo = isLogo;
         }
 
         public readonly string Glyph;
@@ -40,6 +52,8 @@ namespace LandBankManagement.ViewModels
 
         public ObservableCollection<NavigationItem> Children { get; set; }
         public bool CanInvoke { get; private set; } = true;
+        public bool IsGlyph { get; private set; } = true;
+        public bool IsLogo { get; private set; } = false;
         public string IconColor { get; set; } = "Black";
 
         private string _badge = null;

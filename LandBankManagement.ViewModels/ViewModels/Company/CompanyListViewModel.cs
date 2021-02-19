@@ -113,6 +113,10 @@ namespace LandBankManagement.ViewModels
             return new List<CompanyModel>();
         }
 
+        public async void OnSelectedRow(CompanyModel model) {
+            await CompanyViewModel.PopulateDetails(model);
+        }
+
         //public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
         //private async void OnOpenInNewView()
         //{

@@ -32,7 +32,7 @@
 
             <PivotItem >
                 <PivotItem.Header>
-                    <PivotHeaderItem  >
+                    <PivotHeaderItem >
                         <TextBlock Text="Property CheckList" FontWeight="Bold" FontSize="17" ></TextBlock>
                     </PivotHeaderItem>
                 </PivotItem.Header>

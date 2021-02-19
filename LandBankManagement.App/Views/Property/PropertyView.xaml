@@ -26,13 +26,13 @@
         <controls:WindowTitle Prefix="Property" Title="{x:Bind ViewModel.PropertyList.Title, Mode=OneWay}" />
         <Pivot  SelectedIndex="{x:Bind ViewModel.SelectedPivotIndex, Mode=TwoWay}" SelectionChanged="Pivot_SelectionChanged" >
             <Pivot.Resources>
-                <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#2377a6" />
+                <SolidColorBrush x:Key="PivotHeaderItemSelectedPipeFill" Color="#2377a6" />               
             </Pivot.Resources>
 
-            <PivotItem >
+            <PivotItem>
                 <PivotItem.Header>
-                    <PivotHeaderItem  >
-                        <TextBlock Text="Property List" FontWeight="Bold" FontSize="17" ></TextBlock>
+                    <PivotHeaderItem>
+                        <TextBlock Text="Property List" FontWeight="Bold" FontSize="17"></TextBlock>
                     </PivotHeaderItem>
                 </PivotItem.Header>
                 <Grid >

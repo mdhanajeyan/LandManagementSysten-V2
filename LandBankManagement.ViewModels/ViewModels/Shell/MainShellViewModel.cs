@@ -13,7 +13,7 @@ namespace LandBankManagement.ViewModels
     public class MainShellViewModel : ShellViewModel
     {
         private UserInfoModel _userInfo;
-        private readonly NavigationItem DashboardItem = new NavigationItem(0xf135, "Dashboard", typeof(DashboardViewModel)) { Screen = NavigationScreen.Default };
+        private readonly NavigationItem DashboardItem = new NavigationItem(0xf135, "Dashboard",false,true, typeof(DashboardViewModel)) { Screen = NavigationScreen.Default };
 
 
 
@@ -21,19 +21,19 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                 new NavigationItem(0xf1ad, "Company", typeof(CompanyViewModel)){Screen=NavigationScreen.Company},
-                 new NavigationItem(0xf0c0, "Groups", typeof(GroupsViewModel)){Screen=NavigationScreen.Groups},
-                 new NavigationItem(0xf21d, "Vendor", typeof(VendorViewModel)){Screen=NavigationScreen.Vendor},
-                 new NavigationItem(0xf263, "Party", typeof(PartyViewModel)){Screen=NavigationScreen.Party},
-                 new NavigationItem(0xf19c, "Bank", typeof(BankAccountViewModel)){Screen=NavigationScreen.Bank},
-                 new NavigationItem(0xf156, "Cash", typeof(CashAccountViewModel)){Screen=NavigationScreen.Cash},
-                 new NavigationItem(0xf19d, "ExpenseHead", typeof(ExpenseHeadViewModel)){Screen=NavigationScreen.ExpenseHead},
-                 new NavigationItem(0xf279, "Taluk", typeof(TalukViewModel)){Screen=NavigationScreen.Taluk},
-                 new NavigationItem(0xf018, "Hobli", typeof(HobliViewModel)){Screen=NavigationScreen.Hobli},
-                 new NavigationItem(0xf1bb, "Village", typeof(VillageViewModel)){Screen=NavigationScreen.Village},
-                 new NavigationItem(0xf0cb, "Property CheckList Master", typeof(CheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
-                 new NavigationItem(0xf035, "Property Type", typeof(PropertyTypeViewModel)){Screen=NavigationScreen.PropertyType},
-                 new NavigationItem(0xf24a, "Document Type", typeof(DocumentTypeViewModel)){Screen=NavigationScreen.DocumentType}
+                 new NavigationItem(0xf1ad, "Company",true,false, typeof(CompanyViewModel)){Screen=NavigationScreen.Company},
+                 new NavigationItem(0xf0c0, "Groups",true,false, typeof(GroupsViewModel)){Screen=NavigationScreen.Groups},
+                 new NavigationItem(0xf21d, "Vendor",true,false, typeof(VendorViewModel)){Screen=NavigationScreen.Vendor},
+                 new NavigationItem(0xf263, "Party",true,false, typeof(PartyViewModel)){Screen=NavigationScreen.Party},
+                 new NavigationItem(0xf19c, "Bank",true,false, typeof(BankAccountViewModel)){Screen=NavigationScreen.Bank},
+                 new NavigationItem(0xf156, "Cash",true,false, typeof(CashAccountViewModel)){Screen=NavigationScreen.Cash},
+                 new NavigationItem(0xf19d, "ExpenseHead",true,false, typeof(ExpenseHeadViewModel)){Screen=NavigationScreen.ExpenseHead},
+                 new NavigationItem(0xf279, "Taluk",true,false, typeof(TalukViewModel)){Screen=NavigationScreen.Taluk},
+                 new NavigationItem(0xf018, "Hobli",true,false, typeof(HobliViewModel)){Screen=NavigationScreen.Hobli},
+                 new NavigationItem(0xf1bb, "Village", true,false,typeof(VillageViewModel)){Screen=NavigationScreen.Village},
+                 new NavigationItem(0xf0cb, "Property CheckList Master",true,false, typeof(CheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
+                 new NavigationItem(0xf035, "Property Type",true,false, typeof(PropertyTypeViewModel)){Screen=NavigationScreen.PropertyType},
+                 new NavigationItem(0xf24a, "Document Type",true,false, typeof(DocumentTypeViewModel)){Screen=NavigationScreen.DocumentType}
 
             }
         };
@@ -42,9 +42,9 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xf1ed, "Payments", typeof(PaymentsViewModel)){Screen=NavigationScreen.Payments},
-                new NavigationItem(0xf0d6, "Fund Transfer", typeof(FundTransferViewModel)){Screen=NavigationScreen.FundTransfer},
-                new NavigationItem(0xf044, "Receipts", typeof(ReceiptsViewModel)){Screen=NavigationScreen.Receipt},
+                new NavigationItem(0xf1ed, "Payments", true,false,typeof(PaymentsViewModel)){Screen=NavigationScreen.Payments},
+                new NavigationItem(0xf0d6, "Fund Transfer",true,false, typeof(FundTransferViewModel)){Screen=NavigationScreen.FundTransfer},
+                new NavigationItem(0xf044, "Receipts", true,false,typeof(ReceiptsViewModel)){Screen=NavigationScreen.Receipt},
             }
         };
 
@@ -52,9 +52,9 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                 new NavigationItem(0xE9F9, "Company Report", typeof(CompanyReportViewModel)),
-                 new NavigationItem(0xf035, "Deal Report", typeof(DealReportViewModel)),
-                 new NavigationItem(0xf035, "Property CheckList Report", typeof(PropertyCheckListReportViewModel))
+                 new NavigationItem(0xE9F9, "Company Report",true,false, typeof(CompanyReportViewModel)),
+                 new NavigationItem(0xf035, "Deal Report", true,false,typeof(DealReportViewModel)),
+                 new NavigationItem(0xf035, "Property CheckList Report",true,false, typeof(PropertyCheckListReportViewModel))
             }
         };
 
@@ -62,10 +62,10 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xf243, "View Log", typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs},
-                new NavigationItem(0xf044, "Role", typeof(RoleViewModel)){Screen=NavigationScreen.Role},
-                new NavigationItem(0xf044, "Role Permission", typeof(RolePermissionViewModel)){Screen=NavigationScreen.RolePermission},
-                new NavigationItem(0xf2bb, "User", typeof(UserViewModel)){Screen=NavigationScreen.UserInfo}
+                new NavigationItem(0xf243, "View Log",true,false, typeof(AppLogsViewModel)){IconColor = "Red",Screen=NavigationScreen.ViewLogs},
+                new NavigationItem(0xf044, "Role", true,false,typeof(RoleViewModel)){Screen=NavigationScreen.Role},
+                new NavigationItem(0xf044, "Role Permission",true,false, typeof(RolePermissionViewModel)){Screen=NavigationScreen.RolePermission},
+                new NavigationItem(0xf2bb, "User", true,false,typeof(UserViewModel)){Screen=NavigationScreen.UserInfo}
             }
         };
 
@@ -73,10 +73,10 @@ namespace LandBankManagement.ViewModels
         {
             Children = new ObservableCollection<NavigationItem>
             {
-                new NavigationItem(0xf035, "Property Check List", typeof(PropertyCheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
-                new NavigationItem(0xf041, "Property", typeof(PropertyViewModel)){ Screen=NavigationScreen.Property},
-                new NavigationItem(0xf12e, "Proposals", typeof(PropertyMergeViewModel)){Screen=NavigationScreen.MergeProperties},
-                new NavigationItem(0xf2b5, "Deal", typeof(DealViewModel)){Screen=NavigationScreen.PropertyDeals}
+                new NavigationItem(0xf035, "Property Check List",true,false, typeof(PropertyCheckListViewModel)){Screen=NavigationScreen.PropertyCheckList},
+                new NavigationItem(0xf041, "Property",true,false, typeof(PropertyViewModel)){ Screen=NavigationScreen.Property},
+                new NavigationItem(0xf12e, "Proposals",true,false, typeof(PropertyMergeViewModel)){Screen=NavigationScreen.MergeProperties},
+                new NavigationItem(0xf2b5, "Deal",true,false, typeof(DealViewModel)){Screen=NavigationScreen.PropertyDeals}
             }
         };
 
