@@ -169,14 +169,27 @@ namespace LandBankManagement.Data.Services
             try
             {
 
-             var list=   (from pv in _dataSource.PropertyCheckListVendor join
-                 v in _dataSource.Vendors on pv.VendorId equals v.VendorId
-                 where(pv.VendorId== v.VendorId && pv.PropertyCheckListId==id)
-                select(  new PropertyCheckListVendor { PropertyCheckListId=pv.PropertyCheckListId,
-                CheckListVendorId=pv.CheckListVendorId,
-                VendorId=pv.VendorId,
-                IsPrimaryVendor=pv.IsPrimaryVendor,
-                VendorName=v.VendorName})).ToList();
+                //var list=   (from pv in _dataSource.PropertyCheckListVendor join
+                //    v in _dataSource.Vendors on pv.VendorId equals v.VendorId
+                //    where(pv.VendorId== v.VendorId && pv.PropertyCheckListId==id)
+                //   select(  new PropertyCheckListVendor { PropertyCheckListId=pv.PropertyCheckListId,
+                //   CheckListVendorId=pv.CheckListVendorId,
+                //   VendorId=pv.VendorId,
+                //   IsPrimaryVendor=pv.IsPrimaryVendor,
+                //   VendorName=v.VendorName})).ToList();
+
+                var list = (from pv in _dataSource.PropertyCheckListVendor
+                            from v in _dataSource.Vendors.Where(x=>x.VendorId==pv.VendorId).DefaultIfEmpty()
+                            from vg in _dataSource.Groups.Where(x=>x.GroupId==pv.VendorId).DefaultIfEmpty()
+                            where ( pv.PropertyCheckListId == id)
+                            select (new PropertyCheckListVendor
+                            {
+                                PropertyCheckListId = pv.PropertyCheckListId,
+                                CheckListVendorId = pv.CheckListVendorId,
+                                VendorId =(pv.IsGroup)?vg.GroupId: pv.VendorId,
+                                IsPrimaryVendor = pv.IsPrimaryVendor,
+                                VendorName = (pv.IsGroup) ?"Group-"+ vg.GroupName:  v.VendorName
+                            })).ToList();
                 return list;
             }
             catch (Exception ex)

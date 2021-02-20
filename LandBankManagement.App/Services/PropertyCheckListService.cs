@@ -417,6 +417,7 @@ namespace LandBankManagement.Services
                         VendorName = obj.VendorName,
                         PropertyCheckListId = obj.PropertyCheckListId,
                         CheckListVendorId = obj.CheckListVendorId,
+                        IsGroup=obj.IsGroup,
                         IsPrimaryVendor=obj.IsPrimaryVendor
                     });
                 }
@@ -523,6 +524,7 @@ namespace LandBankManagement.Services
             target.PropertyCheckListId = source.PropertyCheckListId;
             target.CheckListVendorId = source.CheckListVendorId;
             target.IsPrimaryVendor = source.IsPrimaryVendor;
+            target.IsGroup = source.IsGroup;
         }
 
         private void UpdateCheckListFromModel(CheckListOfProperty target, CheckListOfPropertyModel source)

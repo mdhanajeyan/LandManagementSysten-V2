@@ -494,18 +494,32 @@ dt in _dataSource.DocumentTypes on pd.DocumentTypeId equals dt.DocumentTypeId
         public async Task<List<PropertyParty>> GetPartiesOfProperty(int propertyId) {
             try
             {
-                var model = await (from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == propertyId)
-                                   from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
-                                   select new PropertyParty
-                                   {
-                                       PropertyPartyId = pp.PropertyPartyId,
-                                       PartyId = pp.PartyId,
-                                       PropertyGuid = pp.PropertyGuid,
-                                       PropertyId = pp.PropertyId,
-                                       PartyName = party.PartyFirstName,
-                                       IsPrimaryParty=pp.IsPrimaryParty
-                                   }).ToListAsync();
-                return model;
+                var list =await (from pp in _dataSource.PropertyParty
+                            from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId).DefaultIfEmpty()
+                            from pg in _dataSource.Groups.Where(x => x.GroupId == pp.PartyId).DefaultIfEmpty()
+                            where ( pp.PropertyId == propertyId)
+                             select new PropertyParty
+                            {
+                                PropertyPartyId = pp.PropertyPartyId,
+                                PartyId =  (pp.IsGroup)?pg.GroupId: pp.PartyId,
+                                PropertyGuid = pp.PropertyGuid,
+                                PropertyId = pp.PropertyId,
+                                PartyName = (pp.IsGroup) ?"Group-"+ pg.GroupName : party.PartyFirstName,
+                                IsPrimaryParty = pp.IsPrimaryParty
+                            }).ToListAsync();
+               
+                //var model = await (from pp in _dataSource.PropertyParty.Where(x => x.PropertyId == propertyId)
+                //                   from party in _dataSource.Parties.Where(x => x.PartyId == pp.PartyId)
+                //                   select new PropertyParty
+                //                   {
+                //                       PropertyPartyId = pp.PropertyPartyId,
+                //                       PartyId = pp.PartyId,
+                //                       PropertyGuid = pp.PropertyGuid,
+                //                       PropertyId = pp.PropertyId,
+                //                       PartyName = party.PartyFirstName,
+                //                       IsPrimaryParty=pp.IsPrimaryParty
+                //                   }).ToListAsync();
+                return list;
             }
             catch (Exception ex) {
                 throw ex;

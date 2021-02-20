@@ -45,9 +45,12 @@
                     </Grid>
                    
                 <controls:FormTextBox Header="PAN " Text="{x:Bind EditableItem.PAN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="10"/>
-                    <controls:FormTextBox extensions:TextBoxMask.Mask="9999\-9999\-9999" Header="Aadhaar No " 
+                    <controls:FormTextBox 
+                                                                Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <!--<controls:FormTextBox 
+                        extensions:TextBoxMask.Mask="9999\-9999\-9999" Header="Aadhaar No " 
                                           extensions:TextBoxMask.PlaceHolder="-"
-                                          Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                          Text="{x:Bind EditableItem.AadharNo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>-->
                 <controls:FormTextBox Header="GSTIN" Text="{x:Bind EditableItem.GSTIN, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" MaxLength="15"/>
                 <controls:FormTextBox Header="Contact Person" Text="{x:Bind EditableItem.ContactPerson, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="EMail Address" Text="{x:Bind EditableItem.email, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="100"/>

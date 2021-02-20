@@ -13,6 +13,7 @@ namespace LandBankManagement.Models
         public int PropertyId { get; set; }
         public string PartyName { get; set; }
         public bool? IsPrimaryParty { get; set; }
+        public bool IsGroup { get; set; }
 
         public override void Merge(ObservableObject source)
         {

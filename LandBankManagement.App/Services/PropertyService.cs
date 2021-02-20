@@ -278,6 +278,7 @@ namespace LandBankManagement.Services
             target.PropertyGuid = source.PropertyGuid;
             target.PartyId = source.PartyId;
             target.PropertyId = source.PropertyId;
+            target.IsGroup = source.IsGroup;
             target.IsPrimaryParty = source.IsPrimaryParty;
         }
 
@@ -364,6 +365,7 @@ namespace LandBankManagement.Services
                 PartyId = source.PartyId,
                 PropertyId = source.PropertyId,
                 PartyName = source.PartyName,
+                IsGroup=source.IsGroup,
                 IsPrimaryParty=source.IsPrimaryParty
             };
             return model;

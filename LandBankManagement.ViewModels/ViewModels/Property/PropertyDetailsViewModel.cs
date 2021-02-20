@@ -996,14 +996,16 @@ namespace LandBankManagement.ViewModels
             if (PartyList == null)
                 return;
             var parties = new List<PropertyPartyModel>();
-            foreach (var model in PartyList) {                
+            foreach (var model in PartyList) {
+                var isGroup = model.PartyName.Split('-').Length > 1 ? true : false;
                     parties.Add(new PropertyPartyModel
                     {
                         PartyId=model.PartyId,
                         PropertyId= property.PropertyId,
                         PropertyGuid=property.PropertyGuid,
                         PropertyPartyId=model.PropertyPartyId,
-                        IsPrimaryParty=model.IsPrimaryParty==null?false: model.IsPrimaryParty
+                        IsPrimaryParty=model.IsPrimaryParty==null?false: model.IsPrimaryParty,
+                        IsGroup= isGroup
                     });                    
                 
             }

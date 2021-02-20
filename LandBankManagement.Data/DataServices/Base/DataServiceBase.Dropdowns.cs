@@ -162,11 +162,11 @@ namespace LandBankManagement.Data.Services
         public async  Task<List<DropDownList>> GetPartyOptions(string party)
         {
             var Parties = await _dataSource.Parties.Where(x => x.PartyFirstName.Contains(party))
-                .Select(x => new DropDownList { Id = x.PartyId, Description = x.PartyFirstName })
+                .Select(x => new DropDownList { Id = x.PartyId, Description = x.PartyFirstName})
                 .ToListAsync();
 
             var PartyGroups = await _dataSource.Groups.Where(x => x.GroupType == 1 && x.GroupName.Contains(party))
-                 .Select(x => new DropDownList { Id = x.GroupId, Description = "Group- " + x.GroupName }).ToListAsync();
+                 .Select(x => new DropDownList { Id = x.GroupId, Description = "Group- " + x.GroupName}).ToListAsync();
                
             if (Parties.Count == 0)
                 return PartyGroups;
@@ -188,7 +188,7 @@ namespace LandBankManagement.Data.Services
         public async Task<List<DropDownList>> GetVendorOptions(string vendor)
         {
             var vendors = await _dataSource.Vendors.Where(x => x.VendorName.Contains(vendor))
-               .Select(x => new DropDownList { Id = x.VendorId, Description = "Vendor- " + x.VendorName }).ToListAsync();
+               .Select(x => new DropDownList { Id = x.VendorId, Description =  x.VendorName }).ToListAsync();
 
             var vendorGroups = await _dataSource.Groups.Where(x => x.GroupType == 2 && x.GroupName.Contains(vendor))
                  .Select(x => new DropDownList { Id = x.GroupId, Description = "Group- " + x.GroupName }).ToListAsync();
