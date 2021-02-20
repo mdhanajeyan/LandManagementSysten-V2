@@ -6,9 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:models="using:LandBankManagement.Models"
     xmlns:controls="using:LandBankManagement.Controls"
+    xmlns:sync="using:Syncfusion.UI.Xaml.Grid" 
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <DataTemplate x:Key="HeaderTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -52,5 +53,27 @@
                        SelectItemsCommand="{x:Bind ViewModel.SelectItemsCommand}"
                        DeselectItemsCommand="{x:Bind ViewModel.DeselectItemsCommand}"
                        SelectRangesCommand="{x:Bind ViewModel.SelectRangesCommand}"
-                       DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}" />
+                       DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}" />-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <controls:ListSearchToolBar Grid.Row="0"
+           
+            Query="{x:Bind ViewModel.Query, Mode=TwoWay}"
+            QuerySubmitted="OnQuerySubmitted"
+            ButtonClick="OnToolbarClick" />
+        <sync:SfDataGrid x:Name="sfdataGrid" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{x:Bind ViewModel.Items,Mode=TwoWay}" ColumnSizer="Star" EditTrigger="OnTap" AllowFiltering="False" AllowSorting="False"
+                                         HeaderRowHeight="40" RowHeight="35" HeaderStyle="{StaticResource GridHeader}" RowStyle="{StaticResource GridRowStyle}" SelectionMode="Single"
+                                         AlternatingRowStyle="{StaticResource alternatingRowStyle}" AlternationCount="2" BorderBrush="#9E9E9E" SelectionChanged="sfdataGrid_SelectionChanged">
+            <sync:SfDataGrid.Columns>
+                <sync:GridTextColumn HeaderText="Expense Head*" MappingName="ExpenseHeadName"/>
+                <sync:GridTextColumn HeaderText="IsActive" MappingName="IsExpenseHeadActive"/>
+            </sync:SfDataGrid.Columns>
+        </sync:SfDataGrid>
+
+
+    </Grid>
 </UserControl>

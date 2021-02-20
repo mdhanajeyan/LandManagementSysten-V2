@@ -99,7 +99,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(BankAccountModel selected)
+        public async Task PopulateDetails(BankAccountModel selected)
         {
             try
             {

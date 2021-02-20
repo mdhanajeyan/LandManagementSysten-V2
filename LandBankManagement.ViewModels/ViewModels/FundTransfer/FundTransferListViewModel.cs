@@ -100,7 +100,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(FundTransferModel model)
+        {
+            await FundTransferViewModel.PopulateDetails(model);
+        }
         private async Task<IList<FundTransferModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

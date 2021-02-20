@@ -90,6 +90,7 @@ namespace LandBankManagement.ViewModels
         }
 
         private VillageViewModel VillageViewModel { get; set; }
+        private bool IsProcessing = false;
         public VillageDetailsViewModel(IDropDownService dropDownService, IVillageService villageService,IFilePickerService filePickerService, ICommonServices commonServices, VillageListViewModel villageListViewModel, VillageViewModel villageViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -210,6 +211,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Village...");
                 VillageViewModel.ShowProgressRing();
                 model.HobliId = SelectedHobli;
@@ -218,6 +222,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await VillageService.UpdateVillageAsync(model);
                 ClearItem();
+                IsProcessing = false;
                 await VillageListViewModel.RefreshAsync();
                 ShowPopup("success", "Village is Saved");
                 EndStatusMessage("Village saved");
@@ -226,6 +231,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Village is not Saved");
                 StatusError($"Error saving Village: {ex.Message}");
                 LogException("Village", "Save", ex);

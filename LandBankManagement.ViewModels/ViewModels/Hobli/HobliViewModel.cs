@@ -97,7 +97,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(HobliModel selected)
+        public async Task PopulateDetails(HobliModel selected)
         {
             try
             {

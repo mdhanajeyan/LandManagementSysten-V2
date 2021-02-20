@@ -98,7 +98,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(FundTransferModel selected)
+        public async Task PopulateDetails(FundTransferModel selected)
         {
             try
             {

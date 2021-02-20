@@ -14,22 +14,16 @@
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CashAccountDetailsViewModel">
             <controls:FluidGrid Margin="0,30,0,0" Columns="1" ColumnSpacing="12" RowSpacing="5"  HorizontalAlignment="Center">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="60"/>
-                    </Grid.ColumnDefinitions>                    
-                    <controls:FormComboBox Grid.Column="0" x:Name="CompanyDDl" Header="Company / Individual *"  IsEnabled="{x:Bind ShowActiveCompany,Mode=TwoWay}" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                <StackPanel>
+                    <controls:FormComboBox  x:Name="CompanyDDl" Header="Company / Individual *"  IsEnabled="{x:Bind ShowActiveCompany,Mode=TwoWay}" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                    <Button x:Name="ChangeCompany" Grid.Column="1" Visibility="{Binding ChangeCompany}" Click="ChangeCompany_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
+                    <!--<Button x:Name="ChangeCompany" Width="60" Visibility="{Binding ChangeCompany}" Click="ChangeCompany_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
                         </StackPanel>
-                    </Button>
-                </Grid>
-
-               
+                    </Button>-->
+                </StackPanel>
                 <controls:FormTextBox Header="Cash A/C Name *" Text="{x:Bind EditableItem.CashAccountName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <controls:FormTextBox Header="Opening Cash Balance" Text="{x:Bind EditableItem.OpeningBalance, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox x:Name="isActive" Margin="10 20 0 0" IsChecked="{x:Bind EditableItem.IsCashAccountActive, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  >

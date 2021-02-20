@@ -22,6 +22,7 @@ namespace LandBankManagement.Services
         {
             _dataRequest = dataRequest;
             Count = await UserRoleService.GetUserRolesCountAsync(_dataRequest);
+            Ranges[0] = await UserRoleService.GetUserRolesAsync(0, RangeSize, _dataRequest);
         }
 
         protected override async Task<IList<UserRoleModel>> FetchDataAsync(int rangeIndex, int rangeSize)

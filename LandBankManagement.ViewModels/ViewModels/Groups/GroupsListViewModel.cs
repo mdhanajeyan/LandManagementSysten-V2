@@ -108,7 +108,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(GroupsModel model)
+        {
+            await GroupsViewModel.PopulateDetails(model);
+        }
         private async Task<IList<GroupsModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

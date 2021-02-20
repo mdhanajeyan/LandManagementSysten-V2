@@ -63,6 +63,7 @@ namespace LandBankManagement.ViewModels
         public IDropDownService DropDownService { get; }
         public BankAccountListViewModel BankAccountListViewModel { get; }
         private BankAccountViewModel BankAccountViewModel { get; set; }
+        private bool IsProcessing = false;
         public BankAccountDetailsViewModel(IBankAccountService cashAccountService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService, BankAccountListViewModel bankAccountListViewModel, BankAccountViewModel bankAccountViewModel) : base(commonServices)
         {
             BankAccountService = cashAccountService;
@@ -129,6 +130,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving BankAccount...");
                 BankAccountViewModel.ShowProgressRing();
                 if (model.BankAccountId <= 0)
@@ -139,6 +143,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await BankAccountService.UpdateBankAccountAsync(model);
                 ClearItem();
+                IsProcessing = false;
                 ShowPopup("success", "BankAccount details is saved");
                 BankAccountViewModel.HideProgressRing();
                 await BankAccountListViewModel.RefreshAsync();
@@ -148,6 +153,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "BankAccount details is not saved");
                 StatusError($"Error saving BankAccount: {ex.Message}");
                 LogException("BankAccount", "Save", ex);

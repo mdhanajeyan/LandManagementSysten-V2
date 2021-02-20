@@ -105,7 +105,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(TalukModel model)
+        {
+            await TalukViewModel.PopulateDetails(model);
+        }
         private async Task<IList<TalukModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

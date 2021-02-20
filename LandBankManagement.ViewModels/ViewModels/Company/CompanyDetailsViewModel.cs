@@ -22,6 +22,7 @@ namespace LandBankManagement.ViewModels
         public ICompanyService CompanyService { get; }
         public IFilePickerService FilePickerService { get; }
         public CompanyViewModel CompanyViewModel { get; set; }
+        private bool IsProcessing = false;
         public CompanyDetailsViewModel(ICompanyService companyService, IFilePickerService filePickerService, ICommonServices commonServices, CompanyViewModel companyViewModel) : base(commonServices)
         {
             CompanyService = companyService;
@@ -160,7 +161,10 @@ namespace LandBankManagement.ViewModels
         protected override async Task<bool> SaveItemAsync(CompanyModel model)
         {
             try
-            {               
+            {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Company...");
                 CompanyViewModel.ShowProgressRing();
 
@@ -177,6 +181,7 @@ namespace LandBankManagement.ViewModels
                         DocList[i].Identity = i + 1;
                     }
                 }
+                IsProcessing = false;
                 ShowPopup("success", "Company saved");
                 EndStatusMessage("Company saved");                             
                 LogInformation("Company", "Save", "Company saved successfully", $"Company {model.CompanyID} '{model.Name}' was saved successfully.");
@@ -184,6 +189,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Unable to save company");
                 StatusError($"Error saving Company: {ex.Message}");
                 LogException("Company", "Save", ex);

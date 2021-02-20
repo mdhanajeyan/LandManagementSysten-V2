@@ -20,13 +20,30 @@ namespace LandBankManagement.Services
 
         public async Task LoadAsync(DataRequest<Taluk> dataRequest)
         {
-            _dataRequest = dataRequest;
+            try
+            {
+                _dataRequest = dataRequest;
             Count = await TalukService.GetTaluksCountAsync(_dataRequest);
+            Ranges[0] = await TalukService.GetTaluksAsync(0, RangeSize, _dataRequest);
+            }
+            catch (Exception ex)
+            {
+                Count = 0;
+                throw ex;
+            }
         }
 
         protected override async Task<IList<TalukModel>> FetchDataAsync(int rangeIndex, int rangeSize)
         {
-            return await TalukService.GetTaluksAsync(rangeIndex * rangeSize, rangeSize, _dataRequest);
+            try
+            {
+                return await TalukService.GetTaluksAsync(rangeIndex * rangeSize, rangeSize, _dataRequest);
+            }
+            catch (Exception ex)
+            {
+                LogException("HobliCollection", "Fetch", ex);
+            }
+            return null;
         }
     }
 }

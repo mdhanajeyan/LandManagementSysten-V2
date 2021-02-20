@@ -14,21 +14,18 @@
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:BankAccountDetailsViewModel">
             <controls:FluidGrid Margin="0,30,10,0" Columns="2" ColumnSpacing="12" RowSpacing="5"  HorizontalAlignment="Center">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="60"/>
-                    </Grid.ColumnDefinitions>
-                <controls:FormComboBox Grid.Column="0" x:Name="CompanyDDl" Header="Company / Individual *"  IsEnabled="{x:Bind ShowActiveCompany,Mode=TwoWay}" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                
+                    <StackPanel>
+                <controls:FormComboBox  x:Name="CompanyDDl" Header="Company / Individual *"  IsEnabled="{x:Bind ShowActiveCompany,Mode=TwoWay}" ItemsSource="{x:Bind CompanyOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.CompanyID, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValuePath="Id" DisplayMemberPath="Description" />
-                    <Button x:Name="ChangeCompany" Grid.Column="1" Visibility="{Binding ChangeCompany}" Click="ChangeCompany_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
+                    <!--<Button x:Name="ChangeCompany" Width="60" Visibility="{Binding ChangeCompany}" Click="ChangeCompany_Click" HorizontalAlignment="Right" Margin="10 23 10 5" Background="#15a5ed">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon FontFamily="Segoe MDL2 Assets"  Glyph="&#xECC8;" Foreground="#fff"  HorizontalAlignment="Right"/>
                         </StackPanel>
-                    </Button>
-                </Grid>
-                <controls:FormTextBox Header="Bank Name *" Text="{x:Bind EditableItem.BankName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
+                    </Button>-->
+                    </StackPanel>
+                    <controls:FormTextBox Header="Bank Name *" Text="{x:Bind EditableItem.BankName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="150"/>
                 <controls:FormTextBox Header="Branch Name *" Text="{x:Bind EditableItem.BranchName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="100"/>
                 <controls:FormComboBox  Header="Type of Bank Account *" ItemsSource="{x:Bind AcctTypeOptions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            SelectedValue="{x:Bind EditableItem.AccountTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"

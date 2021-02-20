@@ -15,7 +15,7 @@ namespace LandBankManagement.ViewModels
         public IFilePickerService FilePickerService { get; }
         public CheckListListViewModel CheckListListViewModel { get; }
         private CheckListViewModel CheckListViewModel { get; set; }
-
+        private bool IsProcessing = false;
         public CheckListDetailsViewModel(ICheckListService checkListService, IFilePickerService filePickerService, ICommonServices commonServices, CheckListListViewModel checkListListViewModel, CheckListViewModel checkListViewModel) : base(commonServices)
         {
             CheckListService = checkListService;
@@ -83,12 +83,16 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving CheckList...");
                 CheckListViewModel.ShowProgressRing();
                 if (model.CheckListId <= 0)
                     await CheckListService.AddCheckListAsync(model);
                 else
                     await CheckListService.UpdateCheckListAsync(model);
+                IsProcessing = false;
                 EndStatusMessage("CheckList saved");
                 ShowPopup("success", "CheckList details is Saved");
                 await CheckListListViewModel.RefreshAsync();
@@ -98,6 +102,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "CheckList details is not Saved");
                 StatusError($"Error saving CheckList: {ex.Message}");
                 LogException("CheckList", "Save", ex);

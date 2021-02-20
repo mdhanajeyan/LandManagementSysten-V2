@@ -103,7 +103,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(VillageModel model)
+        {
+            await VillageViewModel.PopulateDetails(model);
+        }
         private async Task<IList<VillageModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

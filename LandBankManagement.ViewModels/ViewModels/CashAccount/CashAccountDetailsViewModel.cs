@@ -64,6 +64,7 @@ namespace LandBankManagement.ViewModels
         public IDropDownService DropDownService { get; }
         public CashAccountListViewModel CashAccountListViewModel { get; }
         private CashAccountViewModel CashAccountViewModel { get; set; }
+        private bool IsProcessing = false;
         public CashAccountDetailsViewModel(ICashAccountService cashAccountService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService, CashAccountListViewModel cashAccountListViewModel, CashAccountViewModel cashAccountViewModel) : base(commonServices)
         {
             CashAccountService = cashAccountService;
@@ -131,6 +132,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving CashAccount...");
                 CashAccountViewModel.ShowProgressRing();
                 if (model.CashAccountId <= 0)
@@ -141,6 +145,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await CashAccountService.UpdateCashAccountAsync(model);
                 ClearItem();
+                IsProcessing = false ;
                 ShowPopup("success", "Cash Account details is Saved");
                 CashAccountViewModel.HideProgressRing();
                 await CashAccountListViewModel.RefreshAsync();
@@ -150,6 +155,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Cash Account details is not Saved");
                 StatusError($"Error saving CashAccount: {ex.Message}");
                 LogException("CashAccount", "Save", ex);

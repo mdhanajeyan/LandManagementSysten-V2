@@ -97,7 +97,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(TalukModel selected)
+        public async Task PopulateDetails(TalukModel selected)
         {
             try
             {

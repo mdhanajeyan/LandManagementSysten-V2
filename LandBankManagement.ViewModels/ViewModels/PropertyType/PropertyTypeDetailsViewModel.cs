@@ -28,7 +28,7 @@ namespace LandBankManagement.ViewModels
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
-
+        private bool IsProcessing = false;
         public async Task LoadAsync()
         {
             Item = new PropertyTypeModel();
@@ -82,6 +82,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving PropertyType...");
                 PropertyTypeViewModel.ShowProgressRing();
                 if (model.PropertyTypeId <= 0)
@@ -91,12 +94,14 @@ namespace LandBankManagement.ViewModels
                 ShowPopup("success", "Property Type is Saved");
                 await PropertyTypeList.RefreshAsync();
                 ClearItem();
+                IsProcessing = false;
                 EndStatusMessage("PropertyType saved");
                 LogInformation("PropertyType", "Save", "PropertyType saved successfully", $"PropertyType {model.PropertyTypeId} '{model.PropertyTypeText}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Property Type is not Saved");
                 StatusError($"Error saving PropertyType: {ex.Message}");
                 LogException("PropertyType", "Save", ex);

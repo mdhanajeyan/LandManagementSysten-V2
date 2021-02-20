@@ -114,7 +114,7 @@ namespace LandBankManagement.ViewModels
             get => _expense;
             set => Set(ref _expense, value);
         }
-
+        private bool IsProcessing = false;
 
         private PropertyMergeViewModel PropertyMergesViewModel { get; set; }
         public PropertyMergeDetailsViewModel(IDropDownService dropDownService, IPropertyMergeService propertMergeService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyMergeViewModel propertyMergeViewModel) : base(commonServices)
@@ -262,6 +262,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 if (PropertyList == null || PropertyList.Count==0)
                     return false;
 
@@ -296,6 +299,7 @@ namespace LandBankManagement.ViewModels
                 var item = await PropertyMergeService.GetPropertyMergeAsync(mergeId == 0 ? model.PropertyMergeId : mergeId);
                 Item = item;
                 PropertyList = item.propertyMergeLists;
+                IsProcessing = false;
                 ShowPopup("success", "Property Merge is Saved");
                 EndStatusMessage("PropertyMerges saved");
                 LogInformation("PropertyMerges", "Save", "PropertyMerges saved successfully", $"PropertyMerges {model.PropertyMergeId}  was saved successfully.");
@@ -303,6 +307,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Property Merge is not Saved");
                 StatusError($"Error saving PropertyMerges: {ex.Message}");
                 LogException("PropertyMerges", "Save", ex);

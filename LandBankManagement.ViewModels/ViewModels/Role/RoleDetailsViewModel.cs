@@ -16,6 +16,7 @@ namespace LandBankManagement.ViewModels
         public IFilePickerService FilePickerService { get; }
         public RoleListViewModel RoleListViewModel { get; }
         private RoleViewModel RoleViewModel { get; set; }
+        private bool IsProcessing = false;
         public RoleDetailsViewModel(IDropDownService dropDownService, IRoleService roleService, IFilePickerService filePickerService, ICommonServices commonServices, RoleListViewModel villageListViewModel, RoleViewModel roleViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -62,6 +63,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Role...");
                 RoleViewModel.ShowProgressRing();
                 if (model.RoleId <= 0)
@@ -70,6 +74,7 @@ namespace LandBankManagement.ViewModels
                     await RoleService.UpdateRoleAsync(model);
                 ClearItem();
                 await RoleListViewModel.RefreshAsync();
+                IsProcessing = false;
                 ShowPopup("success", "Role is Saved");
                 EndStatusMessage("Role saved");
                 LogInformation("Role", "Save", "Role saved successfully", $"Role {model.RoleId} '{model.Name}' was saved successfully.");
@@ -77,6 +82,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Role is not Saved");
                 StatusError($"Error saving Role: {ex.Message}");
                 LogException("Role", "Save", ex);

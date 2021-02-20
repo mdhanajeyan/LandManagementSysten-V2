@@ -21,7 +21,7 @@
                     <Image  Source="ms-appx:///Assets/eminent-20.png"  Visibility="{x:Bind IsLogo}"                          
                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                            Stretch="Uniform" />
-                    <fa:FontAwesome Glyph="{x:Bind Glyph}" Visibility="{x:Bind IsGlyph}" ></fa:FontAwesome>                  
+                    <fa:FontAwesome Glyph="{x:Bind Glyph}" Visibility="{x:Bind IsGlyph}" Width="30" HorizontalAlignment="Left" Margin="-5 0 0 0"></fa:FontAwesome>                  
                     <TextBlock Text="{x:Bind Label}" Margin="10 0 0 0"/>
                 </StackPanel>
             </muxc:NavigationViewItem>

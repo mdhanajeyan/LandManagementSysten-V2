@@ -129,6 +129,7 @@ namespace LandBankManagement.ViewModels
         private int currentFromCompanyId { get; set; } = 0; 
         private int currentToCompanyId { get; set; } = 0;
         private FundTransferViewModel FundTransferViewModel { get; set; }
+        private bool IsProcessing = false;
         public FundTransferDetailsViewModel(IDropDownService dropDownService, IFundTransferService fundTransferService, IFilePickerService filePickerService, ICommonServices commonServices, FundTransferViewModel fundTransferViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -300,6 +301,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 FundTransferViewModel.ShowProgressRing();
                 if (IsFromCashChecked)
                     model.PayeePaymentType = 1;
@@ -323,6 +327,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await FundTransferService.UpdateFundTransferAsync(model);
                 ShowPopup("success", "Fund Transfer is Saved");
+                IsProcessing = false;
                 EndStatusMessage("FundTransfer saved");
                 LoadSelectedFundTransfer(model.FundTransferId);
                 LogInformation("FundTransfer", "Save", "FundTransfer saved successfully", $"FundTransfer {model.FundTransferId}  was saved successfully.");
@@ -330,6 +335,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Fund Transfer is not Saved");
                 StatusError($"Error saving FundTransfer: {ex.Message}");
                 LogException("FundTransfer", "Save", ex);

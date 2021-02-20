@@ -50,6 +50,7 @@ namespace LandBankManagement.ViewModels
       public IDropDownService DropDownService { get; }
         public HobliListViewModel HobliListViewModel { get; }
         private HobliViewModel HobliViewModel { get; set; }
+        private bool IsProcessing = false;
         public HobliDetailsViewModel(IHobliService hobliService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropDownService,HobliListViewModel hobliListViewModel, HobliViewModel hobliViewModel) : base(commonServices)
         {
             HobliService = hobliService;
@@ -116,6 +117,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Hobli...");
                 HobliViewModel.ShowProgressRing();
                 if (model.HobliId <= 0)
@@ -124,6 +128,7 @@ namespace LandBankManagement.ViewModels
                 }
                 else
                     await HobliService.UpdateHobliAsync(model);
+                IsProcessing = false;
                 ShowPopup("success", "Hobli is Saved");
                 await HobliListViewModel.RefreshAsync();
                 ClearItem();
@@ -133,6 +138,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Hobli is not Saved");
                 StatusError($"Error saving Hobli: {ex.Message}");
                 LogException("Hobli", "Save", ex);

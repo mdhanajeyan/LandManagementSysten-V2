@@ -103,7 +103,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(ExpenseHeadModel selected)
+        public async Task PopulateDetails(ExpenseHeadModel selected)
         {
             try
             {

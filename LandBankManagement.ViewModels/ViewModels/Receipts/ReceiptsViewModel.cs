@@ -98,7 +98,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(ReceiptModel selected)
+        public async Task PopulateDetails(ReceiptModel selected)
         {
             try
             {

@@ -16,6 +16,7 @@ namespace LandBankManagement.ViewModels
         public IFilePickerService FilePickerService { get; }
         public DocumentTypeListViewModel DocumentTypeListViewModel {get;}
         public DocumentTypeViewModel DocumentTypeViewModel { get; set; }
+        private bool IsProcessing = false;
         public DocumentTypeDetailsViewModel(IDocumentTypeService documentTypeService, IFilePickerService filePickerService, ICommonServices commonServices, DocumentTypeListViewModel documentTypeListViewModel, DocumentTypeViewModel documentTypeViewModel) : base(commonServices)
         {
             DocumentTypeService = documentTypeService;
@@ -82,12 +83,16 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving DocumentType...");
                 DocumentTypeViewModel.ShowProgressRing();
                 if (model.DocumentTypeId <= 0)
                     await DocumentTypeService.AddDocumentTypeAsync(model);
                 else
                     await DocumentTypeService.UpdateDocumentTypeAsync(model);
+                IsProcessing = false;
                 ShowPopup("success", "Document Type is Saved");
                 await DocumentTypeListViewModel.RefreshAsync();
                 ClearItem();
@@ -97,6 +102,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Document Type is not Saved");
                 StatusError($"Error saving Party: {ex.Message}");
                 LogException("Party", "Save", ex);

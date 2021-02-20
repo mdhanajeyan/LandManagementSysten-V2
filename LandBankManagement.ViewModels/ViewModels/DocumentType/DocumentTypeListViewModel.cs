@@ -107,7 +107,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(DocumentTypeModel model)
+        {
+            await DocumentTypeViewModel.PopulateDetails(model);
+        }
         private async Task<IList<DocumentTypeModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

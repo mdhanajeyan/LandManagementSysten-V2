@@ -98,7 +98,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(PropertyMergeModel selected)
+        public async Task PopulateDetails(PropertyMergeModel selected)
         {
             try
             {

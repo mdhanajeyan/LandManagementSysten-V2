@@ -15,6 +15,7 @@ namespace LandBankManagement.ViewModels
         public IFilePickerService FilePickerService { get; }
         public ExpenseHeadListViewModel ExpenseHeadListViewModel { get; }
         private ExpenseHeadViewModel ExpenseHeadViewModel { get; set; }
+        private bool IsProcessing = false;
         public ExpenseHeadDetailsViewModel(IExpenseHeadService documentTypeService, IFilePickerService filePickerService, ICommonServices commonServices, ExpenseHeadListViewModel documentTypeListViewModel, ExpenseHeadViewModel expenseHeadViewModel) : base(commonServices)
         {
             ExpenseHeadService = documentTypeService;
@@ -81,12 +82,16 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving ExpenseHead...");
                 ExpenseHeadViewModel.ShowProgressRing();
                 if (model.ExpenseHeadId <= 0)
                     await ExpenseHeadService.AddExpenseHeadAsync(model);
                 else
                     await ExpenseHeadService.UpdateExpenseHeadAsync(model);
+                IsProcessing = false;
                 ShowPopup("success", "Expense Head is Saved");
                 await ExpenseHeadListViewModel.RefreshAsync();
                 ClearItem();
@@ -96,6 +101,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Expense Head is not Saved");
                 StatusError($"Error saving Party: {ex.Message}");
                 LogException("Party", "Save", ex);

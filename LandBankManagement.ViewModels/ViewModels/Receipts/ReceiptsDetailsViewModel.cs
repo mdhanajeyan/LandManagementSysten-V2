@@ -106,7 +106,7 @@ namespace LandBankManagement.ViewModels
         private ReceiptsViewModel ReceiptsViewModel { get; set; }
         private int currentCompanyId { get; set; } = 0;
         private int currentDealId { get; set; } = 0;
-       
+        private bool IsProcessing = false;
         public ReceiptsDetailsViewModel(IDropDownService dropDownService, IReceiptService receiptService, IFilePickerService filePickerService, ICommonServices commonServices, ReceiptsListViewModel villageListViewModel, ReceiptsViewModel receiptsViewModel, IDealService dealService) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -252,6 +252,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Receipts...");
                 ReceiptsViewModel.ShowProgressRing();
 
@@ -268,6 +271,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await ReceiptsService.UpdateReceiptAsync(model);
                 await ReceiptsListViewModel.RefreshAsync();
+                IsProcessing = false;
                 ShowPopup("success", "Receipt is Saved");
                 EndStatusMessage("Receipts saved");
                 LoadSelectedReceipt(model.ReceiptId);
@@ -276,6 +280,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Receipt is  not Saved");
                 StatusError($"Error saving Receipts: {ex.Message}");
                 LogException("Receipts", "Save", ex);

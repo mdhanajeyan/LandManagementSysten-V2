@@ -169,6 +169,7 @@ namespace LandBankManagement.ViewModels
         }
 
         private PaymentsViewModel PaymentsViewModel { get; set; }
+        private bool IsProcessing = false;
         public PaymentsDetailsViewModel(IDropDownService dropDownService, IPaymentService villageService, IFilePickerService filePickerService, ICommonServices commonServices, PaymentsViewModel paymentsViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -370,6 +371,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 if (IsExpenseChecked)
                     model.PayeeTypeId = 1;
                 else
@@ -399,14 +403,15 @@ namespace LandBankManagement.ViewModels
                 ShowPopup("success", "Payment is Saved");
                 var item = await PaymentsService.GetPaymentAsync(paymentId == 0 ? model.PaymentId : paymentId);
                 Item = item;
-               // PaymentList = item.PaymentListModel;
-
+                // PaymentList = item.PaymentListModel;
+                IsProcessing = false;
                 EndStatusMessage("Payments saved");
                 LogInformation("Payments", "Save", "Payments saved successfully", $"Payments {model.PaymentId}  was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Payment is not Saved");
                 StatusError($"Error saving Payments: {ex.Message}");
                 LogException("Payments", "Save", ex);

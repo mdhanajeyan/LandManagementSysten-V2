@@ -106,7 +106,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(ReceiptModel model)
+        {
+            await ReceiptsViewModel.PopulateDetails(model);
+        }
         private async Task<IList<ReceiptModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

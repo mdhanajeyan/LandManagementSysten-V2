@@ -113,7 +113,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(PartyModel model)
+        {
+            await PartyViewModel.PopulateDetails(model);
+        }
         private async Task<IList<PartyModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

@@ -56,6 +56,7 @@ namespace LandBankManagement.ViewModels
             get => _groupOptions;
             set => Set(ref _groupOptions, value);
         }
+        private bool IsProcessing = false;
         public PartyDetailsViewModel(IPartyService partyService, IFilePickerService filePickerService, ICommonServices commonServices, PartyListViewModel partyListViewModel,IDropDownService dropDownService,IVendorService vendorService, PartyViewModel partyViewModel, IPropertyService propertyService) : base(commonServices)
         {
             PartyService = partyService;
@@ -239,6 +240,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Party...");
                 PartyViewModel.ShowProgressRing();
                 if (model.PartyId <= 0)
@@ -254,6 +258,7 @@ namespace LandBankManagement.ViewModels
                         DocList[i].Identity = i + 1;
                     }
                 }
+                IsProcessing = false;
                 EndStatusMessage("Party saved");
                 if (FromProperty) {
                     PropertyService.AddParty(new PropertyPartyModel { PartyId = Item.PartyId, PartyName = Item.PartyName });
@@ -264,6 +269,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Party is not Saved");
                 StatusError($"Error saving Party: {ex.Message}");
                 LogException("Party", "Save", ex);

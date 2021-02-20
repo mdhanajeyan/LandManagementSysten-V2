@@ -111,7 +111,7 @@ namespace LandBankManagement.ViewModels
             //PartyDetails.Item = selected;
         }
 
-        private async Task PopulateDetails(PartyModel selected)
+        public async Task PopulateDetails(PartyModel selected)
         {
             try
             {

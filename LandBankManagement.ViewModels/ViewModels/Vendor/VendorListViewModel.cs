@@ -110,7 +110,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(VendorModel model)
+        {
+            await VendorViewModel.PopulateDetails(model);
+        }
         private async Task<IList<VendorModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

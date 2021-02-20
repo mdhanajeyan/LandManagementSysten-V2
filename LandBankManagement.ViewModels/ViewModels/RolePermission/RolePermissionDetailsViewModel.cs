@@ -30,6 +30,7 @@ namespace LandBankManagement.ViewModels
         }
 
         private RolePermissionViewModel RolePermissionViewModel { get; set; }
+        private bool IsProcessing = false;
         public RolePermissionDetailsViewModel(IDropDownService dropDownService, IRolePermissionService rolePermissionService, IFilePickerService filePickerService, ICommonServices commonServices, RolePermissionViewModel rolePermissionViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -87,6 +88,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 if (RolePermissionList == null || RolePermissionList.Count == 0)
                     return false;
                 RolePermissionViewModel.ShowProgressRing();
@@ -102,11 +106,13 @@ namespace LandBankManagement.ViewModels
                 ShowPopup("success", "Role Permission is Saved");
                 EndStatusMessage("Role Permission saved");
                 GetRolePermissionForRole(Convert.ToInt32(EditableItem.RoleInfoId));
+                IsProcessing = false;
                 LogInformation("Role", "Save", "Role saved successfully", $"Role {model.RolePermissionId}  was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("success", "Role Permission is not Saved");
                 StatusError($"Error saving RolePermission: {ex.Message}");
                 LogException("Role", "Save", ex);

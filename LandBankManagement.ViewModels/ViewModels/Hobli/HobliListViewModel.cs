@@ -104,7 +104,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(HobliModel model)
+        {
+            await HobliViewModel.PopulateDetails(model);
+        }
         private async Task<IList<HobliModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

@@ -107,7 +107,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(RoleModel model)
+        {
+            await RoleViewModel.PopulateDetails(model);
+        }
         private async Task<IList<RoleModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

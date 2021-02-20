@@ -39,6 +39,7 @@ namespace LandBankManagement.ViewModels
         public IFilePickerService FilePickerService { get; }
         private VendorViewModel VendorViewModel { get; set; }
         private bool FromPropertyCheckList { get; set; }
+        private bool IsProcessing = false;
         IPropertyCheckListService PropertyCheckListService { get; set; }
         public VendorDetailsViewModel(IVendorService vendorService, IFilePickerService filePickerService, ICommonServices commonServices, IDropDownService dropdownService, VendorViewModel vendorViewModel, IPropertyCheckListService propertyCheckListService) : base(commonServices)
         {
@@ -176,6 +177,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Vendor...");
                 VendorViewModel.ShowProgressRing();
                 if (model.VendorId <= 0)
@@ -190,6 +194,7 @@ namespace LandBankManagement.ViewModels
                         DocList[i].Identity = i + 1;
                     }
                 }
+                IsProcessing = false;
                 ShowPopup("success", "Vendor is Saved");
                 EndStatusMessage("Vendor saved");
                 if (FromPropertyCheckList)
@@ -202,6 +207,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Vendor is not Saved");
                 StatusError($"Error saving Vendor: {ex.Message}");
                 LogException("Vendor", "Save", ex);

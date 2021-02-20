@@ -10,7 +10,6 @@
     xmlns:syncfusion="using:Syncfusion.UI.Xaml.TreeGrid"
     xmlns:viewmodels="using:LandBankManagement.ViewModels">
 
-
     <UserControl.Resources>
         <DataTemplate x:Key="ListHeaderTemplate">
             <StackPanel Margin="6,4,0,0" Orientation="Horizontal" VerticalAlignment="Center">

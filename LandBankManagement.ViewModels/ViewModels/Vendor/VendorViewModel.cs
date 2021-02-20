@@ -110,7 +110,7 @@ namespace LandBankManagement.ViewModels
             //VendorDetails.Item = selected;
         }
 
-        private async Task PopulateDetails(VendorModel selected)
+        public async Task PopulateDetails(VendorModel selected)
         {
             try
             {

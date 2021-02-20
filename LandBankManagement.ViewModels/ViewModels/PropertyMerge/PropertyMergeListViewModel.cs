@@ -107,7 +107,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(PropertyMergeModel model)
+        {
+            await PropertyMergeViewModel.PopulateDetails(model);
+        }
         private async Task<IList<PropertyMergeModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

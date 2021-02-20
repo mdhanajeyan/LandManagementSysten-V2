@@ -97,7 +97,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(DocumentTypeModel selected)
+        public async Task PopulateDetails(DocumentTypeModel selected)
         {
             try
             {

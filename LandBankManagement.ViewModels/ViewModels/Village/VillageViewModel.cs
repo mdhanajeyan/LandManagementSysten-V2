@@ -99,7 +99,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(VillageModel selected)
+        public async Task PopulateDetails(VillageModel selected)
         {
             try
             {

@@ -106,7 +106,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(CashAccountModel model)
+        {
+            await CashAccountViewModel.PopulateDetails(model);
+        }
         private async Task<IList<CashAccountModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

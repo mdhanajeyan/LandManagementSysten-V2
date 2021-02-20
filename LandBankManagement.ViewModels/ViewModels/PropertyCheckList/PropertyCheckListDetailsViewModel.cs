@@ -324,7 +324,7 @@ namespace LandBankManagement.ViewModels
             set => Set(ref _totalArea, value);
         }
 
-
+        private bool IsProcessing = false;
         private PropertyCheckListViewModel PropertyCheckListViewModel { get; set; }
         public PropertyCheckListDetailsViewModel(IDropDownService dropDownService, IPropertyCheckListService propertyCheckListService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyCheckListListViewModel propertyCheckListListViewModel, PropertyCheckListViewModel propertyCheckListViewModel) : base(commonServices)
         {
@@ -913,6 +913,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Property Checklist...");
                 PropertyCheckListViewModel.ShowProgressRing();
                 PreparePRoeprtyCheckListModel(model);
@@ -928,7 +931,7 @@ namespace LandBankManagement.ViewModels
                 EndStatusMessage("Property CheckList saved");
                 ClearItem();
                 await LoadPropertyCheckList(id);
-
+                IsProcessing = false;
 
                 //DocList = model.PropertyCheckListDocuments;
                 //VendorList = model.PropertyCheckListVendors;
@@ -940,6 +943,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Property CheckList is not Saved");
                 StatusError($"Error saving Property CheckList: {ex.Message}");
                 LogException("Property CheckList", "Save", ex);

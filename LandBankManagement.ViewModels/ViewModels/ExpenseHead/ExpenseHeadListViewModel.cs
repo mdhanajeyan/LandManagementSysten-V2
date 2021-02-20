@@ -106,7 +106,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(ExpenseHeadModel model)
+        {
+            await ExpenseHeadViewModel.PopulateDetails(model);
+        }
         private async Task<IList<ExpenseHeadModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

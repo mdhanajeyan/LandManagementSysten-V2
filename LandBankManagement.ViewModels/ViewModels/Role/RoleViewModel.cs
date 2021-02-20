@@ -99,7 +99,7 @@ namespace LandBankManagement.ViewModels
             }
         }
 
-        private async Task PopulateDetails(RoleModel selected)
+        public async Task PopulateDetails(RoleModel selected)
         {
             try
             {

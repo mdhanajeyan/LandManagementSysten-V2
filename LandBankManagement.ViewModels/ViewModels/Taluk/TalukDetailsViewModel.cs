@@ -16,6 +16,7 @@ namespace LandBankManagement.ViewModels
         public IFilePickerService FilePickerService { get; }
         public TalukListViewModel TalukListViewModel { get; }
         private TalukViewModel TalukViewModel { get; set; }
+        private bool IsProcessing = false;
         public TalukDetailsViewModel(ITalukService talukService, IFilePickerService filePickerService, ICommonServices commonServices, TalukListViewModel talukListViewModel, TalukViewModel talukViewModel) : base(commonServices)
         {
             TalukService = talukService;
@@ -88,6 +89,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Taluk...");
                 TalukViewModel.ShowProgressRing();
                 if (model.TalukId <= 0)
@@ -95,6 +99,7 @@ namespace LandBankManagement.ViewModels
                 else
                     await TalukService.UpdateTalukAsync(model);
                 ClearItem();
+                IsProcessing = false;
                 ShowPopup("success", "Taluk is Saved");
                 EndStatusMessage("Taluk saved");
                 LogInformation("Taluk", "Save", "Taluk saved successfully", $"Taluk {model.TalukName} '{model.TalukName}' was saved successfully.");
@@ -103,6 +108,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Taluk is not Saved");
                 StatusError($"Error saving Taluk: {ex.Message}");
                 LogException("Taluk", "Save", ex);

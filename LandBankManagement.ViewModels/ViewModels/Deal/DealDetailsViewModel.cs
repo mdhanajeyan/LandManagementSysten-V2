@@ -141,6 +141,7 @@ namespace LandBankManagement.ViewModels
         }
 
         private DealViewModel DealsViewModel { get; set; }
+        private bool IsProcessing = false;
         public DealDetailsViewModel(IDropDownService dropDownService, IDealService dealService, IFilePickerService filePickerService, ICommonServices commonServices, DealViewModel dealViewModel) : base(commonServices)
         {
             DropDownService = dropDownService;
@@ -297,8 +298,11 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
 
-                if(ScheduleList!=null && ScheduleList.Count>0)
+                if (ScheduleList!=null && ScheduleList.Count>0)
                 model.DealPaySchedules = ScheduleList;
 
                 if (DealPartyList != null && DealPartyList.Count > 0)
@@ -311,7 +315,7 @@ namespace LandBankManagement.ViewModels
                     mergeId = await DealService.AddDealAsync(model);
                 else
                     await DealService.UpdateDealAsync(model);
-
+                IsProcessing = false;
                 //var item = await DealService.GetDealAsync(mergeId == 0 ? model.DealId : mergeId);
                 //Item = item;
                 //PropertyList = item.propertyMergeLists;
@@ -322,6 +326,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Deal details is not Saved");
                 StatusError($"Error saving Deals: {ex.Message}");
                 LogException("Deals", "Save", ex);

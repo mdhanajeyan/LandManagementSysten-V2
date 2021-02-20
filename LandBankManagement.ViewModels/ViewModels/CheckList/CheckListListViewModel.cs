@@ -105,7 +105,10 @@ namespace LandBankManagement.ViewModels
 
             return isOk;
         }
-
+        public async void OnSelectedRow(CheckListModel model)
+        {
+            await CheckListViewModel.PopulateDetails(model);
+        }
         private async Task<IList<CheckListModel>> GetItemsAsync()
         {
             if (!ViewModelArgs.IsEmpty)

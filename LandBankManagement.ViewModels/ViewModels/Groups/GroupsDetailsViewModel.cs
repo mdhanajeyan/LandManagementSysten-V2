@@ -25,7 +25,7 @@ namespace LandBankManagement.ViewModels
             get => _groupsOptions;
             set => Set(ref _groupsOptions, value);
         }
-
+        private bool IsProcessing = false;
         public GroupsDetailsViewModel(IGroupsService groupsService, IFilePickerService filePickerService, ICommonServices commonServices, GroupsListViewModel groupsListViewModel, GroupsViewModel groupsViewModel, IDropDownService dropDownService) : base(commonServices)
         {
             GroupsService = groupsService;
@@ -94,12 +94,16 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Groups...");
                 GroupsViewModel.ShowProgressRing();
                 if (model.GroupId <= 0)
                     await GroupsService.AddGroupsAsync(model);
                 else
                     await GroupsService.UpdateGroupsAsync(model);
+                IsProcessing = false;
                 ShowPopup("success", "Group is Saved");
                 await GroupsListViewModel.RefreshAsync();
                 ClearItem();
@@ -109,6 +113,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Group is not Saved");
                 StatusError($"Error saving Party: {ex.Message}");
                 LogException("Party", "Save", ex);

@@ -299,7 +299,7 @@ namespace LandBankManagement.ViewModels
             get => _totalArea;
             set => Set(ref _totalArea, value);
         }
-
+        private bool IsProcessing = false;
 
         public PropertyDetailsViewModel(IDropDownService dropDownService, IPropertyService propertyService, IFilePickerService filePickerService, ICommonServices commonServices, PropertyListViewModel propertyListViewModel, PropertyViewModel propertyView) : base(commonServices)
         {
@@ -849,6 +849,9 @@ namespace LandBankManagement.ViewModels
         {
             try
             {
+                if (IsProcessing)
+                    return false;
+                IsProcessing = true;
                 StartStatusMessage("Saving Property...");
                 PropertyView.ShowProgressRing();
                 UpdateCurrentDocumentType();
@@ -876,6 +879,7 @@ namespace LandBankManagement.ViewModels
                 SaveParties(model);
                 ReloadProperty(model.GroupGuid.Value, model.PropertyId);
                 // await GetPropertyParties(model.PropertyId);
+                IsProcessing = false;
                 ShowPopup("success", "Property is Saved");
                 EndStatusMessage("Property saved");
                 LogInformation("Property", "Save", "Property saved successfully", $"Property {model.PropertyId} '{model.PropertyName}' was saved successfully.");
@@ -883,6 +887,7 @@ namespace LandBankManagement.ViewModels
             }
             catch (Exception ex)
             {
+                IsProcessing = false;
                 ShowPopup("error", "Property is not Saved");
                 StatusError($"Error saving Property: {ex.Message}");
                 LogException("Property", "Save", ex);
