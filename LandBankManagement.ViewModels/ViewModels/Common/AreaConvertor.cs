@@ -23,8 +23,9 @@ namespace LandBankManagement.ViewModels
             if (area.Anas >= 16)
             {
                 var remainder = area.Anas % 16 ;
-                int quotient = Convert.ToInt32(area.Anas / 16);
-                
+               // int quotient = Convert.ToInt32(area.Anas / 16);
+                var quotient = Math.Truncate(area.Anas / 16);
+
                 area.Anas = remainder;
                 area.Guntas += quotient;
             }
@@ -32,8 +33,8 @@ namespace LandBankManagement.ViewModels
             if (area.Guntas >= 40)
             {
                 var remainder = area.Guntas % 40;
-                int quotient = Convert.ToInt32(area.Guntas / 40);
-
+                //int quotient = Convert.ToInt32(area.Guntas / 40);
+                var quotient = Math.Truncate(area.Guntas / 40);
                 area.Guntas = remainder;
                 area.Acres += quotient;
             }
